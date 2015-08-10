@@ -1,0 +1,14 @@
+"UnlitGeneric"
+{
+	"$basetexture" "fnafgm/static"
+
+	"Proxies" 
+	{ 
+		"AnimatedTexture" 
+		{
+			"animatedTextureVar" "$basetexture" 
+			"animatedTextureFrameNumVar" "$frame" 
+			"animatedTextureFrameRate" "50"
+		 } 
+	} 
+}

@@ -1,0 +1,16 @@
+{
+	"title"		:	"Five Nights at Freddy's Gamemode",
+	"type"		:	"gamemode",
+	"tags"		:	[ "fun", "realism" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*",
+		"*.git*",
+		"desktop.ini",
+		"Thumbs.db",
+		"README.md",
+		"fnafgm.fgd"
+	]
+}

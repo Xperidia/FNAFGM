@@ -1,0 +1,21 @@
+ //-------------------------------------------------------------------------
+//
+// FNAFGM FGD V2.1 BY XPERIDIA
+//
+//-------------------------------------------------------------------------
+
+@include "base.fgd" 
+
+@PointClass base(Parentname, Angles) studioprop("models/editor/camera.mdl") = fnafgm_camera : "FNAFGM Camera"
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+@PointClass base(Targetname) iconsprite("editor/logic_relay.vmt") = fnafgm_link : "FNAFGM Link"
+[
+	input SendRaw(string) : "Send something who don't have a function in your FGD to FNAFGM."
+	input FoxyKnockDoor(void) : "Foxy knocked the door."
+	input StartNight(void) : "Start Night event."
+	input StartMinigames(void) : "Start Minigames event."
+	input StartPlushTrap(void) : "Start PlushTrap event."
+]
