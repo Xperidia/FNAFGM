@@ -264,7 +264,7 @@ function fnafgmWarn()
 		
 	end
 	
-	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips") and fnafgm_cl_warn:GetBool() then
+	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips") and fnafgm_cl_warn:GetBool() then
 		
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.warn_css)
 		chat.PlaySound()
@@ -559,7 +559,7 @@ function GM:HUDPaint()
 				draw.DrawText(time.." "..AMPM, "FNAFGMNIGHT", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				--draw.DrawText(GAMEMODE.Strings.base.night.." "..night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
-			elseif time!=0 then
+			elseif time!=0 and ( client:Team()!=1 or ( power!=0 and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and power!=0 ) ) then
 				
 				if (Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
 					time=math.random( 1, 12 )
@@ -1007,6 +1007,7 @@ function GM:ShowTeam()
 
 end
 
+
 net.Receive( "fnafgmMapSelect", function( len )
 	fnafgmMapSelect(net.ReadTable())
 end)
@@ -1098,14 +1099,17 @@ function fnafgmMuteCall()
 	net.Start( "fnafgmMuteCall" )
 	net.SendToServer()
 end
+
 function fnafgmSafeZone()
 	net.Start( "fnafgmSafeZone" )
 	net.SendToServer()
 end
+
 function fnafgmShutLights()
 	net.Start( "fnafgmShutLights" )
 	net.SendToServer()
 end
+
 function fnafgmChangeMap(map)
 	net.Start( "fnafgmChangeMap" )
 		net.WriteString(map)

@@ -11,6 +11,7 @@
 		"desktop.ini",
 		"Thumbs.db",
 		"README.md",
-		"fnafgm.fgd"
+		"fnafgm.fgd",
+		"*.ffs*"
 	]
 }
