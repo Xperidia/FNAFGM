@@ -3477,6 +3477,15 @@ net.Receive( "fnafgmShutLights",function(bits,ply)
 end )
 
 
+concommand.Add("fnafgm_debug_start", function(ply)
+	
+	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
+		fnafgmUse(ply, nil, true)
+	end
+	
+end)
+
+
 concommand.Add("fnafgm_debug_reset", function(ply)
 	
 	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
@@ -3492,6 +3501,25 @@ concommand.Add("fnafgm_debug_refreshbypass", function(ply)
 	
 	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
 		fnafgmrefreshbypass()
+	end
+	
+end)
+
+
+concommand.Add("fnafgm_debug_restart", function(ply)
+	
+	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
+		
+		norespawn=true
+		
+		for k, v in pairs(player.GetAll()) do
+			if (v:Team()==1 or v:Team()==2) and v:Alive() then
+				v:KillSilent()
+			end
+		end
+		
+		fnafgmRestartNight()
+		
 	end
 	
 end)
@@ -3528,13 +3556,7 @@ function GM:PlayerSwitchFlashlight(ply, on)
 end
 
 
-concommand.Add("fnafgm_debug_start", function(ply)
-	
-	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
-		fnafgmUse(ply, nil, true)
-	end
-	
-end)
+
 
 
 function GM:PlayerSay( ply, text, teamonly )
@@ -3550,6 +3572,31 @@ function GM:PlayerSay( ply, text, teamonly )
 		ply:SendLua([[fnafgmMenu()]])
 	elseif ( comm == "/"..string.lower(GAMEMODE.ShortName) ) then
 		ply:SendLua([[fnafgmMenu()]])
+		return ""
+	elseif ( ( comm == "!stop" or "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") ) then
+		
+		norespawn=true
+		
+		for k, v in pairs(player.GetAll()) do
+			if (v:Team()==1 or v:Team()==2) and v:Alive() then
+				v:KillSilent()
+			end
+		end
+		
+		fnafgmRestartNight()
+		
+	elseif ( ( comm == "/stop" or "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") ) then
+		
+		norespawn=true
+		
+		for k, v in pairs(player.GetAll()) do
+			if (v:Team()==1 or v:Team()==2) and v:Alive() then
+				v:KillSilent()
+			end
+		end
+		
+		fnafgmRestartNight()
+		
 		return ""
 	end
 	
