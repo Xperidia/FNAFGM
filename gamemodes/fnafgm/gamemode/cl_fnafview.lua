@@ -53,11 +53,11 @@ function fnafgmFNaFViewHUD()
 			end
 			
 			if LocalPlayer():Alive() and IsValid(LeftZone) and vgui.GetHoveredPanel()==LeftZone and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()!=GAMEMODE.FNaFView[game.GetMap()][3] then
-				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, 1, 0 ))
+				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, 2, 0 ))
 			end
 			
 			if LocalPlayer():Alive() and IsValid(RightZone) and vgui.GetHoveredPanel()==RightZone and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()!=GAMEMODE.FNaFView[game.GetMap()][4] then
-				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -1, 0 ))
+				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -2, 0 ))
 			end
 			
 			if input.IsKeyDown( KEY_ESCAPE ) then
