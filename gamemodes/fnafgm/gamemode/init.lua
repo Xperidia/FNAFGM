@@ -3510,15 +3510,19 @@ concommand.Add("fnafgm_debug_restart", function(ply)
 	
 	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) or !IsValid(ply) then
 		
-		norespawn=true
-		
-		for k, v in pairs(player.GetAll()) do
-			if (v:Team()==1 or v:Team()==2) and v:Alive() then
-				v:KillSilent()
+		if (iniok and mapoverrideok and startday and active) then
+			
+			norespawn=true
+			
+			for k, v in pairs(player.GetAll()) do
+				if (v:Team()==1 or v:Team()==2) and v:Alive() then
+					v:KillSilent()
+				end
 			end
+			
+			fnafgmRestartNight()
+			
 		end
-		
-		fnafgmRestartNight()
 		
 	end
 	
@@ -3573,7 +3577,7 @@ function GM:PlayerSay( ply, text, teamonly )
 	elseif ( comm == "/"..string.lower(GAMEMODE.ShortName) ) then
 		ply:SendLua([[fnafgmMenu()]])
 		return ""
-	elseif ( ( comm == "!stop" or "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") ) then
+	elseif ( ( comm == "!stop" or comm == "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") and iniok and mapoverrideok and startday and active ) then
 		
 		norespawn=true
 		
@@ -3585,7 +3589,7 @@ function GM:PlayerSay( ply, text, teamonly )
 		
 		fnafgmRestartNight()
 		
-	elseif ( ( comm == "/stop" or "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") ) then
+	elseif ( ( comm == "/stop" or comm == "/restart" ) and fnafgmPlayerCanByPass(ply,"debug") and iniok and mapoverrideok and startday and active ) then
 		
 		norespawn=true
 		
@@ -4294,7 +4298,7 @@ end
 
 function GM:ShowHelp( ply )
 
-	ply:SendLua( "gui.OpenURL( GAMEMODE.Website )" )
+	ply:SendLua("fnafgmMenu()")
 	
 end
 
