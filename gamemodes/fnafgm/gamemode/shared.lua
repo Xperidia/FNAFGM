@@ -168,7 +168,7 @@ GM.DeadBodiesTeleport = {
 
 GM.FNaFView = {
 	freddys = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
-	freddysnoevent = { Vector( -80, -1224, 64 ), Angle( 0, 128, 0 ), Angle( 0, 120, 0 ), Angle( 0, 52, 0 ) },
+	freddysnoevent = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
 	fnaf2 = { Vector( 0, -300, 0 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
 	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) },
 	fnap_scc = { Vector( -465, -255, 32 ), Angle( 0, 0, 0 ), Angle( 0, 42, 0 ), Angle( 0, -44, 0 ) }

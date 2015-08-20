@@ -182,7 +182,7 @@
 			"text"		"Auto use FNaF View"
 			"help"		"Auto use FNaF View."
 			"type"		"CheckBox"
-			"default"	"0"
+			"default"	"1"
 		}
 		23
 		{

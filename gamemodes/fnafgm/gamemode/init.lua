@@ -55,7 +55,7 @@ local fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41",
 local fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "The time before respawn. (After the death screen)" )
 local fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
 local fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
-local fnafgm_fnafview_auto = CreateConVar( "fnafgm_fnafview_auto", 0, FCVAR_REPLICATED, "Auto use FNaF View." )
+local fnafgm_fnafview_auto = CreateConVar( "fnafgm_fnafview_auto", 1, FCVAR_REPLICATED, "Auto use FNaF View." )
 local fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
 
 util.AddNetworkString( "fnafgmShowCheck" )
@@ -89,6 +89,7 @@ function GM:Initialize()
 				
 				if ( tab.Night ) then night = tab.Night end
 				--if ( tab.FinishedWeek ) then finishedweek = tab.FinishedWeek end
+				
 				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded!\n" )
 				
 			end
@@ -108,33 +109,17 @@ function GM:SaveProgress()
 			file.CreateDir( "fnafgm/progress" )
 		end
 		
-		local cfile = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		local tab = {}
 		
-		if ( cfile ) then
-			local tab = util.JSONToTable( cfile )
-		end
-		
-		local tab2 = {}
 		if night>=GAMEMODE.NightEnd then
-			tab2.Night = GAMEMODE.NightEnd
+			tab.Night = GAMEMODE.NightEnd
 		else
-			tab2.Night = night
-		end
-		--tab2.FinishedWeek = finishedweek
-		
-		if ( tab ) then
-			
-			if ( tab.Night and tab.Night>night ) then
-				tab2.Night = tab.Night
-			end
-			
-			--if ( tab.FinishedWeek and tab.FinishedWeek>finishedweek ) then
-				--tab2.FinishedWeek = tab.FinishedWeek
-			--end
-			
+			tab.Night = night
 		end
 		
-		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab2 ) )
+		--tab.FinishedWeek = finishedweek
+		
+		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved!\n" )
 		
@@ -1035,6 +1020,14 @@ function fnafgmUse(ply, ent, test)
 				tempostart = false
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
+				
+				if fnafgm_fnafview_auto:GetBool() then 
+					for k, v in pairs(team.GetPlayers(1)) do
+						if v:Team()==1 and v:Alive() then
+							fnafgmFNaFView(v)
+						end
+					end
+				end
 				
 				timer.Create( "fnafgmTimeThink", hourtime, 0, fnafgmTimeThink)
 				

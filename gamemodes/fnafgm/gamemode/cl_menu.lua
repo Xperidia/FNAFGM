@@ -1,12 +1,12 @@
 function fnafgmMenu()
 	
 	if !IsValid(fnafgmMenuF) then
-			
-			
+		
+		
 		fnafgmMenuF = vgui.Create( "DFrame" )
 		fnafgmMenuF:SetPos( ScrW()/2-320, ScrH()/2-240 )
 		fnafgmMenuF:SetSize( 640, 480 )
-		fnafgmMenuF:SetTitle(GAMEMODE.ShortName.." Menu")
+		fnafgmMenuF:SetTitle(tostring(GAMEMODE.ShortName or "?").." V"..tostring(GAMEMODE.Version or "?")..modetext..seasonaltext)
 		fnafgmMenuF:SetVisible(true)
 		fnafgmMenuF:SetDraggable(true)
 		fnafgmMenuF:ShowCloseButton(true)
@@ -14,7 +14,15 @@ function fnafgmMenu()
 		fnafgmMenuF.Paint = function( self, w, h )
 			draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
 		end
+		fnafgmMenuF.Think = function()
+			
+			if input.IsKeyDown( KEY_ESCAPE ) then
+				fnafgmMenuF:Close()
+			end
+			
+		end
 		fnafgmMenuF:MakePopup()
+		fnafgmMenuF:SetKeyboardInputEnabled(false)
 		
 		
 		local links = vgui.Create( "DPanel" )
@@ -95,6 +103,15 @@ function fnafgmMenu()
 		warn:SetValue( GetConVar("fnafgm_cl_warn"):GetBool() )
 		warn:SizeToContents()
 		
+		hud = vgui.Create( "DCheckBoxLabel" )
+		hud:SetParent(config)
+		hud:SetText("Draw HUD (Caution! This is a Garry's Mod convar)")
+		hud:SetPos( 15, 70 )
+		hud:SetDark( 1 )
+		hud:SetConVar( "cl_drawhud" )
+		hud:SetValue( GetConVar("cl_drawhud"):GetBool() )
+		hud:SizeToContents()
+		
 		
 		
 		local info = vgui.Create( "DPanel" )
@@ -129,6 +146,13 @@ function fnafgmMenu()
 		mapinfo:SetPos( 15, 70 )
 		mapinfo:SetDark( 1 )
 		mapinfo:SizeToContents()
+		
+		local langinfo = vgui.Create( "DLabel" )
+		langinfo:SetParent(info)
+		langinfo:SetText( "Language: "..GetConVarString("gmod_language") )
+		langinfo:SetPos( 15, 90 )
+		langinfo:SetDark( 1 )
+		langinfo:SizeToContents()
 		
 		if LocalPlayer():IsAdmin() then
 			
@@ -203,6 +227,11 @@ function fnafgmMenu()
 			RunConsoleCommand( "fnafgm_debug_info" )
 		end
 		
+		
+		
+	else
+		
+		fnafgmMenuF:Close()
 		
 	end
 	

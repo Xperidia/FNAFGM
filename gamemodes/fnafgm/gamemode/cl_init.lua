@@ -933,78 +933,83 @@ end
 
 function GM:ShowTeam()
 
-	if ( IsValid( self.TeamSelectFrame ) ) then return end
-	if !SGvsA then 
-		LocalPlayer():PrintMessage(HUD_PRINTTALK, "You're not in SGvsA")
-		return
-	end
-	
-	-- Simple team selection box
-	self.TeamSelectFrame = vgui.Create( "DFrame" )
-	self.TeamSelectFrame:SetTitle( "Pick Team" )
-	
-	local AllTeams = team.GetAllTeams()
-	local x = 4
-	local y = 284
-	for ID, TeamInfo in pairs ( AllTeams ) do
-	
-		if ( ID != TEAM_CONNECTING && ID != TEAM_UNASSIGNED ) then
-	
-			local Team = vgui.Create( "DButton", self.TeamSelectFrame )
-			function Team.DoClick() self:HideTeam() RunConsoleCommand( "changeteam", ID ) end
-			Team:SetPos( x, 24 )
-			Team:SetSize( 256, 256 )
-			Team:SetText( TeamInfo.Name )
-			Team:SetTextColor( TeamInfo.Color )
-			Team:SetFont("FNAFGMID")
-			
-			if ( IsValid( LocalPlayer() ) && LocalPlayer():Team() == ID ) then
-				Team:SetDisabled( true )
-				Team:SetTextColor( Color(40, 40, 40) )
-				Team.Paint = function( self, w, h )
-					draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 0, 0, 0, 150 ) )
-				end
-			else
+	if !IsValid( self.TeamSelectFrame ) then
+		
+		if !SGvsA then 
+			LocalPlayer():PrintMessage(HUD_PRINTTALK, "You're not in SGvsA")
+			return
+		end
+		
+		-- Simple team selection box
+		self.TeamSelectFrame = vgui.Create( "DFrame" )
+		self.TeamSelectFrame:SetTitle( "Pick Team" )
+		
+		local AllTeams = team.GetAllTeams()
+		local x = 4
+		local y = 284
+		for ID, TeamInfo in pairs ( AllTeams ) do
+		
+			if ( ID != TEAM_CONNECTING && ID != TEAM_UNASSIGNED ) then
+		
+				local Team = vgui.Create( "DButton", self.TeamSelectFrame )
+				function Team.DoClick() self:HideTeam() RunConsoleCommand( "changeteam", ID ) end
+				Team:SetPos( x, 24 )
+				Team:SetSize( 256, 256 )
+				Team:SetText( TeamInfo.Name )
 				Team:SetTextColor( TeamInfo.Color )
-				Team.Paint = function( self, w, h )
-					draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 255, 255, 255, 150 ) )
+				Team:SetFont("FNAFGMID")
+				
+				if ( IsValid( LocalPlayer() ) && LocalPlayer():Team() == ID ) then
+					Team:SetDisabled( true )
+					Team:SetTextColor( Color(40, 40, 40) )
+					Team.Paint = function( self, w, h )
+						draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 0, 0, 0, 150 ) )
+					end
+				else
+					Team:SetTextColor( TeamInfo.Color )
+					Team.Paint = function( self, w, h )
+						draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 255, 255, 255, 150 ) )
+					end
 				end
+				
+				x = x + 256
+			
 			end
 			
-			x = x + 256
+		end
+	
+		if ( GAMEMODE.AllowAutoTeam ) then
+		
+			local Team = vgui.Create( "DButton", self.TeamSelectFrame )
+			function Team.DoClick() self:HideTeam() RunConsoleCommand( "autoteam" ) end
+			Team:SetPos( 4+x/3, 280 )
+			Team:SetSize( x/3-4, 32 )
+			Team:SetText( "Auto" )
+			Team:SetTextColor( GAMEMODE.Colors_default )
+			Team:SetFont("FNAFGMTXT")
+			Team.Paint = function( self, w, h )
+				draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 255, 255, 255, 150 ) )
+			end
+			
+			y = y + 32
 		
 		end
 		
-	end
-
-	if ( GAMEMODE.AllowAutoTeam ) then
-	
-		local Team = vgui.Create( "DButton", self.TeamSelectFrame )
-		function Team.DoClick() self:HideTeam() RunConsoleCommand( "autoteam" ) end
-		Team:SetPos( 4+x/3, 280 )
-		Team:SetSize( x/3-4, 32 )
-		Team:SetText( "Auto" )
-		Team:SetTextColor( GAMEMODE.Colors_default )
-		Team:SetFont("FNAFGMTXT")
-		Team.Paint = function( self, w, h )
-			draw.RoundedBox( 4, 4, 4, w-8, h-8, Color( 255, 255, 255, 150 ) )
+		self.TeamSelectFrame:SetSize( x+4, y )
+		self.TeamSelectFrame:SetDraggable( true )
+		self.TeamSelectFrame:SetScreenLock(true)
+		self.TeamSelectFrame:SetPaintShadow(true)
+		self.TeamSelectFrame:Center()
+		self.TeamSelectFrame:MakePopup()
+		self.TeamSelectFrame:SetKeyboardInputEnabled( false )
+		self.TeamSelectFrame.Paint = function( self, w, h )
+			draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
 		end
 		
-		y = y + 32
-	
+	else
+		self.TeamSelectFrame:Close()
 	end
 	
-	self.TeamSelectFrame:SetSize( x+4, y )
-	self.TeamSelectFrame:SetDraggable( true )
-	self.TeamSelectFrame:SetScreenLock(true)
-	self.TeamSelectFrame:SetPaintShadow(true)
-	self.TeamSelectFrame:Center()
-	self.TeamSelectFrame:MakePopup()
-	self.TeamSelectFrame:SetKeyboardInputEnabled( false )
-	self.TeamSelectFrame.Paint = function( self, w, h )
-		draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
-	end
-
 end
 
 
