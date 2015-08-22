@@ -103,6 +103,7 @@ end
 
 local fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 local fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
+local fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, true )
 
 for _, addon in pairs(engine.GetAddons()) do
 	

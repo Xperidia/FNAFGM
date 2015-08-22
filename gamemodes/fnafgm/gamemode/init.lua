@@ -44,7 +44,7 @@ local fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove",
 local fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Change the dead bodies." )
 local fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Auto clean up when the server is empty." )
 local fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
-local fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless." )
+local fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
 local fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
 local fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween" )
 local fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
@@ -55,7 +55,6 @@ local fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41",
 local fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "The time before respawn. (After the death screen)" )
 local fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
 local fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
-local fnafgm_fnafview_auto = CreateConVar( "fnafgm_fnafview_auto", 1, FCVAR_REPLICATED, "Auto use FNaF View." )
 local fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
 
 util.AddNetworkString( "fnafgmShowCheck" )
@@ -295,9 +294,11 @@ function GM:PlayerSpawn( pl )
 	
 	local userid = pl:UserID()
 	
-	if !game.SinglePlayer() and fnafgm_fnafview_auto:GetBool() and startday and !tempostart and !nightpassed and !gameend and pl:Team()==1 then 
+	if !game.SinglePlayer() and startday and !tempostart and !nightpassed and !gameend and pl:Team()==1 then 
+		if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+		if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 		timer.Create( "fnafgmTempoFNaFView"..userid, 0.001, 1, function()
-			if IsValid(pl) and pl:Team()==1 then
+			if IsValid(pl) and pl:Team()==1 and pl:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
 				fnafgmFNaFView(pl)
 			end
 			timer.Remove( "fnafgmTempoFNaFView"..userid )
@@ -971,11 +972,9 @@ function fnafgmUse(ply, ent, test)
 					end)
 					
 				end
-				if game.SinglePlayer() or fnafgm_fnafview_auto:GetBool() then 
-					for k, v in pairs(team.GetPlayers(1)) do
-						if v:Team()==1 and v:Alive() then
-							fnafgmFNaFView(v)
-						end
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						fnafgmFNaFView(v)
 					end
 				end
 				
@@ -1045,11 +1044,9 @@ function fnafgmUse(ply, ent, test)
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
 				
-				if fnafgm_fnafview_auto:GetBool() then 
-					for k, v in pairs(team.GetPlayers(1)) do
-						if v:Team()==1 and v:Alive() then
-							fnafgmFNaFView(v)
-						end
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						fnafgmFNaFView(v)
 					end
 				end
 				
@@ -1142,11 +1139,9 @@ function fnafgmUse(ply, ent, test)
 					fnafgmVarsUpdate()
 					fnafgmPowerUpdate()
 					
-					if game.SinglePlayer() or fnafgm_fnafview_auto:GetBool() then 
-						for k, v in pairs(team.GetPlayers(1)) do
-							if v:Team()==1 and v:Alive() then
-								fnafgmFNaFView(v)
-							end
+					for k, v in pairs(team.GetPlayers(1)) do
+						if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+							fnafgmFNaFView(v)
 						end
 					end
 					
@@ -1391,11 +1386,9 @@ function fnafgmUse(ply, ent, test)
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
 				
-				if game.SinglePlayer() or fnafgm_fnafview_auto:GetBool() then 
-					for k, v in pairs(team.GetPlayers(1)) do
-						if v:Team()==1 and v:Alive() then
-							fnafgmFNaFView(v)
-						end
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						fnafgmFNaFView(v)
 					end
 				end
 				
@@ -1461,11 +1454,9 @@ function fnafgmUse(ply, ent, test)
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
 				
-				if game.SinglePlayer() or fnafgm_fnafview_auto:GetBool() then 
-					for k, v in pairs(team.GetPlayers(1)) do
-						if v:Team()==1 and v:Alive() then
-							fnafgmFNaFView(v)
-						end
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						fnafgmFNaFView(v)
 					end
 				end
 				
@@ -3094,7 +3085,6 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  respawndelay "..fnafgm_respawndelay:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  enablebypass "..fnafgm_enablebypass:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  pinionsupport "..fnafgm_pinionsupport:GetString())
-		ply:PrintMessage(HUD_PRINTCONSOLE, "  fnafview_auto "..fnafgm_fnafview_auto:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  fnafgm_timethink_autostart "..fnafgm_timethink_autostart:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, " ")
 		ply:PrintMessage(HUD_PRINTCONSOLE, " [-GAME VARS-]")
@@ -3168,7 +3158,6 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		print("  respawndelay "..fnafgm_respawndelay:GetString())
 		print("  enablebypass "..fnafgm_enablebypass:GetString())
 		print("  pinionsupport "..fnafgm_pinionsupport:GetString())
-		print("  fnafview_auto "..fnafgm_fnafview_auto:GetString())
 		print("  fnafgm_timethink_autostart "..fnafgm_timethink_autostart:GetString())
 		print(" ")
 		print(" [-GAME VARS-]")

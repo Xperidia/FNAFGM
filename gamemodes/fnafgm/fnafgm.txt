@@ -96,14 +96,6 @@
 			"type"		"CheckBox"
 			"default"	"1"
 		}
-		12
-		{
-			"name"		"fnafgm_timethink_endlesstime"
-			"text"		"Endless time"
-			"help"		"The time will be endless."
-			"type"		"CheckBox"
-			"default"	"0"
-		}
 		13
 		{
 			"name"		"fnafgm_timethink_infinitenights"
@@ -175,14 +167,6 @@
 			"help"		"Enable admins, gamemode creators and customs groups bypass funcs."
 			"type"		"CheckBox"
 			"default"	"0"
-		}
-		22
-		{
-			"name"		"fnafgm_fnafview_auto"
-			"text"		"Auto use FNaF View"
-			"help"		"Auto use FNaF View."
-			"type"		"CheckBox"
-			"default"	"1"
 		}
 		23
 		{

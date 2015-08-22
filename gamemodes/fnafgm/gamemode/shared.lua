@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "http://steamcommunity.com/sharedfiles/filedetails/?id=408243366"
-GM.OfficialVersion 	= 1.05
+GM.OfficialVersion 	= 1.051
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -115,7 +115,8 @@ GM.Strings = {
 		debugmenu = "Debug Menu (Debug access only)",
 		start = "Start",
 		stop = "Stop/Restart",
-		reset = "Reset"
+		reset = "Reset",
+		autofnafview = "Auto put FNaF View"
 	},
 	fr = {
 		freddys_start = "COUPEZ LE COURANT POUR DÉMARRER",
@@ -146,7 +147,8 @@ GM.Strings = {
 		debugmenu = "Menu Debug (Accès debug uniquement)",
 		start = "Démarrer",
 		stop = "Arrêter/Redémarrer",
-		reset = "Rénitialiser"
+		reset = "Rénitialiser",
+		autofnafview = "Activer automatiquement la vue FNaF"
 	}
 }
 
