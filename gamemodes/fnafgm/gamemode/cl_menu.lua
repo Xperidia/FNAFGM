@@ -37,7 +37,7 @@ function fnafgmMenu()
 		linkslbl:SetDark( 1 )
 		linkslbl:SizeToContents()
 		
-		websitebtn = vgui.Create( "DButton" )
+		local websitebtn = vgui.Create( "DButton" )
 		websitebtn:SetParent(links)
 		websitebtn:SetText( GAMEMODE.ShortName.." Workshop page" )
 		websitebtn:SetPos( 20, 60 )
@@ -85,7 +85,7 @@ function fnafgmMenu()
 		configlbl:SetDark( 1 )
 		configlbl:SizeToContents()
 		
-		hideversion = vgui.Create( "DCheckBoxLabel" )
+		local hideversion = vgui.Create( "DCheckBoxLabel" )
 		hideversion:SetParent(config)
 		hideversion:SetText("Hide version")
 		hideversion:SetPos( 15, 30 )
@@ -94,7 +94,7 @@ function fnafgmMenu()
 		hideversion:SetValue( GetConVar("fnafgm_cl_hideversion"):GetBool() )
 		hideversion:SizeToContents()
 		
-		warn = vgui.Create( "DCheckBoxLabel" )
+		local warn = vgui.Create( "DCheckBoxLabel" )
 		warn:SetParent(config)
 		warn:SetText("Warn")
 		warn:SetPos( 15, 50 )
@@ -103,7 +103,7 @@ function fnafgmMenu()
 		warn:SetValue( GetConVar("fnafgm_cl_warn"):GetBool() )
 		warn:SizeToContents()
 		
-		hud = vgui.Create( "DCheckBoxLabel" )
+		local hud = vgui.Create( "DCheckBoxLabel" )
 		hud:SetParent(config)
 		hud:SetText("Draw HUD (Caution! This is a Garry's Mod convar)")
 		hud:SetPos( 15, 70 )
@@ -154,9 +154,23 @@ function fnafgmMenu()
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
 		
+		if false and !game.IsDedicated() then
+			
+			local resetprogress = vgui.Create( "DButton" )
+			resetprogress:SetParent(info)
+			resetprogress:SetText("Reset save (Host only)")
+			resetprogress:SetPos( 10, 185 )
+			resetprogress:SetSize( 285, 20 )
+			resetprogress.DoClick = function()
+				--RunConsoleCommand( "fnafgm_mapselect" )
+				fnafgmMenuF:Close()
+			end
+			
+		end
+		
 		if LocalPlayer():IsAdmin() then
 			
-			mapselectb = vgui.Create( "DButton" )
+			local mapselectb = vgui.Create( "DButton" )
 			mapselectb:SetParent(info)
 			mapselectb:SetText("Change Map")
 			mapselectb:SetPos( 10, 185 )
@@ -182,7 +196,7 @@ function fnafgmMenu()
 		debugmenulbl:SetDark( 1 )
 		debugmenulbl:SizeToContents()
 		
-		startbtn = vgui.Create( "DButton" )
+		local startbtn = vgui.Create( "DButton" )
 		startbtn:SetParent(debugmenu)
 		startbtn:SetText("Start")
 		startbtn:SetPos( 20, 45 )
@@ -191,7 +205,7 @@ function fnafgmMenu()
 			RunConsoleCommand( "fnafgm_debug_start" )
 		end
 		
-		restartbtn = vgui.Create( "DButton" )
+		local restartbtn = vgui.Create( "DButton" )
 		restartbtn:SetParent(debugmenu)
 		restartbtn:SetText("Stop/Restart")
 		restartbtn:SetPos( 20, 75 )
@@ -200,7 +214,7 @@ function fnafgmMenu()
 			RunConsoleCommand( "fnafgm_debug_restart" )
 		end
 		
-		resetbtn = vgui.Create( "DButton" )
+		local resetbtn = vgui.Create( "DButton" )
 		resetbtn:SetParent(debugmenu)
 		resetbtn:SetText("Reset")
 		resetbtn:SetPos( 20, 105 )
@@ -209,7 +223,7 @@ function fnafgmMenu()
 			RunConsoleCommand( "fnafgm_debug_reset" )
 		end
 		
-		refreshbtn = vgui.Create( "DButton" )
+		local refreshbtn = vgui.Create( "DButton" )
 		refreshbtn:SetParent(debugmenu)
 		refreshbtn:SetText("Refresh Bypass")
 		refreshbtn:SetPos( 20, 135 )
@@ -218,7 +232,7 @@ function fnafgmMenu()
 			RunConsoleCommand( "fnafgm_debug_refreshbypass" )
 		end
 		
-		infobtn = vgui.Create( "DButton" )
+		local infobtn = vgui.Create( "DButton" )
 		infobtn:SetParent(debugmenu)
 		infobtn:SetText("Info (Console)")
 		infobtn:SetPos( 20, 165 )
