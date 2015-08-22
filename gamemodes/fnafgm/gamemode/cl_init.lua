@@ -118,12 +118,6 @@ concommand.Add("fnafgm_menu", function(ply)
 	
 end)
 
-concommand.Add("fnafgm_debug", function(ply)
-	
-	fnafgmDebugMenu()
-	
-end)
-
 willviewcheck = false
 
 surface.CreateFont("FNAFGMTIME", {

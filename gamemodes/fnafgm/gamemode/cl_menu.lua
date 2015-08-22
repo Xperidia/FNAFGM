@@ -32,7 +32,7 @@ function fnafgmMenu()
 		
 		local linkslbl = vgui.Create( "DLabel" )
 		linkslbl:SetParent(links)
-		linkslbl:SetText( "Link(s)" )
+		linkslbl:SetText( GAMEMODE.Strings.base.links )
 		linkslbl:SetPos( 10, 5 )
 		linkslbl:SetDark( 1 )
 		linkslbl:SizeToContents()
@@ -47,11 +47,22 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
+		if !fontloaded then
+			
+			local fontlbl = vgui.Create( "DLabel" )
+			fontlbl:SetParent(links)
+			fontlbl:SetText( GAMEMODE.Strings.base.fonthint )
+			fontlbl:SetPos( 15, 30 )
+			fontlbl:SetDark( 1 )
+			fontlbl:SizeToContents()
+			
+		end
+		
 		if engine.ActiveGamemode()=="fnafgm" then
 			
 			questionbtn = vgui.Create( "DButton" )
 			questionbtn:SetParent(links)
-			questionbtn:SetText( "Questions/Help/FAQ/Tips" )
+			questionbtn:SetText( GAMEMODE.Strings.base.faqbtn )
 			questionbtn:SetPos( 10, 185 )
 			questionbtn:SetSize( 140, 20 )
 			questionbtn.DoClick = function()
@@ -80,14 +91,14 @@ function fnafgmMenu()
 		
 		local configlbl = vgui.Create( "DLabel" )
 		configlbl:SetParent(config)
-		configlbl:SetText( "Config" )
+		configlbl:SetText( GAMEMODE.Strings.base.config )
 		configlbl:SetPos( 10, 5 )
 		configlbl:SetDark( 1 )
 		configlbl:SizeToContents()
 		
 		local hideversion = vgui.Create( "DCheckBoxLabel" )
 		hideversion:SetParent(config)
-		hideversion:SetText("Hide version")
+		hideversion:SetText(GAMEMODE.Strings.base.hidever)
 		hideversion:SetPos( 15, 30 )
 		hideversion:SetDark( 1 )
 		hideversion:SetConVar( "fnafgm_cl_hideversion" )
@@ -105,7 +116,7 @@ function fnafgmMenu()
 		
 		local hud = vgui.Create( "DCheckBoxLabel" )
 		hud:SetParent(config)
-		hud:SetText("Draw HUD (Caution! This is a Garry's Mod convar)")
+		hud:SetText(GAMEMODE.Strings.base.dhud)
 		hud:SetPos( 15, 70 )
 		hud:SetDark( 1 )
 		hud:SetConVar( "cl_drawhud" )
@@ -121,14 +132,14 @@ function fnafgmMenu()
 		
 		local infolbl = vgui.Create( "DLabel" )
 		infolbl:SetParent(info)
-		infolbl:SetText( "Info/Misc" )
+		infolbl:SetText( GAMEMODE.Strings.base.infoat )
 		infolbl:SetPos( 10, 5 )
 		infolbl:SetDark( 1 )
 		infolbl:SizeToContents()
 		
 		local fontinfo = vgui.Create( "DLabel" )
 		fontinfo:SetParent(info)
-		fontinfo:SetText( "Font loaded: "..tostring(fontloaded or "false") )
+		fontinfo:SetText( GAMEMODE.Strings.base.fontloaded..": "..tostring(fontloaded or "false") )
 		fontinfo:SetPos( 15, 30 )
 		fontinfo:SetDark( 1 )
 		fontinfo:SizeToContents()
@@ -149,34 +160,37 @@ function fnafgmMenu()
 		
 		local langinfo = vgui.Create( "DLabel" )
 		langinfo:SetParent(info)
-		langinfo:SetText( "Language: "..GetConVarString("gmod_language") )
+		langinfo:SetText( GAMEMODE.Strings.base.lang..": "..GetConVarString("gmod_language") )
 		langinfo:SetPos( 15, 90 )
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
 		
-		if false and !game.IsDedicated() then
-			
-			local resetprogress = vgui.Create( "DButton" )
-			resetprogress:SetParent(info)
-			resetprogress:SetText("Reset save (Host only)")
-			resetprogress:SetPos( 10, 185 )
-			resetprogress:SetSize( 285, 20 )
-			resetprogress.DoClick = function()
-				--RunConsoleCommand( "fnafgm_mapselect" )
-				fnafgmMenuF:Close()
-			end
-			
-		end
+		local rem = 0
 		
 		if LocalPlayer():IsAdmin() then
 			
 			local mapselectb = vgui.Create( "DButton" )
 			mapselectb:SetParent(info)
-			mapselectb:SetText("Change Map")
+			mapselectb:SetText(GAMEMODE.Strings.base.changemap)
 			mapselectb:SetPos( 10, 185 )
 			mapselectb:SetSize( 285, 20 )
 			mapselectb.DoClick = function()
 				RunConsoleCommand( "fnafgm_mapselect" )
+				fnafgmMenuF:Close()
+			end
+			rem = 25
+			
+		end
+		
+		if !game.IsDedicated() and !SGvsA then
+			
+			local resetprogress = vgui.Create( "DButton" )
+			resetprogress:SetParent(info)
+			resetprogress:SetText(GAMEMODE.Strings.base.resetsave)
+			resetprogress:SetPos( 10, 185-rem )
+			resetprogress:SetSize( 285, 20 )
+			resetprogress.DoClick = function()
+				RunConsoleCommand( "fnafgm_resetprogress" )
 				fnafgmMenuF:Close()
 			end
 			
@@ -191,36 +205,39 @@ function fnafgmMenu()
 		
 		local debugmenulbl = vgui.Create( "DLabel" )
 		debugmenulbl:SetParent(debugmenu)
-		debugmenulbl:SetText( "Debug Menu (Debug access only)" )
+		debugmenulbl:SetText( GAMEMODE.Strings.base.debugmenu )
 		debugmenulbl:SetPos( 10, 5 )
 		debugmenulbl:SetDark( 1 )
 		debugmenulbl:SizeToContents()
 		
 		local startbtn = vgui.Create( "DButton" )
 		startbtn:SetParent(debugmenu)
-		startbtn:SetText("Start")
+		startbtn:SetText(GAMEMODE.Strings.base.start)
 		startbtn:SetPos( 20, 45 )
 		startbtn:SetSize( 265, 20 )
 		startbtn.DoClick = function()
 			RunConsoleCommand( "fnafgm_debug_start" )
+			fnafgmMenuF:Close()
 		end
 		
 		local restartbtn = vgui.Create( "DButton" )
 		restartbtn:SetParent(debugmenu)
-		restartbtn:SetText("Stop/Restart")
+		restartbtn:SetText(GAMEMODE.Strings.base.stop)
 		restartbtn:SetPos( 20, 75 )
 		restartbtn:SetSize( 265, 20 )
 		restartbtn.DoClick = function()
 			RunConsoleCommand( "fnafgm_debug_restart" )
+			fnafgmMenuF:Close()
 		end
 		
 		local resetbtn = vgui.Create( "DButton" )
 		resetbtn:SetParent(debugmenu)
-		resetbtn:SetText("Reset")
+		resetbtn:SetText(GAMEMODE.Strings.base.reset)
 		resetbtn:SetPos( 20, 105 )
 		resetbtn:SetSize( 265, 20 )
 		resetbtn.DoClick = function()
 			RunConsoleCommand( "fnafgm_debug_reset" )
+			fnafgmMenuF:Close()
 		end
 		
 		local refreshbtn = vgui.Create( "DButton" )
@@ -230,6 +247,7 @@ function fnafgmMenu()
 		refreshbtn:SetSize( 265, 20 )
 		refreshbtn.DoClick = function()
 			RunConsoleCommand( "fnafgm_debug_refreshbypass" )
+			fnafgmMenuF:Close()
 		end
 		
 		local infobtn = vgui.Create( "DButton" )
@@ -239,6 +257,7 @@ function fnafgmMenu()
 		infobtn:SetSize( 265, 20 )
 		infobtn.DoClick = function()
 			RunConsoleCommand( "fnafgm_debug_info" )
+			fnafgmMenuF:Close()
 		end
 		
 		

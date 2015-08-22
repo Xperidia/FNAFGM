@@ -128,6 +128,30 @@ function GM:SaveProgress()
 end
 
 
+concommand.Add("fnafgm_resetprogress", function( ply )
+	fnafgmResetProgress(ply)
+end)
+function fnafgmResetProgress(ply)
+	
+	if !ply:IsListenServerHost() and !SGvsA then ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! :)") return end
+	
+	if !file.IsDir("fnafgm/progress", "DATA") then
+		file.CreateDir( "fnafgm/progress" )
+	end
+	
+	local tab = {}
+	
+	tab.Night = 0
+	
+	--tab.FinishedWeek = finishedweek
+	
+	file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+	
+	MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression reseted!\n" )
+	
+end
+
+
 function GM:PlayerNoClip( pl, on )
 	
 	if ( pl:InVehicle() ) then return false end
