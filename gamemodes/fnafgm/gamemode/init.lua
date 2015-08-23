@@ -73,7 +73,6 @@ function GM:Initialize()
 		timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
 	end
 	
-	fnafgmCheckForNewVersion(nil,false)
 	timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
 	
 	fnafgmLoadLanguage(GetConVarString("gmod_language"))
@@ -338,9 +337,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerInitialSpawn( ply )
 	
-	if ply:IsAdmin() or fnafgmcheckcreator(ply) then
-		fnafgmCheckForNewVersion(ply,false)
-	end
+	fnafgmCheckForNewVersion(ply,false)
 	
 	if SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
@@ -3254,26 +3251,34 @@ function fnafgmCheckForNewVersion(ply,util)
 	
 	if !GAMEMODE.CustomVersion then
 		
-		http.Post( "http://xperidia.com/fnafgmversion.php",
-		{ version = tostring(GAMEMODE.OfficialVersion or 0) }, 
+		http.Fetch( "http://xperidia.com/fnafgmversion.txt",
 		function( body, len, headers, code )
 			
-			if (string.match( body, "true" ) and code==200) then
+			lastversion = tonumber(string.Right(body, len-3)) or 0
+			
+			if lastversion!=0 and GAMEMODE.OfficialVersion == lastversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM is up to date!")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: You're on the latest release! V"..lastversion.." = V"..GAMEMODE.OfficialVersion)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), "FNAFGM is up to date!\n" )
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: You're on the latest release! V"..lastversion.." = V"..GAMEMODE.OfficialVersion.."\n" )
 				end
 				updateavailable = false
-				lastversion = tostring(GAMEMODE.OfficialVersion or "?")
 				
-			elseif (body and code==200) then
+			elseif lastversion!=0 and GAMEMODE.OfficialVersion > lastversion and code==200 then
 				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "FNAFGM: An update is available! V"..string.Right(body, 4)) end
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: An update is available! V"..string.Right(body, 4).."\n" )
+				if IsValid(ply) and util==true then
+					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: You're on a dev build! V"..lastversion.." < V"..GAMEMODE.OfficialVersion)
+				elseif util==true then
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: You're on a dev build! V"..lastversion.." < V"..GAMEMODE.OfficialVersion.."\n" )
+				end
+				updateavailable = false
+				
+			elseif lastversion!=0 and GAMEMODE.OfficialVersion < lastversion and code==200 then
+				
+				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "FNAFGM: An update is available! V"..lastversion) end
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: An update is available! V"..lastversion.."\n" )
 				updateavailable = true
-				lastversion = string.Right(body, 4)
 				
 			else
 				
@@ -3304,26 +3309,34 @@ function fnafgmCheckForNewVersion(ply,util)
 	
 	if !GAMEMODE.Official and GAMEMODE.CustomVersionChecker!="" then
 		
-		http.Post( GAMEMODE.CustomVersionChecker,
-		{ version = tostring(GAMEMODE.Version or 0) }, 
+		http.Fetch( GAMEMODE.CustomVersionChecker,
 		function( body, len, headers, code )
 			
-			if (string.match( body, "true" ) and code==200) then
+			lastderivversion = tonumber(string.Right(body, len-3)) or 0
+			
+			if lastderivversion!=0 and GAMEMODE.Version == lastderivversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName.." is up to date!")
+					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": You're on the latest release! V"..lastderivversion.." = V"..GAMEMODE.Version)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName.." is up to date!\n" )
+					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": You're on the latest release! V"..lastderivversion.." = V"..GAMEMODE.Version.."\n" )
 				end
 				derivupdateavailable = false
-				lastderivversion = tostring(GAMEMODE.Version or "?")
 				
-			elseif (body and code==200) then
+			elseif lastderivversion!=0 and GAMEMODE.Version > lastderivversion and code==200 then
 				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, GAMEMODE.ShortName..": An update is available! V"..string.Right(body, 4)) end
-				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An update is available! V"..string.Right(body, 4).."\n" )
+				if IsValid(ply) and util==true then
+					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": You're on a dev build! V"..lastderivversion.." < V"..GAMEMODE.Version)
+				elseif util==true then
+					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": You're on a dev build! V"..lastderivversion.." < V"..GAMEMODE.Version.."\n" )
+				end
+				derivupdateavailable = false
+				
+			elseif lastderivversion!=0 and GAMEMODE.Version < lastderivversion and code==200 then
+				
+				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, GAMEMODE.ShortName..": An update is available! V"..lastderivversion) end
+				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An update is available! V"..lastderivversion.."\n" )
 				derivupdateavailable = true
-				lastderivversion = string.Right(body, 4)
 				
 			else
 				

@@ -1083,6 +1083,7 @@ function fnafgmMapSelect(AvMaps)
 	MapSelectF:MakePopup()
 	MapSelectF:SetKeyboardInputEnabled( false )
 	MapSelectF.Paint = function( self, w, h )
+		Derma_DrawBackgroundBlur( self )
 		draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
 	end
 

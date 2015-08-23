@@ -52,6 +52,10 @@ function fnafgmFNaFViewHUD()
 				FNaFView:Close()
 			end
 			
+			if !tobool(startday) then
+				FNaFView:Close()
+			end
+			
 			if LocalPlayer():Alive() and IsValid(LeftZone) and vgui.GetHoveredPanel()==LeftZone and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()!=GAMEMODE.FNaFView[game.GetMap()][3] then
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, 2, 0 ))
 			end
@@ -97,7 +101,7 @@ function fnafgmFNaFViewHUD()
 			
 		end
 		ExitZone.OnCursorEntered = function()
-			ExitZone:SetText("Exit FNaF view")
+			ExitZone:SetText(GAMEMODE.Strings.base.exitfnafview)
 		end
 		ExitZone.OnCursorExited = function()
 			ExitZone:SetText("")
