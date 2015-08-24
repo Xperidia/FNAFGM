@@ -383,6 +383,12 @@ net.Receive( "fnafgmPowerUpdate", function( len )
 	
 end)
 
+net.Receive( "fnafgmDS", function( len )
+
+	DS = net.ReadBit()
+	
+end)
+
 
 function GM:HUDPaint()
 	

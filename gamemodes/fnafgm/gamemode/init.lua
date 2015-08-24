@@ -64,6 +64,7 @@ util.AddNetworkString( "fnafgmSafeZone" )
 util.AddNetworkString( "fnafgmShutLights" )
 util.AddNetworkString( "fnafgmMapSelect" )
 util.AddNetworkString( "fnafgmChangeMap" )
+util.AddNetworkString( "fnafgmDS" )
 function GM:Initialize()
 	
 	checkAliveInProgress = false
@@ -296,9 +297,11 @@ function GM:PlayerSpawn( pl )
 	if !game.SinglePlayer() and startday and !tempostart and !nightpassed and !gameend and pl:Team()==1 then 
 		if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 		if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
-		timer.Create( "fnafgmTempoFNaFView"..userid, 0.001, 1, function()
+		timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
 			if IsValid(pl) and pl:Team()==1 and pl:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
 				fnafgmFNaFView(pl)
+				if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+				if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 			end
 			timer.Remove( "fnafgmTempoFNaFView"..userid )
 		end)
@@ -367,6 +370,10 @@ function GM:PlayerInitialSpawn( ply )
 	if !GAMEMODE.Official then fnafgmCheckUpdateD() end
 	
 	active = true
+	
+	net.Start( "fnafgmDS" )
+		net.WriteBit( game.IsDedicated() )
+	net.Send(ply)
 	
 end
 

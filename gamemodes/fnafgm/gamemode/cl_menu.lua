@@ -175,35 +175,32 @@ function fnafgmMenu()
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
 		
-		local rem = 0
-		
-		if LocalPlayer():IsAdmin() then
-			
-			local mapselectb = vgui.Create( "DButton" )
-			mapselectb:SetParent(info)
-			mapselectb:SetText(GAMEMODE.Strings.base.changemap)
-			mapselectb:SetPos( 10, 185 )
-			mapselectb:SetSize( 285, 20 )
-			mapselectb.DoClick = function()
-				RunConsoleCommand( "fnafgm_mapselect" )
-				fnafgmMenuF:Close()
-			end
-			rem = 25
-			
+		local mapselectb = vgui.Create( "DButton" )
+		mapselectb:SetParent(info)
+		mapselectb:SetText(GAMEMODE.Strings.base.changemap)
+		mapselectb:SetPos( 10, 185 )
+		mapselectb:SetSize( 285, 20 )
+		mapselectb:SetEnabled(LocalPlayer():IsAdmin())
+		mapselectb.DoClick = function()
+			RunConsoleCommand( "fnafgm_mapselect" )
+			fnafgmMenuF:Close()
 		end
 		
-		if !game.IsDedicated() and !SGvsA then
+		
+		
+		if !game.IsDedicated() and !tobool(DS) then --This doesn't work https://github.com/Facepunch/garrysmod-issues/issues/1495
 			
 			local resetprogress = vgui.Create( "DButton" )
 			resetprogress:SetParent(info)
 			resetprogress:SetText(GAMEMODE.Strings.base.resetsave)
-			resetprogress:SetPos( 10, 185-rem )
+			resetprogress:SetPos( 10, 160 )
 			resetprogress:SetSize( 285, 20 )
+			resetprogress:SetDisabled(SGvsA)
 			resetprogress.DoClick = function()
 				RunConsoleCommand( "fnafgm_resetprogress" )
 				fnafgmMenuF:Close()
 			end
-			
+		
 		end
 		
 		
