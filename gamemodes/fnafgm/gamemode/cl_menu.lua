@@ -44,7 +44,7 @@ function fnafgmMenu()
 		websitebtn:SetPos( 20, 60 )
 		websitebtn:SetSize( 265, 80 )
 		websitebtn.DoClick = function()
-			gui.OpenURL( GAMEMODE.Website )
+			gui.OpenURL( "http://"..GAMEMODE.Website )
 			fnafgmMenuF:Close()
 		end
 		
