@@ -1410,7 +1410,7 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 	
-	elseif test then
+	elseif test and !game.GetMap()=="gm_construct" and !game.GetMap()=="gm_flatgrass" then
 		
 		if !startday then
 			
@@ -3505,9 +3505,7 @@ end )
 
 concommand.Add("fnafgm_debug_start", function(ply)
 	
-	if (IsValid(ply) and ( !SGvsA or fnafgmPlayerCanByPass(ply,"debug") ) ) or !IsValid(ply) then
-		fnafgmUse(ply, nil, true)
-	end
+	fnafgmUse(ply, nil, true)
 	
 end)
 
@@ -3593,9 +3591,9 @@ function GM:PlayerSay( ply, text, teamonly )
 	
 	comm = string.lower( text ) -- Make the chat message entirely lowercase
 	
-	if ( comm == "!start" and ( !SGvsA or fnafgmPlayerCanByPass(ply,"debug") ) ) then
+	if ( comm == "!start" ) then
 		fnafgmUse(ply, nil, true)
-	elseif ( comm == "/start" and ( !SGvsA or fnafgmPlayerCanByPass(ply,"debug")) ) then
+	elseif ( comm == "/start" ) then
 		fnafgmUse(ply, nil, true)
 		return ""
 	elseif ( comm == "!"..string.lower(GAMEMODE.ShortName) ) then
