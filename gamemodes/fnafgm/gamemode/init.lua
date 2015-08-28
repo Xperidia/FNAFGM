@@ -295,16 +295,18 @@ function GM:PlayerSpawn( pl )
 	local userid = pl:UserID()
 	
 	if !game.SinglePlayer() and startday and !tempostart and !nightpassed and !gameend and pl:Team()==1 then 
-		if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
-		if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
-		timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
-			if IsValid(pl) and pl:Team()==1 and pl:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-				fnafgmFNaFView(pl)
-				if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
-				if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
-			end
-			timer.Remove( "fnafgmTempoFNaFView"..userid )
-		end)
+		if GAMEMODE.FNaFView[game.GetMap()] then
+			if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+			if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
+			timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
+				if IsValid(pl) and pl:Team()==1 and pl:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+					fnafgmFNaFView(pl)
+					if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+					if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
+				end
+				timer.Remove( "fnafgmTempoFNaFView"..userid )
+			end)
+		end
 	end
 	
 end
@@ -2593,7 +2595,7 @@ function fnafgmMapOverrides()
 			
 		elseif ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" ) then
 			
-			--Do somehing here lol
+			--Do somehing here?
 			
 		else
 			
@@ -2611,7 +2613,7 @@ function fnafgmMapOverrides()
 				CAM:Spawn()
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: There is no special map overrides for this map :(\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: There is no map overrides for this map...\n" )
 			
 		end
 		

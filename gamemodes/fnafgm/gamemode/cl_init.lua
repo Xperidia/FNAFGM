@@ -2,102 +2,77 @@ include( 'shared.lua' )
 
 DEFINE_BASECLASS( "gamemode_base" )
 
-if game.GetMap()=="fnaf2" then
+if !sfont and game.GetMap()=="fnaf2" then
 	
-	if !sfont and file.Exists( "resource/fonts/OCR_A_Std.ttf", "GAME" ) then
+	if file.Exists( "resource/fonts/OCR_A_Std.ttf", "GAME" ) then
 		
 		sfont = "OCR A Std"
+		sfont2 = "Graph 35+ pix"
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = true
 		
-		if !sfont2 and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-			sfont2 = "Graph 35+ pix"
-		else
-			sfont2 = sfont
-		end
-		
-	elseif !sfont and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
+	elseif file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
 		
 		sfont = "Graph 35+ pix"
 		sfont2 = sfont
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = false
 		
-	elseif !sfont then
+	else
 		
 		sfont = "Courier"
 		sfont2 = sfont
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = false
 		
 	end
 	
-elseif game.GetMap()=="fnaf3" then
+elseif !sfont and game.GetMap()=="fnaf3" then
 	
-	if !sfont and file.Exists( "resource/fonts/5Computers-In-Love.ttf", "GAME" ) then
+	if file.Exists( "resource/fonts/5Computers-In-Love.ttf", "GAME" ) then
 		
 		sfont = "5Computers In Love"
+		sfont2 = "Graph 35+ pix"
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = true
 		
-		if !sfont2 and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-			sfont2 = "Graph 35+ pix"
-		else
-			sfont2 = sfont
-		end
-		
-	elseif !sfont and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
+	elseif file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
 		
 		sfont = "Graph 35+ pix"
 		sfont2 = sfont
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = false
 		
-	elseif !sfont then
+	else
 		
 		sfont = "Courier"
 		sfont2 = sfont
+		sfont3 = sfont
+		sfont4 = sfont2
 		fontloaded = false
 		
 	end
 	
---[[elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+elseif !sfont and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" ) then
 	
-	if !sfont and file.Exists( "resource/fonts/FNAF4FONT.ttf", "GAME" ) then
-		
-		sfont = "FNAF4FONT"
-		fontloaded = true
-		
-		if !sfont2 and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-			sfont2 = "Graph 35+ pix"
-		else
-			sfont2 = sfont
-		end
-		
-	elseif !sfont and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-		
-		sfont = "Graph 35+ pix"
-		sfont2 = sfont
-		fontloaded = false
-		
-	elseif !sfont then
-		
-		sfont = "Courier"
-		sfont2 = sfont
-		fontloaded = false
-		
-	end]]
+	fontloaded = true
+	if file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then sfont = "Graph 35+ pix" else sfont = "Courier" fontloaded = false end
+	sfont2 = sfont
+	if file.Exists( "resource/fonts/Precious.ttf", "GAME" ) then sfont3 = "Precious" else sfont3 = sfont fontloaded = false end
+	if file.Exists( "resource/fonts/DJB-Get-Digital.ttf", "GAME" ) then sfont4 = "DJB Get Digital" else sfont4 = sfont2 fontloaded = false end
 	
-else
+elseif !sfont then
 	
-	if !sfont and file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-		
-		sfont = "Graph 35+ pix"
-		sfont2 = sfont
-		fontloaded = true
-		
-	elseif !sfont then
-		
-		sfont = "Courier"
-		sfont2 = sfont
-		fontloaded = false
-		
-	end
+	fontloaded = true
+	if file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then sfont = "Graph 35+ pix" else sfont = "Courier" fontloaded = false end
+	sfont2 = sfont
+	sfont3 = sfont
+	sfont4 = sfont2
 	
 end
 
@@ -138,7 +113,7 @@ surface.CreateFont("FNAFGMTIME", {
 	outline = false, 
 })
 surface.CreateFont("FNAFGMATIME", {
-	font = sfont,
+	font = sfont3,
 	size = 38, 
 	weight = 1000, 
 	blursize = 0, 
@@ -146,6 +121,38 @@ surface.CreateFont("FNAFGMATIME", {
 	antialias = false, 
 	underline = false, 
 	italic = false, 
+	strikeout = false, 
+	symbol = false, 
+	rotary = false, 
+	shadow = true, 
+	additive = false, 
+	outline = false, 
+})
+surface.CreateFont("FNAFGM4TIME", {
+	font = sfont4, 
+	size = 50, 
+	weight = 500, 
+	blursize = 0, 
+	scanlines = 0, 
+	antialias = true, 
+	underline = false, 
+	italic = false, 
+	strikeout = false, 
+	symbol = false, 
+	rotary = false, 
+	shadow = false, 
+	additive = false, 
+	outline = false, 
+})
+surface.CreateFont("FNAFGMA4TIME", {
+	font = sfont3,
+	size = 100, 
+	weight = 500, 
+	blursize = 0, 
+	scanlines = 0, 
+	antialias = false, 
+	underline = false, 
+	italic = true, 
 	strikeout = false, 
 	symbol = false, 
 	rotary = false, 
@@ -557,7 +564,7 @@ function GM:HUDPaint()
 					end
 				end
 				
-				draw.DrawText(time.." "..AMPM, "FNAFGMNIGHT", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(time.." "..AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 				--draw.DrawText(GAMEMODE.Strings.base.night.." "..night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
 			elseif time!=0 and ( client:Team()!=1 or ( power!=0 and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and power!=0 ) ) then
@@ -593,6 +600,10 @@ function GM:HUDPaint()
 				end
 				draw.DrawText(team.GetName(1)..": "..alivec.."/"..team.NumPlayers(1), "FNAFGMID", 46, H, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 			end
+		
+		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+			
+			draw.DrawText(GAMEMODE.Strings.base.night.." "..night, "FNAFGMA4TIME", 32, 32, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
 		else
 			
