@@ -428,12 +428,12 @@ function GM:HUDPaint()
 					local varpos = math.random(64, 100)
 					render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
 				cam.End3D()
+			elseif game.GetMap()=="fnaf3" and client:Team()==1 then
+				--Something, one day, maybe...
 			elseif game.GetMap()=="fnaf_freddypizzaevents" and client:Team()==1 then
 				draw.DrawText(string.upper(GAMEMODE.Strings.base.fnaf_freddypizzaevents_start), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			elseif game.GetMap()=="fnap_scc" and client:Team()==1 then
 				draw.DrawText(string.upper(GAMEMODE.Strings.base.freddys_start_2), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-			elseif client:Team()==1 and game.GetMap()!="gm_construct" and game.GetMap()!="gm_flatgrass" then
-				draw.DrawText(string.upper(GAMEMODE.Strings.base.fnaf_freddypizzaevents_start).." (MAYBE NO EVENTS)", "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			end
 		
 		elseif !tobool(tempostart) then
@@ -633,12 +633,12 @@ function GM:HUDPaint()
 				local varpos = math.random(64, 100)
 				render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
 			cam.End3D()
+		elseif game.GetMap()=="fnaf3" and client:Team()==1 then
+			--Something, one day, maybe...
 		elseif game.GetMap()=="fnaf_freddypizzaevents" and client:Team()==1 then
 			draw.DrawText(string.upper(GAMEMODE.Strings.base.fnaf_freddypizzaevents_start), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif game.GetMap()=="fnap_scc" and client:Team()==1 then
 			draw.DrawText(string.upper(GAMEMODE.Strings.base.freddys_start), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif client:Team()==1 and game.GetMap()!="gm_construct" and game.GetMap()!="gm_flatgrass" then
-			draw.DrawText(string.upper(GAMEMODE.Strings.base.fnaf_freddypizzaevents_start).." (MAYBE NO EVENTS)", "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		end
 			
 	end

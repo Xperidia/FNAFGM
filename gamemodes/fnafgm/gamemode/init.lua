@@ -1410,7 +1410,73 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 	
-	elseif test and !game.GetMap()=="gm_construct" and !game.GetMap()=="gm_flatgrass" then
+	elseif test and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" ) then
+		
+		if !startday then
+			
+			startday = true
+			tempostart = true
+			night = night+1
+			AMPM = GAMEMODE.AMPM
+			time = GAMEMODE.TimeBase
+			hourtime = hourtime+GAMEMODE.HourTime_add
+			nightpassed = false
+			iniok = true
+			norespawn = false
+				
+			fnafgmVarsUpdate()
+			
+			for k, v in pairs(ents.FindByClass("info_player_start")) do
+				v:Remove()
+			end
+			
+			local spawn = ents.Create( "info_player_start" )
+			spawn:SetPos( Vector( -384, 320, 0 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
+				end
+			end
+			
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+		
+			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Alive() and !CheckPlayerSecurityRoom(v) then
+						v:SetPos( Vector( -384, 320, 0 ) )
+						v:SetEyeAngles(Angle( 0, 90, 0 ))
+					end
+				end
+				
+				timer.Remove( "fnafgmTempoStartM" )
+				
+			end)
+	
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				tempostart = false
+				fnafgmVarsUpdate()
+				fnafgmPowerUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						fnafgmFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", hourtime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
+			
+		end
+		
+	elseif test and game.GetMap()!="gm_construct" and game.GetMap()!="gm_flatgrass" then
 		
 		if !startday then
 			
@@ -1723,6 +1789,28 @@ function fnafgmUse(ply, ent, test)
 					light2usewait = false
 					
 					timer.Remove( "fnafgmlight2usewait" )
+					
+				end)
+			
+			end
+			
+			return false
+			
+		end
+		
+		if light3 and light3:IsValid() and ent==light3 then
+			
+			if !light3usewait and !poweroff then
+				
+				light3usewait = true
+				light3use = !light3use
+				light3:Fire("use")
+				
+				timer.Create( "fnafgmlight3usewait", 1, 1, function()
+					
+					light3usewait = false
+					
+					timer.Remove( "fnafgmlight3usewait" )
 					
 				end)
 			
@@ -2373,6 +2461,14 @@ function fnafgmMapOverrides()
 			
 			for k, v in pairs(ents.FindByName("DoorOffice2")) do
 				door2 = v
+			end
+			
+			for k, v in pairs(ents.FindByName("Door1Button")) do
+				door1btn = v
+			end
+			
+			for k, v in pairs(ents.FindByName("Door2Button")) do
+				door2btn = v
 			end
 			
 			for k, v in pairs(ents.FindByName("Door1Light")) do

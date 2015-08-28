@@ -89,8 +89,8 @@ function fnafgmFNaFViewHUD()
 		
 		ExitZone = vgui.Create( "DButton" )
 		ExitZone:SetParent(FNaFView)
-		ExitZone:SetText("")
-		ExitZone:SetTextColor( Color( 255, 255, 255, 255 ) )
+		ExitZone:SetText("FNaF View")
+		ExitZone:SetTextColor( Color( 100, 100, 100, 42 ) )
 		ExitZone:SetFont("FNAFGMNIGHT")
 		ExitZone:SetPos( 0, 0 )
 		ExitZone:SetSize( ScrW(), 40 )
@@ -102,9 +102,11 @@ function fnafgmFNaFViewHUD()
 		end
 		ExitZone.OnCursorEntered = function()
 			ExitZone:SetText(GAMEMODE.Strings.base.exitfnafview)
+			ExitZone:SetTextColor( Color( 255, 255, 255, 255 ) )
 		end
 		ExitZone.OnCursorExited = function()
-			ExitZone:SetText("")
+			ExitZone:SetText("FNaF View")
+			ExitZone:SetTextColor( Color( 100, 100, 100, 42 ) )
 		end
 		
 		if !tobool(mute) then

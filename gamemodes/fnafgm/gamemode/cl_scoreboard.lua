@@ -300,6 +300,9 @@ local SCORE_BOARD = {
 			end
 		elseif game.GetMap()=="fnap_scc" then
 			self.Map:SetText("Sugar Cube Corner")
+			--self.Map.DoClick = function()
+				--gui.OpenURL( "Soon?" )
+			--end
 		end
 
 		--
