@@ -172,7 +172,8 @@ GM.SecurityRoom = {
 	fnaf_freddypizzaevents = { Vector(-325,1765,125), Vector(-623,2095,0) },
 	fnap_scc = { Vector(-510,-125,26), Vector(-334,-372,170), Vector(-510,-125,26), Vector(-195,-258,170) },
 	fnaf3 = { Vector(-174,-178,190), Vector(174,-342,65) },
-	fnaf4 = { Vector(-254,524,128), Vector(-514,190,0) }
+	fnaf4house = { Vector(-254,524,128), Vector(-514,190,0) },
+	fnaf4noclips = { Vector(-756,125,128), Vector(-514,-190,0) }
 }
 
 GM.Hallways = {
