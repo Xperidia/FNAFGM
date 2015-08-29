@@ -38,7 +38,25 @@ function SWEP:Initialize()
 end
 
 function SWEP:PrimaryAttack()
-	self:SecondaryAttack()
+	
+	if SERVER and (!poweroff or game.GetMap()=="fnaf2") then
+		
+		local tr = util.GetPlayerTrace( self.Owner )
+		tr.filter = function(ent) if ent:GetClass()=="func_button" then return true end end
+		local trace = util.TraceLine( tr )
+		
+		if (!trace.Hit) then return end
+		
+		if (!trace.HitNonWorld) then return end
+		
+		if (IsValid(trace.Entity)) then
+		
+			fnafgmUse(self.Owner, trace.Entity)
+			
+		end
+		
+	end
+	
 end
 
 function SWEP:SecondaryAttack()
@@ -64,22 +82,6 @@ function SWEP:SecondaryAttack()
 		
 		end
 	
-	elseif SERVER and self.Owner.fnafviewactive and (!poweroff or game.GetMap()=="fnaf2") then
-		
-		local tr = util.GetPlayerTrace( self.Owner )
-		tr.filter = function(ent) if ent:GetClass()=="func_button" then return true end end
-		local trace = util.TraceLine( tr )
-		
-		if (!trace.Hit) then return end
-		
-		if (!trace.HitNonWorld) then return end
-		
-		if (IsValid(trace.Entity)) then
-		
-			fnafgmUse(self.Owner, trace.Entity)
-			
-		end
-		
 	end
 	
 end
