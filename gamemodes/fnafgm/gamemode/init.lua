@@ -67,7 +67,6 @@ util.AddNetworkString( "fnafgmChangeMap" )
 util.AddNetworkString( "fnafgmDS" )
 function GM:Initialize()
 	
-	checkAliveInProgress = false
 	checkRestartNight = false
 	
 	if !game.SinglePlayer() then
@@ -75,6 +74,8 @@ function GM:Initialize()
 	end
 	
 	timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
+	
+	fnafgmrefreshbypass()
 	
 	fnafgmLoadLanguage(GetConVarString("gmod_language"))
 	
@@ -3387,12 +3388,22 @@ function fnafgmCheckForNewVersion(ply,util)
 				MsgC( Color( 255, 255, 85 ), "FNAFGM: An update is available! V"..lastversion.."\n" )
 				updateavailable = true
 				
+			elseif lastversion==0 and code==200 then
+				
+				ErrorNoHalt( "FNAFGM: Failed to check the version (Bad content or version 0)\n" )
+				
+				if IsValid(ply) then
+					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad content or version 0)")
+				else
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad content or version 0)\n" )
+				end
+				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: An error occurred while checking version (server)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Error "..tostring(code or "?")..")")
 				else
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: An error occurred while checking version (server)\n" )
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Error "..tostring(code or "?")..")\n" )
 				end
 				
 			end
@@ -3402,10 +3413,12 @@ function fnafgmCheckForNewVersion(ply,util)
 		end,
 		function( error )
 			
+			ErrorNoHalt( "FNAFGM: Failed to check the version (Bad address?)\n" )
+			
 			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: An error occurred when checking new version (link)")
+				ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad address?)")
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: An error occurred when checking new version (link)\n" )
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad address?)\n" )
 			end
 			
 		end
@@ -3445,12 +3458,22 @@ function fnafgmCheckForNewVersion(ply,util)
 				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An update is available! V"..lastderivversion.."\n" )
 				derivupdateavailable = true
 				
+			elseif lastderivversion==0 and code==200 then
+				
+				ErrorNoHalt( GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)\n" )
+				
+				if IsValid(ply) then
+					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)")
+				else
+					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)\n" )
+				end
+				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": An error occurred while checking version (server)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Error "..tostring(code or "?")..")")
 				else
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An error occurred while checking version (server)\n" )
+					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Error "..tostring(code or "?")..")\n" )
 				end
 				
 			end
@@ -3460,10 +3483,12 @@ function fnafgmCheckForNewVersion(ply,util)
 		end,
 		function( error )
 			
+			ErrorNoHalt( GAMEMODE.ShortName..": Failed to check the version (Bad address?)\n" )
+			
 			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": An error when checking new version (link)")
+				ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Bad address?)")
 			else
-				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An error when checking new version (link)\n" )
+				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Bad address?)\n" )
 			end
 			
 		end

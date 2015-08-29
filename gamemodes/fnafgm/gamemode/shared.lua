@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "steamcommunity.com/sharedfiles/filedetails/?id=408243366"
-GM.OfficialVersion 	= 1.06
+GM.OfficialVersion 	= 1.061
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -381,7 +381,6 @@ function fnafgmrefreshbypass()
 	end
 	
 end
-fnafgmrefreshbypass()
 
 
 function GM:CreateTeams()
