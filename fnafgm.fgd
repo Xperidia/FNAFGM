@@ -1,6 +1,6 @@
  //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V2.1 BY XPERIDIA
+// FNAFGM FGD V3 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -13,9 +13,12 @@
 
 @PointClass base(Targetname) iconsprite("editor/logic_relay.vmt") = fnafgm_link : "FNAFGM Link"
 [
-	input SendRaw(string) : "Send something who don't have a function in your FGD to FNAFGM."
 	input FoxyKnockDoor(void) : "Foxy knocked the door."
 	input StartNight(void) : "Start Night event."
 	input StartMinigames(void) : "Start Minigames event."
 	input StartPlushTrap(void) : "Start PlushTrap event."
+	input DoorOpen(integer) : "X door is opening."
+	input DoorClosed(integer) : "X door is closed."
+	input LightOn(integer) : "X light is on."
+	input LightOff(integer) : "X light is off."
 ]

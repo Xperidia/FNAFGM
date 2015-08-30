@@ -56,7 +56,7 @@ if !opened then
 		LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 	else
 		if !lastcam then
-			lastcam = 2
+			lastcam = 1
 		end
 		LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 	end

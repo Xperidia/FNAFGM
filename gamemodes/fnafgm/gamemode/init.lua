@@ -1749,7 +1749,7 @@ function fnafgmUse(ply, ent, test)
 			return false
 		end
 		
-		if light1 and light1:IsValid() and ent==light1 then
+		if light1 and IsValid(light1) and ent==light1 then
 			
 			if !light1usewait and !poweroff then
 					
@@ -1776,7 +1776,7 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 		
-		if light2 and light2:IsValid() and ent==light2 then
+		if light2 and IsValid(light2) and ent==light2 then
 			
 			if !light2usewait and !poweroff then
 				
@@ -1803,7 +1803,7 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 		
-		if light3 and light3:IsValid() and ent==light3 then
+		if light3 and IsValid(light3) and ent==light3 then
 			
 			if !light3usewait and !poweroff then
 				
