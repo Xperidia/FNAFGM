@@ -1365,8 +1365,8 @@ function fnafgmUse(ply, ent, test)
 					end
 				end
 				
-				light1use = false
-				light2use = false
+				LightUse[1] = false
+				LightUse[2] = false
 				
 				timer.Remove( "fnafgmTempoStartU" )
 				
@@ -1555,16 +1555,16 @@ function fnafgmUse(ply, ent, test)
 			return false
 		end
 		
-		if light1 and light1:IsValid() and ent==light1 then
+		if light1 and IsValid(light1) and ent==light1 then
 			
 			if !light1usewait and !poweroff then
 					
 				light1usewait = true
-				light1use = !light1use
+				LightUse[1] = !LightUse[1]
 				light1:Fire("use")
 				
-				if light2use then
-					light2use = !light2use
+				if LightUse[2] then
+					LightUse[2] = !LightUse[2]
 					light2:Fire("use")
 				end
 				
@@ -1582,16 +1582,16 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 		
-		if light2 and light2:IsValid() and ent==light2 then
+		if light2 and IsValid(light2) and ent==light2 then
 			
 			if !light2usewait and !poweroff then
 				
 				light2usewait = true
-				light2use = !light2use
+				LightUse[2] = !LightUse[2]
 				light2:Fire("use")
 				
-				if light1use then
-					light1use = !light1use
+				if LightUse[1] then
+					LightUse[1] = !LightUse[1]
 					light1:Fire("use")
 				end
 				
@@ -1614,18 +1614,18 @@ function fnafgmUse(ply, ent, test)
 	
 	if game.GetMap()=="fnaf2" then
 		
-		if light1 and light1:IsValid() and ent==light1 then
+		if light1 and IsValid(light1) and ent==light1 then
 			
 			if !light1usewait and !poweroff then
 					
 				light1usewait = true
-				light1use = true
+				LightUse[1] = true
 				light1:Fire("use")
 				
 				timer.Create( "fnafgmlight1usewait", 2.1, 1, function()
 					
 					light1usewait = false
-					light1use = false
+					LightUse[1] = false
 					
 					timer.Remove( "fnafgmlight1usewait" )
 					
@@ -1650,18 +1650,18 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 		
-		if light2 and light2:IsValid() and ent==light2 then
+		if light2 and IsValid(light2) and ent==light2 then
 			
 			if !light2usewait and !poweroff then
 				
 				light2usewait = true
-				light2use = true
+				LightUse[2] = true
 				light2:Fire("use")
 				
 				timer.Create( "fnafgmlight2usewait", 3.1, 1, function()
 					
 					light2usewait = false
-					light2use = false
+					LightUse[2] = false
 					
 					timer.Remove( "fnafgmlight2usewait" )
 					
@@ -1686,18 +1686,18 @@ function fnafgmUse(ply, ent, test)
 			
 		end
 		
-		if light3 and light3:IsValid() and ent==light3 then
+		if light3 and IsValid(light3) and ent==light3 then
 			
 			if !light3usewait and !poweroff then
 				
 				light3usewait = true
-				light3use = true
+				LightUse[3] = true
 				light3:Fire("use")
 				
 				timer.Create( "fnafgmlight3usewait", 2.1, 1, function()
 					
 					light3usewait = false
-					light3use = false
+					LightUse[3] = false
 					
 					timer.Remove( "fnafgmlight3usewait" )
 					
@@ -1754,11 +1754,11 @@ function fnafgmUse(ply, ent, test)
 			if !light1usewait and !poweroff then
 					
 				light1usewait = true
-				light1use = !light1use
+				LightUse[1] = !LightUse[1]
 				light1:Fire("use")
 				
-				if light2use then
-					light2use = !light2use
+				if LightUse[2] then
+					LightUse[2] = !LightUse[2]
 					light2:Fire("use")
 				end
 				
@@ -1781,11 +1781,11 @@ function fnafgmUse(ply, ent, test)
 			if !light2usewait and !poweroff then
 				
 				light2usewait = true
-				light2use = !light2use
+				LightUse[2] = !LightUse[2]
 				light2:Fire("use")
 				
-				if light1use then
-					light1use = !light1use
+				if LightUse[1] then
+					LightUse[1] = !LightUse[1]
 					light1:Fire("use")
 				end
 				
@@ -1808,7 +1808,7 @@ function fnafgmUse(ply, ent, test)
 			if !light3usewait and !poweroff then
 				
 				light3usewait = true
-				light3use = !light3use
+				LightUse[3] = !LightUse[3]
 				light3:Fire("use")
 				
 				timer.Create( "fnafgmlight3usewait", 1, 1, function()
@@ -1879,8 +1879,7 @@ function fnafgmRestartNight()
 		tempostart = false
 		nightpassed = false
 		mapoverrideok = false
-		light1use = false
-		light2use = false
+		table.Empty(LightUse)
 		mute = true
 		timer.Remove( "fnafgmEndCall" )
 		FreddyTriggered = false
@@ -1922,8 +1921,7 @@ function fnafgmResetGame()
 	poweroff = false
 	powerchecktime=nil
 	oldpowerdrain=nil
-	light1use = false
-	light2use = false
+	table.Empty(LightUse)
 	table.Empty(tabused)
 	table.Empty(usingsafedoor)
 	night = GAMEMODE.NightBase
@@ -2814,8 +2812,7 @@ function fnafgmTimeThink()
 		oldpowerdrain=nil
 		poweroff = false
 		game.CleanUpMap()
-		light1use = false
-		light2use = false
+		table.Empty(LightUse)
 		mapoverrideok = false
 		fnafgmMapOverrides()
 		table.Empty(tabused)
@@ -3608,19 +3605,17 @@ end )
 
 function fnafgmShutLights()
 	
-	if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-		
-			if light1 and light1:IsValid() and light1use then
-				light1use = !light1use
-				light1:Fire("use")
-			end
-			
-			if light2 and light2:IsValid() and light2use then
-				light2use = !light2use
-				light2:Fire("use")
-			end
-		
-		end
+	if game.GetMap()=="fnaf2" then return end
+	
+	if light1 and IsValid(light1) and LightUse[1] then
+		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then LightUse[1] = !LightUse[1] end
+		light1:Fire("use")
+	end
+	
+	if light2 and IsValid(light2) and LightUse[2] then
+		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then LightUse[2] = !LightUse[2] end
+		light2:Fire("use")
+	end
 	
 end
 net.Receive( "fnafgmShutLights",function(bits,ply)
@@ -3824,7 +3819,7 @@ function GM:Think()
 			end
 			
 			
-			if light1use or light2use then -- Lights use
+			if LightUse[1] or LightUse[2] then -- Lights use
 				
 				powerusage = powerusage+1
 				
@@ -3965,7 +3960,7 @@ function GM:Think()
 		if !poweroff then
 			
 				
-			if light1use or light2use or light3use then -- Lights use
+			if LightUse[1] or LightUse[2] or LightUse[3] then -- Lights use
 				
 				powerusage = powerusage + 1
 				
@@ -4050,21 +4045,21 @@ function GM:Think()
 			end
 			
 			
-			if door1:GetPos()==Vector(-432.010010, -376.000000, 79.879997) then -- Door 1 use
+			if DoorClosed[1] or door1:GetPos()==Vector(-432.010010, -376.000000, 79.879997) then -- Door 1 use
 				
 				powerusage = powerusage+1
 				
 			end
 			
 			
-			if door2:GetPos()==Vector(-432.010010, -120.000000, 79.910004) then -- Door 2 use
+			if DoorClosed[2] or door2:GetPos()==Vector(-432.010010, -120.000000, 79.910004) then -- Door 2 use
 				
 				powerusage = powerusage+1
 				
 			end
 			
 			
-			if light1use or light2use then -- Lights use
+			if LightUse[1] or LightUse[2] then -- Lights use
 				
 				powerusage = powerusage+1
 				

@@ -1,6 +1,6 @@
  //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V3 BY XPERIDIA
+// FNAFGM FGD V3.1 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -17,8 +17,8 @@
 	input StartNight(void) : "Start Night event."
 	input StartMinigames(void) : "Start Minigames event."
 	input StartPlushTrap(void) : "Start PlushTrap event."
-	input DoorOpen(integer) : "X door is opening."
-	input DoorClosed(integer) : "X door is closed."
+	input DoorClosing(integer) : "X door is closing."
+	input DoorOpen(integer) : "X door is open."
 	input LightOn(integer) : "X light is on."
 	input LightOff(integer) : "X light is off."
 ]

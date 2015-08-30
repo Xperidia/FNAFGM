@@ -21,19 +21,15 @@ function ENT:AcceptInput( name, activator, caller, data )
 			addfoxyknockdoorpena = 4
 		end
 		
-	end
-	
-	
-	if name=="MuteCall" then
+		
+	elseif name=="MuteCall" then
 		
 		mute = true
 		fnafgmVarsUpdate()
 		timer.Remove( "fnafgmEndCall" )
 		
-	end
 	
-	
-	if name=="Freddy" then
+	elseif name=="Freddy" then
 		
 		if poweroff or gameend or nightpassed then return true end
 		
@@ -58,10 +54,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 		ents.FindByName( "freddytest" )[1]:Fire("Enable")
 		ents.FindByName( "freddytest" )[1]:Fire("Trigger", "none", deathdelay)
 		
-	end
 	
-	
-	if name=="Bonnie" then
+	elseif name=="Bonnie" then
 		
 		if poweroff or gameend or nightpassed then return true end
 		
@@ -86,10 +80,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 		ents.FindByName( "bonnietest" )[1]:Fire("Enable")
 		ents.FindByName( "bonnietest" )[1]:Fire("Trigger", "none", deathdelay)
 		
-	end
-	
-	
-	if name=="Chica" then
+		
+	elseif name=="Chica" then
 		
 		if poweroff or gameend or nightpassed then return true end
 		
@@ -114,15 +106,50 @@ function ENT:AcceptInput( name, activator, caller, data )
 		ents.FindByName( "chicatest" )[1]:Fire("Enable")
 		ents.FindByName( "chicatest" )[1]:Fire("Trigger", "none", deathdelay)
 		
-	end
 	
-	
-	if name=="StartNight" then
+	elseif name=="StartNight" then
 		
 		fnafgmUse(nil, nil, true)
+		
+	
+	elseif name=="LightOn" then
+		
+		id = tonumber(data) or nil
+		
+		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
+		
+		LightUse[id] = true
+		
+	
+	elseif name=="LightOff" then
+		
+		id = tonumber(data) or nil
+		
+		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
+		
+		LightUse[id] = false
+		
+	
+	elseif name=="DoorClosing" then
+		
+		id = tonumber(data) or nil
+		
+		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
+		
+		DoorClosed[id] = true
+		
+		
+	elseif name=="DoorOpen" then
+		
+		id = tonumber(data) or nil
+		
+		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
+		
+		DoorClosed[id] = false
 		
 	end
 	
 	
 	return true
+	
 end
