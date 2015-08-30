@@ -1747,82 +1747,15 @@ function fnafgmUse(ply, ent, test)
 		elseif door2btn and IsValid(door2btn) and ent==door2btn then
 			ent:Fire("use")
 			return false
-		end
-		
-		if light1 and IsValid(light1) and ent==light1 then
-			
-			if !light1usewait and !poweroff then
-					
-				light1usewait = true
-				LightUse[1] = !LightUse[1]
-				light1:Fire("use")
-				
-				if LightUse[2] then
-					LightUse[2] = !LightUse[2]
-					light2:Fire("use")
-				end
-				
-				timer.Create( "fnafgmlight1usewait", 1, 1, function()
-					
-					light1usewait = false
-					
-					timer.Remove( "fnafgmlight1usewait" )
-					
-				end)
-				
-			end
-			
+		elseif light1 and IsValid(light1) and ent==light1 then
+			light1:Fire("use")
 			return false
-			
-		end
-		
-		if light2 and IsValid(light2) and ent==light2 then
-			
-			if !light2usewait and !poweroff then
-				
-				light2usewait = true
-				LightUse[2] = !LightUse[2]
-				light2:Fire("use")
-				
-				if LightUse[1] then
-					LightUse[1] = !LightUse[1]
-					light1:Fire("use")
-				end
-				
-				timer.Create( "fnafgmlight2usewait", 1, 1, function()
-					
-					light2usewait = false
-					
-					timer.Remove( "fnafgmlight2usewait" )
-					
-				end)
-			
-			end
-			
+		elseif light2 and IsValid(light2) and ent==light2 then
+			light2:Fire("use")
 			return false
-			
-		end
-		
-		if light3 and IsValid(light3) and ent==light3 then
-			
-			if !light3usewait and !poweroff then
-				
-				light3usewait = true
-				LightUse[3] = !LightUse[3]
-				light3:Fire("use")
-				
-				timer.Create( "fnafgmlight3usewait", 1, 1, function()
-					
-					light3usewait = false
-					
-					timer.Remove( "fnafgmlight3usewait" )
-					
-				end)
-			
-			end
-			
+		elseif light3 and IsValid(light3) and ent==light3 then
+			light3:Fire("use")
 			return false
-			
 		end
 		
 	end
