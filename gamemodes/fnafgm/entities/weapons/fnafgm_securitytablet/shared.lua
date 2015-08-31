@@ -49,8 +49,8 @@ function SWEP:PrimaryAttack()
 		
 		if (!trace.HitNonWorld) then return end
 		
-		if (IsValid(trace.Entity)) then
-		
+		if (IsValid(trace.Entity) and trace.Entity:GetPos():Distance( trace.StartPos )<200) then
+			
 			fnafgmUse(self.Owner, trace.Entity, false, true)
 			
 		end
@@ -68,19 +68,7 @@ function SWEP:SecondaryAttack()
 		umsg.Start( "fnafgmSecurityTablet", self.Owner ) 
 		umsg.End()
 		
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-		
-			if light1 and light1:IsValid() and light1use then
-				light1use = !light1use
-				light1:Fire("use")
-			end
-			
-			if light2 and light2:IsValid() and light2use then
-				light2use = !light2use
-				light2:Fire("use")
-			end
-		
-		end
+		fnafgmShutLights()
 	
 	end
 	
