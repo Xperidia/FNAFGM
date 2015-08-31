@@ -51,7 +51,7 @@ function SWEP:PrimaryAttack()
 		
 		if (IsValid(trace.Entity)) then
 		
-			fnafgmUse(self.Owner, trace.Entity)
+			fnafgmUse(self.Owner, trace.Entity, false, true)
 			
 		end
 		

@@ -788,7 +788,7 @@ function GM:PlayerSpray( ply )
 end
 
 
-function fnafgmUse(ply, ent, test)
+function fnafgmUse(ply, ent, test, test2)
 	
 	if debugmode and IsValid(ent) then ply:PrintMessage(HUD_PRINTTALK, "[DEBUG] SEE: "..ent:GetName().." ["..ent:GetClass().."] "..tostring(ent:GetPos())) end
 	
@@ -1203,6 +1203,42 @@ function fnafgmUse(ply, ent, test)
 			addfoxyknockdoorpena = 4
 			
 			btn:Fire("use")
+			
+			
+			local sound = ""
+			local mutetime = 0
+			
+			if night==1 then
+				--sound = GAMEMODE.Sound_Calls.fnap_scc[1]
+				--mute = false
+				mutetime = 0
+			elseif night==2 then
+				--sound = GAMEMODE.Sound_Calls.fnap_scc[2]
+				--mute = false
+				mutetime = 0
+			elseif night==3 then
+				--sound = GAMEMODE.Sound_Calls.fnap_scc[3]
+				--mute = false
+				mutetime = 0
+			elseif night==4 then
+				--sound = GAMEMODE.Sound_Calls.fnap_scc[4]
+				--mute = false
+				mutetime = 0
+			elseif night==5 then
+				--sound = GAMEMODE.Sound_Calls.fnap_scc[5]
+				--mute = false
+				mutetime = 0
+			end
+			
+			for k, v in pairs(ents.FindByName("fnafgm_CallSource")) do
+				v:SetKeyValue( "message", sound )
+			end
+			
+			for k, v in pairs(ents.FindByName("fnafgm_CallButton")) do
+				v:Fire("addoutput", "OnUseLocked fnafgm_CallSource,Volume,0,0.00,1")
+				v:Fire("addoutput", "OnUseLocked fnafgm_CallSprite,ToggleSprite,none,0,1")
+				v:Fire("addoutput", "OnUseLocked fnafgm_link,MuteCall,,0,-1")
+			end
 			
 			if Halloween or fnafgm_forceseasonalevent:GetInt()==3 then
 				ents.FindByName( "RarityTimer" )[1]:Fire("LowerRandomBound", 5)
@@ -1739,24 +1775,10 @@ function fnafgmUse(ply, ent, test)
 	end
 	
 	
-	if game.GetMap()=="fnap_scc" then
+	if test2 and ent and ent:GetClass()=="func_button" then
 		
-		if door1btn and IsValid(door1btn) and ent==door1btn then
-			ent:Fire("use")
-			return false
-		elseif door2btn and IsValid(door2btn) and ent==door2btn then
-			ent:Fire("use")
-			return false
-		elseif light1 and IsValid(light1) and ent==light1 then
-			light1:Fire("use")
-			return false
-		elseif light2 and IsValid(light2) and ent==light2 then
-			light2:Fire("use")
-			return false
-		elseif light3 and IsValid(light3) and ent==light3 then
-			light3:Fire("use")
-			return false
-		end
+		ent:Fire("use")
+		return false
 		
 	end
 	
@@ -2417,20 +2439,6 @@ function fnafgmMapOverrides()
 			
 			for k, v in pairs(ents.FindByName("OfficeLightSwitch")) do
 				light3 = v
-			end
-			
-			if night==0 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call1,Playsound,none,0.00,1")
-			elseif night==1 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call2,Playsound,none,0.00,1")
-			elseif night==2 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call3,Playsound,none,0.00,1")
-			elseif night==3 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call4,Playsound,none,0.00,1")
-			elseif night==4 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call5,Playsound,none,0.00,1")
-			elseif night==5 then
-				ents.FindByName( "CallButton" )[1]:Fire("addoutput", "OnPressed Call6,Playsound,none,0.00,1")
 			end
 		
 		elseif game.GetMap()=="fnaf3" then
@@ -3978,14 +3986,14 @@ function GM:Think()
 			end
 			
 			
-			if DoorClosed[1] or door1:GetPos()==Vector(-432.010010, -376.000000, 79.879997) then -- Door 1 use
+			if DoorClosed[1] then -- Door 1 use
 				
 				powerusage = powerusage+1
 				
 			end
 			
 			
-			if DoorClosed[2] or door2:GetPos()==Vector(-432.010010, -120.000000, 79.910004) then -- Door 2 use
+			if DoorClosed[2] then -- Door 2 use
 				
 				powerusage = powerusage+1
 				
