@@ -11,8 +11,8 @@ GM.Name 	= "Five Nights at Freddy's"
 GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
-GM.Website 	= "steamcommunity.com/sharedfiles/filedetails/?id=408243366"
-GM.OfficialVersion 	= 1.061
+GM.Website 	= "go.Xperidia.com/FNAFGM"
+GM.OfficialVersion 	= 1.07
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
