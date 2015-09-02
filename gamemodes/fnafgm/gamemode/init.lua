@@ -942,8 +942,7 @@ function fnafgmUse(ply, ent, test, test2)
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Alive() and !CheckPlayerSecurityRoom(v) then
-						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-						v:SetPos( spawn )
+						v:SetPos( Vector( -80, -1224, 64 ) )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
 					end
 				end
@@ -1035,8 +1034,7 @@ function fnafgmUse(ply, ent, test, test2)
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Alive() and !CheckPlayerSecurityRoom(v) then
-						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-						v:SetPos( spawn )
+						v:SetPos( Vector( -80, -1224, 64 ) )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
 					end
 				end
@@ -3873,8 +3871,7 @@ function GM:Think()
 					for k, v in pairs(team.GetPlayers(1)) do
 						v:ConCommand("play ".."freddys/muffledtune.wav")
 						if v:Alive() and !CheckPlayerSecurityRoom(v) then
-							local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-							v:SetPos( spawn )
+							v:SetPos( Vector( -80, -1224, 64 ) )
 						end
 					end
 					timer.Remove("fnafgmPowerOff1")
@@ -4069,7 +4066,9 @@ function GM:Think()
 		if power==0 and !poweroff then
 			ents.FindByName( "NoMorePower" )[1]:Fire("use")
 			for k, v in pairs(team.GetPlayers(1)) do
-				v:SetPos( Vector( -465, -255, 32 ) )
+				if v:Alive() then
+					v:SetPos( Vector( -465, -255, 32 ) )
+				end
 			end
 			poweroff = true
 			if !game.SinglePlayer() then norespawn = true end
