@@ -1208,25 +1208,25 @@ function fnafgmUse(ply, ent, test, test2)
 			local sound = ""
 			local mutetime = 0
 			
-			if night==1 then
-				--sound = GAMEMODE.Sound_Calls.fnap_scc[1]
-				--mute = false
+			--[[if night==1 then
+				sound = GAMEMODE.Sound_Calls.fnap_scc[1]
+				mute = false
 				mutetime = 0
 			elseif night==2 then
-				--sound = GAMEMODE.Sound_Calls.fnap_scc[2]
-				--mute = false
+				sound = GAMEMODE.Sound_Calls.fnap_scc[2]
+				mute = false
 				mutetime = 0
 			elseif night==3 then
-				--sound = GAMEMODE.Sound_Calls.fnap_scc[3]
-				--mute = false
+				sound = GAMEMODE.Sound_Calls.fnap_scc[3]
+				mute = false
 				mutetime = 0
 			elseif night==4 then
-				--sound = GAMEMODE.Sound_Calls.fnap_scc[4]
-				--mute = false
+				sound = GAMEMODE.Sound_Calls.fnap_scc[4]
+				mute = false
 				mutetime = 0
 			elseif night==5 then
-				--sound = GAMEMODE.Sound_Calls.fnap_scc[5]
-				--mute = false
+				sound = GAMEMODE.Sound_Calls.fnap_scc[5]
+				mute = false
 				mutetime = 0
 			end
 			
@@ -1235,10 +1235,10 @@ function fnafgmUse(ply, ent, test, test2)
 			end
 			
 			for k, v in pairs(ents.FindByName("fnafgm_CallButton")) do
-				v:Fire("addoutput", "OnUseLocked fnafgm_CallSource,Volume,0,0.00,1")
-				v:Fire("addoutput", "OnUseLocked fnafgm_CallSprite,ToggleSprite,none,0,1")
-				v:Fire("addoutput", "OnUseLocked fnafgm_link,MuteCall,,0,-1")
-			end
+				v:Fire("addoutput", "OnPressed fnafgm_CallSource,Volume,0,0.00,1")
+				v:Fire("addoutput", "OnPressed fnafgm_CallSprite,ToggleSprite,none,0,1")
+				v:Fire("addoutput", "OnPressed fnafgm_link,MuteCall,,0,-1")
+			end]]
 			
 			if Halloween or fnafgm_forceseasonalevent:GetInt()==3 then
 				ents.FindByName( "RarityTimer" )[1]:Fire("LowerRandomBound", 5)
@@ -1412,8 +1412,7 @@ function fnafgmUse(ply, ent, test, test2)
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Alive() and !CheckPlayerSecurityRoom(v) then
-						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-						v:SetPos( spawn )
+						v:SetPos( Vector( -465, -255, 32 ) )
 						v:SetEyeAngles(Angle( 0, 0, 0 ))
 					end
 				end
@@ -1428,6 +1427,23 @@ function fnafgmUse(ply, ent, test, test2)
 				
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
+				
+				if !mute then
+					
+					ents.FindByName("fnafgm_CallSprite")[1]:Fire("ToggleSprite")
+				
+					for k, v in pairs(ents.FindByName("fnafgm_CallSource")) do
+						v:Fire("PlaySound")
+					end
+					
+					timer.Create( "fnafgmEndCall", mutetime, 1, function()
+						mute = true
+						for k, v in pairs(ents.FindByName("fnafgm_CallButton")) do
+							v:Fire("Use")
+						end
+					end)
+					
+				end
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
@@ -4053,8 +4069,7 @@ function GM:Think()
 		if power==0 and !poweroff then
 			ents.FindByName( "NoMorePower" )[1]:Fire("use")
 			for k, v in pairs(team.GetPlayers(1)) do
-				local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-				v:SetPos( spawn )
+				v:SetPos( Vector( -465, -255, 32 ) )
 			end
 			poweroff = true
 			if !game.SinglePlayer() then norespawn = true end
