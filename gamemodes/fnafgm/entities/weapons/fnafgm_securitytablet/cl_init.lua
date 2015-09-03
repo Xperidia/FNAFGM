@@ -99,7 +99,7 @@ if !opened then
 		
 		local CamsNames = vgui.Create( "DLabel" )
 		CamsNames:SetParent(SecTabInt)
-		CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+		CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
 		CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
@@ -167,7 +167,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 6 )
 			lastcam = 6
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -188,7 +188,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 8 )
 			lastcam = 8
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -209,7 +209,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 9 )
 			lastcam = 9
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -230,7 +230,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 11 )
 			lastcam = 11
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 255 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 255 ) )
 		end
@@ -251,7 +251,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 4 )
 			lastcam = 4
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -272,7 +272,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 5 )
 			lastcam = 5
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -293,7 +293,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 7 )
 			lastcam = 7
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -314,7 +314,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 10 )
 			lastcam = 10
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -335,7 +335,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 3 )
 			lastcam = 3
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -356,7 +356,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 2 )
 			lastcam = 2
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -377,7 +377,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 1 )
 			lastcam = 1
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
@@ -436,7 +436,7 @@ if !opened then
 
 		local CamsNames = vgui.Create( "DLabel" )
 		CamsNames:SetParent(SecTabInt)
-		CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+		CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
 		CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
@@ -461,7 +461,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 9 )
 			lastcam = 9
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM12.Paint = function( self, w, h )
 			if lastcam==9 then
@@ -481,7 +481,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 11 )
 			lastcam = 11
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM10.Paint = function( self, w, h )
 			if lastcam==11 then
@@ -500,7 +500,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 7 )
 			lastcam = 7
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM7.Paint = function( self, w, h )
 			if lastcam==7 then
@@ -519,7 +519,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 4 )
 			lastcam = 4
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM4.Paint = function( self, w, h )
 			if lastcam==4 then
@@ -538,7 +538,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 2 )
 			lastcam = 2
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM2.Paint = function( self, w, h )
 			if lastcam==2 then
@@ -557,7 +557,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 5 )
 			lastcam = 5
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM6.Paint = function( self, w, h )
 			if lastcam==5 then
@@ -577,7 +577,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 10 )
 			lastcam = 10
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM11.Paint = function( self, w, h )
 			if lastcam==10 then
@@ -597,7 +597,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 12 )
 			lastcam = 12
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM9.Paint = function( self, w, h )
 			if lastcam==12 then
@@ -616,7 +616,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 8 )
 			lastcam = 8
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM8.Paint = function( self, w, h )
 			if lastcam==8 then
@@ -635,7 +635,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 3 )
 			lastcam = 3
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM3.Paint = function( self, w, h )
 			if lastcam==3 then
@@ -654,7 +654,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 1 )
 			lastcam = 1
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM1.Paint = function( self, w, h )
 			if lastcam==1 then
@@ -673,7 +673,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 6 )
 			lastcam = 6
-			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		end
 		CAM5.Paint = function( self, w, h )
 			if lastcam==6 then
@@ -731,7 +731,7 @@ if !opened then
 		
 		local CamsNames = vgui.Create( "DLabel" )
 		CamsNames:SetParent(SecTabInt)
-		CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+		CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
 		CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512 )
@@ -760,7 +760,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 1 )
 			lastcam = 1
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Kitchen.Paint = function( self, w, h )
 			if lastcam==1 then
@@ -779,7 +779,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 2 )
 			lastcam = 2
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Stage.Paint = function( self, w, h )
 			if lastcam==2 then
@@ -798,7 +798,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 3 )
 			lastcam = 3
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Dining_Area.Paint = function( self, w, h )
 			if lastcam==3 then
@@ -817,7 +817,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 4 )
 			lastcam = 4
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Entrance.Paint = function( self, w, h )
 			if lastcam==4 then
@@ -836,7 +836,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 5 )
 			lastcam = 5
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		North_Hall_B.Paint = function( self, w, h )
 			if lastcam==5 then
@@ -855,7 +855,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 6 )
 			lastcam = 6
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Bathroom.Paint = function( self, w, h )
 			if lastcam==6 then
@@ -874,7 +874,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 7 )
 			lastcam = 7
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		North_Hall_A.Paint = function( self, w, h )
 			if lastcam==7 then
@@ -893,7 +893,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 8 )
 			lastcam = 8
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Pinkie_Bedroom.Paint = function( self, w, h )
 			if lastcam==8 then
@@ -912,7 +912,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 9 )
 			lastcam = 9
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Storage.Paint = function( self, w, h )
 			if lastcam==9 then
@@ -931,7 +931,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 10 )
 			lastcam = 10
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Supply_Room.Paint = function( self, w, h )
 			if lastcam==10 then
@@ -950,7 +950,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 11 )
 			lastcam = 11
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Trash.Paint = function( self, w, h )
 			if lastcam==11 then
@@ -969,7 +969,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 12 )
 			lastcam = 12
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Cave.Paint = function( self, w, h )
 			if lastcam==12 then
@@ -988,7 +988,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 13 )
 			lastcam = 13
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Storage.Paint = function( self, w, h )
 			if lastcam==13 then
@@ -1007,7 +1007,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 14 )
 			lastcam = 14
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Generator.Paint = function( self, w, h )
 			if lastcam==14 then
@@ -1026,7 +1026,7 @@ if !opened then
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 15 )
 			lastcam = 15
-			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] )
+			CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		end
 		Unknown.Paint = function( self, w, h )
 			

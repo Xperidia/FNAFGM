@@ -59,8 +59,10 @@ GM.Sound_securitycampop3 = Sound("fnafgm/monitoron3.ogg")
 GM.Sound_securitycamdown3 = Sound("fnafgm/monitoroff3.ogg")
 GM.Sound_camselect = Sound("fnafgm/camselect.ogg")
 GM.Sound_lighterror = Sound("fnafgm/lighterror.ogg")
-GM.Sound_end1 = Sound("fnafgm/end.ogg")
-GM.Sound_end2 = Sound("fnafgm/end2.ogg")
+GM.Sound_end = {
+	freddys = Sound("fnafgm/end.ogg"),
+	fnaf2 = Sound("fnafgm/end2.ogg")
+}
 GM.Sound_Foxy = Sound("fnafgm/piratesong2.ogg")
 GM.Sound_ChicaBonnie = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
 GM.Sound_Freddy = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
@@ -170,7 +172,6 @@ GM.SecurityRoom = {
 	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
 	fnaf2 = { Vector(138,-340,190), Vector(-138,128,0) },
 	fnaf_freddypizzaevents = { Vector(-325,1765,125), Vector(-623,2095,0) },
-	fnap_scc = { Vector(-510,-125,26), Vector(-334,-372,170), Vector(-510,-125,26), Vector(-195,-258,170) },
 	fnaf3 = { Vector(-174,-178,190), Vector(174,-342,65) },
 	fnaf4house = { Vector(-254,524,128), Vector(-514,190,0) },
 	fnaf4noclips = { Vector(-756,125,128), Vector(-514,-190,0) }
@@ -196,16 +197,14 @@ GM.DeadBodiesTeleport = {
 	freddys = { Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92) },
 	freddysnoevent = { Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92) },
 	fnaf2 = { Vector(-412, 1431, 92), Vector(-290, 1482, 92), Vector(-223, 1436, 92), Vector(-328, 1414, 92) },
-	fnaf_freddypizzaevents = { Vector(329, 654, 64) },
-	fnap_scc = { Vector(200, 432, 96) }
+	fnaf_freddypizzaevents = { Vector(329, 654, 64) }
 }
 
 GM.FNaFView = {
 	freddys = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
 	freddysnoevent = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
 	fnaf2 = { Vector( 0, -300, 0 ), Angle( 0, 90, 0 ), Angle( 0, 128, 0 ), Angle( 0, 52, 0 ) },
-	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) },
-	fnap_scc = { Vector( -465, -255, 32 ), Angle( 0, 0, 0 ), Angle( 0, 50, 0 ), Angle( 0, -50, 0 ) }
+	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) }
 }
 
 GM.Materials_static = "fnafgm/static"
@@ -216,12 +215,14 @@ GM.Materials_mapfreddys = "fnafgm/mapfreddys"
 GM.Materials_mapfnaf2 = "fnafgm/mapfnaf2"
 GM.Materials_usage = "fnafgm/usage_"
 GM.Materials_battery = "fnafgm/battery_"
-GM.Materials_intro = "fnafgm/intro"
-GM.Materials_introfnaf2 = "fnafgm/introfnaf2"
-GM.Materials_end1 = "fnafgm/end"
-GM.Materials_end1_6 = "fnafgm/end6"
-GM.Materials_end2 = "fnafgm/endfnaf2"
-GM.Materials_end2_6 = "fnafgm/endfnaf2_6"
+GM.Materials_intro = {
+	freddys = "fnafgm/intro",
+	fnaf2 = "fnafgm/introfnaf2"
+}
+GM.Materials_end = {
+	freddys = { "fnafgm/end", "fnafgm/end6" },
+	fnaf2 = { "fnafgm/endfnaf2", "fnafgm/endfnaf2_6" }
+}
 GM.Materials_animatronic = "fnafgm/freddy"
 GM.Materials_foxy = "fnafgm/foxy"
 GM.Materials_fnaf2deathcam = "fnafgm/fnaf2deathcam"
@@ -258,22 +259,7 @@ GM.CamsNames = {
 	fnaf2_9 = "Kid's Cove",
 	fnaf2_10 = "Prize Corner",
 	fnaf2_11 = "Game Area",
-	fnaf2_12 = "Show Stage",
-	fnap_scc_1 = "Kitchen",
-	fnap_scc_2 = "Stage",
-	fnap_scc_3 = "Dining Area",
-	fnap_scc_4 = "Entrance",
-	fnap_scc_5 = "North Hall B",
-	fnap_scc_6 = "Bath-Rooms",
-	fnap_scc_7 = "North Hall A",
-	fnap_scc_8 = "Pinkie's Bedroom",
-	fnap_scc_9 = "Storage",
-	fnap_scc_10 = "Supply Room",
-	fnap_scc_11 = "Trash",
-	fnap_scc_12 = "Cave",
-	fnap_scc_13 = "Storage",
-	fnap_scc_14 = "Generator",
-	fnap_scc_15 = ""
+	fnaf2_12 = "Show Stage"
 }
 
 GM.MapList = {

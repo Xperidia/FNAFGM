@@ -351,16 +351,8 @@ function GM:PlayerInitialSpawn( ply )
 		ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro )
 	elseif !SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro )
-		elseif game.GetMap()=="fnaf2" then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_introfnaf2 )
-		elseif game.GetMap()=="fnaf3" then
-			--ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_introfnaf3 )
-		elseif game.GetMap()=="fnaf4" then
-			
-		elseif game.GetMap()=="fnap_scc" then
-			--ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_introfnap1 )
+		if GAMEMODE.Materials_intro[game.GetMap()] then
+			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()] )
 		elseif game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
 			fnafgmMapSelect(ply)
 		end
@@ -2672,7 +2664,7 @@ function fnafgmTimeThink()
 		
 		timer.Create( "fnafgmNightPassed", 11, 1, function()
 			
-			if game.GetMap()=="freddys" or game.GetMap()=="fnaf2" then
+			if GAMEMODE.Materials_end[game.GetMap()] then
 			
 				net.Start( "fnafgmShowCheck" )
 					net.WriteBit( true )
@@ -2685,19 +2677,20 @@ function fnafgmTimeThink()
 					if v:Team()==1 or v:Team()==2 then
 						
 						v:SetTeam(TEAM_UNASSIGNED)
-						if game.GetMap()=="freddys" and night==GAMEMODE.NightEnd and !overfive then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end1 )
-							v:ConCommand("play "..GAMEMODE.Sound_end1)
-						elseif game.GetMap()=="freddys" then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end1_6 )
-							v:ConCommand("play "..GAMEMODE.Sound_end1)
-						elseif game.GetMap()=="fnaf2" and night==GAMEMODE.NightEnd then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end2 )
-							v:ConCommand("play "..GAMEMODE.Sound_end2)
-						elseif game.GetMap()=="fnaf2" and night>GAMEMODE.NightEnd then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end2_6 )
-							v:ConCommand("play "..GAMEMODE.Sound_end2)
-						end	
+						
+						local var = 1
+						if night>GAMEMODE.NightEnd then
+							var = 2
+						end
+						
+						if GAMEMODE.Materials_end[game.GetMap()][var] then
+							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end[game.GetMap()][var] )
+						elseif var==2 and GAMEMODE.Materials_end[game.GetMap()][1] then
+							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end[game.GetMap()][var] )
+						end
+						if GAMEMODE.Sound_end[game.GetMap()] then
+							v:ConCommand("play "..GAMEMODE.Sound_end[game.GetMap()])
+						end
 						
 					end
 					
