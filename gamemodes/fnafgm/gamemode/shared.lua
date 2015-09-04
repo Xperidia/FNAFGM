@@ -317,6 +317,7 @@ overfive = false
 mute = true
 fnafview = false
 fnafviewactive = false
+fnafgmWorkShop = false
 
 
 if !file.IsDir("fnafgm", "DATA") then
@@ -346,6 +347,15 @@ if GetHostName()=="1987" then --Not a easter egg ^^
 	SGvsA = false
 	b87 = true
 	modetext = " - '87"
+end
+
+
+for _, addon in pairs(engine.GetAddons()) do
+	
+	if addon.wsid == "408243366" and addon.mounted then
+		fnafgmWorkShop = true
+	end
+	
 end
 
 
