@@ -790,7 +790,7 @@ function fnafgmUse(ply, ent, test, test2)
 	
 	if (game.GetMap()=="freddys") then
 		
-		if btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and !startday then
+		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !startday then
 			
 			startday = true
 			tempostart = true
@@ -984,7 +984,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 			return false
 			
-		elseif btn:IsValid() and ent==btn then
+		elseif btn and btn:IsValid() and ent==btn then
 			
 			return false
 			
@@ -992,7 +992,7 @@ function fnafgmUse(ply, ent, test, test2)
 		
 	elseif (game.GetMap()=="freddysnoevent") then
 		
-		if btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and !startday then
+		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !startday then
 			
 			startday = true
 			tempostart = true
@@ -1064,7 +1064,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 			return false
 		
-		elseif btn:IsValid() and ent==btn then
+		elseif btn and btn:IsValid() and ent==btn then
 			
 			return false
 			
@@ -1072,9 +1072,9 @@ function fnafgmUse(ply, ent, test, test2)
 		
 	elseif (game.GetMap()=="fnaf2") then
 		
-		if btn:IsValid() and btnm:IsValid() and !startday then
+		if btn and btn:IsValid() and btnm and btnm:IsValid() and !startday then
 			
-			if ( ( ( ent==btn or ent==btnm ) and ply:IsValid() and ply:Alive() ) or test) then
+			if ( test or ( ( ent==btn or ent==btnm ) and ply:IsValid() and ply:Alive() ) ) then
 				
 				startday = true
 				tempostart = true
@@ -1154,7 +1154,7 @@ function fnafgmUse(ply, ent, test, test2)
 		
 	elseif (game.GetMap()=="fnaf_freddypizzaevents") then
 		
-		if btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and !startday then
+		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !startday then
 				
 			startday = true
 			time = 0
@@ -1169,7 +1169,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Map started\n" )
 		
-		elseif btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and startday then
+		elseif btn and btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and startday then
 			
 			ply:SendLua([[chat.PlaySound()]])
 			ply:PrintMessage(HUD_PRINTTALK, "Map already started!")
@@ -1178,7 +1178,7 @@ function fnafgmUse(ply, ent, test, test2)
 	
 	elseif (game.GetMap()=="fnap_scc") then
 		
-		if btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and !startday then
+		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !startday then
 			
 			startday = true
 			tempostart = true
@@ -1449,7 +1449,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 			return false
 			
-		elseif btn:IsValid() and ent==btn then
+		elseif btn and btn:IsValid() and ent==btn then
 			
 			return false
 			
