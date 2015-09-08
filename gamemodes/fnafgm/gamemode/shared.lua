@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.081
+GM.OfficialVersion 	= 1.082
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -217,6 +217,7 @@ GM.Materials_usage = "fnafgm/usage_"
 GM.Materials_battery = "fnafgm/battery_"
 GM.Materials_intro = {
 	freddys = "fnafgm/intro",
+	freddysnoevent = "fnafgm/intro",
 	fnaf2 = "fnafgm/introfnaf2"
 }
 GM.Materials_end = {

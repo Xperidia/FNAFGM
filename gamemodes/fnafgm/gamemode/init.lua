@@ -348,7 +348,7 @@ function GM:PlayerInitialSpawn( ply )
 	if SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
 		ply:ConCommand( "gm_showteam" )
-		ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro )
+		if GAMEMODE.Materials_intro[game.GetMap()] then ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()] ) end
 	elseif !SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
 		if GAMEMODE.Materials_intro[game.GetMap()] then
@@ -983,6 +983,11 @@ function fnafgmUse(ply, ent, test, test2)
 			end)
 			
 			return false
+		
+		elseif !btn then
+			
+			error( "btn is not defined" )
+		
 			
 		elseif btn and btn:IsValid() and ent==btn then
 			
@@ -1063,6 +1068,10 @@ function fnafgmUse(ply, ent, test, test2)
 			end)
 			
 			return false
+		
+		elseif !btn then
+			
+			error( "btn is not defined" )
 		
 		elseif btn and btn:IsValid() and ent==btn then
 			
@@ -1149,7 +1158,11 @@ function fnafgmUse(ply, ent, test, test2)
 				end)
 				
 			end
+		
+		elseif !btn or !btnm then
 			
+			error( "btn/btnm is not defined" )
+		
 		end
 		
 	elseif (game.GetMap()=="fnaf_freddypizzaevents") then
@@ -1168,6 +1181,10 @@ function fnafgmUse(ply, ent, test, test2)
 			btn:Fire("use")
 			
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Map started\n" )
+			
+		elseif !btn then
+			
+			error( "btn is not defined" )
 		
 		elseif btn and btn:IsValid() and ( ( ent==btn and ply:IsValid() and ply:Alive() ) or test ) and startday then
 			
@@ -1448,6 +1465,11 @@ function fnafgmUse(ply, ent, test, test2)
 			end)
 			
 			return false
+		
+		elseif !btn then
+			
+			error( "btn is not defined" )
+		
 			
 		elseif btn and btn:IsValid() and ent==btn then
 			
