@@ -268,41 +268,13 @@ local SCORE_BOARD = {
 		self.Name:SetText( GetHostName() )
 		self.NumPlayers:SetText( #player.GetAll().."/"..game.MaxPlayers() )
 		self.Map:SetText(game.GetMap())
-		if game.GetMap()=="freddys" then
-			self.Map:SetText("Freddy Fazbear's Pizza")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=300674206" )
+		if GAMEMODE.MapList[game.GetMap()] then
+			self.Map:SetText(GAMEMODE.MapList[game.GetMap()])
+			if GAMEMODE.MapListLinks[game.GetMap()] then
+				self.Map.DoClick = function()
+					gui.OpenURL( GAMEMODE.MapListLinks[game.GetMap()] )
+				end
 			end
-		elseif game.GetMap()=="freddysnoevent" then
-			self.Map:SetText("Freddy Fazbear's Pizza (No events)")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=311282498" )
-			end
-		elseif game.GetMap()=="fnaf2" then
-			self.Map:SetText("FNaF2")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=382153719" )
-			end
-		elseif game.GetMap()=="fnaf3" then
-			self.Map:SetText("Fazbear Fright")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=409285826" )
-			end
-		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
-			self.Map:SetText("Five Nights At Freddy's 4")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146" )
-			end
-		elseif game.GetMap()=="fnaf_freddypizzaevents" then
-			self.Map:SetText("Freddy Fazbear's Pizza")
-			self.Map.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396" )
-			end
-		elseif game.GetMap()=="fnap_scc" then
-			self.Map:SetText("Sugar Cube Corner")
-			--self.Map.DoClick = function()
-				--gui.OpenURL( "Soon?" )
-			--end
 		end
 
 		--

@@ -1499,8 +1499,7 @@ function fnafgmUse(ply, ent, test, test2)
 			end
 			
 			local spawn = ents.Create( "info_player_start" )
-			if game.GetMap()=="fnaf4house" then spawn:SetPos( Vector( -384, 320, 0 ) ) end
-			if game.GetMap()=="fnaf4noclips" then spawn:SetPos( Vector( -640, -63, 0 ) ) end
+			spawn:SetPos( Vector( -640, -63, 0 ) )
 			spawn:SetAngles( Angle( 0, 90, 0 ) )
 			spawn:Spawn()
 			
@@ -1516,8 +1515,7 @@ function fnafgmUse(ply, ent, test, test2)
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Alive() and !CheckPlayerSecurityRoom(v) then
-						if game.GetMap()=="fnaf4house" then v:SetPos( Vector( -384, 320, 0 ) ) end
-						if game.GetMap()=="fnaf4noclips" then v:SetPos( Vector( -640, -63, 0 ) ) end
+						v:SetPos( Vector( -640, -63, 0 ) )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
 					end
 				end

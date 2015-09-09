@@ -173,7 +173,7 @@ GM.SecurityRoom = {
 	fnaf2 = { Vector(138,-340,190), Vector(-138,128,0) },
 	fnaf_freddypizzaevents = { Vector(-325,1765,125), Vector(-623,2095,0) },
 	fnaf3 = { Vector(-174,-178,190), Vector(174,-342,65) },
-	fnaf4house = { Vector(-254,524,128), Vector(-514,190,0) },
+	fnaf4house = { Vector(-756,125,128), Vector(-514,-190,0) },
 	fnaf4noclips = { Vector(-756,125,128), Vector(-514,-190,0) }
 }
 
@@ -269,7 +269,18 @@ GM.MapList = {
 	fnaf2 = "FNaF 2",
 	fnaf3 = "FNaF 3",
 	fnaf4house = "FNaF 4",
+	fnaf4noclips = "FNaF 4 NC",
 	fnaf_freddypizzaevents = "FNaF Mix"
+}
+
+GM.MapListLinks = {
+	freddys = "http://steamcommunity.com/sharedfiles/filedetails/?id=300674206",
+	freddysnoevent = "http://steamcommunity.com/sharedfiles/filedetails/?id=311282498",
+	fnaf2 = "http://steamcommunity.com/sharedfiles/filedetails/?id=382153719",
+	fnaf3 = "http://steamcommunity.com/sharedfiles/filedetails/?id=409285826",
+	fnaf4house = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
+	fnaf4noclips = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
+	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
 }
 
 

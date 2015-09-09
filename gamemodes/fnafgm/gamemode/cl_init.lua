@@ -1042,9 +1042,6 @@ function fnafgmMapSelect(AvMaps)
 	for ID, Map in SortedPairsByValue( AllMaps ) do
 		
 		local MapI = vgui.Create( "DButton", MapSelectF )
-		function MapI.DoClick()
-			fnafgmChangeMap(ID)
-		end
 		MapI:SetPos( x, 24 )
 		MapI:SetSize( 128, 128 )
 		MapI:SetText( Map )
@@ -1055,10 +1052,22 @@ function fnafgmMapSelect(AvMaps)
 		local path = "maps/" .. ID .. ".png"
 		if file.Exists(path, "GAME") then
 			png = Material(path, "noclamp")
+			MapI.OnCursorEntered = function()
+				MapI:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
+			MapI.OnCursorExited = function()
+				MapI:SetTextColor( Color( 255, 255, 255, 0 ) )
+			end
 		else
 			local path = "maps/thumb/" .. ID .. ".png"
 			if file.Exists(path, "GAME") then
 				png = Material(path, "noclamp")
+				MapI.OnCursorEntered = function()
+					MapI:SetTextColor( Color( 255, 255, 255, 255 ) )
+				end
+				MapI.OnCursorExited = function()
+					MapI:SetTextColor( Color( 255, 255, 255, 0 ) )
+				end
 			else
 				png = Material("maps/thumb/noicon.png", "noclamp")
 				MapI:SetTextColor( Color(255, 255, 255) )
@@ -1066,25 +1075,31 @@ function fnafgmMapSelect(AvMaps)
 		end
 		
 		if game.GetMap()==ID then
-			MapI:SetDisabled( true )
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(85, 85, 85, 255)
 				surface.DrawTexturedRect(0, 0, 128, 128)
 			end
 		elseif !AvMaps[ID] then
-			MapI:SetDisabled( true )
 			MapI:SetTextColor( Color(255, 0, 0) )
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(128, 64, 64, 255)
 				surface.DrawTexturedRect(0, 0, 128, 128)
 			end
+			if GAMEMODE.MapListLinks[ID] then
+				function MapI.DoClick()
+					gui.OpenURL( GAMEMODE.MapListLinks[ID] )
+				end
+			end
 		else
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(255, 255, 255, 255)
 				surface.DrawTexturedRect(0, 0, 128, 128)
+			end
+			function MapI.DoClick()
+				fnafgmChangeMap(ID)
 			end
 		end
 		
