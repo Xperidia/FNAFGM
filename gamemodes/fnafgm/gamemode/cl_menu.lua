@@ -274,6 +274,14 @@ function fnafgmMenu()
 		end
 		
 		
+		local xpad = vgui.Create( "DHTML" )
+		xpad:SetParent(fnafgmMenuF)
+		xpad:SetPos( 10, 480 )
+		xpad:SetSize( 620, 128 )
+		xpad:SetAllowLua(true)
+		xpad:OpenURL( "Xperidia.com/GMOD/ad?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
+		xpad:SetScrollbars(false)
+		
 		
 	else
 		
@@ -281,4 +289,8 @@ function fnafgmMenu()
 		
 	end
 	
+end
+
+function fnafgmMenuAdLoaded()
+	if IsValid(fnafgmMenuF) then fnafgmMenuF:SetSize( 640, 618 ) end
 end
