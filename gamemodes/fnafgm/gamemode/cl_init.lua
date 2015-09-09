@@ -1128,6 +1128,12 @@ function fnafgmShutLights()
 	net.SendToServer()
 end
 
+function fnafgmUseLight(id)
+	net.Start( "fnafgmUseLight" )
+		net.WriteFloat(id)
+	net.SendToServer()
+end
+
 function fnafgmChangeMap(map)
 	net.Start( "fnafgmChangeMap" )
 		net.WriteString(map)

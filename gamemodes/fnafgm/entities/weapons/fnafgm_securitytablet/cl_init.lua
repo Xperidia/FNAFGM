@@ -450,6 +450,26 @@ if !opened then
 		map:SetSize( 512, 512 )
 		
 		
+		local lightbtn = vgui.Create( "DButton" )
+		lightbtn:SetParent(SecTabInt)
+		lightbtn:SetSize( ScrW()/2+64, ScrH()-400 )
+		lightbtn:SetPos( 64, 256 )
+		lightbtn:SetText( "" )
+		lightbtn.DoClick = function( button )
+			if lastcam==6 then
+				fnafgmUseLight(1)
+			elseif lastcam==5 then
+				fnafgmUseLight(3)
+			end
+		end
+		lightbtn.Paint = function( self, w, h )
+			if lastcam==6 or lastcam==5 then
+				surface.SetDrawColor( 255, 255, 255, 85 )
+				surface.DrawOutlinedRect( 0, 0, w, h )
+			end
+		end
+		
+		
 		local CAM12 = vgui.Create( "DButton" )
 		CAM12:SetParent(map)
 		CAM12:SetSize( 70, 46 )

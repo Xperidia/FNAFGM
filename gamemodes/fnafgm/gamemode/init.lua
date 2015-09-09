@@ -62,6 +62,7 @@ util.AddNetworkString( "fnafgmSetView" )
 util.AddNetworkString( "fnafgmMuteCall" )
 util.AddNetworkString( "fnafgmSafeZone" )
 util.AddNetworkString( "fnafgmShutLights" )
+util.AddNetworkString( "fnafgmUseLight" )
 util.AddNetworkString( "fnafgmMapSelect" )
 util.AddNetworkString( "fnafgmChangeMap" )
 util.AddNetworkString( "fnafgmDS" )
@@ -3591,6 +3592,26 @@ end
 net.Receive( "fnafgmShutLights",function(bits,ply)
 	fnafgmShutLights()
 end )
+
+function fnafgmUseLight(id)
+	
+	if id==1 and light1 and IsValid(light1) and !light1usewait then
+		LightUse[1] = !LightUse[1]
+		light1:Fire("use")
+	elseif id==2 and light2 and IsValid(light2) and !light2usewait then
+		LightUse[2] = !LightUse[2]
+		light2:Fire("use")
+	elseif id==3 and light3 and IsValid(light3) and !light3usewait then
+		LightUse[3] = !LightUse[3]
+		light3:Fire("use")
+	end
+	
+end
+net.Receive( "fnafgmUseLight",function(bits,ply)
+	local id = net.ReadFloat()
+	if (!id) then return end
+	fnafgmUseLight(id)
+end)
 
 
 concommand.Add("fnafgm_debug_start", function(ply)
