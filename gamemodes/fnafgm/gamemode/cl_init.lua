@@ -947,11 +947,6 @@ function GM:ShowTeam()
 
 	if !IsValid( self.TeamSelectFrame ) then
 		
-		if !SGvsA then 
-			LocalPlayer():PrintMessage(HUD_PRINTTALK, "You're not in SGvsA")
-			return
-		end
-		
 		-- Simple team selection box
 		self.TeamSelectFrame = vgui.Create( "DFrame" )
 		self.TeamSelectFrame:SetTitle( "Pick Team" )
