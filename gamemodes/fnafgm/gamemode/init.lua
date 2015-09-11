@@ -66,40 +66,6 @@ util.AddNetworkString( "fnafgmUseLight" )
 util.AddNetworkString( "fnafgmMapSelect" )
 util.AddNetworkString( "fnafgmChangeMap" )
 util.AddNetworkString( "fnafgmDS" )
-function GM:Initialize()
-	
-	checkRestartNight = false
-	
-	if !game.SinglePlayer() then
-		timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
-	end
-	
-	timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
-	
-	fnafgmrefreshbypass()
-	
-	fnafgmLoadLanguage(GetConVarString("gmod_language"))
-	
-	if !game.IsDedicated() and !SGvsA then
-		
-		local file = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
-		if ( file ) then
-		
-			local tab = util.JSONToTable( file )
-			if ( tab ) then
-				
-				if ( tab.Night ) then night = tab.Night end
-				--if ( tab.FinishedWeek ) then finishedweek = tab.FinishedWeek end
-				
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded!\n" )
-				
-			end
-		
-		end
-	
-	end
-	
-end
 
 
 function GM:SaveProgress()

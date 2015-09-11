@@ -248,14 +248,6 @@ include( 'cl_menu.lua' )
 
 avisible=true
 
-function GM:Initialize()
-
-	BaseClass.Initialize( self )
-	
-	fnafgmLoadLanguage(GetConVarString("gmod_language"))
-	
-end
-
 
 function fnafgmWarn()
 

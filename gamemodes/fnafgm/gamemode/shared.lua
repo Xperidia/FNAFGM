@@ -284,89 +284,125 @@ GM.MapListLinks = {
 }
 
 
-startday = false
-iniok = false
-time = GM.TimeBase
-AMPM = GM.AMPM
-night = GM.NightBase
-hourtime = GM.HourTime
-nightpassed = false
-mapoverrideok = false
-gameend = false
-SGvsA = false
-AprilFool = false
-Halloween = false
-b87 = false
-seasonaltext = ""
-modetext = ""
-norespawn = false
-active = false
-updateavailable = false
-derivupdateavailable = false
-lastversion = 0
-lastderivversion = "?"
-listgroup = {}
-avisible = {}
-power = GM.Power_Max
-powerdrain = GM.Power_Drain_Time
-powerusage = GM.Power_Usage_Base
-poweroff = false
-tabused = {}
-powerchecktime = nil
-oldpowerdrain = nil
-LightUse = {}
-DoorClosed = {}
-light1usewait = false
-light2usewait = false
-powertot = GM.Power_Max
-finishedweek = 0
-usingsafedoor = {}
-debugmode = false
-foxyknockdoorpena = 2
-addfoxyknockdoorpena = 4
-tempostart = false
-overfive = false
-mute = true
-fnafview = false
-fnafviewactive = false
-fnafgmWorkShop = false
+function GM:Initialize()
 
-
-if !file.IsDir("fnafgm", "DATA") then
-	file.CreateDir( "fnafgm" )
-end
-
-
-local Timestamp = os.time()
-if (os.date( "%d/%m" , Timestamp )=="01/04") then --SeasonalEvents
-	AprilFool = true
-	seasonaltext = " - April Fool"
-elseif (os.date( "%d/%m" , Timestamp )=="31/10") then --SeasonalEvents
-	Halloween = true
-	seasonaltext = " - Halloween"
-end
-
-
-if (game.GetMap()=="freddysnoevent") then
-	SGvsA=true
-	modetext = " - PvP SGvsA"
-end
-
-
-if GetHostName()=="1987" then --Not a easter egg ^^
+	fnafgmLoadLanguage(GetConVarString("gmod_language"))
+	
+	startday = false
+	gameend = false
+	iniok = false
+	time = GAMEMODE.TimeBase
+	AMPM = GAMEMODE.AMPM
+	night = GAMEMODE.NightBase
+	nightpassed = false
+	tempostart = false
+	mute = true
+	overfive = false
+	power = GAMEMODE.Power_Max
+	powerusage = GAMEMODE.Power_Usage_Base
+	powertot = GAMEMODE.Power_Max
+	poweroff = false
+	SGvsA = false
 	AprilFool = false
 	Halloween = false
-	SGvsA = false
-	b87 = true
-	modetext = " - '87"
-end
-
-
-for _, addon in pairs(engine.GetAddons()) do
+	b87 = false
+	seasonaltext = ""
+	modetext = ""
+	fnafview = false
+	fnafviewactive = false
+	fnafgmWorkShop = false
 	
-	if addon.wsid == "408243366" and addon.mounted then
-		fnafgmWorkShop = true
+	if !file.IsDir("fnafgm", "DATA") then
+		file.CreateDir( "fnafgm" )
 	end
+	
+	
+	local Timestamp = os.time()
+	if (os.date( "%d/%m" , Timestamp )=="01/04") then --SeasonalEvents
+		AprilFool = true
+		seasonaltext = " - April Fool"
+	elseif (os.date( "%d/%m" , Timestamp )=="31/10") then --SeasonalEvents
+		Halloween = true
+		seasonaltext = " - Halloween"
+	end
+	
+	
+	if (game.GetMap()=="freddysnoevent") then
+		SGvsA=true
+		modetext = " - PvP SGvsA"
+	end
+	
+	
+	if GetHostName()=="1987" then --Not a easter egg ^^
+		AprilFool = false
+		Halloween = false
+		SGvsA = false
+		b87 = true
+		modetext = " - '87"
+	end
+	
+	
+	for _, addon in pairs(engine.GetAddons()) do
+		
+		if addon.wsid == "408243366" and addon.mounted then
+			fnafgmWorkShop = true
+		end
+		
+	end
+	
+	if SERVER then
+		
+		hourtime = GM.HourTime
+		mapoverrideok = false
+		norespawn = false
+		active = false
+		updateavailable = false
+		derivupdateavailable = false
+		lastversion = 0
+		lastderivversion = 0
+		listgroup = {}
+		avisible = {}
+		powerdrain = GM.Power_Drain_Time
+		tabused = {}
+		powerchecktime = nil
+		oldpowerdrain = nil
+		LightUse = {}
+		DoorClosed = {}
+		light1usewait = false
+		light2usewait = false
+		finishedweek = 0
+		usingsafedoor = {}
+		foxyknockdoorpena = 2
+		addfoxyknockdoorpena = 4
+		checkRestartNight = false
+		
+		if !game.SinglePlayer() then
+			timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
+		end
+		
+		timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
+		
+		fnafgmrefreshbypass()
+		
+		if !game.IsDedicated() and !SGvsA then
+			
+			local file = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+			
+			if ( file ) then
+			
+				local tab = util.JSONToTable( file )
+				if ( tab ) then
+					if ( tab.Night ) then night = tab.Night end
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded!\n" )
+				end
+				
+			end
+			
+		end
+	
+	end
+	
+	
 	
 end
 
