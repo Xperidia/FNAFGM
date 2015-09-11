@@ -352,7 +352,7 @@ function GM:Initialize()
 	
 	if SERVER then
 		
-		hourtime = GM.HourTime
+		hourtime = GAMEMODE.HourTime
 		mapoverrideok = false
 		norespawn = false
 		active = false
@@ -362,7 +362,7 @@ function GM:Initialize()
 		lastderivversion = 0
 		listgroup = {}
 		avisible = {}
-		powerdrain = GM.Power_Drain_Time
+		powerdrain = GAMEMODE.Power_Drain_Time
 		tabused = {}
 		powerchecktime = nil
 		oldpowerdrain = nil

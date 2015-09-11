@@ -3345,12 +3345,12 @@ function fnafgmCheckForNewVersion(ply,util)
 		end,
 		function( error )
 			
-			ErrorNoHalt( "FNAFGM: Failed to check the version (Bad address?)\n" )
+			ErrorNoHalt( "FNAFGM: Failed to check the version (Bad address/No connection)\n" )
 			
 			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad address?)")
+				ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad address/No connection)")
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad address?)\n" )
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad address/No connection)\n" )
 			end
 			
 		end
