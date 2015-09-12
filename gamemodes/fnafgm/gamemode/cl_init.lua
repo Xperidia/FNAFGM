@@ -254,14 +254,16 @@ function fnafgmWarn()
 	if !fontloaded and fnafgm_cl_warn:GetBool() then
 		
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.warn_font)
-		chat.PlaySound()
+		notification.AddLegacy(GAMEMODE.Strings.base.warn_font, NOTIFY_ERROR, 10)
+		surface.PlaySound( "buttons/button10.wav" )
 		
 	end
 	
 	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips") and fnafgm_cl_warn:GetBool() then
 		
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.warn_css)
-		chat.PlaySound()
+		notification.AddLegacy(GAMEMODE.Strings.base.warn_css, NOTIFY_ERROR, 10)
+		surface.PlaySound( "buttons/button10.wav" )
 		
 	end
 	
@@ -761,6 +763,11 @@ net.Receive( "fnafgmCheckUpdate", function( len )
 	updateavailable = net.ReadBit()
 	lastversion = net.ReadString()
 	
+	if tobool(updateavailable) then
+		notification.AddLegacy("FNAFGM update available! V"..lastversion, NOTIFY_GENERIC, 10)
+		chat.PlaySound()
+	end
+	
 end)
 
 
@@ -768,6 +775,11 @@ net.Receive( "fnafgmCheckUpdateD", function( len )
 
 	derivupdateavailable = net.ReadBit()
 	lastderivversion = net.ReadString()
+	
+	if tobool(derivupdateavailable) then
+		notification.AddLegacy(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, NOTIFY_GENERIC, 10)
+		chat.PlaySound()
+	end
 	
 end)
 
@@ -790,18 +802,21 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 			seasonaltext = ""
 		end
 		
-		updatearem = 0
+		local updatearem = 0
+		local monitorspace = 0
 		
 		if tobool(updateavailable) then
-			draw.DrawText("FNAFGM update available! V"..lastversion, "Trebuchet24", ScrW() * 0.995, ScrH() * 0.97, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+			if IsValid(SecTabInt) then monitorspace = 30 end
+			draw.DrawText("FNAFGM update available! V"..lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		if tobool(derivupdateavailable) then
-			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, "Trebuchet24", ScrW() * 0.995, ScrH() * 0.97 - updatearem, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+			if IsValid(SecTabInt) then monitorspace = 30 end
+			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		
-		draw.DrawText(tostring(GAMEMODE.ShortName or "?").." V"..tostring(GAMEMODE.Version or "?")..modetext..seasonaltext, "Trebuchet24", ScrW() * 0.995, ScrH() * 0.97 - updatearem, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+		draw.DrawText(tostring(GAMEMODE.ShortName or "?").." V"..tostring(GAMEMODE.Version or "?")..modetext..seasonaltext, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 		
 		
 	end
@@ -1140,4 +1155,26 @@ function fnafgmChangeMap(map)
 	net.Start( "fnafgmChangeMap" )
 		net.WriteString(map)
 	net.SendToServer()
+end
+
+net.Receive( "fnafgmNotif", function( len )
+	
+	local str = net.ReadString() or ""
+	local ne = net.ReadInt(3) or 0
+	local dur = net.ReadFloat() or 5
+	local sound = net.ReadBit() or false
+	
+	fnafgmNotif(str,ne,dur,sound)
+	
+end)
+function fnafgmNotif(str,ne,dur,sound)
+	notification.AddLegacy(str,ne,dur,sound)
+	if !tobool(sound) then return end
+	if ne==NOTIFY_HINT then
+		surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
+	elseif ne==NOTIFY_ERROR then
+		surface.PlaySound( "buttons/button10.wav" )
+	else
+		chat.PlaySound()
+	end
 end

@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.091
+GM.OfficialVersion 	= 1.092
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -101,7 +101,7 @@ GM.Strings = {
 		monitor_inst = "Right click to open the Monitor. Left click to use buttons. Reload to enter FNaF view.",
 		monitor_purp = "Monitor the restaurant.",
 		spectator = "Spectator",
-		warn_font = "The font is not installed! Read the installation instructions in the Workshop page by pressing F1 (Maybe there is a update if you already installed it)",
+		warn_font = "The font is not installed/up to date! Read the installation instructions in the Workshop page by pressing F1",
 		warn_css = "Counter Strike: Source is not mounted. You will have missing textures and ERROR.",
 		links = "Link(s)",
 		fonthint = "Read installation instructions in the Workshop page\nto install the font",
@@ -135,7 +135,7 @@ GM.Strings = {
 		monitor_inst = "Faites un clic droit pour ouvrir le Moniteur. Faites un clic gauche pour utliser les boutons. Rechargez pour entrer en vue FNaF.",
 		monitor_purp = "Surveiller le restaurant.",
 		spectator = "Spectateur",
-		warn_font = "La police n'est pas installée! Lisez les instructions d'installation sur la page Workshop en appuyant sur F1 (Peut être qu'il y a une mise à jour si vous l'aviez déjà installée)",
+		warn_font = "La police n'est pas installée/à jour! Lisez les instructions d'installation sur la page Workshop en appuyant sur F1",
 		warn_css = "Counter Strike: Source n'est pas monté. Vous aurez des textures manquantes et des ERROR.",
 		links = "Lien(s)",
 		faqbtn = "Questions/Aide/FAQ/Astuces",
@@ -311,6 +311,8 @@ function GM:Initialize()
 	fnafview = false
 	fnafviewactive = false
 	fnafgmWorkShop = false
+	lastversion = 0
+	lastderivversion = 0
 	
 	if !file.IsDir("fnafgm", "DATA") then
 		file.CreateDir( "fnafgm" )
@@ -358,8 +360,6 @@ function GM:Initialize()
 		active = false
 		updateavailable = false
 		derivupdateavailable = false
-		lastversion = 0
-		lastderivversion = 0
 		listgroup = {}
 		avisible = {}
 		powerdrain = GAMEMODE.Power_Drain_Time

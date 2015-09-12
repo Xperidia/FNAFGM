@@ -66,6 +66,7 @@ util.AddNetworkString( "fnafgmUseLight" )
 util.AddNetworkString( "fnafgmMapSelect" )
 util.AddNetworkString( "fnafgmChangeMap" )
 util.AddNetworkString( "fnafgmDS" )
+util.AddNetworkString( "fnafgmNotif" )
 
 
 function GM:SaveProgress()
@@ -100,7 +101,19 @@ concommand.Add("fnafgm_resetprogress", function( ply )
 end)
 function fnafgmResetProgress(ply)
 	
-	if !ply:IsListenServerHost() and !SGvsA then ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! :)") return end
+	if !ply:IsListenServerHost() and !SGvsA then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Not the host)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Not the host)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		
+		return
+	end
 	
 	if !file.IsDir("fnafgm/progress", "DATA") then
 		file.CreateDir( "fnafgm/progress" )
@@ -114,7 +127,14 @@ function fnafgmResetProgress(ply)
 	
 	file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 	
-	MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression reseted!\n" )
+	MsgC( Color( 255, 255, 85 ), "FNAFGM: Progress erased!\n" )
+	
+	net.Start( "fnafgmNotif" )
+		net.WriteString( "Progress erased!" )
+		net.WriteInt(4,3)
+		net.WriteFloat(5)
+		net.WriteBit(true)
+	net.Send(ply)
 	
 end
 
@@ -215,10 +235,11 @@ function GM:PlayerSpawn( pl )
 	end
 	
 	if pl:Team()!=TEAM_UNASSIGNED then
-		pl:ConCommand( "pp_mat_overlay ''" )
-		pl:SendLua([[fnafgmWarn()]])
 		if game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
 			fnafgmMapSelect(pl)
+		else
+			pl:ConCommand( "pp_mat_overlay ''" )
+			pl:SendLua([[fnafgmWarn()]])
 		end
 	end
 	
@@ -374,7 +395,14 @@ function fnafgmChangeMap(ply,map)
 		
 	else
 		
-		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! :)")
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Not admin/host)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Not admin/host)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		
 	end
 	
@@ -390,18 +418,35 @@ function GM:PlayerRequestTeam( ply, teamid )
 	-- No changing teams if not teambased!
 	if ( norespawn and teamid==1 ) then 
 		ply:ChatPrint( "You can't do this now!" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "You can't do this now!" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		return
 	elseif ( !SGvsA and teamid==2 ) then 
 		ply:ChatPrint( "You're not in SGvsA mode!" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "You're not in SGvsA mode!" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		return
 	elseif (!SGvsA and teamid==TEAM_SPECTATOR and !fnafgmPlayerCanByPass(ply,"spectator") ) then
-		ply:ChatPrint( "You can't!" )
+		ply:ChatPrint( "Nope, you can't do that! (Need spectator bypass)" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Need spectator bypass)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		return
 	elseif (teamid==TEAM_SPECTATOR and !GetConVar("mp_allowspectators"):GetBool() and !fnafgmPlayerCanByPass(ply,"spectator") ) then
 		ply:ChatPrint( "Spectator mode is disabled!" )
 		return
 	elseif b87 then
-		ply:ChatPrint( "'87" )
 		return
 	end
 	
@@ -432,12 +477,24 @@ function GM:PlayerCanJoinTeam( ply, teamid )
 	-- Already on this team!
 	if ( ply:Team() == teamid ) then
 		ply:ChatPrint( "You're already on that team" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "You're already on that team" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		return false
 	end
 	
 	-- Animatronics full!
 	if ( teamid==2 and team.NumPlayers(teamid)>=4 and !fnafgmPlayerCanByPass(ply,"goldenfreddy") ) then
 		ply:ChatPrint( "Sorry this team is full!" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Sorry this team is full!" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		return false
 	end
 	
@@ -895,7 +952,11 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+			end
 			
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
@@ -992,7 +1053,11 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+			end
 			
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
@@ -1090,7 +1155,11 @@ function fnafgmUse(ply, ent, test, test2)
 					end
 				end
 				
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+				if IsValid(ply) then
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+				else
+					MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+				end
 			
 				timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 					
@@ -1363,7 +1432,11 @@ function fnafgmUse(ply, ent, test, test2)
 				ents.FindByName( "ApplejackTimer" )[1]:Fire("UpperRandomBound", 7)
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+			end
 			
 			timer.Create( "fnafgmTempoStartU", 1.3, 1, function()
 				
@@ -1475,7 +1548,11 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started\n" )
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+			end
 		
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
@@ -1536,7 +1613,11 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: (MANUAL OVERRIDE) Night "..night.." started\n" )
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
+			end
 		
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
@@ -2809,23 +2890,13 @@ function GM:FinishMove( ply, mv )
 			
 			if timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) then
 				timer.Remove( "fnafgmPlayerSecurityRoomNot"..userid )
-				if ply:Alive() and ply:Team()==1 then
-					ply:ConCommand( "pp_mat_overlay ''" )
-				end
 			end
 			
 		elseif !CheckPlayerSecurityRoom(ply) and !timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) and ply:Alive() and startday and !tempostart and ply:Team()==1 and !fnafgmPlayerCanByPass(ply,"nokillextsr") then
 			
-			local PSRTT=10
+			local PSRTT=5
 			if game.GetMap()=="fnaf2" then
 				PSRTT=21
-			end
-			
-			if !usingsafedoor[ply] then
-				ply:PrintMessage(HUD_PRINTTALK, "Stay in the security room otherwise you risk getting caught by the "..GAMEMODE.Strings.base.animatronics)
-				ply:SendLua([[chat.PlaySound()]])
-				
-				ply:ConCommand( "pp_mat_overlay effects/water_warp01" )
 			end
 			
 			timer.Create( "fnafgmPlayerSecurityRoomNot"..userid, PSRTT, 1, function()
@@ -3591,6 +3662,29 @@ concommand.Add("fnafgm_debug_reset", function(ply)
 		fnafgmResetGame()
 		fnafgmMapOverrides()
 		fnafgmVarsUpdate()
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "The game has been reset" )
+			net.WriteInt(4,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Broadcast()
+		if IsValid(ply) then
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been reset by "..ply:GetName().."\n" )
+		else
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been reset by console\n" )
+		end
+	
+	elseif IsValid(ply) then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Need debug access)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Need debug access)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		
 	end
 	
 end)
@@ -3621,7 +3715,30 @@ concommand.Add("fnafgm_debug_restart", function(ply)
 			
 			fnafgmRestartNight()
 			
+			net.Start( "fnafgmNotif" )
+				net.WriteString( "The game has been stoped/restarted" )
+				net.WriteInt(4,3)
+				net.WriteFloat(5)
+				net.WriteBit(true)
+			net.Broadcast()
+			if IsValid(ply) then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been stoped/restarted by "..ply:GetName().."\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been stoped/restarted by console\n" )
+			end
+			
 		end
+	
+	elseif IsValid(ply) then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Need debug access)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Need debug access)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
 		
 	end
 	
@@ -4095,9 +4212,13 @@ function GM:Think()
 			
 			norespawn=true
 			
-			PrintMessage(HUD_PRINTTALK, "All the "..team.GetName(1).." are dead!")
-			PrintMessage(HUD_PRINTTALK, "The "..GAMEMODE.Strings.base.night.." will reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s...")
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Everybody is dead, the night will reset\n" )
+			net.Start( "fnafgmNotif" )
+				net.WriteString( "The "..GAMEMODE.Strings.base.night.." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
+				net.WriteInt(0,3)
+				net.WriteFloat(5)
+				net.WriteBit(true)
+			net.Broadcast()
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: The security guards are dead, the night will be reset\n" )
 			
 			timer.Remove("fnafgmTimeThink")
 			timer.Remove("fnafgmPowerOff1")
@@ -4355,7 +4476,15 @@ function GM:PlayerShouldTaunt( ply, actid )
 		return true
 	end
 	
-	ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! :)")
+	ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Need act bypass)")
+	
+	net.Start( "fnafgmNotif" )
+		net.WriteString( "Nope, you can't do that! (Need act bypass)" )
+		net.WriteInt(1,3)
+		net.WriteFloat(5)
+		net.WriteBit(true)
+	net.Send(ply)
+	
 	return false
 
 end
