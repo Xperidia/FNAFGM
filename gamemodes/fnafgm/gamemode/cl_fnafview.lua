@@ -1,6 +1,6 @@
 function fnafgmFNaFViewHUD()
 	
-	if !fnafviewactive then
+	if !fnafviewactive and !engine.IsPlayingDemo() then
 		
 		fnafviewactive = true
 		

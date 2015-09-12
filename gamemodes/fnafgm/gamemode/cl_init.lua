@@ -342,6 +342,8 @@ hook.Add("HUDShouldDraw", "HideHUD", function( name )
 		return false
 	elseif name=="CHudCrosshair" and fnafviewactive then
 		return false
+	elseif name=="CHudCrosshair" and engine.IsPlayingDemo() then
+		return false
 	elseif name=="CHudCrosshair" and (tobool(tempostart) or tobool(gameend) or tobool(nightpassed)) then
 		return false
 	end

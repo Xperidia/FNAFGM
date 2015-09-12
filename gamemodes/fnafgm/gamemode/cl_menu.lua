@@ -1,6 +1,6 @@
 function fnafgmMenu()
 	
-	if !IsValid(fnafgmMenuF) then
+	if !IsValid(fnafgmMenuF) and !engine.IsPlayingDemo() then
 		
 		
 		fnafgmMenuF = vgui.Create( "DFrame" )
@@ -283,7 +283,7 @@ function fnafgmMenu()
 		xpad:SetScrollbars(false)
 		
 		
-	else
+	elseif IsValid(fnafgmMenuF) then
 		
 		fnafgmMenuF:Close()
 		
