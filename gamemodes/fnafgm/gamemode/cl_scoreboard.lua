@@ -226,7 +226,7 @@ local SCORE_BOARD = {
 		self.Info:SetExpensiveShadow( 2, Color( 0, 0, 0, 200 ) )
 		self.Info:SetText( GAMEMODE.Name.." GM V"..GAMEMODE.Version )
 		self.Info.DoClick = function()
-			gui.OpenURL( GAMEMODE.Website )
+			fnafgmMenu()
 		end
 		self.Info.Paint = function() end
 
