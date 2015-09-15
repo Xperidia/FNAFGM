@@ -1525,7 +1525,7 @@ function fnafgmUse(ply, ent, test, test2)
 			tempostart = true
 			night = night+1
 			AMPM = GAMEMODE.AMPM
-			time = GAMEMODE.TimeBase
+			if PlushTrapWin then time=2 PlushTrapWin=false else time = GAMEMODE.TimeBase end
 			hourtime = hourtime+GAMEMODE.HourTime_add
 			nightpassed = false
 			iniok = true

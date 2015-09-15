@@ -147,6 +147,11 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		DoorClosed[id] = false
 		
+		
+	elseif name=="PlushTrapWin" then
+		
+		PlushTrapWin=true
+		
 	end
 	
 	

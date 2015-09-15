@@ -1,6 +1,6 @@
  //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V3.1 BY XPERIDIA
+// FNAFGM FGD V4 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -21,4 +21,5 @@
 	input DoorOpen(integer) : "X door is open."
 	input LightOn(integer) : "X light is on."
 	input LightOff(integer) : "X light is off."
+	input PlushTrapWin(void) : "PlushTrap event is won."
 ]
