@@ -255,7 +255,7 @@ function fnafgmMenu()
 		
 		local refreshbtn = vgui.Create( "DButton" )
 		refreshbtn:SetParent(debugmenu)
-		refreshbtn:SetText("Refresh Bypass")
+		refreshbtn:SetText(tostring(GAMEMODE.TranslatedStrings.refreshbypass or GAMEMODE.Strings.en.refreshbypass))
 		refreshbtn:SetPos( 20, 135 )
 		refreshbtn:SetSize( 265, 20 )
 		refreshbtn.DoClick = function()

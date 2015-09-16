@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.11
+GM.OfficialVersion 	= 1.101
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -121,7 +121,8 @@ GM.Strings = {
 		stop = "Stop/Restart",
 		reset = "Reset",
 		autofnafview = "Auto put FNaF View",
-		exitfnafview = "Exit FNaF View"
+		exitfnafview = "Exit FNaF View",
+		refreshbypass = "Refresh Bypass"
 	},
 	fr = {
 		freddys_start = "COUPEZ LE COURANT POUR DÉMARRER",
@@ -154,18 +155,52 @@ GM.Strings = {
 		stop = "Arrêter/Redémarrer",
 		reset = "Rénitialiser",
 		autofnafview = "Activer automatiquement la vue FNaF",
-		exitfnafview = "Quitter la vue FNaF"
+		exitfnafview = "Quitter la vue FNaF",
+		refreshbypass = "Recharger les Bypass"
+	},
+	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
+		freddys_start = "Ana gücü kapatarak başlayın",
+		freddys_start_2 = "Ana gücü kapatarak yeni geceye başlayın",
+		freddys_startanimatronics = "Ana güç açık",
+		fnaf2_start = "Animasyoncuları açarak başlayın",
+		fnaf2_start_2 = "Animasyoncuları açarak yeni geceye başlayın",
+		fnaf_freddypizzaevents_start = "!START Yazarak oyunu başlatın",
+		unassigned_normal = "Herhangi bir tuşa basarak oyuna girin",
+		unassigned_SGvsA = "TAKIM SEÇİN",
+		unassigned_powerdown = "Güç kapalıyken giremezsin!",
+		monitor = "Ekran",
+		monitor_inst = "Sağ Tıklayarak Ekranı Açın. Sol Tıklayarak Düğmeleri Kullanın. Silah doldurma tuşu ile Fnaf görüşüne geçin.",
+		monitor_purp = "Restoranı İzleyin.",
+		spectator = "İzleyici",
+		warn_font = "Font yüklenmedi/En Son sürüm değil! Yükleme adımlarını Atölye sayfasından yada F1 e basarak Görebilirsiniz",
+		warn_css = "Counter Strike: Source Oyunda Doğrulanmadı. Kayıp texture ve HATALARIN Var.",
+		fonthint = "Yükleme adımlarını Atölye sayfasında okuyabilirsiniz\nFont yüklenmemiş.",
+		faqbtn = "Sorular/Yardım/FAQ/İpuçları",
+		config = "Ayarlar",
+		hidever = "Versionu Gizle",
+		dhud = "HUD u göster (Uyarı! Bu Garry's mod HUD u)",
+		infoat = "Bilgiler/Misc",
+		fontloaded = "Font Yüklendi",
+		lang = "Dil",
+		changemap = "Haritayı Değiştir",
+		resetsave = "Kaydı Sil (Sadece Serveri Yapan)",
+		debugmenu = "Debug Menüsü (Sadece Debug yapma İzni olan)",
+		start = "Başla",
+		stop = "Dur/Tekrar Başlat",
+		autofnafview = "Otamatik Fnaf görüşü",
+		exitfnafview = "Fnaf Görüşünden Çık"
 	}
+
 }
 
 function fnafgmLoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
 		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: "..lang.." strings loaded!\n" )
-	elseif ( lang=="en" or lang=="" ) and GAMEMODE.Strings["en"] then
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' strings loaded!\n" )
+	elseif lang!="" and GAMEMODE.Strings["en"] then
 		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings["en"] )
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: default strings loaded!\n" )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' is not supported! 'en' strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/\n" )
 	end
 	
 end
@@ -293,6 +328,10 @@ GM.MapListLinks = {
 function GM:Initialize()
 
 	fnafgmLoadLanguage(GetConVarString("gmod_language"))
+	
+	cvars.AddChangeCallback( "gmod_language", function( convar_name, value_old, value_new )
+		fnafgmLoadLanguage(value_new)
+	end)
 	
 	startday = false
 	gameend = false
