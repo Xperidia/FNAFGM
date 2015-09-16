@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-SWEP.PrintName			= GAMEMODE.Strings.base.foxy
+SWEP.PrintName			= GAMEMODE.Strings.en.foxy
 SWEP.Author			= "Xperidia"
 SWEP.Instructions		= "Rush the security room"
 SWEP.Purpose = "What is happening in the security room?"
@@ -13,6 +13,12 @@ if CLIENT then SWEP.WepSelectIcon = surface.GetTextureID(GAMEMODE.Materials_foxy
 SWEP.ViewModel = "models/weapons/c_arms.mdl"
 
 function SWEP:Initialize()
+	
+	if CLIENT then
+		self.PrintName = tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy)
+		--self.Instructions = tostring(GAMEMODE.TranslatedStrings.foxy_inst or GAMEMODE.Strings.en.foxy_inst)
+		--self.Purpose = tostring(GAMEMODE.TranslatedStrings.foxy_purp or GAMEMODE.Strings.en.foxy_purp)
+	end
 	
 	if tobool(startday) then
 		self:SetHoldType( "melee" )
@@ -46,7 +52,7 @@ function SWEP:Think()
 					self.Owner:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
 					v:ConCommand("play "..GAMEMODE.Sound_xscream)
 					v:TakeDamage(100, attacker, self )
-					v:PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.foxy.." ("..self.Owner:GetName()..") killed you!")
+					v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy).." ("..self.Owner:GetName()..") killed you!")
 				end
 			end
 		

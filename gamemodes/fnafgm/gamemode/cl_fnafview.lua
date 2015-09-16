@@ -101,7 +101,7 @@ function fnafgmFNaFViewHUD()
 			
 		end
 		ExitZone.OnCursorEntered = function()
-			ExitZone:SetText(GAMEMODE.Strings.base.exitfnafview)
+			ExitZone:SetText(tostring(GAMEMODE.TranslatedStrings.exitfnafview or GAMEMODE.Strings.en.exitfnafview))
 			ExitZone:SetTextColor( Color( 255, 255, 255, 255 ) )
 		end
 		ExitZone.OnCursorExited = function()

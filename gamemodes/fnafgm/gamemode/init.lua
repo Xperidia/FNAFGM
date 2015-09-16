@@ -2924,7 +2924,7 @@ function GM:FinishMove( ply, mv )
 					ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
 					v:ConCommand("play "..GAMEMODE.Sound_xscream)
 					v:TakeDamage(100, ply )
-					v:PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.foxy.." ("..ply:GetName()..") killed you!")
+					v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy).." ("..ply:GetName()..") killed you!")
 					MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
 					
 				end
@@ -3011,7 +3011,7 @@ function GM:FinishMove( ply, mv )
 						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
 						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.freddy.." ("..ply:GetName()..") killed you!")
+						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy).." ("..ply:GetName()..") killed you!")
 						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
 						
 					end
@@ -3069,7 +3069,7 @@ function GM:FinishMove( ply, mv )
 						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
 						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.chica.." ("..ply:GetName()..") killed you!")
+						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica).." ("..ply:GetName()..") killed you!")
 						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
 						
 					end
@@ -3127,7 +3127,7 @@ function GM:FinishMove( ply, mv )
 						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
 						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, GAMEMODE.Strings.base.bonnie.." ("..ply:GetName()..") killed you!")
+						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie).." ("..ply:GetName()..") killed you!")
 						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
 						
 					end
@@ -4213,7 +4213,7 @@ function GM:Think()
 			norespawn=true
 			
 			net.Start( "fnafgmNotif" )
-				net.WriteString( "The "..GAMEMODE.Strings.base.night.." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
+				net.WriteString( "The "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
 				net.WriteInt(0,3)
 				net.WriteFloat(5)
 				net.WriteBit(true)

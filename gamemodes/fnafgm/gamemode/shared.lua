@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.10
+GM.OfficialVersion 	= 1.11
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -73,8 +73,10 @@ GM.Sound_Calls = {
 GM.Sound_maskon = Sound("fnafgm/maskon.ogg")
 GM.Sound_maskoff = Sound("fnafgm/maskoff.ogg")
 
+GM.TranslatedStrings = {}
+
 GM.Strings = {
-	base = {
+	en = {
 		sg = "Security guards",
 		animatronics = "Animatronics",
 		animatronic = "Animatronic",
@@ -159,7 +161,11 @@ GM.Strings = {
 function fnafgmLoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
-		table.Merge( GAMEMODE.Strings["base"], GAMEMODE.Strings[lang] )
+		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: "..lang.." strings loaded!\n" )
+	elseif ( lang=="en" or lang=="" ) and GAMEMODE.Strings["en"] then
+		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings["en"] )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: default strings loaded!\n" )
 	end
 	
 end
@@ -429,7 +435,7 @@ end
 
 function GM:CreateTeams()
 	
-	team.SetUp( 1, GAMEMODE.Strings.base.sg, GAMEMODE.Colors_sg )
+	team.SetUp( 1, tostring(GAMEMODE.TranslatedStrings.sg or GAMEMODE.Strings.en.sg), GAMEMODE.Colors_sg )
 	team.SetClass(1, { "player_fnafgmsecurityguard" } )
 	if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" then
 		team.SetSpawnPoint( 1, { "info_player_terrorist" } )
@@ -439,11 +445,11 @@ function GM:CreateTeams()
 		team.SetSpawnPoint( 1, GAMEMODE.Spawns_sg )
 	end
 	
-	team.SetUp( 2, GAMEMODE.Strings.base.animatronics, GAMEMODE.Colors_animatronics )
+	team.SetUp( 2, tostring(GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics), GAMEMODE.Colors_animatronics )
 	team.SetClass(2, { "player_fnafgmfoxy", "player_fnafgmfreddy", "player_fnafgmbonnie", "player_fnafgmchica" }, SGvsA)
 	team.SetSpawnPoint( 2, GAMEMODE.Spawns_animatronics )
 	
-	team.SetUp(TEAM_SPECTATOR, GAMEMODE.Strings.base.spectator, Color(128, 128, 128))
+	team.SetUp(TEAM_SPECTATOR, tostring(GAMEMODE.TranslatedStrings.spectator or GAMEMODE.Strings.en.spectator), Color(128, 128, 128))
 	
 	team.SetUp(TEAM_UNASSIGNED, "Unassigned", Color(128, 128, 128), false)
 	

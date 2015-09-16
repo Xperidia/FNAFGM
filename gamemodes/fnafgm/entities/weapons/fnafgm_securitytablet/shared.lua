@@ -1,7 +1,7 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 
-SWEP.PrintName = GAMEMODE.Strings.base.monitor
+SWEP.PrintName = GAMEMODE.Strings.en.monitor
 SWEP.Slot = 0
 SWEP.SlotPos = 0
 SWEP.DrawAmmo = false
@@ -12,8 +12,8 @@ SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
 
 SWEP.Author = "Xperidia"
-SWEP.Instructions = GAMEMODE.Strings.base.monitor_inst
-SWEP.Purpose = GAMEMODE.Strings.base.monitor_purp
+SWEP.Instructions = GAMEMODE.Strings.en.monitor_inst
+SWEP.Purpose = GAMEMODE.Strings.en.monitor_purp
 SWEP.Category = "FNAFGM"
 
 SWEP.Primary.ClipSize = -1
@@ -31,9 +31,9 @@ SWEP.Secondary.Ammo = "none"
 function SWEP:Initialize()
 	self:SetWeaponHoldType("normal")
 	if CLIENT then
-		self.PrintName = GAMEMODE.Strings.base.monitor
-		self.Instructions = GAMEMODE.Strings.base.monitor_inst
-		self.Purpose = GAMEMODE.Strings.base.monitor_purp
+		self.PrintName = tostring(GAMEMODE.TranslatedStrings.monitor or GAMEMODE.Strings.en.monitor)
+		self.Instructions = tostring(GAMEMODE.TranslatedStrings.monitor_inst or GAMEMODE.Strings.en.monitor_inst)
+		self.Purpose = tostring(GAMEMODE.TranslatedStrings.monitor_purp or GAMEMODE.Strings.en.monitor_purp)
 	end
 end
 

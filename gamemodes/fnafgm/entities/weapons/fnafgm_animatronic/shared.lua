@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-SWEP.PrintName			= GAMEMODE.Strings.base.animatronic			
+SWEP.PrintName			= GAMEMODE.Strings.en.animatronic			
 SWEP.Author			= "Xperidia"
 SWEP.Instructions		= "Click to toggle visibility"
 SWEP.Purpose = "Respect the Freddy Fazbear's Pizza rules"
@@ -34,6 +34,12 @@ SWEP.ViewModel			= "models/weapons/c_arms.mdl"
 SWEP.WorldModel			= ""
 
 function SWEP:Initialize()
+	
+	if CLIENT then
+		self.PrintName = tostring(GAMEMODE.TranslatedStrings.animatronic or GAMEMODE.Strings.en.animatronic)
+		--self.Instructions = tostring(GAMEMODE.TranslatedStrings.animatronic_inst or GAMEMODE.Strings.en.animatronic_inst)
+		--self.Purpose = tostring(GAMEMODE.TranslatedStrings.animatronic_purp or GAMEMODE.Strings.en.animatronic_purp)
+	end
 	
 	self:SetHoldType( "normal" )
 	if SERVER then
@@ -111,16 +117,16 @@ function SWEP:Think()
 				if ( !IsValid( attacker ) ) then attacker = self end
 				if player_manager.GetPlayerClass(self.Owner)=="player_fnafgmfreddy" then
 					v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
-					anima = GAMEMODE.Strings.base.freddy
+					anima = tostring(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy)
 				elseif player_manager.GetPlayerClass(self.Owner)=="player_fnafgmchica" then
 					v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
-					anima = GAMEMODE.Strings.base.chica
+					anima = tostring(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica)
 				elseif player_manager.GetPlayerClass(self.Owner)=="player_fnafgmbonnie" then
 					v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
-					anima = GAMEMODE.Strings.base.bonnie
+					anima = tostring(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie)
 				elseif player_manager.GetPlayerClass(self.Owner)=="player_fnafgmgoldenfreddy" then
 					v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_goldenfreddy )
-					anima = GAMEMODE.Strings.base.goldenfreddy
+					anima = tostring(GAMEMODE.TranslatedStrings.goldenfreddy or GAMEMODE.Strings.en.goldenfreddy)
 					sound = GAMEMODE.Sound_xscream2
 				end
 				
