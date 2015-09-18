@@ -109,7 +109,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	elseif name=="StartNight" then
 		
-		fnafgmUse(nil, nil, true)
+		fnafgmUse(activator, nil, true)
 		
 	
 	elseif name=="LightOn" then
