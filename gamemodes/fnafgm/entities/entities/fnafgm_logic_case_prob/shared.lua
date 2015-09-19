@@ -7,19 +7,29 @@ ENT.Author = "Xperidia"
 
 function ENT:AcceptInput( name, activator, caller, data )
 	
-	print( name, activator, caller, data )
+	if debugmode then print( name, activator, caller, data ) end
 	
 	if name=="PickRandom" then
 		
-		local caselol = "OnCase"..string.format("%02d", math.random( 1, #self.Cases ))
+		local caselol = nil
 		
-		for k, v in SortedPairsByValue(self.CasesProb) do
-			local prob = math.Rand(0, 1)
-			print(k,v,prob)
-			if prob<tonumber(v) then
-				caselol=k
+		while caselol==nil do
+		
+			for k, v in SortedPairsByValue(self.CasesProb) do
+				
+				local prob = math.Rand(0, 1)
+				if debugmode then print(k,v,prob) end
+				if prob<tonumber(v) and lastcase!=k then
+					caselol=k
+				end
+				
 			end
+		
 		end
+		
+		lastcase = caselol
+		
+		if debugmode then print(caselol) end
 		
 		self:TriggerOutput(caselol, activator)
 		
@@ -32,7 +42,7 @@ end
 
 function ENT:KeyValue(k, v)
 	
-	print(k, v)
+	if debugmode then print(k, v) end
 	
 	if string.Left(k, 6) == "OnCase" then
 		
@@ -44,7 +54,6 @@ function ENT:KeyValue(k, v)
 		
 		if !self.CasesProb then self.CasesProb = {} end
 		self.CasesProb["On"..string.sub(k, 5)] = v
-		PrintTable(self.CasesProb)
 		
 	end
 	
