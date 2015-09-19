@@ -911,6 +911,19 @@ hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
 			[ "$pp_colour_mulb" ] = 0
 		}
         DrawColorModify(colormod)
+	elseif tobool(startday) and client:Team()==1 and client:Alive() and !CheckPlayerSecurityRoom(client) then
+		local colormod = {
+			[ "$pp_colour_addr" ] = 0,
+			[ "$pp_colour_addg" ] = 0,
+			[ "$pp_colour_addb" ] = 0,
+			[ "$pp_colour_brightness" ] = 0,
+			[ "$pp_colour_contrast" ] = 1,
+			[ "$pp_colour_colour" ] = 0.5,
+			[ "$pp_colour_mulr" ] = 0,
+			[ "$pp_colour_mulg" ] = 0,
+			[ "$pp_colour_mulb" ] = 0
+		}
+        DrawColorModify(colormod)
     end
 end)
 
