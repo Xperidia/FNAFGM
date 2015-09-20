@@ -56,12 +56,23 @@ function fnafgmFNaFViewHUD()
 				FNaFView:Close()
 			end
 			
-			if LocalPlayer():Alive() and IsValid(LeftZone) and vgui.GetHoveredPanel()==LeftZone and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()!=GAMEMODE.FNaFView[game.GetMap()][3] then
-				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, 2, 0 ))
+			local fps = 1/FrameTime()
+			local speed = 2
+			
+			if fps>=75 then
+				speed = 2
+			elseif fps>=30 then
+				speed = 4
+			elseif fps<30 then
+				speed = 5
 			end
 			
-			if LocalPlayer():Alive() and IsValid(RightZone) and vgui.GetHoveredPanel()==RightZone and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()!=GAMEMODE.FNaFView[game.GetMap()][4] then
-				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -2, 0 ))
+			if LocalPlayer():Alive() and IsValid(LeftZone) and vgui.GetHoveredPanel()==LeftZone and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()[2]<=GAMEMODE.FNaFView[game.GetMap()][3][2] then
+				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, speed, 0 ))
+			end
+			
+			if LocalPlayer():Alive() and IsValid(RightZone) and vgui.GetHoveredPanel()==RightZone and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()[2]>=GAMEMODE.FNaFView[game.GetMap()][4][2] then
+				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -speed, 0 ))
 			end
 			
 			if input.IsKeyDown( KEY_ESCAPE ) then
