@@ -422,10 +422,10 @@ function GM:HUDPaint()
 						render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
 					cam.End3D()
 				elseif client:Team()==2 then
-					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.freddys_startanimatronics or GAMEMODE.Strings.en.freddys_startanimatronics), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
+					draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_startanimatronics or GAMEMODE.Strings.en.freddys_startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 				end
 			elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.fnaf2_start_2 or GAMEMODE.Strings.en.fnaf2_start_2)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+				draw.DrawText(string.upper(string.format( GAMEMODE.TranslatedStrings.fnaf2_start_2 or GAMEMODE.Strings.en.fnaf2_start_2, GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics )), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 				cam.Start3D(EyePos(), EyeAngles())
 					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 					local varpos = math.random(64, 100)
@@ -628,7 +628,7 @@ function GM:HUDPaint()
 			end
 			
 		elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.fnaf2_start or GAMEMODE.Strings.en.fnaf2_start)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(string.format( GAMEMODE.TranslatedStrings.fnaf2_start or GAMEMODE.Strings.en.fnaf2_start, GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics )), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			cam.Start3D(EyePos(), EyeAngles())
 				render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 				local varpos = math.random(64, 100)
