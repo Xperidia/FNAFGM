@@ -1177,7 +1177,7 @@ if !opened then
 		local CAM = vgui.Create( "DNumberWang" )
 		CAM:SetParent(SecTabInt)
 		CAM:SetPos( ScrW()/2-16, ScrH()-80-50-80 )
-		CAM:SetMinMax(1,13)
+		CAM:SetMinMax(1,table.Count(ents.FindByClass( "fnafgm_camera" )))
 		CAM:SetSize( 34, 28 )
 		CAM:SetValue(lastcam)
 		CAM.OnValueChanged = function( val )
