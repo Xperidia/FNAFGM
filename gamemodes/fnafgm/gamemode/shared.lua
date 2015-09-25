@@ -195,11 +195,13 @@ GM.Strings = {
 function fnafgmLoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
-		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
+		--table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
+		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' strings loaded!\n" )
-	elseif lang!="" and GAMEMODE.Strings["en"] then
-		table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings["en"] )
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' is not supported! 'en' strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/\n" )
+	elseif lang!="" then
+		--table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings["en"] )
+		table.Empty(GAMEMODE.TranslatedStrings)
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/\n" )
 	end
 	
 end

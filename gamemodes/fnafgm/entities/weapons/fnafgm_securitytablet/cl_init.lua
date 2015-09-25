@@ -65,18 +65,18 @@ if !opened then
 	
 	LocalPlayer():ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_camstatic )
 
-	SecTabInt = vgui.Create( "DFrame" )
-	SecTabInt:SetPos( 0, 0 )
-	SecTabInt:SetSize( ScrW(), ScrH() )
-	SecTabInt:SetTitle( "" )
-	SecTabInt:SetVisible( true )
-	SecTabInt:SetDraggable( false )
-	SecTabInt:ShowCloseButton( false )
-	SecTabInt:SetScreenLock(false)
-	SecTabInt:SetPaintShadow(true)
-	SecTabInt:SetBackgroundBlur(true)
-	SecTabInt:MakePopup()
-	SecTabInt.Paint = function( self, w, h )
+	Monitor = vgui.Create( "DFrame" )
+	Monitor:SetPos( 0, 0 )
+	Monitor:SetSize( ScrW(), ScrH() )
+	Monitor:SetTitle( "" )
+	Monitor:SetVisible( true )
+	Monitor:SetDraggable( false )
+	Monitor:ShowCloseButton( false )
+	Monitor:SetScreenLock(false)
+	Monitor:SetPaintShadow(true)
+	Monitor:SetBackgroundBlur(true)
+	Monitor:MakePopup()
+	Monitor.Paint = function( self, w, h )
 		surface.SetDrawColor( 255, 255, 255, 255 )
 		surface.DrawOutlinedRect( 35, 30, w-70, h-60 )
 		surface.SetDrawColor( 255, 0, 0, 255 )
@@ -85,7 +85,7 @@ if !opened then
 			draw.Circle( 160, 160, 45, 64 )
 		end
 	end
-	SecTabInt.OnClose = function()
+	Monitor.OnClose = function()
 		fnafgmSetView( 0 )
 		opened = false
 		LocalPlayer():ConCommand( "pp_mat_overlay ''" )
@@ -98,7 +98,7 @@ if !opened then
 	if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
 		
 		local CamsNames = vgui.Create( "DLabel" )
-		CamsNames:SetParent(SecTabInt)
+		CamsNames:SetParent(Monitor)
 		CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
@@ -107,7 +107,7 @@ if !opened then
 		
 		if !tobool(mute) then
 			local MUTET = vgui.Create( "DImage" )
-			MUTET:SetParent(SecTabInt)
+			MUTET:SetParent(Monitor)
 			MUTET:SetImage( "fnafgm/mute" )
 			MUTET:SetSize( 128, 32 )
 			MUTET:SetPos( 64, 64 )
@@ -128,7 +128,7 @@ if !opened then
 		end
 		
 		local KitchenText = vgui.Create( "DLabel" )
-		KitchenText:SetParent(SecTabInt)
+		KitchenText:SetParent(Monitor)
 		KitchenText:SetText( "-CAMERA DISABLED-" )
 		KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 		KitchenText:SetFont("FNAFGMTIME")
@@ -137,7 +137,7 @@ if !opened then
 		KitchenText:SizeToContents()
 		
 		local KitchenText2 = vgui.Create( "DLabel" )
-		KitchenText2:SetParent(SecTabInt)
+		KitchenText2:SetParent(Monitor)
 		KitchenText2:SetText( "AUDIO ONLY" )
 		KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		KitchenText2:SetFont("FNAFGMTIME")
@@ -151,19 +151,19 @@ if !opened then
 		end
 		
 		local map = vgui.Create( "DImage" )
-		map:SetParent(SecTabInt)
+		map:SetParent(Monitor)
 		map:SetImage( GAMEMODE.Materials_mapfreddys )
 		map:SetPos( ScrW()-64-512, ScrH()-64-512 )
 		map:SetSize( 512, 512 )
 		
-		local Backstage = vgui.Create( "DButton" )
-		Backstage:SetParent(map)
-		Backstage:SetSize( 76, 49 )
-		Backstage:SetPos( 0, 143 )
-		Backstage:SetText( "" )
-		Backstage:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Backstage:SetFont("FNAFGMTXT")
-		Backstage.DoClick = function( button )
+		local CAM6 = vgui.Create( "DButton" )
+		CAM6:SetParent(map)
+		CAM6:SetSize( 76, 49 )
+		CAM6:SetPos( 0, 143 )
+		CAM6:SetText( "" )
+		CAM6:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM6:SetFont("FNAFGMTXT")
+		CAM6.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 6 )
 			lastcam = 6
@@ -171,20 +171,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Backstage.Paint = function( self, w, h )
+		CAM6.Paint = function( self, w, h )
 			if lastcam==6 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local Bathroom = vgui.Create( "DButton" )
-		Bathroom:SetParent(map)
-		Bathroom:SetSize( 76, 50 )
-		Bathroom:SetPos( 431, 143 )
-		Bathroom:SetText( "" )
-		Bathroom:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Bathroom:SetFont("FNAFGMTXT")
-		Bathroom.DoClick = function( button )
+		local CAM8 = vgui.Create( "DButton" )
+		CAM8:SetParent(map)
+		CAM8:SetSize( 76, 50 )
+		CAM8:SetPos( 431, 143 )
+		CAM8:SetText( "" )
+		CAM8:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM8:SetFont("FNAFGMTXT")
+		CAM8.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 8 )
 			lastcam = 8
@@ -192,20 +192,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Bathroom.Paint = function( self, w, h )
+		CAM8.Paint = function( self, w, h )
 			if lastcam==8 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local Cove = vgui.Create( "DButton" )
-		Cove:SetParent(map)
-		Cove:SetSize( 75, 49 )
-		Cove:SetPos( 95, 208 )
-		Cove:SetText( "" )
-		Cove:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Cove:SetFont("FNAFGMTXT")
-		Cove.DoClick = function( button )
+		local CAM9 = vgui.Create( "DButton" )
+		CAM9:SetParent(map)
+		CAM9:SetSize( 75, 49 )
+		CAM9:SetPos( 95, 208 )
+		CAM9:SetText( "" )
+		CAM9:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM9:SetFont("FNAFGMTXT")
+		CAM9.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 9 )
 			lastcam = 9
@@ -213,20 +213,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Cove.Paint = function( self, w, h )
+		CAM9.Paint = function( self, w, h )
 			if lastcam==9 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 		
-		local Kitchen = vgui.Create( "DButton" )
-		Kitchen:SetParent(map)
-		Kitchen:SetSize( 76, 49 )
-		Kitchen:SetPos( 421, 312 )
-		Kitchen:SetText( "" )
-		Kitchen:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Kitchen:SetFont("FNAFGMTXT")
-		Kitchen.DoClick = function( button )
+		local CAM11 = vgui.Create( "DButton" )
+		CAM11:SetParent(map)
+		CAM11:SetSize( 76, 49 )
+		CAM11:SetPos( 421, 312 )
+		CAM11:SetText( "" )
+		CAM11:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM11:SetFont("FNAFGMTXT")
+		CAM11.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 11 )
 			lastcam = 11
@@ -234,20 +234,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 255 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 255 ) )
 		end
-		Kitchen.Paint = function( self, w, h )
+		CAM11.Paint = function( self, w, h )
 			if lastcam==11 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local East_Hall = vgui.Create( "DButton" )
-		East_Hall:SetParent(map)
-		East_Hall:SetSize( 75, 49 )
-		East_Hall:SetPos( 297, 358 )
-		East_Hall:SetText( "" )
-		East_Hall:SetTextColor( Color( 255, 255, 255, 255 ) )
-		East_Hall:SetFont("FNAFGMTXT")
-		East_Hall.DoClick = function( button )
+		local CAM4 = vgui.Create( "DButton" )
+		CAM4:SetParent(map)
+		CAM4:SetSize( 75, 49 )
+		CAM4:SetPos( 297, 358 )
+		CAM4:SetText( "" )
+		CAM4:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM4:SetFont("FNAFGMTXT")
+		CAM4.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 4 )
 			lastcam = 4
@@ -255,20 +255,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		East_Hall.Paint = function( self, w, h )
+		CAM4.Paint = function( self, w, h )
 			if lastcam==4 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local East_Hall_C = vgui.Create( "DButton" )
-		East_Hall_C:SetParent(map)
-		East_Hall_C:SetSize( 75, 48 )
-		East_Hall_C:SetPos( 297, 410 )
-		East_Hall_C:SetText( "" )
-		East_Hall_C:SetTextColor( Color( 255, 255, 255, 255 ) )
-		East_Hall_C:SetFont("FNAFGMTXT")
-		East_Hall_C.DoClick = function( button )
+		local CAM5 = vgui.Create( "DButton" )
+		CAM5:SetParent(map)
+		CAM5:SetSize( 75, 48 )
+		CAM5:SetPos( 297, 410 )
+		CAM5:SetText( "" )
+		CAM5:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM5:SetFont("FNAFGMTXT")
+		CAM5.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 5 )
 			lastcam = 5
@@ -276,20 +276,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		East_Hall_C.Paint = function( self, w, h )
+		CAM5.Paint = function( self, w, h )
 			if lastcam==5 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local Stage = vgui.Create( "DButton" )
-		Stage:SetParent(map)
-		Stage:SetSize( 76, 49 )
-		Stage:SetPos( 161, 37 )
-		Stage:SetText( "" )
-		Stage:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Stage:SetFont("FNAFGMTXT")
-		Stage.DoClick = function( button )
+		local CAM7 = vgui.Create( "DButton" )
+		CAM7:SetParent(map)
+		CAM7:SetSize( 76, 49 )
+		CAM7:SetPos( 161, 37 )
+		CAM7:SetText( "" )
+		CAM7:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM7:SetFont("FNAFGMTXT")
+		CAM7.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 7 )
 			lastcam = 7
@@ -297,20 +297,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Stage.Paint = function( self, w, h )
+		CAM7.Paint = function( self, w, h )
 			if lastcam==7 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local Dining_Hall = vgui.Create( "DButton" )
-		Dining_Hall:SetParent(map)
-		Dining_Hall:SetSize( 75, 48 )
-		Dining_Hall:SetPos( 136, 109 )
-		Dining_Hall:SetText( "" )
-		Dining_Hall:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Dining_Hall:SetFont("FNAFGMTXT")
-		Dining_Hall.DoClick = function( button )
+		local CAM10 = vgui.Create( "DButton" )
+		CAM10:SetParent(map)
+		CAM10:SetSize( 75, 48 )
+		CAM10:SetPos( 136, 109 )
+		CAM10:SetText( "" )
+		CAM10:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM10:SetFont("FNAFGMTXT")
+		CAM10.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 10 )
 			lastcam = 10
@@ -318,20 +318,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Dining_Hall.Paint = function( self, w, h )
+		CAM10.Paint = function( self, w, h )
 			if lastcam==10 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local Supply_Room = vgui.Create( "DButton" )
-		Supply_Room:SetParent(map)
-		Supply_Room:SetSize( 75, 49 )
-		Supply_Room:SetPos( 54, 334 )
-		Supply_Room:SetText( "" )
-		Supply_Room:SetTextColor( Color( 255, 255, 255, 255 ) )
-		Supply_Room:SetFont("FNAFGMTXT")
-		Supply_Room.DoClick = function( button )
+		local CAM3 = vgui.Create( "DButton" )
+		CAM3:SetParent(map)
+		CAM3:SetSize( 75, 49 )
+		CAM3:SetPos( 54, 334 )
+		CAM3:SetText( "" )
+		CAM3:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM3:SetFont("FNAFGMTXT")
+		CAM3.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 3 )
 			lastcam = 3
@@ -339,20 +339,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		Supply_Room.Paint = function( self, w, h )
+		CAM3.Paint = function( self, w, h )
 			if lastcam==3 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local West_Hall = vgui.Create( "DButton" )
-		West_Hall:SetParent(map)
-		West_Hall:SetSize( 76, 50 )
-		West_Hall:SetPos( 161, 357 )
-		West_Hall:SetText( "" )
-		West_Hall:SetTextColor( Color( 255, 255, 255, 255 ) )
-		West_Hall:SetFont("FNAFGMTXT")
-		West_Hall.DoClick = function( button )
+		local CAM2 = vgui.Create( "DButton" )
+		CAM2:SetParent(map)
+		CAM2:SetSize( 76, 50 )
+		CAM2:SetPos( 161, 357 )
+		CAM2:SetText( "" )
+		CAM2:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM2:SetFont("FNAFGMTXT")
+		CAM2.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 2 )
 			lastcam = 2
@@ -360,20 +360,20 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		West_Hall.Paint = function( self, w, h )
+		CAM2.Paint = function( self, w, h )
 			if lastcam==2 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
 		end
 
-		local West_Hall_C = vgui.Create( "DButton" )
-		West_Hall_C:SetParent(map)
-		West_Hall_C:SetSize( 76, 50 )
-		West_Hall_C:SetPos( 161, 408 )
-		West_Hall_C:SetText( "" )
-		West_Hall_C:SetTextColor( Color( 255, 255, 255, 255 ) )
-		West_Hall_C:SetFont("FNAFGMTXT")
-		West_Hall_C.DoClick = function( button )
+		local CAM1 = vgui.Create( "DButton" )
+		CAM1:SetParent(map)
+		CAM1:SetSize( 76, 50 )
+		CAM1:SetPos( 161, 408 )
+		CAM1:SetText( "" )
+		CAM1:SetTextColor( Color( 255, 255, 255, 255 ) )
+		CAM1:SetFont("FNAFGMTXT")
+		CAM1.DoClick = function( button )
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 			fnafgmSetView( 1 )
 			lastcam = 1
@@ -381,7 +381,7 @@ if !opened then
 			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 		end
-		West_Hall_C.Paint = function( self, w, h )
+		CAM1.Paint = function( self, w, h )
 			if lastcam==1 then
 				draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 			end
@@ -389,7 +389,7 @@ if !opened then
 		
 		
 		CloseT = vgui.Create( "DButton" )
-		CloseT:SetParent(SecTabInt)
+		CloseT:SetParent(Monitor)
 		CloseT:SetSize( ScrW()/2-128, 80 )
 		CloseT:SetPos( 512-128, ScrH()-80-50 )
 		CloseT:SetText( "" )
@@ -397,7 +397,7 @@ if !opened then
 		CloseT:SetFont("FNAFGMID")
 		CloseT.DoClick = function( button )
 			if IsValid(FNaFView) then waitt = CurTime()+1 end
-			SecTabInt:Close()
+			Monitor:Close()
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 			if IsValid(OpenT) then OpenT:Show() end
 		end
@@ -406,7 +406,7 @@ if !opened then
 				if !waitt then waitt=0 end
 				if waitt<CurTime() then
 					waitt = CurTime()+0.5
-					SecTabInt:Close()
+					Monitor:Close()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					if IsValid(OpenT) then OpenT:Show() end
 				end
@@ -435,7 +435,7 @@ if !opened then
 
 
 		local CamsNames = vgui.Create( "DLabel" )
-		CamsNames:SetParent(SecTabInt)
+		CamsNames:SetParent(Monitor)
 		CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
@@ -444,14 +444,14 @@ if !opened then
 		
 		
 		local map = vgui.Create( "DImage" )
-		map:SetParent(SecTabInt)
+		map:SetParent(Monitor)
 		map:SetImage( GAMEMODE.Materials_mapfnaf2 )
 		map:SetPos( ScrW()-64-512, ScrH()-128-512 )
 		map:SetSize( 512, 512 )
 		
 		
 		local lightbtn = vgui.Create( "DButton" )
-		lightbtn:SetParent(SecTabInt)
+		lightbtn:SetParent(Monitor)
 		lightbtn:SetSize( ScrW()/2+64, ScrH()-400 )
 		lightbtn:SetPos( 64, 256 )
 		lightbtn:SetText( "" )
@@ -703,7 +703,7 @@ if !opened then
 		
 		
 		CloseT = vgui.Create( "DButton" )
-		CloseT:SetParent(SecTabInt)
+		CloseT:SetParent(Monitor)
 		CloseT:SetSize( ScrW()/2 - 128, 64 )
 		CloseT:SetPos( ScrW()/2 + 32, ScrH()-80-50 )
 		CloseT:SetText( "" )
@@ -711,7 +711,7 @@ if !opened then
 		CloseT:SetFont("FNAFGMID")
 		CloseT.DoClick = function( button )
 			if IsValid(FNaFView) then waitt = CurTime()+1 end
-			SecTabInt:Close()
+			Monitor:Close()
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown2)
 			if IsValid(OpenT) then OpenT:Show() end
 			if IsValid(SafeE) then SafeE:Show() end
@@ -721,7 +721,7 @@ if !opened then
 				if !waitt then waitt=0 end
 				if waitt<CurTime() then
 					waitt = CurTime()+0.5
-					SecTabInt:Close()
+					Monitor:Close()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown2)
 					if IsValid(OpenT) then OpenT:Show() end
 					if IsValid(SafeE) then SafeE:Show() end
@@ -750,7 +750,7 @@ if !opened then
 	elseif game.GetMap()=="fnap_scc" then
 		
 		local CamsNames = vgui.Create( "DLabel" )
-		CamsNames:SetParent(SecTabInt)
+		CamsNames:SetParent(Monitor)
 		CamsNames:SetText( GAMEMODE.CamsNames["fnap_scc_"..lastcam] or "" )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
@@ -758,13 +758,13 @@ if !opened then
 		CamsNames:SetSize( 512, 64 )
 		
 		local map = vgui.Create( "DImage" )
-		map:SetParent(SecTabInt)
+		map:SetParent(Monitor)
 		map:SetImage( "fnapgm/map_fnap_scc_1" )
 		map:SetPos( ScrW()-64-512, ScrH()-64-512 )
 		map:SetSize( 512, 512 )
 		
 		local map2 = vgui.Create( "DImage" )
-		map2:SetParent(SecTabInt)
+		map2:SetParent(Monitor)
 		map2:SetImage( "fnapgm/map_fnap_scc_2" )
 		map2:SetPos( 64, ScrH()-64-512 )
 		map2:SetSize( 512, 512 )
@@ -1054,7 +1054,7 @@ if !opened then
 		
 		
 		CloseT = vgui.Create( "DButton" )
-		CloseT:SetParent(SecTabInt)
+		CloseT:SetParent(Monitor)
 		CloseT:SetSize( 512, 80 )
 		CloseT:SetPos( ScrW()/2-256, ScrH()-80-50 )
 		CloseT:SetText( "" )
@@ -1062,7 +1062,7 @@ if !opened then
 		CloseT:SetFont("FNAFGMID")
 		CloseT.DoClick = function( button )
 			if IsValid(FNaFView) then waitt = CurTime()+1 end
-			SecTabInt:Close()
+			Monitor:Close()
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 			if IsValid(OpenT) then OpenT:Show() end
 		end
@@ -1071,7 +1071,7 @@ if !opened then
 				if !waitt then waitt=0 end
 				if waitt<CurTime() then
 					waitt = CurTime()+0.5
-					SecTabInt:Close()
+					Monitor:Close()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					if IsValid(OpenT) then OpenT:Show() end
 				end
@@ -1100,7 +1100,7 @@ if !opened then
 		
 		
 		local CamsNames = vgui.Create( "DLabel" )
-		CamsNames:SetParent(SecTabInt)
+		CamsNames:SetParent(Monitor)
 		CamsNames:SetText( "CAM"..lastcam )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
@@ -1108,7 +1108,7 @@ if !opened then
 		CamsNames:SetSize( 200, 64 )
 		
 		local CAM = vgui.Create( "DNumberWang" )
-		CAM:SetParent(SecTabInt)
+		CAM:SetParent(Monitor)
 		CAM:SetPos( ScrW()/2-16, ScrH()-80-50-80 )
 		CAM:SetMinMax(1,15)
 		CAM:SetSize( 34, 28 )
@@ -1121,7 +1121,7 @@ if !opened then
 		end
 		
 		CloseT = vgui.Create( "DButton" )
-		CloseT:SetParent(SecTabInt)
+		CloseT:SetParent(Monitor)
 		CloseT:SetSize( 512, 80 )
 		CloseT:SetPos( ScrW()/2-256, ScrH()-80-50 )
 		CloseT:SetText( "" )
@@ -1129,7 +1129,7 @@ if !opened then
 		CloseT:SetFont("FNAFGMID")
 		CloseT.DoClick = function( button )
 			if IsValid(FNaFView) then waitt = CurTime()+1 end
-			SecTabInt:Close()
+			Monitor:Close()
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown3)
 			if IsValid(OpenT) then OpenT:Show() end
 		end
@@ -1138,7 +1138,7 @@ if !opened then
 				if !waitt then waitt=0 end
 				if waitt<CurTime() then
 					waitt = CurTime()+0.5
-					SecTabInt:Close()
+					Monitor:Close()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown3)
 					if IsValid(OpenT) then OpenT:Show() end
 				end
@@ -1167,7 +1167,7 @@ if !opened then
 		
 		
 		local CamsNames = vgui.Create( "DLabel" )
-		CamsNames:SetParent(SecTabInt)
+		CamsNames:SetParent(Monitor)
 		CamsNames:SetText( "CAM"..lastcam )
 		CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		CamsNames:SetFont("FNAFGMTIME")
@@ -1175,7 +1175,7 @@ if !opened then
 		CamsNames:SetSize( 200, 64 )
 		
 		local CAM = vgui.Create( "DNumberWang" )
-		CAM:SetParent(SecTabInt)
+		CAM:SetParent(Monitor)
 		CAM:SetPos( ScrW()/2-16, ScrH()-80-50-80 )
 		CAM:SetMinMax(1,table.Count(ents.FindByClass( "fnafgm_camera" )))
 		CAM:SetSize( 34, 28 )
@@ -1188,7 +1188,7 @@ if !opened then
 		end
 		
 		CloseT = vgui.Create( "DButton" )
-		CloseT:SetParent(SecTabInt)
+		CloseT:SetParent(Monitor)
 		CloseT:SetSize( 512, 80 )
 		CloseT:SetPos( ScrW()/2-256, ScrH()-80-50 )
 		CloseT:SetText( "" )
@@ -1196,7 +1196,7 @@ if !opened then
 		CloseT:SetFont("FNAFGMID")
 		CloseT.DoClick = function( button )
 			if IsValid(FNaFView) then waitt = CurTime()+1 end
-			SecTabInt:Close()
+			Monitor:Close()
 			LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 			if IsValid(OpenT) then OpenT:Show() end
 		end
@@ -1205,7 +1205,7 @@ if !opened then
 				if !waitt then waitt=0 end
 				if waitt<CurTime() then
 					waitt = CurTime()+0.5
-					SecTabInt:Close()
+					Monitor:Close()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					if IsValid(OpenT) then OpenT:Show() end
 				end
@@ -1241,8 +1241,8 @@ end
 
 function fnafgmCloseTablet()
 	
-	if IsValid(SecTabInt) then
-		SecTabInt:Close()
+	if IsValid(Monitor) then
+		Monitor:Close()
 	end
 	
 end
@@ -1251,12 +1251,12 @@ end
 
 function SWEP:Think()
 	
-	if IsValid(SecTabInt) and (!LocalPlayer():Alive() or tobool(tempostart) or (power==0 and game.GetMap()!="fnaf2")) then
-		SecTabInt:Close()
+	if IsValid(Monitor) and (!LocalPlayer():Alive() or tobool(tempostart) or (power==0 and game.GetMap()!="fnaf2")) then
+		Monitor:Close()
 	end
 			
-	if IsValid(SecTabInt) and input.IsKeyDown( KEY_ESCAPE ) then
-		SecTabInt:Close()
+	if IsValid(Monitor) and input.IsKeyDown( KEY_ESCAPE ) then
+		Monitor:Close()
 	end
 	
 end

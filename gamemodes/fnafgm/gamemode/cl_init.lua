@@ -802,12 +802,12 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		local monitorspace = 0
 		
 		if tobool(updateavailable) then
-			if IsValid(SecTabInt) then monitorspace = 30 end
+			if IsValid(Monitor) then monitorspace = 30 end
 			draw.DrawText("FNAFGM update available! V"..lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		if tobool(derivupdateavailable) then
-			if IsValid(SecTabInt) then monitorspace = 30 end
+			if IsValid(Monitor) then monitorspace = 30 end
 			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
