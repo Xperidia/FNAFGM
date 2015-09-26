@@ -527,13 +527,11 @@ function CheckPlayerSecurityRoom(ply)
 		local OppositeCorner = GAMEMODE.SecurityRoom[game.GetMap()][2]
 		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
 		if table.HasValue(PlayersInArea, ply) then return true end
-		if ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][1], GAMEMODE.SecurityRoom[game.GetMap()][2] ) then return true end
 		if GAMEMODE.SecurityRoom[game.GetMap()][3] then
 			local BoxCorner = GAMEMODE.SecurityRoom[game.GetMap()][3]
 			local OppositeCorner = GAMEMODE.SecurityRoom[game.GetMap()][4]
 			local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
 			if table.HasValue(PlayersInArea, ply) then return true end
-			if ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][3], GAMEMODE.SecurityRoom[game.GetMap()][4] ) then return true end
 		end
 		return false
 	else
