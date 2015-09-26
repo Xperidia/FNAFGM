@@ -48,9 +48,6 @@ function PLAYER:Loadout()
 
 	self.Player:RemoveAllAmmo()
 	self.Player:Give( "fnafgm_securitytablet" )
-	if game.GetMap()=="fnaf_freddypizzaevents" then
-		self.Player:Give( "fnafgm_securityscreenremote" )
-	end
 	
 end
 

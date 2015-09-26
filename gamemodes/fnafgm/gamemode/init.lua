@@ -67,6 +67,8 @@ util.AddNetworkString( "fnafgmMapSelect" )
 util.AddNetworkString( "fnafgmChangeMap" )
 util.AddNetworkString( "fnafgmDS" )
 util.AddNetworkString( "fnafgmNotif" )
+util.AddNetworkString( "fnafgmSecurityTablet" )
+util.AddNetworkString( "fnafgmCloseTablet" )
 
 
 function GM:SaveProgress()

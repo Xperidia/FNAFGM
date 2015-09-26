@@ -1,32 +1,31 @@
-AddCSLuaFile( "cl_init.lua" )
-AddCSLuaFile( "shared.lua" )
-
 SWEP.PrintName = GAMEMODE.Strings.en.monitor
-SWEP.Slot = 0
-SWEP.SlotPos = 0
-SWEP.DrawAmmo = false
-SWEP.DrawCrosshair = true
-
-SWEP.Weight = 5
-SWEP.AutoSwitchTo = false
-SWEP.AutoSwitchFrom = false
-
 SWEP.Author = "Xperidia"
 SWEP.Instructions = GAMEMODE.Strings.en.monitor_inst
 SWEP.Purpose = GAMEMODE.Strings.en.monitor_purp
-SWEP.Category = "FNAFGM"
 
-SWEP.Primary.ClipSize = -1
-SWEP.Primary.DefaultClip = -1
-SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "none"
-SWEP.ViewModel = "models/weapons/c_arms.mdl"
-SWEP.WorldModel = ""
+SWEP.Primary.ClipSize		= -1
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Automatic		= false
+SWEP.Primary.Ammo		= "none"
 
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "none"
+SWEP.Secondary.ClipSize		= -1
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Automatic	= false
+SWEP.Secondary.Ammo		= "none"
+
+SWEP.Weight			= 5
+SWEP.AutoSwitchTo		= false
+SWEP.AutoSwitchFrom		= false
+
+SWEP.ViewModelFOV	= 52
+SWEP.Slot			= 0
+SWEP.SlotPos			= 0
+SWEP.DrawAmmo			= false
+SWEP.DrawCrosshair		= true
+SWEP.BounceWeaponIcon = false
+
+SWEP.ViewModel			= "models/weapons/c_arms.mdl"
+SWEP.WorldModel			= ""
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType("normal")
@@ -65,8 +64,8 @@ function SWEP:SecondaryAttack()
 	
 	if SERVER and !self.Owner.fnafviewactive and ( ( CheckPlayerSecurityRoom(self.Owner) and startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!poweroff or game.GetMap()=="fnaf2") and !tempostart then
 		
-		umsg.Start( "fnafgmSecurityTablet", self.Owner ) 
-		umsg.End()
+		net.Start( "fnafgmSecurityTablet" )
+		net.Send(self.Owner)
 		
 		fnafgmShutLights()
 	
@@ -85,8 +84,8 @@ end
 function SWEP:Think()
 	
 	if SERVER and !CheckPlayerSecurityRoom(self.Owner) and !fnafgmPlayerCanByPass(self.Owner,"tab") then
-		umsg.Start( "fnafgmCloseTablet", self.Owner ) 
-		umsg.End()
+		net.Start( "fnafgmCloseTablet" )
+		net.Send(self.Owner)
 	end
 	
 end
