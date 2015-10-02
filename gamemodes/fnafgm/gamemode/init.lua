@@ -1630,7 +1630,6 @@ function fnafgmRestartNight()
 		BonnieTriggered = false
 		fnafgmMapOverrides()
 		fnafgmVarsUpdate()
-		fnafgmPowerUpdate()
 		for k, v in pairs(player.GetAll()) do
 			if ( game.SinglePlayer() ) then v:ConCommand("stopsound") else v:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
 			if v:Team()==1 or v:Team()==2 then
@@ -1686,7 +1685,6 @@ function fnafgmResetGame()
 	timer.Remove("fnafgmPowerOff2")
 	timer.Remove("fnafgmPowerOff3")
 	fnafgmVarsUpdate()
-	fnafgmPowerUpdate()
 	
 end
 
