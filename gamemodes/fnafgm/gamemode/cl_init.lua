@@ -413,35 +413,31 @@ function GM:HUDPaint()
 			
 			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
+			if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
+				draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			elseif client:Team()==2 then
+				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
+			end
+			
 			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
 				if client:Team()==1 then
-					draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_start_2 or GAMEMODE.Strings.en.freddys_start_2)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 					cam.Start3D(EyePos(), EyeAngles())
 						render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 						local varpos = math.random(16, 30)
 						render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
 					cam.End3D()
-				elseif client:Team()==2 then
-					draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_startanimatronics or GAMEMODE.Strings.en.freddys_startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 				end
 			elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-				draw.DrawText(string.upper(string.format( GAMEMODE.TranslatedStrings.fnaf2_start_2 or GAMEMODE.Strings.en.fnaf2_start_2, GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics )), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 				cam.Start3D(EyePos(), EyeAngles())
 					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 					local varpos = math.random(64, 100)
 					render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
 				cam.End3D()
-			elseif game.GetMap()=="fnaf3" and client:Team()==1 then
-				--Something, one day, maybe...
-			elseif game.GetMap()=="fnaf_freddypizzaevents" and client:Team()==1 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.fnaf_freddypizzaevents_start or GAMEMODE.Strings.en.fnaf_freddypizzaevents_start)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-			elseif game.GetMap()=="fnap_scc" and client:Team()==1 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_start_2 or GAMEMODE.Strings.en.freddys_start_2)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			end
 		
 		elseif !tobool(tempostart) then
 				
-			if (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnap_scc") and ( client:Team()!=1 or ( power!=0 and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and power!=0 ) ) then
+			if game.GetMap()!="fnaf2" and ( client:Team()!=1 or ( power!=0 and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and power!=0 ) ) then
 				
 				if (AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
 					powerusage=math.Rand( 1, 7 )
@@ -615,46 +611,41 @@ function GM:HUDPaint()
 		
 	else
 		
+		if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
+			draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+		elseif client:Team()==2 then
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
+		end
+		
 		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
 			if client:Team()==1 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_start or GAMEMODE.Strings.en.freddys_start)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 				cam.Start3D(EyePos(), EyeAngles())
 					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 					local varpos = math.random(16, 30)
 					render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
 				cam.End3D()
-			elseif client:Team()==2 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_startanimatronics or GAMEMODE.Strings.en.freddys_startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 			end
-			
 		elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-			draw.DrawText(string.upper(string.format( GAMEMODE.TranslatedStrings.fnaf2_start or GAMEMODE.Strings.en.fnaf2_start, GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics )), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			cam.Start3D(EyePos(), EyeAngles())
 				render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 				local varpos = math.random(64, 100)
 				render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
 			cam.End3D()
-		elseif game.GetMap()=="fnaf3" and client:Team()==1 then
-			--Something, one day, maybe...
-		elseif game.GetMap()=="fnaf_freddypizzaevents" and client:Team()==1 then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.fnaf_freddypizzaevents_start or GAMEMODE.Strings.en.fnaf_freddypizzaevents_start)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif game.GetMap()=="fnap_scc" and client:Team()==1 then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddys_start or GAMEMODE.Strings.en.freddys_start)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		end
 			
 	end
 	
 	if client:Team()==2 and client:Alive() then
 		if player_manager.GetPlayerClass(client)=="player_fnafgmfoxy" then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif player_manager.GetPlayerClass(client)=="player_fnafgmfreddy" then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif player_manager.GetPlayerClass(client)=="player_fnafgmchica" then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif player_manager.GetPlayerClass(client)=="player_fnafgmbonnie" then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif player_manager.GetPlayerClass(client)=="player_fnafgmgoldenfreddy" then
-			draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.goldenfreddy or GAMEMODE.Strings.en.goldenfreddy)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.goldenfreddy or GAMEMODE.Strings.en.goldenfreddy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		end
 		if IsValid(client:GetActiveWeapon()) and client:GetActiveWeapon():GetClass()=="fnafgm_animatronic" then
 			if tobool(avisible) then
@@ -666,10 +657,10 @@ function GM:HUDPaint()
 		
 	end
 	
-	if SGvsA and client:Team()==TEAM_UNASSIGNED and power!=0 then
-		draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.unassigned_SGvsA or GAMEMODE.Strings.en.unassigned_SGvsA)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.8, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-	elseif client:Team()==TEAM_UNASSIGNED and power==0 and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent") then
-		draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.unassigned_powerdown or GAMEMODE.Strings.en.unassigned_powerdown)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
+	if SGvsA and client:Team()==TEAM_UNASSIGNED and !poweroff then
+		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_SGvsA or GAMEMODE.Strings.en.unassigned_SGvsA), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.8, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+	elseif client:Team()==TEAM_UNASSIGNED and poweroff and game.GetMap()!="fnaf2" then
+		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_powerdown or GAMEMODE.Strings.en.unassigned_powerdown), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
 	if tobool(willviewcheck) and client:Team()==TEAM_UNASSIGNED then
