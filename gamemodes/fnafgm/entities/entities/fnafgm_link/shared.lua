@@ -7,7 +7,7 @@ ENT.Author = "Xperidia"
 
 function ENT:AcceptInput( name, activator, caller, data )
 	
-	--print( name, activator, caller, data )
+	if debugmode then print( name, activator, caller, data ) end
 	
 	if name=="FoxyKnockDoor" then
 		
@@ -151,6 +151,10 @@ function ENT:AcceptInput( name, activator, caller, data )
 	elseif name=="PlushTrapWin" then
 		
 		PlushTrapWin=true
+	
+	elseif name=="Jumpscared" then
+		
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..tostring(data).."\n" )
 		
 	end
 	
