@@ -16,7 +16,9 @@ AddCSLuaFile( "cl_menu.lua" )
 
 include( 'shared.lua' )
 
-resource.AddWorkshop( "363563548" )
+if file.Exists( "models/splinks/fnaf/freddy/player_freddy.mdl", "GAME" ) or SGvsA then
+	resource.AddWorkshop( "363563548" )
+end
 if game.GetMap()=="fnaf2" then resource.AddWorkshop( "382155331" ) end
 if game.GetMap()=="fnaf_freddypizzaevents" then
 	resource.AddWorkshop( "407563661" )
@@ -555,7 +557,10 @@ function GM:PostPlayerDeath( ply )
 				ent:SetCustomCollisionCheck(true)
 				if !game.SinglePlayer() then
 					if table.Count(GAMEMODE.Models_dead)!=0 then
-						ent:SetModel(table.Random(GAMEMODE.Models_dead))
+						local modele = table.Random(GAMEMODE.Models_dead)
+						if file.Exists( modele, "GAME" ) then
+							ent:SetModel(modele)
+						end
 					end
 					if GAMEMODE.DeadBodiesTeleport[game.GetMap()] then
 						ply:SetPos( table.Random(GAMEMODE.DeadBodiesTeleport[game.GetMap()]) )
@@ -808,7 +813,7 @@ end
 
 function fnafgmUse(ply, ent, test, test2)
 	
-	if debugmode and IsValid(ent) then ply:PrintMessage(HUD_PRINTTALK, "[DEBUG] SEE: "..ent:GetName().." ["..ent:GetClass().."] "..tostring(ent:GetPos())) end
+	if debugmode and IsValid(ent) then print(ent:GetName().." ["..ent:GetClass().."] "..tostring(ent:GetPos())) end
 	
 	hook.Call("fnafgmUseCustom", nil, ply, ent, test, test2)
 	

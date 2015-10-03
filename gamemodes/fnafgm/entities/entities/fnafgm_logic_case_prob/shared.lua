@@ -7,7 +7,7 @@ ENT.Author = "Xperidia"
 
 function ENT:AcceptInput( name, activator, caller, data )
 	
-	if debugmode then print( name, activator, caller, data ) end
+	if debugmode then print( self:GetName(), name, activator, caller, data ) end
 	
 	if name=="PickRandom" then
 		
