@@ -94,7 +94,7 @@ function fnafgmSecurityTablet()
 			if input.IsKeyDown( KEY_ESCAPE ) then
 				Monitor:Close()
 			end
-			if (!LocalPlayer():Alive() or tobool(tempostart) or (power==0 and game.GetMap()!="fnaf2")) then
+			if (!LocalPlayer():Alive() or tobool(tempostart) or (poweroff and game.GetMap()!="fnaf2")) then
 				Monitor:Close()
 			end
 		end
