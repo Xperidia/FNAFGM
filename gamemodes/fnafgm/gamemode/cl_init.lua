@@ -589,6 +589,8 @@ function GM:HUDPaint()
 		
 	else
 		
+		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+		
 		if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
 			draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 		elseif client:Team()==2 then
