@@ -789,11 +789,11 @@ function GM:ShouldCollide( ent1, ent2 )
 		return false
 	end
 	
-	if ( ( ( ent1:IsPlayer() and ent1:Team()==2 and player_manager.GetPlayerClass(ent1)!="player_fnafgmfoxy" and !avisible[ent1] ) or ( ent2:IsPlayer() and ent2:Team()==2 and player_manager.GetPlayerClass(ent2)!="player_fnafgmfoxy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="func_door_rotating" or ent1:GetName()=="receptdoors" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="func_door_rotating" or ent2:GetName()=="receptdoors"or ent2:GetClass()=="func_brush" ) ) ) then
+	if ( ( ( ent1:IsPlayer() and ent1:Team()==2 and player_manager.GetPlayerClass(ent1)!="player_fnafgmfoxy" and !avisible[ent1] ) or ( ent2:IsPlayer() and ent2:Team()==2 and player_manager.GetPlayerClass(ent2)!="player_fnafgmfoxy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="prop_door_rotating" or ent1:GetClass()=="func_door_rotating" or ent1:GetName()=="receptdoors" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="prop_door_rotating" or ent2:GetClass()=="func_door_rotating" or ent2:GetName()=="receptdoors"or ent2:GetClass()=="func_brush" ) ) ) then
 		return false
 	end
 	
-	if ( ( ( ent1:IsPlayer() and player_manager.GetPlayerClass(ent1)=="player_fnafgmgoldenfreddy" and !avisible[ent1] ) or ( ent2:IsPlayer() and player_manager.GetPlayerClass(ent2)=="player_fnafgmgoldenfreddy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="func_door_rotating" or ent1:GetClass()=="func_door" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="func_door_rotating" or ent2:GetClass()=="func_door" or ent2:GetClass()=="func_brush" ) ) ) then
+	if ( ( ( ent1:IsPlayer() and player_manager.GetPlayerClass(ent1)=="player_fnafgmgoldenfreddy" and !avisible[ent1] ) or ( ent2:IsPlayer() and player_manager.GetPlayerClass(ent2)=="player_fnafgmgoldenfreddy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="prop_door_rotating" or ent1:GetClass()=="func_door_rotating" or ent1:GetClass()=="func_door" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="prop_door_rotating" or ent2:GetClass()=="func_door_rotating" or ent2:GetClass()=="func_door" or ent2:GetClass()=="func_brush" ) ) ) then
 		return false
 	end
 	
@@ -1238,7 +1238,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 		end
 	
-	elseif test and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" ) then
+	elseif test and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" ) then
 		
 		if !startday then
 			
@@ -1254,14 +1254,18 @@ function fnafgmUse(ply, ent, test, test2)
 				
 			fnafgmVarsUpdate()
 			
-			for k, v in pairs(ents.FindByClass("info_player_start")) do
-				v:Remove()
-			end
+			if game.GetMap()!="fnaf4versus" then
+				
+				for k, v in pairs(ents.FindByClass("info_player_start")) do
+					v:Remove()
+				end
+				
+				local spawn = ents.Create( "info_player_start" )
+				spawn:SetPos( Vector( -640, -63, 0 ) )
+				spawn:SetAngles( Angle( 0, 90, 0 ) )
+				spawn:Spawn()
 			
-			local spawn = ents.Create( "info_player_start" )
-			spawn:SetPos( Vector( -640, -63, 0 ) )
-			spawn:SetAngles( Angle( 0, 90, 0 ) )
-			spawn:Spawn()
+			end
 			
 			for k, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then
@@ -1274,19 +1278,23 @@ function fnafgmUse(ply, ent, test, test2)
 			else
 				MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." started by console/map/other\n" )
 			end
+			
+			if game.GetMap()!="fnaf4versus" then
 		
-			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
-				
-				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Alive() and !CheckPlayerSecurityRoom(v) then
-						v:SetPos( Vector( -640, -63, 0 ) )
-						v:SetEyeAngles(Angle( 0, 90, 0 ))
+				timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+					
+					for k, v in pairs(team.GetPlayers(1)) do
+						if v:Alive() and !CheckPlayerSecurityRoom(v) then
+							v:SetPos( Vector( -640, -63, 0 ) )
+							v:SetEyeAngles(Angle( 0, 90, 0 ))
+						end
 					end
-				end
+					
+					timer.Remove( "fnafgmTempoStartM" )
+					
+				end)
 				
-				timer.Remove( "fnafgmTempoStartM" )
-				
-			end)
+			end
 	
 			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
 				
@@ -1305,6 +1313,12 @@ function fnafgmUse(ply, ent, test, test2)
 				timer.Remove( "fnafgmTempoStart" )
 				
 			end)
+			
+			for k, v in pairs(player.GetAll()) do
+				if v:Team()==2 then
+					v:Freeze(false)
+				end
+			end
 			
 		end
 		
@@ -2297,6 +2311,75 @@ function fnafgmMapOverrides()
 			CAM:SetAngles( Angle(18,-59,0) )
 			CAM:SetName( "fnafgm_Cam15" )
 			CAM:Spawn()
+			
+			mapoverrideok = true
+			
+		elseif game.GetMap()=="fnaf4versus" then
+			
+			local spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -640, -8, -136 ) )
+			spawn:SetAngles( Angle( 0, 180, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -600, 172, -136 ) )
+			spawn:SetAngles( Angle( 0, 180, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -738, 71, -136 ) )
+			spawn:SetAngles( Angle( 0, 0, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -508, -24, -136 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -416, 56, -136 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -524, 86, -136 ) )
+			spawn:SetAngles( Angle( 0, 0, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -728, -150, 0 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -560, -128, 0 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_terrorist" )
+			spawn:SetPos( Vector( -640, -58, 0 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -2519, -770, -68 ) )
+			spawn:SetAngles( Angle( 0, 30, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -2450, 1770, -68 ) )
+			spawn:SetAngles( Angle( 0, -30, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( 1260, 1955, -68 ) )
+			spawn:SetAngles( Angle( 0, -130, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( 1108, -929, -68 ) )
+			spawn:SetAngles( Angle( 0, 130, 0 ) )
+			spawn:Spawn()
 			
 			mapoverrideok = true
 			

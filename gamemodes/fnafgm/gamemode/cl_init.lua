@@ -58,7 +58,7 @@ elseif !sfont and game.GetMap()=="fnaf3" then
 		
 	end
 	
-elseif !sfont and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" ) then
+elseif !sfont and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" ) then
 	
 	fontloaded = true
 	if file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then sfont = "Graph 35+ pix" else sfont = "Courier" fontloaded = false end
@@ -259,7 +259,7 @@ function fnafgmWarn()
 		
 	end
 	
-	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips") and fnafgm_cl_warn:GetBool() then
+	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus") and fnafgm_cl_warn:GetBool() then
 		
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css))
 		notification.AddLegacy(tostring(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css), NOTIFY_ERROR, 10)
@@ -437,7 +437,7 @@ function GM:HUDPaint()
 		
 		elseif !tobool(tempostart) then
 				
-			if game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+			if game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 				
 				if (Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
 					time=math.random( 1, 12 )
@@ -565,7 +565,7 @@ function GM:HUDPaint()
 				draw.DrawText(team.GetName(1)..": "..alivec.."/"..team.NumPlayers(1), "FNAFGMID", 46, H, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 			end
 		
-		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 			
 			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..night, "FNAFGMA4TIME", 32, 32, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
@@ -829,6 +829,9 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 		elseif GAMEMODE:CheckDerivCreator(player) then
 			table.insert( tab, Color( 255, 170, 0 ) )
 			table.insert( tab, "{"..GAMEMODE.ShortName.." Creator} " )
+		elseif player:SteamID()=="STEAM_0:1:49648853" then
+			table.insert( tab, Color( 170, 0, 170 ) )
+			table.insert( tab, "[FNAF4 map creator] " )
 		elseif player:GetUserGroup()=="premium" then
 			table.insert( tab, Color( 255, 170, 0 ) )
 			table.insert( tab, "[Premium] " )
@@ -856,7 +859,7 @@ end
 
 hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
     local client = LocalPlayer()
-	if tobool(startday) and client:Team()==2 and client:Alive() then
+	if tobool(startday) and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
 		local colormod = {
 			[ "$pp_colour_addr" ] = 0.02,
 			[ "$pp_colour_addg" ] = 0.02,
