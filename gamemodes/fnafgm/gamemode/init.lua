@@ -343,8 +343,10 @@ function GM:PlayerInitialSpawn( ply )
 		if GAMEMODE.Materials_intro[game.GetMap()] then ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()] ) end
 	elseif !SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
-		if GAMEMODE.Materials_intro[game.GetMap()] then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()] )
+		if GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] then
+			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] )
+		elseif GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()].en then
+			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()].en )
 		elseif game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
 			fnafgmMapSelect(ply)
 		end

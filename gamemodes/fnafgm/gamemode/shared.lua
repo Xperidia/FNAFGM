@@ -252,9 +252,9 @@ GM.Materials_mapfnaf2 = "fnafgm/mapfnaf2"
 GM.Materials_usage = "fnafgm/usage_"
 GM.Materials_battery = "fnafgm/battery_"
 GM.Materials_intro = {
-	freddys = "fnafgm/intro",
-	freddysnoevent = "fnafgm/intro",
-	fnaf2 = "fnafgm/introfnaf2"
+	freddys = { en = "fnafgm/intro" },
+	freddysnoevent = { en = "fnafgm/intro" },
+	fnaf2 = { en = "fnafgm/introfnaf2" }
 }
 GM.Materials_end = {
 	freddys = { "fnafgm/end", "fnafgm/end6" },
