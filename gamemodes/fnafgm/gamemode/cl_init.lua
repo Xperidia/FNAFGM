@@ -587,7 +587,7 @@ function GM:HUDPaint()
 			
 		end
 		
-	else
+	elseif client:Team()!=TEAM_UNASSIGNED then
 		
 		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 		
@@ -597,20 +597,20 @@ function GM:HUDPaint()
 			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 		end
 		
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-			if client:Team()==1 then
+		if client:Team()==1 then
+			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
 				cam.Start3D(EyePos(), EyeAngles())
 					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
 					local varpos = math.random(16, 30)
 					render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
 				cam.End3D()
+			elseif game.GetMap()=="fnaf2" and client:Team()==1 then
+				cam.Start3D(EyePos(), EyeAngles())
+					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
+					local varpos = math.random(64, 100)
+					render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
+				cam.End3D()
 			end
-		elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-			cam.Start3D(EyePos(), EyeAngles())
-				render.SetMaterial( Material( "fnafgm/xpnbc" ) )
-				local varpos = math.random(64, 100)
-				render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
-			cam.End3D()
 		end
 			
 	end
