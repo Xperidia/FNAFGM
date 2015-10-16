@@ -211,12 +211,19 @@ function GM:PlayerSpawn( pl )
 	
 	BaseClass.PlayerSpawn( self, pl )
 	
-	if player_manager.GetPlayerClass(pl)=="player_fnafgmfoxy" then
-		pl:SetPos( Vector( -364, -356, 64 ) )
-		pl:SetEyeAngles( Angle( 0, 0, 0 ) )
-	elseif player_manager.GetPlayerClass(pl)=="player_fnafgmgoldenfreddy" then
-		pl:SetPos( Vector( 285, -510, 64 ) )
-		pl:SetEyeAngles( Angle( 0, 90, 0 ) )
+	if game.GetMap()=="freddysnoevent" then
+		if player_manager.GetPlayerClass(pl)=="player_fnafgmfoxy" then
+			pl:SetPos( Vector( -364, -356, 64 ) )
+			pl:SetEyeAngles( Angle( 0, 0, 0 ) )
+		elseif player_manager.GetPlayerClass(pl)=="player_fnafgmgoldenfreddy" then
+			pl:SetPos( Vector( 285, -510, 64 ) )
+			pl:SetEyeAngles( Angle( 0, 90, 0 ) )
+		end
+	elseif game.GetMap()=="fnaf4versus" then
+		if player_manager.GetPlayerClass(pl)=="player_fnafgmfoxy" then
+			pl:SetPos( Vector( -836, -18, -124 ) )
+			pl:SetEyeAngles( Angle( 0, 80, 0 ) )
+		end
 	end
 	
 	if fnafgmPlayerCanByPass(pl,"run") and pl:Team()==1 then 
@@ -340,7 +347,11 @@ function GM:PlayerInitialSpawn( ply )
 	if SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
 		ply:ConCommand( "gm_showteam" )
-		if GAMEMODE.Materials_intro[game.GetMap()] then ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()] ) end
+		if GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] then
+			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] )
+		elseif GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()].en then
+			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()].en )
+		end
 	elseif !SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
 		if GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] then
@@ -2380,6 +2391,26 @@ function fnafgmMapOverrides()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
 			spawn:SetPos( Vector( 1108, -929, -68 ) )
+			spawn:SetAngles( Angle( 0, 130, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -2466, -160, -68 ) )
+			spawn:SetAngles( Angle( 0, 36, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -2453, 1168, -68 ) )
+			spawn:SetAngles( Angle( 0, -30, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( 990, 937, -68 ) )
+			spawn:SetAngles( Angle( 0, -140, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( 1111, 150, -68 ) )
 			spawn:SetAngles( Angle( 0, 130, 0 ) )
 			spawn:Spawn()
 			
