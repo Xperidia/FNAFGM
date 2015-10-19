@@ -755,8 +755,8 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
 	
-	if game.GetMap()=="freddysnoevent" then
-		draw.DrawText("SGvsA is Work in Progress!", "DermaLarge", ScrW() * 0.5, ScrH() * 0.65, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	if SGvsA then
+		draw.DrawText("Sorry but SGvsA is not a finished product.\nYou can play anyway, but it's not something stable or balanced.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(128, 128, 128, 128), TEXT_ALIGN_CENTER)
 	end
 	
 	if !fnafgm_cl_hideversion:GetBool() then
