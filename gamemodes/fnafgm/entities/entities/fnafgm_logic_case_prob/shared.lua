@@ -11,6 +11,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	if name=="PickRandom" then
 		
+		if self.Disabled then return true end
+		
 		local caselol = nil
 		
 		while caselol==nil do
@@ -32,6 +34,24 @@ function ENT:AcceptInput( name, activator, caller, data )
 		if debugmode then print(caselol) end
 		
 		self:TriggerOutput(caselol, activator)
+		
+	elseif name=="Disable" then
+		
+		self.Disabled = true
+		
+		if debugmode then print(self:GetName().." disabled") end
+		
+	elseif name=="Enable" then
+		
+		self.Disabled = false
+		
+		if debugmode then print(self:GetName().." enabled") end
+		
+	elseif name=="Kill" then
+		
+		self:Remove()
+		
+		if debugmode then print(self:GetName().." removed") end
 		
 	end
 	
