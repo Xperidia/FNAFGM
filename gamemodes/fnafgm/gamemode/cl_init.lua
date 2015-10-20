@@ -392,6 +392,20 @@ net.Receive( "fnafgmDS", function( len )
 	
 end)
 
+net.Receive( "fnafgmSetEntVisible", function( len )
+
+	entp = net.ReadEntity()
+	entp:SetRenderMode(RENDERMODE_NORMAL)
+	
+end)
+
+net.Receive( "fnafgmSetEntInvisible", function( len )
+
+	entp = net.ReadEntity()
+	entp:SetRenderMode(RENDERMODE_NONE)
+	
+end)
+
 
 function GM:HUDPaint()
 	
