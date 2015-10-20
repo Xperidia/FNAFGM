@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V4.2 BY XPERIDIA
+// FNAFGM FGD V4.3 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -23,6 +23,8 @@
 	input LightOff(integer) : "X light is off."
 	input PlushTrapWin(void) : "PlushTrap event is won."
 	input Jumpscared(string) : "Who trigger a jumpscare?"
+	input SetEntVisible(string) : "Set a entity visible"
+	input SetEntInvisible(string) : "Set a entity invisible"
 ]
 
 @PointClass base(Targetname) iconsprite("editor/logic_case.vmt") = fnafgm_logic_case_prob :	"FNAFGM Logic Case Prob"

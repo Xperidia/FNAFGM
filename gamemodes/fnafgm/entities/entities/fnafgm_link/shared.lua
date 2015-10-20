@@ -7,10 +7,10 @@ ENT.Author = "Xperidia"
 
 function ENT:AcceptInput( name, activator, caller, data )
 	
-	if debugmode and IsValid(activator) and IsValid(caller) then print( name, activator:GetName(), caller:GetName(), data )
-	elseif debugmode and IsValid(activator) then print( name, activator:GetName(), caller, data )
-	elseif debugmode and IsValid(caller) then print( name, activator, caller:GetName(), data )
-	elseif debugmode then print( name, activator, caller, data ) end
+	if debugmode and IsValid(activator) and IsValid(caller) then print( self:GetName(), name, activator:GetName(), caller:GetName(), data )
+	elseif debugmode and IsValid(activator) then print( self:GetName(), name, activator:GetName(), caller, data )
+	elseif debugmode and IsValid(caller) then print( self:GetName(), name, activator, caller:GetName(), data )
+	elseif debugmode then print( self:GetName(), name, activator, caller, data ) end
 	
 	if name=="FoxyKnockDoor" then
 		
@@ -158,6 +158,23 @@ function ENT:AcceptInput( name, activator, caller, data )
 	elseif name=="Jumpscared" then
 		
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..tostring(data).."\n" )
+	
+	elseif name=="SetEntVisible" then
+		
+		local ent = ents.FindByName(data)[1]
+		
+		if ent and IsValid(ent) then
+			ent:SetRenderMode(RENDERMODE_NORMAL)
+		end
+		
+	
+	elseif name=="SetEntInvisible" then
+		
+		local ent = ents.FindByName(data)[1]
+		
+		if ent and IsValid(ent) then
+			ent:SetRenderMode(RENDERMODE_NONE)
+		end
 		
 	end
 	
