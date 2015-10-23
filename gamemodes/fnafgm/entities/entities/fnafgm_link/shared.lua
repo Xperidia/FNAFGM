@@ -158,33 +158,6 @@ function ENT:AcceptInput( name, activator, caller, data )
 	elseif name=="Jumpscared" then
 		
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..tostring(data).."\n" )
-	
-	elseif name=="SetEntVisible" then
-		
-		local entp = ents.FindByName(data)[1]
-		
-		if debugmode then print(entp,entp:GetName()) end
-		
-		if entp and IsValid(entp) then
-			entp:SetRenderMode(RENDERMODE_NORMAL)
-			net.Start( "fnafgmSetEntVisible" )
-				net.WriteEntity(entp)
-			net.Broadcast()
-		end
-		
-	
-	elseif name=="SetEntInvisible" then
-		
-		local entp = ents.FindByName(data)[1]
-		
-		if debugmode then print(entp,entp:GetName()) end
-		
-		if entp and IsValid(entp) then
-			entp:SetRenderMode(RENDERMODE_NONE)
-			net.Start( "fnafgmSetEntInvisible" )
-				net.WriteEntity(entp)
-			net.Broadcast()
-		end
 		
 	end
 	

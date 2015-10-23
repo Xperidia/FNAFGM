@@ -71,8 +71,6 @@ util.AddNetworkString( "fnafgmDS" )
 util.AddNetworkString( "fnafgmNotif" )
 util.AddNetworkString( "fnafgmSecurityTablet" )
 util.AddNetworkString( "fnafgmCloseTablet" )
-util.AddNetworkString( "fnafgmSetEntVisible" )
-util.AddNetworkString( "fnafgmSetEntInvisible" )
 
 
 function GM:SaveProgress()
