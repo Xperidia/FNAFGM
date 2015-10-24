@@ -83,8 +83,10 @@
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
 ]
 
-@BaseClass = fnafgm_animatronic : "FNAFGM Animatronic"
+@BaseClass base(Parentname, Global, Angles, Studiomodel) = fnafgm_animatronic : "FNAFGM Animatronic"
 [
+	model(studio) : "World model"
+	
 	input TurnOn(void) : "Make the prop visible."
 	input TurnOff(void) : "Make the prop invisible."
 ]
