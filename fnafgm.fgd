@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V4.5 BY XPERIDIA
+// FNAFGM FGD V4.6 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -81,12 +81,4 @@
 	output OnCase14(void) : "Fired when the input value equals the Case14 value."
 	output OnCase15(void) : "Fired when the input value equals the Case15 value."
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
-]
-
-@BaseClass base(Parentname, Global, Angles, Studiomodel) = fnafgm_animatronic : "FNAFGM Animatronic"
-[
-	model(studio) : "World model"
-	
-	input TurnOn(void) : "Make the prop visible."
-	input TurnOff(void) : "Make the prop invisible."
 ]
