@@ -1,7 +1,7 @@
 AddCSLuaFile()
 
 ENT.Base = "base_entity"
-ENT.Type = "point"
+ENT.Type = "anim"
 ENT.PrintName = "FNAFGM Animatronic"
 ENT.Author = "Xperidia"
 
@@ -12,7 +12,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	elseif debugmode and IsValid(caller) then print( self:GetName(), name, activator, caller:GetName(), data )
 	elseif debugmode then print( self:GetName(), name, activator, caller, data ) end
 	
-	if name=="Disable" then
+	if name=="TurnOff" then
 		
 		self.Disabled = true
 		
@@ -20,7 +20,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		if debugmode then print(self:GetName().." disabled") end
 		
-	elseif name=="Enable" then
+	elseif name=="TurnOn" then
 		
 		self.Disabled = false
 		
@@ -59,7 +59,7 @@ function ENT:Initialize()
 	
 end
 
-function ENTITY:Touch( entity )
+function ENT:Touch( entity )
 	
 	if !self.Disabled and entity:IsPlayer() and entity:Alive() then
 		

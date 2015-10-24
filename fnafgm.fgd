@@ -83,7 +83,8 @@
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
 ]
 
-@PointClass base(prop_dynamic_base) studioprop() = fnafgm_animatronic : "FNAFGM Animatronic"
+@BaseClass = fnafgm_animatronic : "FNAFGM Animatronic"
 [
-	
+	input TurnOn(void) : "Make the prop visible."
+	input TurnOff(void) : "Make the prop invisible."
 ]
