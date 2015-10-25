@@ -1776,8 +1776,8 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool()==1 then
-			
+			if fnafgm_diasablemapsmonitors:GetBool() then
+				
 				for k, v in pairs(ents.FindByName("Securicam")) do
 					v:Fire("Color", "0 0 0")
 				end
@@ -1911,7 +1911,7 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool()==1 then
+			if fnafgm_diasablemapsmonitors:GetBool() then
 				
 				for k, v in pairs(ents.FindByName("Securicam")) do
 					v:Fire("Color", "0 0 0")
@@ -2038,7 +2038,7 @@ function fnafgmMapOverrides()
 				end
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool()==1 then
+			if fnafgm_diasablemapsmonitors:GetBool() then
 			
 				for k, v in pairs(ents.FindByClass("func_monitor")) do
 					if CheckPlayerSecurityRoom(v) then
