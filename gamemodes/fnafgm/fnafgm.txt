@@ -178,7 +178,7 @@
 		}
 		24
 		{
-			"name"		"fnafgm_diasablemapsmonitors"
+			"name"		"fnafgm_disablemapsmonitors"
 			"text"		"Disable the map's monitors"
 			"help"		"If the gamemode should disable the map's monitors."
 			"type"		"CheckBox"

@@ -58,7 +58,7 @@ fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, 
 fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
 fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
 fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
-fnafgm_diasablemapsmonitors = CreateConVar( "fnafgm_diasablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
+fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
 
 util.AddNetworkString( "fnafgmShowCheck" )
 util.AddNetworkString( "fnafgmSetView" )
@@ -1776,7 +1776,7 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool() then
+			if fnafgm_disablemapsmonitors:GetBool() then
 				
 				for k, v in pairs(ents.FindByName("Securicam")) do
 					v:Fire("Color", "0 0 0")
@@ -1911,7 +1911,7 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool() then
+			if fnafgm_disablemapsmonitors:GetBool() then
 				
 				for k, v in pairs(ents.FindByName("Securicam")) do
 					v:Fire("Color", "0 0 0")
@@ -2038,7 +2038,7 @@ function fnafgmMapOverrides()
 				end
 			end
 			
-			if fnafgm_diasablemapsmonitors:GetBool() then
+			if fnafgm_disablemapsmonitors:GetBool() then
 			
 				for k, v in pairs(ents.FindByClass("func_monitor")) do
 					if CheckPlayerSecurityRoom(v) then
