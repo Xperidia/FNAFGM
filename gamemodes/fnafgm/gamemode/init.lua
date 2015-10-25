@@ -58,6 +58,7 @@ fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, 
 fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
 fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
 fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
+fnafgm_diasablemapsmonitors = CreateConVar( "fnafgm_diasablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
 
 util.AddNetworkString( "fnafgmShowCheck" )
 util.AddNetworkString( "fnafgmSetView" )
@@ -1775,12 +1776,16 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			for k, v in pairs(ents.FindByName("Securicam")) do
-				v:Fire("Color", "0 0 0")
-			end
+			if fnafgm_diasablemapsmonitors:GetBool()==1 then
 			
-			for k, v in pairs(ents.FindByName("Cambutton")) do
-				v:Remove()
+				for k, v in pairs(ents.FindByName("Securicam")) do
+					v:Fire("Color", "0 0 0")
+				end
+				
+				for k, v in pairs(ents.FindByName("Cambutton")) do
+					v:Remove()
+				end
+				
 			end
 			
 			for k, v in pairs(ents.FindByName("powerbar")) do
@@ -1906,12 +1911,16 @@ function fnafgmMapOverrides()
 				light2 = v
 			end
 			
-			for k, v in pairs(ents.FindByName("Securicam")) do
-				v:Fire("Color", "0 0 0")
-			end
-			
-			for k, v in pairs(ents.FindByName("Cambutton")) do
-				v:Remove()
+			if fnafgm_diasablemapsmonitors:GetBool()==1 then
+				
+				for k, v in pairs(ents.FindByName("Securicam")) do
+					v:Fire("Color", "0 0 0")
+				end
+				
+				for k, v in pairs(ents.FindByName("Cambutton")) do
+					v:Remove()
+				end
+				
 			end
 			
 			for k, v in pairs(ents.FindByName("powerbar")) do
@@ -2029,14 +2038,18 @@ function fnafgmMapOverrides()
 				end
 			end
 			
-			for k, v in pairs(ents.FindByClass("func_monitor")) do
-				if CheckPlayerSecurityRoom(v) then
-					v:Fire("Color", "0 0 0")
-				end
-			end
+			if fnafgm_diasablemapsmonitors:GetBool()==1 then
 			
-			for k, v in pairs(ents.FindByName("Cambutton")) do
-				v:Remove()
+				for k, v in pairs(ents.FindByClass("func_monitor")) do
+					if CheckPlayerSecurityRoom(v) then
+						v:Fire("Color", "0 0 0")
+					end
+				end
+				
+				for k, v in pairs(ents.FindByName("Cambutton")) do
+					v:Remove()
+				end
+				
 			end
 			
 			local BoxCorner = Vector(-85,-330,120)

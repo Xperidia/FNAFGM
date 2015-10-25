@@ -176,5 +176,13 @@
 			"type"		"CheckBox"
 			"default"	"0"
 		}
+		24
+		{
+			"name"		"fnafgm_diasablemapsmonitors"
+			"text"		"Disable the map's monitors"
+			"help"		"If the gamemode should disable the map's monitors."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
 	}
 }
