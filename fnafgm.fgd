@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V4.6 BY XPERIDIA
+// FNAFGM FGD V4.7 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -81,4 +81,9 @@
 	output OnCase14(void) : "Fired when the input value equals the Case14 value."
 	output OnCase15(void) : "Fired when the input value equals the Case15 value."
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
+]
+
+@PointClass base(Angles) studioprop("models/editor/playerstart.mdl") = fnafgm_dummy : "DUMMY"
+[
+	
 ]
