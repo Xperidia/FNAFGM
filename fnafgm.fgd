@@ -83,7 +83,7 @@
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
 ]
 
-@PointClass base(Parentname, Angles) studioprop("models/editor/playerstart.mdl") = fnafgm_dummy : "DUMMY"
+@PointClass base(Angles) studioprop("models/editor/playerstart.mdl") = fnafgm_dummy : "DUMMY"
 [
-	
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
