@@ -63,6 +63,7 @@
 
 	// Inputs
 	input PickRandom(void) : "Fires a random OnCase output with at least one connection."
+	input Move(string) : "Move an entity to another entity."
 	
 	// Outputs
 	output OnCase01(void) : "Fired when the input value equals the Case01 value."
