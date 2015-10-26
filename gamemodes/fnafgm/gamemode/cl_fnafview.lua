@@ -100,8 +100,8 @@ function fnafgmFNaFViewHUD()
 		
 		ExitZone = vgui.Create( "DButton" )
 		ExitZone:SetParent(FNaFView)
-		ExitZone:SetText("FNaF View")
-		ExitZone:SetTextColor( Color( 100, 100, 100, 42 ) )
+		ExitZone:SetText("")
+		ExitZone:SetTextColor( Color( 255, 255, 255, 255 ) )
 		ExitZone:SetFont("FNAFGMNIGHT")
 		ExitZone:SetPos( 0, 0 )
 		ExitZone:SetSize( ScrW(), 40 )
@@ -113,11 +113,9 @@ function fnafgmFNaFViewHUD()
 		end
 		ExitZone.OnCursorEntered = function()
 			ExitZone:SetText(tostring(GAMEMODE.TranslatedStrings.exitfnafview or GAMEMODE.Strings.en.exitfnafview))
-			ExitZone:SetTextColor( Color( 255, 255, 255, 255 ) )
 		end
 		ExitZone.OnCursorExited = function()
-			ExitZone:SetText("FNaF View")
-			ExitZone:SetTextColor( Color( 100, 100, 100, 42 ) )
+			ExitZone:SetText("")
 		end
 		
 		if !tobool(mute) then
@@ -142,230 +140,194 @@ function fnafgmFNaFViewHUD()
 			end
 		end
 		
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+		local nope = hook.Call("fnafgmFNaFViewCustom") or false
+		
+		if !nope then
 			
-			OpenT = vgui.Create( "DButton" )
-			OpenT:SetParent(FNaFView)
-			OpenT:SetSize( ScrW()/2-128, 80 )
-			OpenT:SetPos( 512-128, ScrH()-80-50 )
-			OpenT:SetText( "" )
-			OpenT.DoClick = function( button )
-				waitt = CurTime()+1
-				fnafgmSecurityTablet()
-				fnafgmShutLights()
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-				OpenT:Hide()
-			end
-			OpenT.OnCursorEntered = function()
-				if !waitt then waitt=0 end
-				if waitt<CurTime() then
-					waitt = CurTime()+0.5
+			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+				
+				OpenT = vgui.Create( "DButton" )
+				OpenT:SetParent(FNaFView)
+				OpenT:SetSize( ScrW()/2-128, 80 )
+				OpenT:SetPos( 512-128, ScrH()-80-50 )
+				OpenT:SetText( "" )
+				OpenT.DoClick = function( button )
+					waitt = CurTime()+1
 					fnafgmSecurityTablet()
 					fnafgmShutLights()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					OpenT:Hide()
 				end
-			end
-			OpenT.Paint = function( self, w, h )
-				
-				draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
-				
-				surface.SetDrawColor( 255, 255, 255, 128 )
-				
-				draw.NoTexture()
-				
-				surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
-				surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
-				
-				surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
-				surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
-				
-				surface.DrawOutlinedRect( 0, 0, w, h )
-				
-			end
-	
-	
-		elseif game.GetMap()=="fnaf2" then
+				OpenT.OnCursorEntered = function()
+					if !waitt then waitt=0 end
+					if waitt<CurTime() then
+						waitt = CurTime()+0.5
+						fnafgmSecurityTablet()
+						fnafgmShutLights()
+						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+						OpenT:Hide()
+					end
+				end
+				OpenT.Paint = function( self, w, h )
+					
+					draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
+					
+					surface.SetDrawColor( 255, 255, 255, 128 )
+					
+					draw.NoTexture()
+					
+					surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
+					surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
+					
+					surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
+					surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
+					
+					surface.DrawOutlinedRect( 0, 0, w, h )
+					
+				end
 		
-			OpenT = vgui.Create( "DButton" )
-			OpenT:SetParent(FNaFView)
-			OpenT:SetSize( ScrW()/2 - 128, 64 )
-			OpenT:SetPos( ScrW()/2 + 32, ScrH()-80-50 )
-			OpenT:SetText( "" )
-			OpenT.DoClick = function( button )
-				waitt = CurTime()+1
-				fnafgmSecurityTablet() 
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-				OpenT:Hide()
-				SafeE:Hide()
-			end
-			OpenT.OnCursorEntered = function()
-				if !waitt then waitt=0 end
-				if waitt<CurTime() then
-					waitt = CurTime()+0.5
+		
+			elseif game.GetMap()=="fnaf2" then
+			
+				OpenT = vgui.Create( "DButton" )
+				OpenT:SetParent(FNaFView)
+				OpenT:SetSize( ScrW()/2 - 128, 64 )
+				OpenT:SetPos( ScrW()/2 + 32, ScrH()-80-50 )
+				OpenT:SetText( "" )
+				OpenT.DoClick = function( button )
+					waitt = CurTime()+1
 					fnafgmSecurityTablet() 
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					OpenT:Hide()
 					SafeE:Hide()
 				end
-			end
-			OpenT.Paint = function( self, w, h )
-				
-				draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
-				
-				surface.SetDrawColor( 255, 255, 255, 128 )
-				
-				draw.NoTexture()
-				
-				surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
-				surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
-				
-				surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
-				surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
-				
-				surface.DrawOutlinedRect( 0, 0, w, h )
-				
-			end
-			
-			SafeE = vgui.Create( "DButton" )
-			SafeE:SetParent(FNaFView)
-			SafeE:SetSize( ScrW()/2 - 128, 64 )
-			SafeE:SetPos( ScrW()/2 - ScrW()/2 + 128 - 32, ScrH()-80-50 )
-			SafeE:SetText( "" )
-			SafeE:SetTextColor( Color( 255, 255, 255, 255 ) )
-			SafeE:SetFont("FNAFGMNIGHT")
-			SafeE.DoClick = function( button )
-				if !waits then waits=0 end
-				if waits<CurTime() then
-					waits = CurTime()+1
-					if usingsafezone then
-						OpenT:Show()
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
-						usingsafezone = false
-					elseif !usingsafezone then
+				OpenT.OnCursorEntered = function()
+					if !waitt then waitt=0 end
+					if waitt<CurTime() then
+						waitt = CurTime()+0.5
+						fnafgmSecurityTablet() 
+						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 						OpenT:Hide()
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
-						usingsafezone = true
+						SafeE:Hide()
 					end
-					fnafgmSafeZone()
 				end
-			end
-			SafeE.OnCursorEntered = function()
-				if !waits then waits=0 end
-				if waits<CurTime() then
-					waits = CurTime()+0.5
-					if usingsafezone then
-						OpenT:Show()
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
-						usingsafezone = false
-					elseif !usingsafezone then
-						OpenT:Hide()
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
-						usingsafezone = true
+				OpenT.Paint = function( self, w, h )
+					
+					draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
+					
+					surface.SetDrawColor( 255, 255, 255, 128 )
+					
+					draw.NoTexture()
+					
+					surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
+					surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
+					
+					surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
+					surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
+					
+					surface.DrawOutlinedRect( 0, 0, w, h )
+					
+				end
+				
+				SafeE = vgui.Create( "DButton" )
+				SafeE:SetParent(FNaFView)
+				SafeE:SetSize( ScrW()/2 - 128, 64 )
+				SafeE:SetPos( ScrW()/2 - ScrW()/2 + 128 - 32, ScrH()-80-50 )
+				SafeE:SetText( "" )
+				SafeE:SetTextColor( Color( 255, 255, 255, 255 ) )
+				SafeE:SetFont("FNAFGMNIGHT")
+				SafeE.DoClick = function( button )
+					if !waits then waits=0 end
+					if waits<CurTime() then
+						waits = CurTime()+1
+						if usingsafezone then
+							OpenT:Show()
+							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
+							usingsafezone = false
+						elseif !usingsafezone then
+							OpenT:Hide()
+							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
+							usingsafezone = true
+						end
+						fnafgmSafeZone()
 					end
-					fnafgmSafeZone()
 				end
-			end
-			SafeE.Paint = function( self, w, h )
+				SafeE.OnCursorEntered = function()
+					if !waits then waits=0 end
+					if waits<CurTime() then
+						waits = CurTime()+0.5
+						if usingsafezone then
+							OpenT:Show()
+							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
+							usingsafezone = false
+						elseif !usingsafezone then
+							OpenT:Hide()
+							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
+							usingsafezone = true
+						end
+						fnafgmSafeZone()
+					end
+				end
+				SafeE.Paint = function( self, w, h )
+					
+					draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 85, 85, 32 ) )
+					
+					surface.SetDrawColor( 255, 85, 85, 128 )
+					
+					draw.NoTexture()
+					
+					surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
+					surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
+					
+					surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
+					surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
+					
+					surface.DrawOutlinedRect( 0, 0, w, h )
+					
+				end
 				
-				draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 85, 85, 32 ) )
 				
-				surface.SetDrawColor( 255, 85, 85, 128 )
+			else
 				
-				draw.NoTexture()
-				
-				surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
-				surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
-				
-				surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
-				surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
-				
-				surface.DrawOutlinedRect( 0, 0, w, h )
-				
-			end
-			
-			
-		elseif game.GetMap()=="fnap_scc" then
-		
-			OpenT = vgui.Create( "DButton" )
-			OpenT:SetParent(FNaFView)
-			OpenT:SetSize( 512, 80 )
-			OpenT:SetPos( ScrW()/2-256, ScrH()-80-50 )
-			OpenT:SetText( "" )
-			OpenT.DoClick = function( button )
-				waitt = CurTime()+1
-				fnafgmSecurityTablet() 
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-				OpenT:Hide()
-			end
-			OpenT.OnCursorEntered = function()
-				if !waitt then waitt=0 end
-				if waitt<CurTime() then
-					waitt = CurTime()+0.5
+				OpenT = vgui.Create( "DButton" )
+				OpenT:SetParent(FNaFView)
+				OpenT:SetSize( 512, 80 )
+				OpenT:SetPos( ScrW()/2-256, ScrH()-80-50 )
+				OpenT:SetText( "" )
+				OpenT.DoClick = function( button )
+					waitt = CurTime()+1
 					fnafgmSecurityTablet() 
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					OpenT:Hide()
 				end
-			end
-			OpenT.Paint = function( self, w, h )
-				
-				draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
-				
-				surface.SetDrawColor( 255, 255, 255, 128 )
-				
-				draw.NoTexture()
-				
-				surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
-				surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
-				
-				surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
-				surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
-				
-				surface.DrawOutlinedRect( 0, 0, w, h )
-				
-			end
-			
-			
-		else
-			
-			OpenT = vgui.Create( "DButton" )
-			OpenT:SetParent(FNaFView)
-			OpenT:SetSize( 512, 80 )
-			OpenT:SetPos( ScrW()/2-256, ScrH()-80-50 )
-			OpenT:SetText( "" )
-			OpenT.DoClick = function( button )
-				waitt = CurTime()+1
-				fnafgmSecurityTablet() 
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-				OpenT:Hide()
-			end
-			OpenT.OnCursorEntered = function()
-				if !waitt then waitt=0 end
-				if waitt<CurTime() then
-					waitt = CurTime()+0.5
-					fnafgmSecurityTablet() 
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-					OpenT:Hide()
+				OpenT.OnCursorEntered = function()
+					if !waitt then waitt=0 end
+					if waitt<CurTime() then
+						waitt = CurTime()+0.5
+						fnafgmSecurityTablet() 
+						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+						OpenT:Hide()
+					end
 				end
-			end
-			OpenT.Paint = function( self, w, h )
-				
-				draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
-				
-				surface.SetDrawColor( 255, 255, 255, 128 )
-				
-				draw.NoTexture()
-				
-				surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
-				surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
-				
-				surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
-				surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
-				
-				surface.DrawOutlinedRect( 0, 0, w, h )
-				
-			end
+				OpenT.Paint = function( self, w, h )
+					
+					draw.RoundedBox( 0, 1, 1, w-2, h-2, Color( 255, 255, 255, 32 ) )
+					
+					surface.SetDrawColor( 255, 255, 255, 128 )
+					
+					draw.NoTexture()
+					
+					surface.DrawLine( w/2-64, h/2-16, w/2, h/2 )
+					surface.DrawLine( w/2, h/2, w/2+64, h/2-16 )
+					
+					surface.DrawLine( w/2-64, h/2-16+16, w/2, h/2+16 )
+					surface.DrawLine( w/2, h/2+16, w/2+64, h/2-16+16 )
+					
+					surface.DrawOutlinedRect( 0, 0, w, h )
+					
+				end
 			
+			end
 			
 		end
 		
