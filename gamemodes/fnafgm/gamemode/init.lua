@@ -3380,6 +3380,11 @@ function fnafgmMuteCall()
 	local call = ents.FindByName( "Callman" )[1]
 	if ( IsValid(call) ) then
 		call:Fire( "use" )
+	else
+		call = ents.FindByName( "fnafgm_CallButton" )[1]
+		if ( IsValid(call) ) then
+			call:Fire( "use" )
+		end
 	end
 end
 net.Receive( "fnafgmMuteCall",function(bits,ply)
