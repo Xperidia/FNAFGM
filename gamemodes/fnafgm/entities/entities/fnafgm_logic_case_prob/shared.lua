@@ -55,6 +55,20 @@ function ENT:AcceptInput( name, activator, caller, data )
 		self:Remove()
 		
 		if debugmode then print(self:GetName().." removed") end
+	
+	elseif name=="Move" then
+		
+		local zedata = string.Explode( " ", data )
+		
+		local move_ent = ents.FindByName( zedata[1] )[1]
+		local dummy_ent = ents.FindByName( zedata[2] )[1]
+		
+		if move_ent:IsValid() and dummy_ent:IsValid() then
+			
+			move_ent:SetPos(dummy_ent:GetPos())
+			move_ent:SetAngles(dummy_ent:GetAngles())
+			
+		end
 		
 	end
 	
