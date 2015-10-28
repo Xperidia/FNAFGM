@@ -76,6 +76,10 @@ function fnafgmFNaFViewHUD()
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -speed, 0 ))
 			end
 			
+			if FNaFView.m_fCreateTime+1<SysTime() and LocalPlayer():KeyReleased(IN_RELOAD) then
+				FNaFView:Close()
+			end
+			
 		end
 		FNaFView.OnMousePressed = function( p, code )
 			hook.Run( "GUIMousePressed", code, gui.ScreenToVector( gui.MousePos() ) )
