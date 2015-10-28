@@ -63,6 +63,7 @@ function fnafgmSecurityTablet()
 		LocalPlayer():ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_camstatic )
 		
 		Monitor = vgui.Create( "DFrame" )
+		Monitor:ParentToHUD()
 		Monitor:SetPos( 0, 0 )
 		Monitor:SetSize( ScrW(), ScrH() )
 		Monitor:SetTitle( "" )
@@ -90,9 +91,6 @@ function fnafgmSecurityTablet()
 			net.SendToServer()
 		end
 		Monitor.Think = function()
-			if input.IsKeyDown( KEY_ESCAPE ) then
-				Monitor:Close()
-			end
 			if (!LocalPlayer():Alive() or tobool(tempostart) or (poweroff and game.GetMap()!="fnaf2")) then
 				Monitor:Close()
 			end

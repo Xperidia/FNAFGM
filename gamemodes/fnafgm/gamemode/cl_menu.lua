@@ -12,13 +12,41 @@ function fnafgmMenu()
 		fnafgmMenuF:ShowCloseButton(true)
 		fnafgmMenuF:SetScreenLock(true)
 		fnafgmMenuF.Paint = function( self, w, h )
-			Derma_DrawBackgroundBlur( self )
 			draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
 		end
-		fnafgmMenuF.Think = function()
+		fnafgmMenuF.Think = function(self)
 			
-			if input.IsKeyDown( KEY_ESCAPE ) then
-				fnafgmMenuF:Close()
+			if xpad_anim:Active() then xpad_anim:Run() end
+			
+			local mousex = math.Clamp( gui.MouseX(), 1, ScrW()-1 )
+			local mousey = math.Clamp( gui.MouseY(), 1, ScrH()-1 )
+		
+			if ( self.Dragging ) then
+		
+				local x = mousex - self.Dragging[1]
+				local y = mousey - self.Dragging[2]
+		
+				-- Lock to screen bounds if screenlock is enabled
+				if ( self:GetScreenLock() ) then
+		
+					x = math.Clamp( x, 0, ScrW() - self:GetWide() )
+					y = math.Clamp( y, 0, ScrH() - self:GetTall() )
+		
+				end
+		
+				self:SetPos( x, y )
+		
+			end
+				
+			if ( self.Hovered && mousey < ( self.y + 24 ) ) then
+				self:SetCursor( "sizeall" )
+				return
+			end
+			
+			self:SetCursor( "arrow" )
+
+			if ( self.y < 0 ) then
+				self:SetPos( self.x, 0 )
 			end
 			
 		end
@@ -282,6 +310,10 @@ function fnafgmMenu()
 		xpad:OpenURL( "Xperidia.com/GMOD/ad?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
 		xpad:SetScrollbars(false)
 		
+		xpad_anim = Derma_Anim( "xpad_anim", fnafgmMenuF, function( pnl, anim, delta, data )
+			pnl:SetSize( 640, 138*delta+480 )
+		end)
+		
 		
 	elseif IsValid(fnafgmMenuF) then
 		
@@ -292,5 +324,5 @@ function fnafgmMenu()
 end
 
 function fnafgmMenuAdLoaded()
-	if IsValid(fnafgmMenuF) then fnafgmMenuF:SetSize( 640, 618 ) end
+	if IsValid(fnafgmMenuF) then xpad_anim:Start(0.25) end
 end
