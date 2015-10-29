@@ -658,6 +658,10 @@ function GM:HUDPaint()
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", 128, ScrH()-370, Color(0, 0, 0, 255), TEXT_ALIGN_LEFT)
 			
+		elseif game.GetMap()=="fnap_scc" then
+			
+			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-45, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
+			
 		end
 		
 	end
