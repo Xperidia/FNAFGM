@@ -13,6 +13,7 @@ AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "cl_voice.lua" )
 AddCSLuaFile( "cl_fnafview.lua" )
 AddCSLuaFile( "cl_menu.lua" )
+AddCSLuaFile( "cl_secret.lua" )
 
 include( 'shared.lua' )
 
