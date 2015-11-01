@@ -238,14 +238,22 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		
+		local secretb = vgui.Create( "DButton" )
+		secretb:SetParent(fnafgmMenuF.info)
+		secretb:SetText(tostring(GAMEMODE.TranslatedStrings.password or GAMEMODE.Strings.en.password))
+		secretb:SetPos( 10, 160 )
+		secretb:SetSize( 285, 20 )
+		secretb.DoClick = function()
+			fnafgmSecret()
+			fnafgmMenuF:Close()
+		end
 		
 		if !game.IsDedicated() and !tobool(DS) then --This doesn't work https://github.com/Facepunch/garrysmod-issues/issues/1495
 			
 			local resetprogress = vgui.Create( "DButton" )
 			resetprogress:SetParent(fnafgmMenuF.info)
 			resetprogress:SetText(tostring(GAMEMODE.TranslatedStrings.resetsave or GAMEMODE.Strings.en.resetsave))
-			resetprogress:SetPos( 10, 160 )
+			resetprogress:SetPos( 10, 135 )
 			resetprogress:SetSize( 285, 20 )
 			resetprogress:SetDisabled(SGvsA)
 			resetprogress.DoClick = function()
