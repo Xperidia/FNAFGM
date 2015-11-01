@@ -119,7 +119,9 @@ GM.Strings = {
 		reset = "Reset",
 		autofnafview = "Auto put FNaF View",
 		exitfnafview = "Exit FNaF View",
-		refreshbypass = "Refresh Bypass"
+		refreshbypass = "Refresh Bypass",
+		chatsound = "Emit chat sound.",
+		flashwindow = "Flash the window on chat messages or notifications (Windows only)."
 	},
 	fr = {
 		freddys = "Coupez le courant pour démarrer la nuit",
@@ -150,7 +152,9 @@ GM.Strings = {
 		reset = "Rénitialiser",
 		autofnafview = "Activer automatiquement la vue FNaF",
 		exitfnafview = "Quitter la vue FNaF",
-		refreshbypass = "Recharger les Bypass"
+		refreshbypass = "Recharger les Bypass",
+		chatsound = "Emettre les sons du chat.",
+		flashwindow = "Activer l'alerte de la fenêtre lors d'un message ou d'une notification (Windows uniquement)."
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		animatronics = "Animasyoncuları",

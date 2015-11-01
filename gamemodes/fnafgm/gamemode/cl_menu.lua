@@ -167,6 +167,24 @@ function fnafgmMenu()
 		hud:SetValue( GetConVar("cl_drawhud"):GetBool() )
 		hud:SizeToContents()
 		
+		local chatsound = vgui.Create( "DCheckBoxLabel" )
+		chatsound:SetParent(fnafgmMenuF.config)
+		chatsound:SetText(tostring(GAMEMODE.TranslatedStrings.chatsound or GAMEMODE.Strings.en.chatsound))
+		chatsound:SetPos( 15, 110 )
+		chatsound:SetDark( 1 )
+		chatsound:SetConVar( "fnafgm_cl_chatsound" )
+		chatsound:SetValue( GetConVar("fnafgm_cl_chatsound"):GetBool() )
+		chatsound:SizeToContents()
+		
+		local flashwindow = vgui.Create( "DCheckBoxLabel" )
+		flashwindow:SetParent(fnafgmMenuF.config)
+		flashwindow:SetText(tostring(GAMEMODE.TranslatedStrings.flashwindow or GAMEMODE.Strings.en.flashwindow))
+		flashwindow:SetPos( 15, 130 )
+		flashwindow:SetDark( 1 )
+		flashwindow:SetConVar( "fnafgm_cl_flashwindow" )
+		flashwindow:SetValue( GetConVar("fnafgm_cl_flashwindow"):GetBool() )
+		flashwindow:SizeToContents()
+		
 		
 		
 		fnafgmMenuF.info = vgui.Create( "DPanel" )

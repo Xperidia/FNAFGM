@@ -79,6 +79,8 @@ end
 local fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 local fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
 local fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, true )
+local fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
+local fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
 
 for _, addon in pairs(engine.GetAddons()) do
 	
@@ -857,6 +859,9 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 	
 	chat.AddText( unpack(tab) )
 	
+	if fnafgm_cl_chatsound:GetBool() then chat.PlaySound() end
+	if fnafgm_cl_flashwindow:GetBool() then system.FlashWindow() end
+	
 	return true
 	
 end
@@ -1152,4 +1157,6 @@ function fnafgmNotif(str,ne,dur,sound)
 	else
 		chat.PlaySound()
 	end
+	
+	if fnafgm_cl_flashwindow:GetBool() then system.FlashWindow() end
 end
