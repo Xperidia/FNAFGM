@@ -1657,6 +1657,7 @@ function fnafgmRestartNight()
 		nightpassed = false
 		mapoverrideok = false
 		table.Empty(LightUse)
+		table.Empty(DoorClosed)
 		mute = true
 		timer.Remove( "fnafgmEndCall" )
 		FreddyTriggered = false
@@ -1697,6 +1698,7 @@ function fnafgmResetGame()
 	powerchecktime=nil
 	oldpowerdrain=nil
 	table.Empty(LightUse)
+	table.Empty(DoorClosed)
 	table.Empty(tabused)
 	table.Empty(usingsafedoor)
 	night = GAMEMODE.NightBase
@@ -2644,6 +2646,7 @@ function fnafgmTimeThink()
 		poweroff = false
 		game.CleanUpMap()
 		table.Empty(LightUse)
+		table.Empty(DoorClosed)
 		mapoverrideok = false
 		fnafgmMapOverrides()
 		table.Empty(tabused)
