@@ -184,5 +184,13 @@
 			"type"		"CheckBox"
 			"default"	"1"
 		}
+		25
+		{
+			"name"		"fnafgm_disablepower"
+			"text"		"Disable the power"
+			"help"		"Disable the power."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
 	}
 }

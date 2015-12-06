@@ -60,6 +60,7 @@ fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedic
 fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
 fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
 fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
+fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
 
 util.AddNetworkString( "fnafgmShowCheck" )
 util.AddNetworkString( "fnafgmSetView" )
@@ -3010,7 +3011,9 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  respawndelay "..fnafgm_respawndelay:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  enablebypass "..fnafgm_enablebypass:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  pinionsupport "..fnafgm_pinionsupport:GetString())
-		ply:PrintMessage(HUD_PRINTCONSOLE, "  fnafgm_timethink_autostart "..fnafgm_timethink_autostart:GetString())
+		ply:PrintMessage(HUD_PRINTCONSOLE, "  timethink_autostart "..fnafgm_timethink_autostart:GetString())
+		ply:PrintMessage(HUD_PRINTCONSOLE, "  disablemapsmonitors "..fnafgm_disablemapsmonitors:GetString())
+		ply:PrintMessage(HUD_PRINTCONSOLE, "  disablepower "..fnafgm_disablepower:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, " ")
 		ply:PrintMessage(HUD_PRINTCONSOLE, " [-GAME VARS-]")
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  Day started: "..tostring(startday))
@@ -3083,7 +3086,9 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		print("  respawndelay "..fnafgm_respawndelay:GetString())
 		print("  enablebypass "..fnafgm_enablebypass:GetString())
 		print("  pinionsupport "..fnafgm_pinionsupport:GetString())
-		print("  fnafgm_timethink_autostart "..fnafgm_timethink_autostart:GetString())
+		print("  timethink_autostart "..fnafgm_timethink_autostart:GetString())
+		print("  disablemapsmonitors "..fnafgm_disablemapsmonitors:GetString())
+		print("  disablepower "..fnafgm_disablepower:GetString())
 		print(" ")
 		print(" [-GAME VARS-]")
 		print("  Day started: "..tostring(startday))
@@ -3729,6 +3734,10 @@ function GM:Think()
 			end
 			
 			
+		end
+		
+		if fnafgm_disablepower:GetBool() then
+			powerusage = 0
 		end
 		
 		if powerusage==0 then
