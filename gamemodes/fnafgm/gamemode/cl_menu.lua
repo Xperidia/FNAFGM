@@ -101,7 +101,7 @@ function fnafgmMenu()
 			questionbtn:SetPos( 10, 185 )
 			questionbtn:SetSize( 140, 20 )
 			questionbtn.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/workshop/filedetails/discussion/408243366/537405286640719064/" )
+				gui.OpenURL( "http://steamcommunity.com/workshop/filedetails/discussion/408243366/494632338490289695/" )
 				fnafgmMenuF:Close()
 			end
 			
