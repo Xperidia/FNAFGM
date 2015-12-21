@@ -2569,7 +2569,11 @@ function fnafgmTimeThink()
 			if !game.IsDedicated() then night = GAMEMODE.NightEnd end
 			fnafgmMapOverrides()
 			fnafgmVarsUpdate()
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start a new week!\n" )
+			if night==GAMEMODE.NightEnd then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start the hell!\n" )
+			else
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start a new week!\n" )
+			end
 			timer.Remove("fnafgmNightPassed")
 		
 		end)
