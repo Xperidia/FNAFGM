@@ -53,6 +53,7 @@ function fnafgmMenu()
 		fnafgmMenuF:MakePopup()
 		fnafgmMenuF:SetKeyboardInputEnabled(false)
 		
+		GAMEMODE:LoadProgress()
 		
 		fnafgmMenuF.links = vgui.Create( "DPanel" )
 		fnafgmMenuF.links:SetParent(fnafgmMenuF)
@@ -185,6 +186,15 @@ function fnafgmMenu()
 		flashwindow:SetValue( GetConVar("fnafgm_cl_flashwindow"):GetBool() )
 		flashwindow:SizeToContents()
 		
+		local saveserver = vgui.Create( "DCheckBoxLabel" )
+		saveserver:SetParent(fnafgmMenuF.config)
+		saveserver:SetText(tostring(GAMEMODE.TranslatedStrings.saveserver or GAMEMODE.Strings.en.saveserver))
+		saveserver:SetPos( 15, 150 )
+		saveserver:SetDark( 1 )
+		saveserver:SetConVar( "fnafgm_cl_saveonservers" )
+		saveserver:SetValue( GetConVar("fnafgm_cl_saveonservers"):GetBool() )
+		saveserver:SizeToContents()
+		
 		
 		
 		fnafgmMenuF.info = vgui.Create( "DPanel" )
@@ -226,6 +236,13 @@ function fnafgmMenu()
 		langinfo:SetPos( 15, 90 )
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
+		
+		local progressinfo = vgui.Create( "DLabel" )
+		progressinfo:SetParent(fnafgmMenuF.info)
+		progressinfo:SetText( tostring(GAMEMODE.TranslatedStrings.progressinfo or GAMEMODE.Strings.en.progressinfo)..": "..(nightp or "?") )
+		progressinfo:SetPos( 15, 110 )
+		progressinfo:SetDark( 1 )
+		progressinfo:SizeToContents()
 		
 		local mapselectb = vgui.Create( "DButton" )
 		mapselectb:SetParent(fnafgmMenuF.info)

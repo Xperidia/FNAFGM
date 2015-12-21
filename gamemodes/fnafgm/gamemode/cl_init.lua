@@ -76,12 +76,6 @@ elseif !sfont then
 	
 end
 
-local fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
-local fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
-local fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, true )
-local fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
-local fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
-
 for _, addon in pairs(engine.GetAddons()) do
 	
 	if addon.wsid == "104575630" and addon.mounted then

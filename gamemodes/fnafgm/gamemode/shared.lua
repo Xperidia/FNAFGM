@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.191
+GM.OfficialVersion 	= 1.20
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -122,7 +122,9 @@ GM.Strings = {
 		refreshbypass = "Refresh Bypass",
 		chatsound = "Chat sound",
 		flashwindow = "Flashes the window on notifications (Windows only)",
-		password = "Password"
+		password = "Password",
+		saveserver = "Save your own progress on servers",
+		progressinfo = "Last saved night"
 	},
 	fr = {
 		freddys = "Coupez le courant pour démarrer la nuit",
@@ -156,7 +158,9 @@ GM.Strings = {
 		refreshbypass = "Recharger les Bypass",
 		chatsound = "Sons du chat",
 		flashwindow = "Activer l'alerte fenêtre (Windows uniquement)",
-		password = "Mot de passe"
+		password = "Mot de passe",
+		saveserver = "Sauvegarde de la progression sur les serveurs",
+		progressinfo = "Dernière nuit sauvegardée "
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		animatronics = "Animasyoncuları",
@@ -327,6 +331,41 @@ GM.MapListLinks = {
 	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
 }
 
+--[CVAR]--
+fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "The death screen delay. (Time of the jumpscare)" )
+fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "The death screen duration." )
+fnafgm_autorespawn = CreateConVar( "fnafgm_autorespawn", 0, FCVAR_REPLICATED, "Auto respawn after the death screen." )
+fnafgm_allowflashlight = CreateConVar( "fnafgm_allowflashlight", 0, FCVAR_REPLICATED, "Enables/Disables the player's flashlight. (Except for admins)" )
+fnafgm_respawnenabled = CreateConVar( "fnafgm_respawnenabled", 1, FCVAR_REPLICATED, "Enable/Disable the respawn. (Except for admins)" )
+fnafgm_deathscreenfade = CreateConVar( "fnafgm_deathscreenfade", 1, FCVAR_REPLICATED, "Enable/Disable the death screen fade." )
+fnafgm_deathscreenoverlay = CreateConVar( "fnafgm_deathscreenoverlay", 1, FCVAR_REPLICATED, "Enable/Disable the death screen overlay." )
+fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove", 0, FCVAR_REPLICATED, "Instant remove dead bodies." )
+fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Change the dead bodies." )
+fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Auto clean up when the server is empty." )
+fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
+fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
+fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
+fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween" )
+fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
+fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Override the player model." )
+fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
+fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Override the bodygroups to use, if the model has any." )
+fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "The value is a Vector - so between 0-1 - not between 0-255." )
+fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "The time before respawn. (After the death screen)" )
+fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
+fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
+fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
+fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
+fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
+fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
+
+fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
+fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
+fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, true )
+fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
+fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
+fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true, false )
+
 
 function GM:Initialize()
 
@@ -432,25 +471,126 @@ function GM:Initialize()
 		
 		fnafgmrefreshbypass()
 		
-		if !game.IsDedicated() and !SGvsA then
+		
+	
+	end
+	
+	timer.Create( "fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
+	
+end
+
+
+function GM:SaveProgress()
+	
+	if SERVER and ( !SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
+		
+		if !file.IsDir("fnafgm/progress", "DATA") then
+			file.CreateDir( "fnafgm/progress" )
+		end
+		
+		local tab = {}
+		
+		if night>=GAMEMODE.NightEnd then
+			tab.Night = GAMEMODE.NightEnd
+		else
+			tab.Night = night
+		end
+		
+		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved! ("..tab.Night..")\n" )
+		
+	end
+	
+	if CLIENT and !SGvsA and fnafgm_cl_saveonservers:GetBool() then
+		
+		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		
+		if ( filep ) then
+		
+			local tab = util.JSONToTable( filep )
+			if ( tab ) then
+				
+				if ( tab.Night ) then
+					if tab.Night>night then
+						return
+					end
+				end
+				
+			end
+		
+		elseif !file.IsDir("fnafgm/progress", "DATA") then
+			file.CreateDir( "fnafgm/progress" )
+		end
+		
+		local tab = {}
+		
+		if night>=GAMEMODE.NightEnd then
+			tab.Night = GAMEMODE.NightEnd
+		else
+			tab.Night = night
+		end
+		
+		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved! ("..tab.Night..")\n" )
+		
+	end
+	
+end
+
+
+function GM:LoadProgress()
+	
+	if SERVER and ( !SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
+		
+		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		
+		if ( filep ) then
+		
+			local tab = util.JSONToTable( filep )
+			if ( tab ) then
+				
+				if ( tab.Night ) then
+					if tab.Night>=GAMEMODE.NightEnd then
+						night = GAMEMODE.NightEnd
+					else
+						night = tab.Night
+					end
+				end
+				
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded! ("..night..")\n" )
+				
+				return
+				
+			end
 			
-			local file = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
-			
-			if ( file ) then
-			
-				local tab = util.JSONToTable( file )
-				if ( tab ) then
-					if ( tab.Night ) then night = tab.Night end
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded!\n" )
+		end
+		
+	end
+	
+	if CLIENT and !SGvsA then
+		
+		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		
+		if ( filep ) then
+		
+			local tab = util.JSONToTable( filep )
+			if ( tab ) then
+				
+				if ( tab.Night ) then
+					if tab.Night>=GAMEMODE.NightEnd then
+						nightp = GAMEMODE.NightEnd+1
+					else
+						nightp = tab.Night+1
+					end
 				end
 				
 			end
 			
 		end
-	
+		
 	end
-	
-	
 	
 end
 

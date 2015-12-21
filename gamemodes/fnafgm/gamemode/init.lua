@@ -36,32 +36,6 @@ end
 DEFINE_BASECLASS( "gamemode_base" )
 
 
-fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "The death screen delay. (Time of the jumpscare)" )
-fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "The death screen duration." )
-fnafgm_autorespawn = CreateConVar( "fnafgm_autorespawn", 0, FCVAR_REPLICATED, "Auto respawn after the death screen." )
-fnafgm_allowflashlight = CreateConVar( "fnafgm_allowflashlight", 0, FCVAR_REPLICATED, "Enables/Disables the player's flashlight. (Except for admins)" )
-fnafgm_respawnenabled = CreateConVar( "fnafgm_respawnenabled", 1, FCVAR_REPLICATED, "Enable/Disable the respawn. (Except for admins)" )
-fnafgm_deathscreenfade = CreateConVar( "fnafgm_deathscreenfade", 1, FCVAR_REPLICATED, "Enable/Disable the death screen fade." )
-fnafgm_deathscreenoverlay = CreateConVar( "fnafgm_deathscreenoverlay", 1, FCVAR_REPLICATED, "Enable/Disable the death screen overlay." )
-fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove", 0, FCVAR_REPLICATED, "Instant remove dead bodies." )
-fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Change the dead bodies." )
-fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Auto clean up when the server is empty." )
-fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
-fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
-fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
-fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween" )
-fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
-fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Override the player model." )
-fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
-fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Override the bodygroups to use, if the model has any." )
-fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "The value is a Vector - so between 0-1 - not between 0-255." )
-fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "The time before respawn. (After the death screen)" )
-fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
-fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
-fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
-fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
-fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
-
 util.AddNetworkString( "fnafgmShowCheck" )
 util.AddNetworkString( "fnafgmSetView" )
 util.AddNetworkString( "fnafgmMuteCall" )
@@ -74,33 +48,6 @@ util.AddNetworkString( "fnafgmDS" )
 util.AddNetworkString( "fnafgmNotif" )
 util.AddNetworkString( "fnafgmSecurityTablet" )
 util.AddNetworkString( "fnafgmCloseTablet" )
-
-
-function GM:SaveProgress()
-	
-	if !game.IsDedicated() and !SGvsA then
-		
-		if !file.IsDir("fnafgm/progress", "DATA") then
-			file.CreateDir( "fnafgm/progress" )
-		end
-		
-		local tab = {}
-		
-		if night>=GAMEMODE.NightEnd then
-			tab.Night = GAMEMODE.NightEnd
-		else
-			tab.Night = night
-		end
-		
-		--tab.FinishedWeek = finishedweek
-		
-		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
-		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved!\n" )
-		
-	end
-	
-end
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -129,8 +76,6 @@ function fnafgmResetProgress(ply)
 	local tab = {}
 	
 	tab.Night = 0
-	
-	--tab.FinishedWeek = finishedweek
 	
 	file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 	
@@ -1626,6 +1571,7 @@ function fnafgmAutoCleanUp()
 			active = false
 			fnafgmResetGame()
 			fnafgmMapOverrides()
+			GAMEMODE:LoadProgress()
 		end
 		
 	end
@@ -2545,9 +2491,10 @@ function fnafgmTimeThink()
 			if (v:Team()==1 or v:Team()==2) and v:Alive() then
 				v:KillSilent()
 			end
+			v:SendLua([[GAMEMODE:SaveProgress()]])
 		end
 		
-		GAMEMODE:SaveProgress()
+		if game.IsDedicated() then GAMEMODE:SaveProgress() end
 		
 		timer.Create( "fnafgmNightPassed", 11, 1, function()
 			
@@ -2665,6 +2612,7 @@ function fnafgmTimeThink()
 			if (v:Team()==1 or v:Team()==2) and v:Alive() then
 				v:KillSilent()
 			end
+			v:SendLua([[GAMEMODE:SaveProgress()]])
 		end
 		
 		GAMEMODE:SaveProgress()
@@ -3014,6 +2962,7 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  timethink_autostart "..fnafgm_timethink_autostart:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  disablemapsmonitors "..fnafgm_disablemapsmonitors:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  disablepower "..fnafgm_disablepower:GetString())
+		ply:PrintMessage(HUD_PRINTCONSOLE, "  forcesavingloading "..fnafgm_forcesavingloading:GetString())
 		ply:PrintMessage(HUD_PRINTCONSOLE, " ")
 		ply:PrintMessage(HUD_PRINTCONSOLE, " [-GAME VARS-]")
 		ply:PrintMessage(HUD_PRINTCONSOLE, "  Day started: "..tostring(startday))
@@ -3089,6 +3038,7 @@ concommand.Add( "fnafgm_debug_info", function(ply)
 		print("  timethink_autostart "..fnafgm_timethink_autostart:GetString())
 		print("  disablemapsmonitors "..fnafgm_disablemapsmonitors:GetString())
 		print("  disablepower "..fnafgm_disablepower:GetString())
+		print("  forcesavingloading "..fnafgm_forcesavingloading:GetString())
 		print(" ")
 		print(" [-GAME VARS-]")
 		print("  Day started: "..tostring(startday))
