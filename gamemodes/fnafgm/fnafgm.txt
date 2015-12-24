@@ -108,7 +108,7 @@
 		{
 			"name"		"fnafgm_forceseasonalevent"
 			"text"		"Force seasonal event"
-			"help"		"2 for April Fool"
+			"help"		"2 for April Fool. 3 for Halloween. 4 for Christmas"
 			"type"		"Numeric"
 			"default"	"0"
 		}

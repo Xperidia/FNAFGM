@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.20
+GM.OfficialVersion 	= 1.21
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -23,6 +23,7 @@ else
 	GM.Official = false
 end
 GM.CustomVersionChecker = ""
+GM.IsFNAFGMDerived = true
 
 
 --[[ Gamemode constants for derivations ]]--
@@ -345,7 +346,7 @@ fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICAT
 fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
 fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
 fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
-fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween" )
+fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween. 4 for Christmas" )
 fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
 fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Override the player model." )
 fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
@@ -392,6 +393,7 @@ function GM:Initialize()
 	SGvsA = false
 	AprilFool = false
 	Halloween = false
+	Christmas = false
 	b87 = false
 	seasonaltext = ""
 	modetext = ""
@@ -410,9 +412,13 @@ function GM:Initialize()
 	if (os.date( "%d/%m" , Timestamp )=="01/04") then --SeasonalEvents
 		AprilFool = true
 		seasonaltext = " - April Fool"
-	elseif (os.date( "%d/%m" , Timestamp )=="31/10") then --SeasonalEvents
+	elseif (os.date( "%d/%m" , Timestamp )=="31/10") then
 		Halloween = true
 		seasonaltext = " - Halloween"
+	elseif (os.date( "%d/%m" , Timestamp )=="24/12") or (os.date( "%d/%m" , Timestamp )=="25/12") then
+		Christmas = true
+		seasonaltext = " - Christmas"
+		GAMEMODE.Power_Max = 125
 	end
 	
 	

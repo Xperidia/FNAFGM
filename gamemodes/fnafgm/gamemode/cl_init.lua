@@ -766,7 +766,9 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 			seasonaltext = " - April Fool"
 		elseif GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3 then
 			seasonaltext = " - Halloween"
-		elseif !AprilFool and !Halloween and GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==0 then
+		elseif GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==4 then
+			seasonaltext = " - Christmas"
+		elseif !AprilFool and !Halloween and !Christmas and GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==0 then
 			seasonaltext = ""
 		end
 		
