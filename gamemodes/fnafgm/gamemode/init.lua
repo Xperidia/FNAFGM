@@ -2443,11 +2443,11 @@ function fnafgmTimeThink()
 		time = time+1
 	end
 	
-	MsgC( Color( 255, 255, 85 ), "FNAFGM: "..time..AMPM.."\n" )
+	MsgC( Color( 255, 255, 85 ), "FNAFGM: "..time..AMPM.." (Power left: "..power.."%)\n" )
 	
 	if (time == GAMEMODE.TimeEnd and night >= GAMEMODE.NightEnd and AMPM == GAMEMODE.AMPM_End and !fnafgm_timethink_infinitenights:GetBool()) then
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Last night passed ("..night..")\n" )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Last night passed ("..night..") (Power left: "..power.."%)\n" )
 		startday = false
 		gameend = true
 		timer.Remove("fnafgmFreddyTrigger")
@@ -2580,7 +2580,7 @@ function fnafgmTimeThink()
 		
 	elseif (time == GAMEMODE.TimeEnd and AMPM == GAMEMODE.AMPM_End and !fnafgm_timethink_endlesstime:GetBool()) then
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." passed\n" )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..night.." passed (Power left: "..power.."%)\n" )
 		startday = false
 		nightpassed = true	
 		timer.Remove("fnafgmFreddyTrigger")
