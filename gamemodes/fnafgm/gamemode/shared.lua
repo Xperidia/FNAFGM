@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.211
+GM.OfficialVersion 	= 1.22
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -193,8 +193,57 @@ GM.Strings = {
 		stop = "Dur/Tekrar Başlat",
 		autofnafview = "Otamatik Fnaf görüşü",
 		exitfnafview = "Fnaf Görüşünden Çık"
+	},
+	ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236
+		sg = "Охраники",
+		animatronics = "Аниматроники",
+		animatronic = "Аниматроник",
+		--tonight = "В ночь",
+		--night = "Ночь",
+		freddys = "Выключите основное питание, чтобы начать игру",
+		fnaf2 = "Включите аниматроников, чтобы начать",
+		fnaf_freddypizzaevents = "Введите !start, чтобы начать карту",
+		startanimatronics = "Основное питание включено",
+		foxy = "Фокси",
+		freddy = "Фредди",
+		chica = "Чика",
+		bonnie = "Бонни",
+		goldenfreddy = "Золотой Фредди",
+		unassigned_SGvsA = "Выберите команду",
+		--powerleft = "Энергии осталось:",
+		--usage = "Используется:",
+		unassigned_powerdown = "Вы не можете присоединиться, когда энергии нет!",
+		flashlight = "Фонарик",
+		monitor = "Монитор",
+		monitor_inst = "Щелкните правой кнопкой мыши, чтобы открыть монитор. Щелкните левой кнопкой мыши, чтобы использовать кнопки. Перезарядитесь, чтобы войти в ФНаФ вид.",
+		monitor_purp = "Контролируйте ресторан.",
+		spectator = "Наблюдатель",
+		warn_font = "Шрифт не установлен/обновлен! Читайте инструкции по установке на странице в Мастерской, нажав клавишу F1",
+		warn_css = "Counter-Strike: Source не установлен. Вы будете иметь недостающие текстуры и ERRORы.",
+		links = "Ссылка(и)",
+		fonthint = "Читайте инструкции по установке на странице в Мастерской\\в установке шрифта",
+		faqbtn = "ЧАВО",
+		config = "Конфигурация",
+		hidever = "Скрыть версию",
+		dhud = "Показать HUD (Интерфейс)",
+		infoat = "Информация/Разное",
+		fontloaded = "Шрифт загружен",
+		lang = "Язык",
+		changemap = "Заменить Карту",
+		resetsave = "Сброс сохранения (только Владелец)",
+		debugmenu = "Меню отладки (только Отладочный доступ)",
+		start = "Начать",
+		stop = "Стоп/Перезагрузка",
+		reset = "Сброс",
+		autofnafview = "Автоматически ставить ФНаФ Вид",
+		exitfnafview = "Выйти из ФНаФ Вид",
+		refreshbypass = "Обновить Обход Блокировки",
+		chatsound = "Звук Чата",
+		flashwindow = "Высвечивать окно уведомлениями (только Windows)",
+		password = "Пароль",
+		saveserver = "Сохранять свой прогресс на серверах",
+		progressinfo = "Последния сохраненная ночь"
 	}
-
 }
 
 function fnafgmLoadLanguage(lang)
