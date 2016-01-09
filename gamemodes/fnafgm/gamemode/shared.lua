@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.23
+GM.OfficialVersion 	= 1.231
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -374,7 +374,6 @@ GM.Materials_animatronic = "fnafgm/freddy"
 GM.Materials_foxy = "fnafgm/foxy"
 GM.Materials_fnaf2deathcam = "fnafgm/fnaf2deathcam"
 
-GM.Models_deadsp = Model("models/splinks/fnaf/freddy/freddy.mdl")
 GM.Models_dead = { Model("models/splinks/fnaf/bonnie/bonnie.mdl"), Model("models/splinks/fnaf/chica/chica.mdl"), Model("models/splinks/fnaf/freddy/freddy.mdl") }
 GM.Models_defaultplayermodels = {"barney", "male10", "male11", "male12", "male13", "male14", "male15", "male16", "male17", "male18"}
 GM.Models_bonnie = Model("models/splinks/fnaf/bonnie/player_bonnie.mdl")

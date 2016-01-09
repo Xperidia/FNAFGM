@@ -233,7 +233,7 @@ function GM:PlayerSpawn( pl )
 		end)
 	end
 	
-	if ( game.SinglePlayer() or fnafgm_timethink_autostart:GetBool() ) and pl:Team()==1 then
+	if fnafgm_timethink_autostart:GetBool() and pl:Team()==1 then
 		timer.Create( "fnafgmStart", 0.002, 1, function()
 			fnafgmUse(pl, nil, true)
 			timer.Remove( "fnafgmStart" )
@@ -515,26 +515,15 @@ function GM:PostPlayerDeath( ply )
 			ent:Remove() --Ragdoll remove
 		elseif IsValid(ent) then
 			if fnafgm_ragdolloverride:GetBool() then --Ragdoll model
-				ent:SetCustomCollisionCheck(true)
-				if !game.SinglePlayer() then
-					if table.Count(GAMEMODE.Models_dead)!=0 then
-						local modele = table.Random(GAMEMODE.Models_dead)
-						if file.Exists( modele, "GAME" ) then
-							ent:SetModel(modele)
-						end
-					end
-					if GAMEMODE.DeadBodiesTeleport[game.GetMap()] then
-						ply:SetPos( table.Random(GAMEMODE.DeadBodiesTeleport[game.GetMap()]) )
-					end
-				else
-					if GAMEMODE.Models_deadsp!=nil then
-						ent:SetModel(GAMEMODE.Models_deadsp)
-					end
-					if game.GetMap()=="freddys" then
-						ply:SetPos( Vector(-484, -160, 92) )
+				if table.Count(GAMEMODE.Models_dead)!=0 then
+					local modele = table.Random(GAMEMODE.Models_dead)
+					if file.Exists( modele, "GAME" ) then
+						ent:SetModel(modele)
 					end
 				end
-				
+				if GAMEMODE.DeadBodiesTeleport[game.GetMap()] then
+					ply:SetPos( table.Random(GAMEMODE.DeadBodiesTeleport[game.GetMap()]) )
+				end
 			end
 		end
 	
@@ -559,6 +548,7 @@ function GM:PostPlayerDeath( ply )
 						ents.FindByName( "EventTimer" )[1]:Fire("Kill")
 						ents.FindByName( "EventTimer2" )[1]:Fire("Kill")
 					end
+					hook.Call("fnafgmGeneralDeath")
 				end
 				
 				if fnafgm_deathscreenoverlay:GetBool() then --Static screen
@@ -3898,6 +3888,8 @@ function GM:Think()
 				net.WriteBit(true)
 			net.Broadcast()
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: The security guards are dead, the night will be reset\n" )
+			
+			hook.Call("fnafgmGeneralDeath")
 			
 			timer.Remove("fnafgmTimeThink")
 			timer.Remove("fnafgmPowerOff1")
