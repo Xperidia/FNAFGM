@@ -29,6 +29,9 @@ end
 if player_manager.AllValidModels()["Guard_01"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=169011381 if available
 	resource.AddWorkshop( "169011381" )
 end
+if game.GetMap()=="fnaf4versus" and player_manager.AllValidModels()["FNAF4 - Nightmare Freddy"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=542539281 if available
+	resource.AddWorkshop( "542539281" )
+end
 
 --
 -- Make BaseClass available

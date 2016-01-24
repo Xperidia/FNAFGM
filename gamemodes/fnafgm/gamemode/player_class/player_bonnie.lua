@@ -10,6 +10,10 @@ function PLAYER:SetModel()
 
 	BaseClass.SetModel( self )
 	
+	if game.GetMap()=="fnaf4versus" and player_manager.AllValidModels()["FNAF4 - Nightmare Bonnie"] then
+		GAMEMODE.Models_bonnie = Model("models/nightmare/nightmare_bonnie_playermodel.mdl")
+	end
+	
 	self.Player:SetModel( GAMEMODE.Models_bonnie )
 
 end
