@@ -365,6 +365,9 @@ end)
 net.Receive( "fnafgmShowCheck", function( len )
 
 	willviewcheck = net.ReadBit()
+	local plus = net.ReadBit()
+	
+	GAMEMODE:CallEnding(plus)
 	
 end)
 
@@ -388,6 +391,42 @@ net.Receive( "fnafgmDS", function( len )
 	DS = net.ReadBit()
 	
 end)
+
+net.Receive( "fnafgmCallIntro", function( len ) GAMEMODE:CallIntro() end)
+
+
+function GM:CallIntro()
+	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language") )
+	elseif file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_en.vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_en" )
+	elseif file.Exists( "materials/fnafgm/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay","fnafgm/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language") )
+	elseif file.Exists( "materials/fnafgm/introscreen/"..game.GetMap().."_en.vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay","fnafgm/introscreen/"..game.GetMap().."_en" )
+	end
+end
+
+
+function GM:CallEnding(plus)
+	
+	local add = ""
+	
+	if tobool(plus) then
+		add = "_6"
+	end
+	
+	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add )
+	elseif file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..add..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..add )
+	elseif file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay","fnafgm/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add )
+	elseif file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..add..".vmt", "GAME" ) then
+		RunConsoleCommand( "pp_mat_overlay","fnafgm/endscreen/"..game.GetMap().."_en"..add )
+	end
+	
+end
 
 
 function GM:HUDPaint()

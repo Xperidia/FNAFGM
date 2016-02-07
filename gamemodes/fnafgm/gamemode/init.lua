@@ -51,6 +51,7 @@ util.AddNetworkString( "fnafgmDS" )
 util.AddNetworkString( "fnafgmNotif" )
 util.AddNetworkString( "fnafgmSecurityTablet" )
 util.AddNetworkString( "fnafgmCloseTablet" )
+util.AddNetworkString( "fnafgmCallIntro" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -295,23 +296,19 @@ function GM:PlayerInitialSpawn( ply )
 	
 	fnafgmCheckForNewVersion(ply,false)
 	
+	if !ply:IsBot() then
+		net.Start( "fnafgmCallIntro" )
+		net.Send(ply)
+		if game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
+			fnafgmMapSelect(ply)
+		end
+	end
+	
 	if SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
 		ply:ConCommand( "gm_showteam" )
-		if GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] )
-		elseif GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()].en then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()].en )
-		end
 	elseif !SGvsA and !ply:IsBot() then
 		ply:SetTeam( TEAM_UNASSIGNED )
-		if GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()][GetConVarString("gmod_language")] )
-		elseif GAMEMODE.Materials_intro[game.GetMap()] and GAMEMODE.Materials_intro[game.GetMap()].en then
-			ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_intro[game.GetMap()].en )
-		elseif game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
-			fnafgmMapSelect(ply)
-		end
 	elseif ply:IsBot() then
 		ply:SetTeam(1)
 	end
@@ -2491,10 +2488,16 @@ function fnafgmTimeThink()
 		
 		timer.Create( "fnafgmNightPassed", 11, 1, function()
 			
-			if GAMEMODE.Materials_end[game.GetMap()] then
-			
+			if GAMEMODE.Materials_end[game.GetMap()] or file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) or file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) then
+				
+				local plus = false
+				if night>GAMEMODE.NightEnd then
+					plus = true
+				end
+				
 				net.Start( "fnafgmShowCheck" )
-					net.WriteBit( true )
+					net.WriteBit(true)
+					net.WriteBit(plus)
 				net.Broadcast()
 				
 				for k, v in pairs(player.GetAll()) do
@@ -2505,16 +2508,6 @@ function fnafgmTimeThink()
 						
 						v:SetTeam(TEAM_UNASSIGNED)
 						
-						local var = 1
-						if night>GAMEMODE.NightEnd then
-							var = 2
-						end
-						
-						if GAMEMODE.Materials_end[game.GetMap()][var] then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end[game.GetMap()][var] )
-						elseif var==2 and GAMEMODE.Materials_end[game.GetMap()][1] then
-							v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_end[game.GetMap()][var] )
-						end
 						if GAMEMODE.Sound_end[game.GetMap()] then
 							v:ConCommand("play "..GAMEMODE.Sound_end[game.GetMap()])
 						end

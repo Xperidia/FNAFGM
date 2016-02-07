@@ -1,7 +1,7 @@
 include( 'shared.lua' )
 
 SWEP.BounceWeaponIcon = false
-SWEP.WepSelectIcon = surface.GetTextureID( "fnafgm/securitytablet" )
+SWEP.WepSelectIcon = surface.GetTextureID( "fnafgm/weapons/securitytablet" )
 
 function draw.Circle( x, y, radius, seg )
 	local cir = {}

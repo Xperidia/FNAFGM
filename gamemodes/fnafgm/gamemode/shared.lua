@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.25
+GM.OfficialVersion 	= 1.26
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -353,26 +353,21 @@ GM.FNaFView = {
 	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) }
 }
 
-GM.Materials_static = "fnafgm/static"
-GM.Materials_camstatic = "fnafgm/camstatic"
-GM.Materials_goldenfreddy = "fnafgm/goldenfreddy"
+GM.Materials_static = "fnafgm/overlays/static"
+GM.Materials_camstatic = "fnafgm/overlays/camstatic"
+GM.Materials_goldenfreddy = "fnafgm/overlays/goldenfreddy"
 GM.Materials_animatronicsvision = "effects/combine_binocoverlay"
-GM.Materials_mapfreddys = "fnafgm/mapfreddys"
-GM.Materials_mapfnaf2 = "fnafgm/mapfnaf2"
-GM.Materials_usage = "fnafgm/usage_"
-GM.Materials_battery = "fnafgm/battery_"
-GM.Materials_intro = {
-	freddys = { en = "fnafgm/intro" },
-	freddysnoevent = { en = "fnafgm/intro" },
-	fnaf2 = { en = "fnafgm/introfnaf2" }
-}
+GM.Materials_mapfreddys = "fnafgm/maps/freddys"
+GM.Materials_mapfnaf2 = "fnafgm/maps/fnaf2"
+GM.Materials_usage = "fnafgm/usage/usage_"
+GM.Materials_battery = "fnafgm/battery/battery_"
 GM.Materials_end = {
-	freddys = { "fnafgm/end", "fnafgm/end6" },
-	fnaf2 = { "fnafgm/endfnaf2", "fnafgm/endfnaf2_6" }
+	freddys = true,
+	fnaf2 = true
 }
-GM.Materials_animatronic = "fnafgm/freddy"
-GM.Materials_foxy = "fnafgm/foxy"
-GM.Materials_fnaf2deathcam = "fnafgm/fnaf2deathcam"
+GM.Materials_animatronic = "fnafgm/weapons/freddy"
+GM.Materials_foxy = "fnafgm/weapons/foxy"
+GM.Materials_fnaf2deathcam = "fnafgm/overlays/fnaf2deathcam"
 
 GM.Models_dead = { Model("models/splinks/fnaf/bonnie/bonnie.mdl"), Model("models/splinks/fnaf/chica/chica.mdl"), Model("models/splinks/fnaf/freddy/freddy.mdl") }
 GM.Models_defaultplayermodels = {"barney", "male10", "male11", "male12", "male13", "male14", "male15", "male16", "male17", "male18"}
