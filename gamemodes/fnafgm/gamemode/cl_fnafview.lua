@@ -40,12 +40,12 @@ function fnafgmFNaFViewHUD()
 		end
 		FNaFView.Think = function()
 			
-			if IsValid(MUTE) and tobool(mute) then
+			if IsValid(MUTE) and tobool(GAMEMODE.Vars.mute) then
 				MUTE:Remove()
 				MUTEb:Remove()
 			end
 			
-			if !LocalPlayer():Alive() or (power==0 and game.GetMap()!="fnaf2") then
+			if !LocalPlayer():Alive() or (GAMEMODE.Vars.power==0 and game.GetMap()!="fnaf2") then
 				OpenT:Remove()
 				if IsValid(lightroom) then
 					lightroom:Remove()
@@ -56,7 +56,7 @@ function fnafgmFNaFViewHUD()
 				FNaFView:Close()
 			end
 			
-			if !tobool(startday) then
+			if !tobool(GAMEMODE.Vars.startday) then
 				FNaFView:Close()
 			end
 			
@@ -122,7 +122,7 @@ function fnafgmFNaFViewHUD()
 			ExitZone:SetText("")
 		end
 		
-		if !tobool(mute) then
+		if !tobool(GAMEMODE.Vars.mute) then
 			MUTE = vgui.Create( "DImage" )
 			MUTE:SetParent(FNaFView)
 			MUTE:SetImage( "fnafgm/mute" )

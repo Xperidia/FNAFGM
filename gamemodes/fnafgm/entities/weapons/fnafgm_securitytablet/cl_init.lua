@@ -91,7 +91,7 @@ function fnafgmSecurityTablet()
 			net.SendToServer()
 		end
 		Monitor.Think = function()
-			if (!LocalPlayer():Alive() or tobool(tempostart) or (poweroff and game.GetMap()!="fnaf2")) then
+			if (!LocalPlayer():Alive() or tobool(tempostart) or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2")) then
 				Monitor:Close()
 			end
 		end
@@ -111,7 +111,7 @@ function fnafgmSecurityTablet()
 				CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
 				CamsNames:SetSize( 512, 64 )
 				
-				if !tobool(mute) then
+				if !tobool(GAMEMODE.Vars.mute) then
 					local MUTET = vgui.Create( "DImage" )
 					MUTET:SetParent(Monitor)
 					MUTET:SetImage( "fnafgm/mute" )

@@ -12,7 +12,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.26
+GM.OfficialVersion 	= 1.27
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -34,7 +34,6 @@ GM.AMPM_End = "AM"
 GM.NightBase = 0
 GM.NightEnd = 5
 GM.HourTime = 86
-GM.HourTime_add = 0 --Not used since power is in the place
 GM.Power_Max = 100
 GM.Power_Drain_Time = 9.6
 GM.Power_Usage_Base = 1
@@ -296,7 +295,7 @@ GM.Strings = {
 	}
 }
 
-function fnafgmLoadLanguage(lang)
+function GM:LoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
 		--table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
@@ -425,6 +424,8 @@ GM.MapListLinks = {
 	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
 }
 
+GM.Vars = {}
+
 --[CVAR]--
 fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "The death screen delay. (Time of the jumpscare)" )
 fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "The death screen duration." )
@@ -463,38 +464,38 @@ fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true
 
 function GM:Initialize()
 
-	fnafgmLoadLanguage(GetConVarString("gmod_language"))
+	GAMEMODE:LoadLanguage(GetConVarString("gmod_language"))
 	
 	cvars.AddChangeCallback( "gmod_language", function( convar_name, value_old, value_new )
-		fnafgmLoadLanguage(value_new)
+		GAMEMODE:LoadLanguage(value_new)
 	end)
 	
-	startday = false
-	gameend = false
-	iniok = false
-	time = GAMEMODE.TimeBase
-	AMPM = GAMEMODE.AMPM
-	night = GAMEMODE.NightBase
-	nightpassed = false
-	tempostart = false
-	mute = true
-	overfive = false
-	power = 0
-	powerusage = GAMEMODE.Power_Usage_Base
-	powertot = GAMEMODE.Power_Max
-	poweroff = false
-	SGvsA = false
-	AprilFool = false
-	Halloween = false
-	Christmas = false
-	b87 = false
-	seasonaltext = ""
-	modetext = ""
-	fnafview = false
-	fnafviewactive = false
-	fnafgmWorkShop = false
-	lastversion = 0
-	lastderivversion = 0
+	GAMEMODE.Vars.startday = false
+	GAMEMODE.Vars.gameend = false
+	GAMEMODE.Vars.iniok = false
+	GAMEMODE.Vars.time = GAMEMODE.TimeBase
+	GAMEMODE.Vars.AMPM = GAMEMODE.AMPM
+	GAMEMODE.Vars.night = GAMEMODE.NightBase
+	GAMEMODE.Vars.nightpassed = false
+	GAMEMODE.Vars.tempostart = false
+	GAMEMODE.Vars.mute = true
+	GAMEMODE.Vars.overfive = false
+	GAMEMODE.Vars.power = 0
+	GAMEMODE.Vars.powerusage = GAMEMODE.Power_Usage_Base
+	GAMEMODE.Vars.powertot = GAMEMODE.Power_Max
+	GAMEMODE.Vars.poweroff = false
+	GAMEMODE.Vars.SGvsA = false
+	GAMEMODE.Vars.AprilFool = false
+	GAMEMODE.Vars.Halloween = false
+	GAMEMODE.Vars.Christmas = false
+	GAMEMODE.Vars.b87 = false
+	GAMEMODE.Vars.seasonaltext = ""
+	GAMEMODE.Vars.modetext = ""
+	GAMEMODE.Vars.fnafview = false
+	GAMEMODE.Vars.fnafviewactive = false
+	GAMEMODE.Vars.fnafgmWorkShop = false
+	GAMEMODE.Vars.lastversion = 0
+	GAMEMODE.Vars.lastderivversion = 0
 	
 	if !file.IsDir("fnafgm", "DATA") then
 		file.CreateDir( "fnafgm" )
@@ -503,44 +504,43 @@ function GM:Initialize()
 	
 	local Timestamp = os.time()
 	if (os.date( "%d/%m" , Timestamp )=="01/04") then --SeasonalEvents
-		AprilFool = true
-		seasonaltext = " - April Fool"
+		GAMEMODE.Vars.AprilFool = true
+		GAMEMODE.Vars.seasonaltext = " - April Fool"
 	elseif (os.date( "%d/%m" , Timestamp )=="31/10") then
-		Halloween = true
-		seasonaltext = " - Halloween"
+		GAMEMODE.Vars.Halloween = true
+		GAMEMODE.Vars.seasonaltext = " - Halloween"
 	elseif (os.date( "%d/%m" , Timestamp )=="24/12") or (os.date( "%d/%m" , Timestamp )=="25/12") then
-		Christmas = true
-		seasonaltext = " - Christmas"
+		GAMEMODE.Vars.Christmas = true
+		GAMEMODE.Vars.seasonaltext = " - Christmas"
 		GAMEMODE.Power_Max = 125
 	end
 	
 	
 	if (game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf4versus") then
-		SGvsA=true
-		modetext = " - PvP SGvsA"
+		GAMEMODE.Vars.SGvsA=true
+		GAMEMODE.Vars.modetext = " - PvP SGvsA"
 	end
 	
 	
 	if GetHostName()=="1987" then --Not a easter egg ^^
-		AprilFool = false
-		Halloween = false
-		SGvsA = false
-		b87 = true
-		modetext = " - '87"
+		GAMEMODE.Vars.AprilFool = false
+		GAMEMODE.Vars.Halloween = false
+		GAMEMODE.Vars.SGvsA = false
+		GAMEMODE.Vars.b87 = true
+		GAMEMODE.Vars.modetext = " - '87"
 	end
 	
 	
 	for _, addon in pairs(engine.GetAddons()) do
 		
 		if addon.wsid == "408243366" and addon.mounted then
-			fnafgmWorkShop = true
+			GAMEMODE.Vars.fnafgmWorkShop = true
 		end
 		
 	end
 	
 	if SERVER then
 		
-		hourtime = GAMEMODE.HourTime
 		mapoverrideok = false
 		norespawn = false
 		active = false
@@ -581,7 +581,7 @@ end
 
 function GM:SaveProgress()
 	
-	if SERVER and ( !SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
+	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
 		if !file.IsDir("fnafgm/progress", "DATA") then
 			file.CreateDir( "fnafgm/progress" )
@@ -589,10 +589,10 @@ function GM:SaveProgress()
 		
 		local tab = {}
 		
-		if night>=GAMEMODE.NightEnd then
+		if GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
-			tab.Night = night
+			tab.Night = GAMEMODE.Vars.night
 		end
 		
 		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
@@ -601,7 +601,7 @@ function GM:SaveProgress()
 		
 	end
 	
-	if CLIENT and !SGvsA and fnafgm_cl_saveonservers:GetBool() then
+	if CLIENT and !GAMEMODE.Vars.SGvsA and fnafgm_cl_saveonservers:GetBool() then
 		
 		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
 		
@@ -611,7 +611,7 @@ function GM:SaveProgress()
 			if ( tab ) then
 				
 				if ( tab.Night ) then
-					if tab.Night>night then
+					if tab.Night>GAMEMODE.Vars.night then
 						return
 					end
 				end
@@ -624,10 +624,10 @@ function GM:SaveProgress()
 		
 		local tab = {}
 		
-		if night>=GAMEMODE.NightEnd then
+		if GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
-			tab.Night = night
+			tab.Night = GAMEMODE.Vars.night
 		end
 		
 		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
@@ -641,7 +641,7 @@ end
 
 function GM:LoadProgress()
 	
-	if SERVER and ( !SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
+	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
 		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
 		
@@ -652,13 +652,13 @@ function GM:LoadProgress()
 				
 				if ( tab.Night ) then
 					if tab.Night>=GAMEMODE.NightEnd then
-						night = GAMEMODE.NightEnd
+						GAMEMODE.Vars.night = GAMEMODE.NightEnd
 					else
-						night = tab.Night
+						GAMEMODE.Vars.night = tab.Night
 					end
 				end
 				
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded! ("..night..")\n" )
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded! ("..GAMEMODE.Vars.night..")\n" )
 				
 				return
 				
@@ -668,7 +668,7 @@ function GM:LoadProgress()
 		
 	end
 	
-	if CLIENT and !SGvsA then
+	if CLIENT and !GAMEMODE.Vars.SGvsA then
 		
 		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
 		
@@ -727,7 +727,7 @@ function GM:CreateTeams()
 	end
 	
 	team.SetUp( 2, tostring(GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics), GAMEMODE.Colors_animatronics )
-	team.SetClass(2, { "player_fnafgmfoxy", "player_fnafgmfreddy", "player_fnafgmbonnie", "player_fnafgmchica" }, SGvsA)
+	team.SetClass(2, { "player_fnafgm_animatronic_controller" } )
 	team.SetSpawnPoint( 2, GAMEMODE.Spawns_animatronics )
 	
 	team.SetUp(TEAM_SPECTATOR, tostring(GAMEMODE.TranslatedStrings.spectator or GAMEMODE.Strings.en.spectator), Color(128, 128, 128))
@@ -774,72 +774,6 @@ function CheckPlayerSecurityRoom(ply)
 			local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
 			if table.HasValue(PlayersInArea, ply) then return true end
 		end
-		return false
-	else
-		return nil
-	end
-	
-end
-
-
-function CheckPlayerHallways(ply)
-	
-	if (GAMEMODE.Hallways[game.GetMap()]) then
-		local BoxCorner = GAMEMODE.Hallways[game.GetMap()][1]
-		local OppositeCorner = GAMEMODE.Hallways[game.GetMap()][2]
-		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-		if table.HasValue(PlayersInArea, ply) then return true end
-		if GAMEMODE.Hallways[game.GetMap()][3] then
-			local BoxCorner = GAMEMODE.Hallways[game.GetMap()][3]
-			local OppositeCorner = GAMEMODE.Hallways[game.GetMap()][4]
-			local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-			if table.HasValue(PlayersInArea, ply) then return true end
-		end
-		return false
-	else
-		return nil
-	end
-	
-end
-
-
-function CheckFreddyTrigger(ply)
-	
-	if (GAMEMODE.DoorFreddy[game.GetMap()]) then
-		local BoxCorner = GAMEMODE.DoorFreddy[game.GetMap()][1]
-		local OppositeCorner = GAMEMODE.DoorFreddy[game.GetMap()][2]
-		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-		if table.HasValue(PlayersInArea, ply) then return true end
-		return false
-	else
-		return nil
-	end
-	
-end
-
-
-function CheckBonnieTrigger(ply)
-	
-	if (GAMEMODE.DoorBonnie[game.GetMap()]) then
-		local BoxCorner = GAMEMODE.DoorBonnie[game.GetMap()][1]
-		local OppositeCorner = GAMEMODE.DoorBonnie[game.GetMap()][2]
-		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-		if table.HasValue(PlayersInArea, ply) then return true end
-		return false
-	else
-		return nil
-	end
-	
-end
-
-
-function CheckChicaTrigger(ply)
-	
-	if (GAMEMODE.DoorChica[game.GetMap()]) then
-		local BoxCorner = GAMEMODE.DoorChica[game.GetMap()][1]
-		local OppositeCorner = GAMEMODE.DoorChica[game.GetMap()][2]
-		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-		if table.HasValue(PlayersInArea, ply) then return true end
 		return false
 	else
 		return nil
@@ -920,7 +854,7 @@ end
 
 function GM:Move( ply, mv )
 
-	if CLIENT and fnafviewactive then return true end
+	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 	
 	if SERVER and ply.fnafviewactive then return true end
 	
@@ -939,7 +873,7 @@ end
 
 function GM:FinishMove( ply, mv )
 	
-	if CLIENT and fnafviewactive then return true end
+	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 	
 	if SERVER and ply.fnafviewactive then return true end
 	
@@ -955,7 +889,7 @@ end
 
 function fnafgmFNaFView(ply)
 	
-	fnafview = true
+	GAMEMODE.Vars.fnafview = true
 	
 	if SERVER then 
 		if GAMEMODE.FNaFView[game.GetMap()] then

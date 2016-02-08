@@ -287,7 +287,7 @@ function GM:HUDDrawTargetID()
 	local text = "ERROR"
 	local font = "FNAFGMID"
 	
-	if !fnafviewactive and (trace.Entity:IsPlayer() and ( LocalPlayer():Team()==trace.Entity:Team() or LocalPlayer():Team()==2 or LocalPlayer():Team()==TEAM_SPECTATOR )) then
+	if !GAMEMODE.Vars.fnafviewactive and (trace.Entity:IsPlayer() and ( LocalPlayer():Team()==trace.Entity:Team() or LocalPlayer():Team()==2 or LocalPlayer():Team()==TEAM_SPECTATOR )) then
 		text = trace.Entity:Nick()
 	elseif debugmode then
 		text = trace.Entity:GetClass()
@@ -327,7 +327,7 @@ fnafgmHUDhide = {
 	CHudDamageIndicator = true,
 	CHudDeathNotice = true,
 	CHudZoom = true,
-	CHudChat = b87
+	CHudChat = GM.Vars.b87
 }
 
 hook.Add("HUDShouldDraw", "HideHUD", function( name )
@@ -337,11 +337,11 @@ hook.Add("HUDShouldDraw", "HideHUD", function( name )
 		return false
 	elseif name=="CHudCrosshair" and LocalPlayer():Team()==TEAM_UNASSIGNED then
 		return false
-	elseif name=="CHudCrosshair" and fnafviewactive then
+	elseif name=="CHudCrosshair" and GAMEMODE.Vars.fnafviewactive then
 		return false
 	elseif name=="CHudCrosshair" and engine.IsPlayingDemo() then
 		return false
-	elseif name=="CHudCrosshair" and (tobool(tempostart) or tobool(gameend) or tobool(nightpassed)) then
+	elseif name=="CHudCrosshair" and (tobool(GAMEMODE.Vars.tempostart) or tobool(GAMEMODE.Vars.gameend) or tobool(GAMEMODE.Vars.nightpassed)) then
 		return false
 	end
 end)
@@ -349,16 +349,16 @@ end)
 
 net.Receive( "fnafgmVarsUpdate", function( len )
 
-	startday = net.ReadBit()
-	gameend = net.ReadBit()
-	iniok = net.ReadBit()
-	time = net.ReadInt( 5 )
-	AMPM = net.ReadString()
-	night = net.ReadInt( 32 )
-	nightpassed = net.ReadBit()
-	tempostart = net.ReadBit()
-	mute = net.ReadBit()
-	overfive = net.ReadBit()
+	GAMEMODE.Vars.startday = net.ReadBit()
+	GAMEMODE.Vars.gameend = net.ReadBit()
+	GAMEMODE.Vars.iniok = net.ReadBit()
+	GAMEMODE.Vars.time = net.ReadInt( 5 )
+	GAMEMODE.Vars.AMPM = net.ReadString()
+	GAMEMODE.Vars.night = net.ReadInt( 32 )
+	GAMEMODE.Vars.nightpassed = net.ReadBit()
+	GAMEMODE.Vars.tempostart = net.ReadBit()
+	GAMEMODE.Vars.mute = net.ReadBit()
+	GAMEMODE.Vars.overfive = net.ReadBit()
 	
 end)
 
@@ -379,10 +379,10 @@ end)
 
 net.Receive( "fnafgmPowerUpdate", function( len )
 
-	power = net.ReadInt( 20 )
-	powerusage = net.ReadInt( 6 )
-	poweroff = tobool(net.ReadBit())
-	powertot = net.ReadInt( 16 )
+	GAMEMODE.Vars.power = net.ReadInt( 20 )
+	GAMEMODE.Vars.powerusage = net.ReadInt( 6 )
+	GAMEMODE.Vars.poweroff = tobool(net.ReadBit())
+	GAMEMODE.Vars.powertot = net.ReadInt( 16 )
 	
 end)
 
@@ -437,17 +437,17 @@ function GM:HUDPaint()
 	
 	local client = LocalPlayer()
 	
-	if (b87) then return end
+	if (GAMEMODE.Vars.b87) then return end
 	
 	local H = 46
-	if tobool(iniok) then
-		if tobool(nightpassed) or tobool(gameend) then
+	if tobool(GAMEMODE.Vars.iniok) then
+		if tobool(GAMEMODE.Vars.nightpassed) or tobool(GAMEMODE.Vars.gameend) then
 			
-			draw.DrawText(time.." "..AMPM, "FNAFGMCH", ScrW() * 0.515, ScrH() * 0.410, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMCH", ScrW() * 0.515, ScrH() * 0.410, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
-		elseif !tobool(startday) then
+		elseif !tobool(GAMEMODE.Vars.startday) then
 			
-			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
 			if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
 				draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
@@ -471,49 +471,49 @@ function GM:HUDPaint()
 				cam.End3D()
 			end
 		
-		elseif !tobool(tempostart) then
+		elseif !tobool(GAMEMODE.Vars.tempostart) then
 				
 			if game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 				
-				if (Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
-					time=math.random( 1, 12 )
+				if (GAMEMODE.Vars.Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
+					GAMEMODE.Vars.time=math.random( 1, 12 )
 					if math.random( 0, 10000 )<5000 then
-						AMPM="PM"
+						GAMEMODE.Vars.AMPM="PM"
 					elseif math.random( 0, 10000 )>5000 then
-						AMPM="AM"
+						GAMEMODE.Vars.AMPM="AM"
 					else
-						time=666
-						AMPM=""
+						GAMEMODE.Vars.time=666
+						GAMEMODE.Vars.AMPM=""
 					end
 				end
 				
-				draw.DrawText(time.." "..AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 				
 			elseif game.GetMap()=="fnaf2" and !usingsafezone then
 				
-				draw.DrawText(time.." "..AMPM, "FNAFGMNIGHT", ScrW()-64, H+32, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
-				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..night, "FNAFGMNIGHT", ScrW()-64, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMNIGHT", ScrW()-64, H+32, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				
-				if power!=0 then
+				if GAMEMODE.Vars.power!=0 then
 					
 					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.flashlight or GAMEMODE.Strings.en.flashlight), "FNAFGMTXT", 128, 64+12, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 					
 					local idsb = 5
 					
-					local powersb = powertot/5
-					if powersb/2>=power then
+					local powersb = GAMEMODE.Vars.powertot/5
+					if powersb/2>=GAMEMODE.Vars.power then
 						idsb = 1
-					elseif powersb>=power then
+					elseif powersb>=GAMEMODE.Vars.power then
 						idsb = 1
-					elseif powersb*2>=power then
+					elseif powersb*2>=GAMEMODE.Vars.power then
 						idsb = 2
-					elseif powersb*3>=power then
+					elseif powersb*3>=GAMEMODE.Vars.power then
 						idsb = 3
-					elseif powersb*4>=power then
+					elseif powersb*4>=GAMEMODE.Vars.power then
 						idsb = 4
 					end
 					
-					if powersb/2<=power or math.fmod( math.Round( CurTime() ), 2 ) == 0 then
+					if powersb/2<=GAMEMODE.Vars.power or math.fmod( math.Round( CurTime() ), 2 ) == 0 then
 						
 						local usagetexture = {
 							texture = surface.GetTextureID( GAMEMODE.Materials_battery..idsb ),
@@ -530,46 +530,46 @@ function GM:HUDPaint()
 					
 				end
 			
-			elseif game.GetMap()!="fnaf2" and ( client:Team()!=1 or ( !poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !poweroff ) ) then
+			elseif game.GetMap()!="fnaf2" and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
 				
-				if (AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
-					powerusage=math.Rand( 1, 7 )
+				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
+					GAMEMODE.Vars.powerusage=math.Rand( 1, 7 )
 				end
 				
-				if (Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
-					power=math.random( 1, 100 )
-					powerusage=math.Rand( 1, 100 )
-					time=math.random( 1, 12 )
-					night=666
+				if (GAMEMODE.Vars.Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
+					GAMEMODE.Vars.power=math.random( 1, 100 )
+					GAMEMODE.Vars.powerusage=math.Rand( 1, 100 )
+					GAMEMODE.Vars.time=math.random( 1, 12 )
+					GAMEMODE.Vars.night=666
 					if math.random( 0, 10000 )<5000 then
-						AMPM="PM"
+						GAMEMODE.Vars.AMPM="PM"
 						GAMEMODE.TranslatedStrings.night="Day"
 					elseif math.random( 0, 10000 )>5000 then
-						AMPM="AM"
+						GAMEMODE.Vars.AMPM="AM"
 						GAMEMODE.TranslatedStrings.night="Night"
 					else
-						time=666
-						AMPM=""
+						GAMEMODE.Vars.time=666
+						GAMEMODE.Vars.AMPM=""
 						GAMEMODE.TranslatedStrings.night=""
-						night="IT'S ME"
-						power=666
-						powerusage=666
+						GAMEMODE.Vars.night="IT'S ME"
+						GAMEMODE.Vars.power=666
+						GAMEMODE.Vars.powerusage=666
 					end
 				end
 				
-				draw.DrawText(time.." "..AMPM, "FNAFGMTIME", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
-				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMTIME", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				
-				if power!=0 then draw.DrawText(tostring(GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft)..power.."%", "FNAFGMNIGHT", 64, ScrH()-H-64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
+				if GAMEMODE.Vars.power!=0 then draw.DrawText(tostring(GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft)..GAMEMODE.Vars.power.."%", "FNAFGMNIGHT", 64, ScrH()-H-64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
 				
-				if powerusage==0 or power==0 then
+				if GAMEMODE.Vars.powerusage==0 or GAMEMODE.Vars.power==0 then
 					
-				elseif powerusage>0 and powerusage<7 then
+				elseif GAMEMODE.Vars.powerusage>0 and GAMEMODE.Vars.powerusage<7 then
 					
 					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage), "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 					local usagetexture = {
-						texture = surface.GetTextureID( GAMEMODE.Materials_usage..powerusage ),
+						texture = surface.GetTextureID( GAMEMODE.Materials_usage..GAMEMODE.Vars.powerusage ),
 						color	= Color( 255, 255, 255, 255 ),
 						x 	= 180,
 						y 	= ScrH()-H-30,
@@ -579,13 +579,13 @@ function GM:HUDPaint()
 				
 					draw.TexturedQuad( usagetexture )
 					
-				elseif powerusage<0 then
+				elseif GAMEMODE.Vars.powerusage<0 then
 				
 					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." ?", "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 				else
 				
-					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." "..powerusage, "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." "..GAMEMODE.Vars.powerusage, "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 				end
 			
@@ -603,29 +603,29 @@ function GM:HUDPaint()
 		
 		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 			
-			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..night, "FNAFGMA4TIME", 32, 32, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMA4TIME", 32, 32, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
 		else
 			
-			draw.DrawText(time..":00 "..AMPM, "FNAFGMATIME", ScrW() * 0.5, ScrH() * 0.44, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(GAMEMODE.Vars.time..":00 "..GAMEMODE.Vars.AMPM, "FNAFGMATIME", ScrW() * 0.5, ScrH() * 0.44, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
 			local suff = "th"
 			
-			if night==1 then
+			if GAMEMODE.Vars.night==1 then
 				suff = "st"
-			elseif night==2 then
+			elseif GAMEMODE.Vars.night==2 then
 				suff = "nd"
-			elseif night==3 then
+			elseif GAMEMODE.Vars.night==3 then
 				suff = "rd"
 			end
 			
-			draw.DrawText(night..suff.." "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night), "FNAFGMATIME", ScrW() * 0.5, ScrH() * 0.50, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			draw.DrawText(GAMEMODE.Vars.night..suff.." "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night), "FNAFGMATIME", ScrW() * 0.5, ScrH() * 0.50, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
 		end
 		
 	elseif client:Team()!=TEAM_UNASSIGNED then
 		
-		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 		
 		if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
 			draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
@@ -673,9 +673,9 @@ function GM:HUDPaint()
 		
 	end
 	
-	if SGvsA and client:Team()==TEAM_UNASSIGNED and !poweroff then
+	if GAMEMODE.Vars.SGvsA and client:Team()==TEAM_UNASSIGNED and !GAMEMODE.Vars.poweroff then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_SGvsA or GAMEMODE.Strings.en.unassigned_SGvsA), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.8, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-	elseif client:Team()==TEAM_UNASSIGNED and poweroff and game.GetMap()!="fnaf2" then
+	elseif client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2" then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_powerdown or GAMEMODE.Strings.en.unassigned_powerdown), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
@@ -685,7 +685,7 @@ function GM:HUDPaint()
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-4, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 			
-		elseif game.GetMap()=="fnaf2" and !tobool(overfive) then
+		elseif game.GetMap()=="fnaf2" and !tobool(GAMEMODE.Vars.overfive) then
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-50, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 		
@@ -709,7 +709,7 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	local tab = {}
 	local tab2 = {}
 	
-	if game.GetMap()=="fnap_scc" and client:Team()==1 and !tobool(startday) and !tobool(nightpassed) and !tobool(gameend) then
+	if game.GetMap()=="fnap_scc" and client:Team()==1 and !tobool(GAMEMODE.Vars.startday) and !tobool(GAMEMODE.Vars.nightpassed) and !tobool(GAMEMODE.Vars.gameend) then
 		
 		local BoxCorner = Vector(-313,-408,0)
 		local OppositeCorner = Vector(-374,-371,-70)
@@ -768,10 +768,10 @@ end )
 net.Receive( "fnafgmCheckUpdate", function( len )
 
 	updateavailable = net.ReadBit()
-	lastversion = net.ReadString()
+	GAMEMODE.Vars.lastversion = net.ReadString()
 	
 	if tobool(updateavailable) then
-		notification.AddLegacy("FNAFGM update available! V"..lastversion, NOTIFY_GENERIC, 10)
+		notification.AddLegacy("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, NOTIFY_GENERIC, 10)
 		chat.PlaySound()
 	end
 	
@@ -781,10 +781,10 @@ end)
 net.Receive( "fnafgmCheckUpdateD", function( len )
 
 	derivupdateavailable = net.ReadBit()
-	lastderivversion = net.ReadString()
+	GAMEMODE.Vars.lastderivversion = net.ReadString()
 	
 	if tobool(derivupdateavailable) then
-		notification.AddLegacy(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, NOTIFY_GENERIC, 10)
+		notification.AddLegacy(tostring(GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, NOTIFY_GENERIC, 10)
 		chat.PlaySound()
 	end
 	
@@ -795,20 +795,20 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
 	
-	if SGvsA then
+	if GAMEMODE.Vars.SGvsA then
 		draw.DrawText("Sorry but SGvsA is not a finished product.\nYou can play anyway, but it's not something stable or balanced.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(128, 128, 128, 128), TEXT_ALIGN_CENTER)
 	end
 	
 	if !fnafgm_cl_hideversion:GetBool() then
 	
 		if GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2 then
-			seasonaltext = " - April Fool"
+			GAMEMODE.Vars.seasonaltext = " - April Fool"
 		elseif GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3 then
-			seasonaltext = " - Halloween"
+			GAMEMODE.Vars.seasonaltext = " - Halloween"
 		elseif GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==4 then
-			seasonaltext = " - Christmas"
-		elseif !AprilFool and !Halloween and !Christmas and GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==0 then
-			seasonaltext = ""
+			GAMEMODE.Vars.seasonaltext = " - Christmas"
+		elseif !GAMEMODE.Vars.AprilFool and !GAMEMODE.Vars.Halloween and !GAMEMODE.Vars.Christmas and GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==0 then
+			GAMEMODE.Vars.seasonaltext = ""
 		end
 		
 		local updatearem = 0
@@ -816,21 +816,21 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		
 		if tobool(updateavailable) then
 			if IsValid(Monitor) then monitorspace = 30 end
-			draw.DrawText("FNAFGM update available! V"..lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+			draw.DrawText("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		if tobool(derivupdateavailable) then
 			if IsValid(Monitor) then monitorspace = 30 end
-			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		
-		draw.DrawText(tostring(GAMEMODE.ShortName or "?").." V"..tostring(GAMEMODE.Version or "?")..modetext..seasonaltext, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+		draw.DrawText(tostring(GAMEMODE.ShortName or "?").." V"..tostring(GAMEMODE.Version or "?")..GAMEMODE.Vars.modetext..GAMEMODE.Vars.seasonaltext, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 		
 		
 	end
 	
-	if (AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent") then
+	if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent") then
 		cam.Start3D(EyePos(), EyeAngles())
 			render.SetMaterial( Material( "fnafgm/troll" ) )
 			render.DrawSprite( Vector(-78, -1052, 145), 50, 50, GAMEMODE.Colors_default)
@@ -904,7 +904,7 @@ end
 
 hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
     local client = LocalPlayer()
-	if tobool(startday) and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
+	if tobool(GAMEMODE.Vars.startday) and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
 		local colormod = {
 			[ "$pp_colour_addr" ] = 0.02,
 			[ "$pp_colour_addg" ] = 0.02,
@@ -1043,10 +1043,10 @@ end
 
 
 net.Receive( "fnafgmMapSelect", function( len )
-	fnafgmMapSelect(net.ReadTable())
+	GAMEMODE:MapSelect(net.ReadTable())
 end)
 
-function fnafgmMapSelect(AvMaps)
+function GM:MapSelect(AvMaps)
 	
 	if ( IsValid( MapSelectF ) ) then return end
 	

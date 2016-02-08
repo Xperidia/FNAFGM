@@ -14,7 +14,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	if name=="FoxyKnockDoor" then
 		
-		power = power - foxyknockdoorpena
+		GAMEMODE.Vars.power = GAMEMODE.Vars.power - foxyknockdoorpena
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Foxy removed "..foxyknockdoorpena.."% of the power\n" )
 		fnafgmPowerUpdate()
 		if foxyknockdoorpena<=12 then foxyknockdoorpena = foxyknockdoorpena + addfoxyknockdoorpena end
@@ -27,26 +27,26 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 	elseif name=="MuteCall" then
 		
-		mute = true
+		GAMEMODE.Vars.mute = true
 		fnafgmVarsUpdate()
 		timer.Remove( "fnafgmEndCall" )
 		
 	
 	elseif name=="Freddy" then
 		
-		if poweroff or gameend or nightpassed then return true end
+		if GAMEMODE.Vars.poweroff or GAMEMODE.Vars.gameend or GAMEMODE.Vars.nightpassed then return true end
 		
 		local deathdelay = 4
 			
-		if night==1 then
+		if GAMEMODE.Vars.night==1 then
 			deathdelay = 9
-		elseif night==2 then
+		elseif GAMEMODE.Vars.night==2 then
 			deathdelay = 8
-		elseif night==3 then
+		elseif GAMEMODE.Vars.night==3 then
 			deathdelay = 7
-		elseif night==4 then
+		elseif GAMEMODE.Vars.night==4 then
 			deathdelay = 6
-		elseif night==5 then
+		elseif GAMEMODE.Vars.night==5 then
 			deathdelay = 5
 		end
 		
@@ -60,19 +60,19 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	elseif name=="Bonnie" then
 		
-		if poweroff or gameend or nightpassed then return true end
+		if GAMEMODE.Vars.poweroff or GAMEMODE.Vars.gameend or GAMEMODE.Vars.nightpassed then return true end
 		
 		local deathdelay = 4
 			
-		if night==1 then
+		if GAMEMODE.Vars.night==1 then
 			deathdelay = 9
-		elseif night==2 then
+		elseif GAMEMODE.Vars.night==2 then
 			deathdelay = 8
-		elseif night==3 then
+		elseif GAMEMODE.Vars.night==3 then
 			deathdelay = 7
-		elseif night==4 then
+		elseif GAMEMODE.Vars.night==4 then
 			deathdelay = 6
-		elseif night==5 then
+		elseif GAMEMODE.Vars.night==5 then
 			deathdelay = 5
 		end
 		
@@ -86,19 +86,19 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 	elseif name=="Chica" then
 		
-		if poweroff or gameend or nightpassed then return true end
+		if GAMEMODE.Vars.poweroff or GAMEMODE.Vars.gameend or GAMEMODE.Vars.nightpassed then return true end
 		
 		local deathdelay = 4
 			
-		if night==1 then
+		if GAMEMODE.Vars.night==1 then
 			deathdelay = 9
-		elseif night==2 then
+		elseif GAMEMODE.Vars.night==2 then
 			deathdelay = 8
-		elseif night==3 then
+		elseif GAMEMODE.Vars.night==3 then
 			deathdelay = 7
-		elseif night==4 then
+		elseif GAMEMODE.Vars.night==4 then
 			deathdelay = 6
-		elseif night==5 then
+		elseif GAMEMODE.Vars.night==5 then
 			deathdelay = 5
 		end
 		

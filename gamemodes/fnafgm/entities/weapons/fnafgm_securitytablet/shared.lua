@@ -38,7 +38,7 @@ end
 
 function SWEP:PrimaryAttack()
 	
-	if SERVER and (!poweroff or game.GetMap()=="fnaf2") then
+	if SERVER and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") then
 		
 		local tr = util.GetPlayerTrace( self.Owner )
 		tr.filter = function(ent) if ent:GetClass()=="func_button" then return true end end
@@ -62,7 +62,7 @@ function SWEP:SecondaryAttack()
 	
 	if table.Count(ents.FindByClass( "fnafgm_camera" ))==0 then return end
 	
-	if SERVER and !self.Owner.fnafviewactive and ( ( CheckPlayerSecurityRoom(self.Owner) and startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!poweroff or game.GetMap()=="fnaf2") and !tempostart then
+	if SERVER and !self.Owner.fnafviewactive and ( ( CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") and !tempostart then
 		
 		net.Start( "fnafgmSecurityTablet" )
 		net.Send(self.Owner)
@@ -75,7 +75,7 @@ end
 
 function SWEP:Reload()
 	
-	if SERVER and !self.Owner.fnafviewactive and CheckPlayerSecurityRoom(self.Owner) and startday and !tempostart then
+	if SERVER and !self.Owner.fnafviewactive and CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday and !tempostart then
 		fnafgmFNaFView(self.Owner)
 	end
 	

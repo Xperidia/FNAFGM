@@ -1,10 +1,9 @@
-
 AddCSLuaFile()
 DEFINE_BASECLASS( "player_default" )
 
 local PLAYER = {}
 
-PLAYER.DisplayName			= "Freddy"
+PLAYER.DisplayName			= "Animatronic Controller"
 
 PLAYER.WalkSpeed 			= 0.1		-- How fast to move when not running
 PLAYER.RunSpeed				= 0.1		-- How fast to move when running
@@ -12,14 +11,14 @@ PLAYER.CrouchedWalkSpeed 	= 1		-- Multiply move speed by this when crouching
 PLAYER.DuckSpeed			= 0.05		-- How fast to go from not ducking, to ducking
 PLAYER.UnDuckSpeed			= 0.05		-- How fast to go from ducking, to not ducking
 PLAYER.JumpPower			= 0		-- How powerful our jump should be
-PLAYER.CanUseFlashlight     = true		-- Can we use the flashlight
+PLAYER.CanUseFlashlight     = false		-- Can we use the flashlight
 PLAYER.MaxHealth			= 255		-- Max health we can have
 PLAYER.StartHealth			= 255		-- How much health we start with
 PLAYER.StartArmor			= 255			-- How much armour we start with
 PLAYER.DropWeaponOnDie		= false		-- Do we drop our weapon when we die
 PLAYER.TeammateNoCollide 	= true		-- Do we collide with teammates or run straight through them
 PLAYER.AvoidPlayers			= false		-- Automatically swerves around other players
-PLAYER.UseVMHands			= true		-- Uses viewmodel hands
+PLAYER.UseVMHands			= false		-- Uses viewmodel hands
 
 --
 -- Creates a Taunt Camera
@@ -39,19 +38,13 @@ end
 function PLAYER:Loadout()
 
 	self.Player:RemoveAllAmmo()
-	self.Player:Give( "fnafgm_animatronic" )
+	--self.Player:Give( "fnafgm_animatronic" )
 
 end
 
 function PLAYER:SetModel()
 
 	BaseClass.SetModel( self )
-	
-	if game.GetMap()=="fnaf4versus" and player_manager.AllValidModels()["FNAF4 - Nightmare Freddy"] then
-		GAMEMODE.Models_freddy = Model("models/nightmare/nightmare_freddy_playermodel.mdl")
-	end
-	
-	self.Player:SetModel( GAMEMODE.Models_freddy )
 
 end
 
@@ -61,7 +54,6 @@ end
 function PLAYER:Spawn()
 
 	BaseClass.Spawn( self )
-	self.Player:SetModelScale( 1.16, 0 )
 
 end
 
@@ -97,9 +89,9 @@ end
 
 function PLAYER:GetHandsModel()
 
-	-- return { model = "models/weapons/c_arms_cstrike.mdl", skin = 1, body = "0100000" }
+	
 
 end
 
 
-player_manager.RegisterClass( "player_fnafgmfreddy", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_fnafgm_animatronic_controller", PLAYER, "player_default" )
