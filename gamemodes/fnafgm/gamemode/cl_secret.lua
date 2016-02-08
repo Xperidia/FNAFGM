@@ -342,7 +342,7 @@ function fnafgmSecret()
 				password=""
 				fnafgmSecretPasswordlbl:SetText( "HALLOWEEN" )
 				fnafgmSecretPasswordlbl:SetTextColor( Color( 0, 255, 0, 255 ) )
-				Halloween=true
+				GAMEMODE.Vars.Halloween=true
 			else
 				password=""
 				fnafgmSecretPasswordlbl:SetText( "NOPE" )

@@ -732,14 +732,7 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 			end
 		end
 		
-		for k,v in pairs(player.GetAll()) do
-			if client:Team()==2 and client:Team()==v:Team() and client:Alive() and v:Alive() then
-				table.insert(tab2, v)
-			end
-		end
-		
 		halo.Add( tab, Color( 170, 0, 0 ), 1, 1, 1, true, true )
-		halo.Add( tab2, Color( 0, 170, 0 ), 1, 1, 1, true, true )
 		
 	end
 	

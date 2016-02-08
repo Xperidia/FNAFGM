@@ -52,6 +52,7 @@ util.AddNetworkString( "fnafgmNotif" )
 util.AddNetworkString( "fnafgmSecurityTablet" )
 util.AddNetworkString( "fnafgmCloseTablet" )
 util.AddNetworkString( "fnafgmCallIntro" )
+util.AddNetworkString( "fnafgmAnimatronicsController" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -118,67 +119,16 @@ function GM:PlayerSpawn( pl )
 	
 	fnafgmVarsUpdate()
 	
-	if pl:Team()==1 then
+	if pl:Team()==1 or pl:Team()==2 then
 		
 		player_manager.SetPlayerClass( pl, table.Random(team.GetClass(pl:Team())) )
-		
-	elseif pl:Team()==2 then
-		
-		local availableclass = { "player_fnafgmfoxy", "player_fnafgmfreddy", "player_fnafgmbonnie", "player_fnafgmchica" }
-		
-		for k, v in pairs(team.GetPlayers(2)) do
-			
-			if v!=pl then
-				
-				table.RemoveByValue(availableclass, player_manager.GetPlayerClass(v))
-				
-			end
-			
-		end
-		
-		if table.Count(availableclass)==0 and !fnafgmPlayerCanByPass(pl,"goldenfreddy") then
-			
-			pl:SendLua([[chat.PlaySound()]])
-			pl:PrintMessage(HUD_PRINTTALK, "Sorry this team is full!")
-			
-			pl:SetTeam(1)
-			
-			if pl:Alive() then
-				pl:KillSilent()
-			end
-			
-			return
-		
-		elseif table.Count(availableclass)==0 and fnafgmPlayerCanByPass(pl,"goldenfreddy") then
-			
-			player_manager.SetPlayerClass( pl, "player_fnafgmgoldenfreddy" )
-			
-		else
-			
-			player_manager.SetPlayerClass( pl, table.Random(availableclass) )
-			
-		end
 		
 	end
 	
 	BaseClass.PlayerSpawn( self, pl )
 	
-	if game.GetMap()=="freddysnoevent" then
-		if player_manager.GetPlayerClass(pl)=="player_fnafgmfoxy" then
-			pl:SetPos( Vector( -364, -356, 64 ) )
-			pl:SetEyeAngles( Angle( 0, 0, 0 ) )
-		elseif player_manager.GetPlayerClass(pl)=="player_fnafgmgoldenfreddy" then
-			pl:SetPos( Vector( 285, -510, 64 ) )
-			pl:SetEyeAngles( Angle( 0, 90, 0 ) )
-		end
-	elseif game.GetMap()=="fnaf4versus" then
-		if player_manager.GetPlayerClass(pl)=="player_fnafgmfoxy" then
-			pl:SetPos( Vector( -836, -18, -124 ) )
-			pl:SetEyeAngles( Angle( 0, 80, 0 ) )
-		end
-	end
 	
-	if fnafgmPlayerCanByPass(pl,"run") and pl:Team()==1 then 
+	if fnafgmPlayerCanByPass(pl,"run") then 
 		pl:SetRunSpeed(400)
 	end
 	
@@ -188,11 +138,6 @@ function GM:PlayerSpawn( pl )
 	
 	if pl:Team()==2 then
 		pl:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_animatronicsvision )
-		if GAMEMODE.Vars.startday then
-			pl:Freeze(false)
-		else
-			pl:Freeze(true)
-		end
 	elseif pl:Team()!=TEAM_UNASSIGNED then
 		pl:ConCommand( "pp_mat_overlay ''" )
 	end
@@ -201,7 +146,6 @@ function GM:PlayerSpawn( pl )
 		if game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
 			GAMEMODE:MapSelect(pl)
 		else
-			pl:ConCommand( "pp_mat_overlay ''" )
 			pl:SendLua([[fnafgmWarn()]])
 		end
 	end
@@ -217,10 +161,6 @@ function GM:PlayerSpawn( pl )
 			end
 			timer.Remove("fnafgm87"..userid)
 		end)
-	end
-	
-	if ( pl:Team()==2 ) then
-		pl:SetCustomCollisionCheck(true)
 	end
 	
 	if ( pl:Team()==1 or pl:Team()==2 ) then
@@ -390,7 +330,7 @@ function GM:PlayerRequestTeam( ply, teamid )
 			net.WriteBit(true)
 		net.Send(ply)
 		return
-	elseif ( !GAMEMODE.Vars.SGvsA and teamid==2 ) then 
+	elseif ( !GAMEMODE.Vars.SGvsA and teamid==2 and !fnafgmPlayerCanByPass(ply,"debug") ) then 
 		ply:ChatPrint( "You're not in SGvsA mode!" )
 		net.Start( "fnafgmNotif" )
 			net.WriteString( "You're not in SGvsA mode!" )
@@ -497,10 +437,6 @@ end
 
 
 function GM:PostPlayerDeath( ply )
-	
-	if newTeam~=2 then
-		ply:Freeze(false)
-	end
 	
 	local userid = ply:UserID()
 	local oldteam = ply:Team()
@@ -750,14 +686,6 @@ function GM:ShouldCollide( ent1, ent2 )
 	end
 	
 	if ( ent1:IsPlayer() and ent2:IsPlayer() ) then
-		return false
-	end
-	
-	if ( ( ( ent1:IsPlayer() and ent1:Team()==2 and player_manager.GetPlayerClass(ent1)!="player_fnafgmfoxy" and !avisible[ent1] ) or ( ent2:IsPlayer() and ent2:Team()==2 and player_manager.GetPlayerClass(ent2)!="player_fnafgmfoxy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="prop_door_rotating" or ent1:GetClass()=="func_door_rotating" or ent1:GetName()=="receptdoors" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="prop_door_rotating" or ent2:GetClass()=="func_door_rotating" or ent2:GetName()=="receptdoors"or ent2:GetClass()=="func_brush" ) ) ) then
-		return false
-	end
-	
-	if ( ( ( ent1:IsPlayer() and player_manager.GetPlayerClass(ent1)=="player_fnafgmgoldenfreddy" and !avisible[ent1] ) or ( ent2:IsPlayer() and player_manager.GetPlayerClass(ent2)=="player_fnafgmgoldenfreddy" and !avisible[ent2] ) ) and ( ( ent1:GetClass()=="prop_door_rotating" or ent1:GetClass()=="func_door_rotating" or ent1:GetClass()=="func_door" or ent1:GetClass()=="func_brush" ) or ( ent2:GetClass()=="prop_door_rotating" or ent2:GetClass()=="func_door_rotating" or ent2:GetClass()=="func_door" or ent2:GetClass()=="func_brush" ) ) ) then
 		return false
 	end
 	
@@ -1041,15 +969,6 @@ function fnafgmUse(ply, ent, test, test2)
 				
 			end)
 			
-			timer.Create( "fnafgmUnFreezeA", fnafgm_deathscreenduration:GetInt(), 1, function()
-				for k, v in pairs(player.GetAll()) do
-					if v:Team()==2 then
-						v:Freeze(false)
-					end
-				end
-				timer.Remove( "fnafgmUnFreezeA" )
-			end)
-			
 			return false
 		
 		elseif !btn then
@@ -1237,12 +1156,6 @@ function fnafgmUse(ply, ent, test, test2)
 				timer.Remove( "fnafgmTempoStart" )
 				
 			end)
-			
-			for k, v in pairs(player.GetAll()) do
-				if v:Team()==2 then
-					v:Freeze(false)
-				end
-			end
 			
 		end
 		
@@ -1893,33 +1806,58 @@ function fnafgmMapOverrides()
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( 100, 160, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -593, 336, 256 ) )
+			spawn:SetAngles( Angle( 0, 135, 0 ) )
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( 0, 160, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -687, 334, 256 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( -110, 160, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -753, 335, 256 ) )
+			spawn:SetAngles( Angle( 0, 90, 0 ) )
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( -150, 220, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -832, 321, 256 ) )
+			spawn:SetAngles( Angle( 0, 45, 0 ) )
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( -30, 204, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -850, 425, 256 ) )
+			spawn:SetAngles( Angle( 0, 0, 0 ) )
 			spawn:Spawn()
 			
 			spawn = ents.Create( "info_player_counterterrorist" )
-			spawn:SetPos( Vector( 78, 210, 100 ) )
-			spawn:SetAngles( Angle( 30, -90, 0 ) )
+			spawn:SetPos( Vector( -845, 531, 256 ) )
+			spawn:SetAngles( Angle( 0, 0, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -854, 601, 256 ) )
+			spawn:SetAngles( Angle( 0, -45, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -750, 583, 256 ) )
+			spawn:SetAngles( Angle( 0, -90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -662, 583, 256 ) )
+			spawn:SetAngles( Angle( 0, -90, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -561, 583, 256 ) )
+			spawn:SetAngles( Angle( 0, -135, 0 ) )
+			spawn:Spawn()
+			
+			spawn = ents.Create( "info_player_counterterrorist" )
+			spawn:SetPos( Vector( -555, 444, 256 ) )
+			spawn:SetAngles( Angle( 0, 180, 0 ) )
 			spawn:Spawn()
 			
 			local fnafgm_link = ents.Create( "fnafgm_link" )
@@ -2639,7 +2577,7 @@ function GM:FinishMove( ply, mv )
 	
 	local userid = ply:UserID()
 	
-	if !GAMEMODE.Vars.SGvsA and fnafgm_killextsrplayers:GetBool() and CheckPlayerSecurityRoom(ply)!=nil then
+	if fnafgm_killextsrplayers:GetBool() and CheckPlayerSecurityRoom(ply)!=nil then
 	
 		if CheckPlayerSecurityRoom(ply) or !ply:Alive() then
 			
@@ -2667,235 +2605,6 @@ function GM:FinishMove( ply, mv )
 			end)
 		end
 	
-	end
-	
-	if GAMEMODE.Vars.SGvsA and CheckPlayerSecurityRoom(ply) and ply:Team()==2 and ply:Alive() then
-		
-		if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" then
-		
-			for k, v in pairs(player.GetAll()) do
-				if CheckPlayerSecurityRoom(v) and v:Team()==1 and v:Alive() then
-					
-					ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
-					v:ConCommand("play "..GAMEMODE.Sound_xscream)
-					v:TakeDamage(100, ply )
-					v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy).." ("..ply:GetName()..") killed you!")
-					MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
-					
-				end
-			end
-		
-			ply:TakeDamage(100, nil )
-		
-		end
-		
-	end
-	
-	if (game.GetMap()=="freddysnoevent") then
-		
-		local PSRTT=24
-		
-		if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" then
-			 PSRTT=5
-		end
-		
-		if ( !CheckPlayerSecurityRoom(ply) and !CheckPlayerHallways(ply) ) or !ply:Alive() then
-			
-			if timer.Exists( "fnafgmPlayerHallway"..userid ) then
-				timer.Remove( "fnafgmPlayerHallway"..userid )
-			end
-			
-		elseif ( CheckPlayerSecurityRoom(ply) or CheckPlayerHallways(ply) ) and !timer.Exists( "fnafgmPlayerHallway"..userid ) and ply:Alive() and ply:Team()==2 then
-			
-			ply:SendLua([[chat.PlaySound()]])
-			ply:PrintMessage(HUD_PRINTTALK, "If you stay here "..PSRTT.."s you will be killed.")
-			
-			timer.Create( "fnafgmPlayerHallway"..userid, PSRTT, 1, function()
-				
-				if (IsValid(ply)) then
-					ply:Kill()
-					MsgC(Color( 255, 255, 85 ), "FNAFGM: "..ply:GetName().." is dead by the hall!\n")
-				end
-				
-				timer.Remove( "fnafgmPlayerHallway"..userid )
-				
-			end)
-		end
-	
-	end
-	
-	if CheckFreddyTrigger(ply) and ply:Team()==2 and player_manager.GetPlayerClass(ply)=="player_fnafgmfreddy" and ply:Alive() and avisible[ply] and !timer.Exists( "fnafgmFreddyTrigger" ) and !FreddyTriggered then
-		
-		FreddyTriggered = true
-		
-		timer.Remove( "fnafgmPlayerHallway"..userid )
-		
-		ply:SetPos(Vector( 43, -1171, 65 ))
-		ply:SetAngles(Angle( 0, 180, 0 ))
-		ply:SetEyeAngles(Angle( 0, 180, 0 ))
-		ply:Freeze(true)
-		
-		local timet=2.5
-		if GAMEMODE.Vars.night==1 then
-			timet=5.5
-		elseif GAMEMODE.Vars.night==2 then
-			timet=5
-		elseif GAMEMODE.Vars.night==3 then
-			timet=4.5
-		elseif GAMEMODE.Vars.night==4 then
-			timet=4
-		elseif GAMEMODE.Vars.night==5 then
-			timet=3.5
-		elseif GAMEMODE.Vars.night==6 then
-			timet=3
-		end
-		
-		timer.Create( "fnafgmFreddyTrigger", timet, 1, function()
-			
-			if IsValid(ply) then
-				ply:Freeze(false)
-				ply:Kill()
-			end
-			
-			if door2:GetPos()!=Vector(4.000000, -1168.000000, 112.000000) then
-			
-				for k, v in pairs(player.GetAll()) do
-					if CheckPlayerSecurityRoom(v) and v:Team()==1 and v:Alive() then
-						
-						v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
-						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
-						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy).." ("..ply:GetName()..") killed you!")
-						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
-						
-					end
-				end
-				
-			end
-			
-			FreddyTriggered = false
-			
-			timer.Remove( "fnafgmFreddyTrigger" )
-			
-		end)
-		
-	end
-	
-	if CheckChicaTrigger(ply) and ply:Team()==2 and player_manager.GetPlayerClass(ply)=="player_fnafgmchica" and ply:Alive() and avisible[ply] and !timer.Exists( "fnafgmChicaTrigger" ) and !ChicaTriggered then
-		
-		ChicaTriggered = true
-		
-		timer.Remove( "fnafgmPlayerHallway"..userid )
-		
-		ply:SetPos(Vector( 32, -1080, 65 ))
-		ply:SetAngles(Angle( 0, 211, 0 ))
-		ply:SetEyeAngles(Angle( 0, 211, 0 ))
-		ply:Freeze(true)
-		
-		local timet=2.5
-		if GAMEMODE.Vars.night==1 then
-			timet=5.5
-		elseif GAMEMODE.Vars.night==2 then
-			timet=5
-		elseif GAMEMODE.Vars.night==3 then
-			timet=4.5
-		elseif GAMEMODE.Vars.night==4 then
-			timet=4
-		elseif GAMEMODE.Vars.night==5 then
-			timet=3.5
-		elseif GAMEMODE.Vars.night==6 then
-			timet=3
-		end
-		
-		timer.Create( "fnafgmChicaTrigger", timet, 1, function()
-			
-			if IsValid(ply) then
-				ply:Freeze(false)
-				ply:Kill()
-			end
-			
-			if door2:GetPos()!=Vector(4.000000, -1168.000000, 112.000000) then
-			
-				for k, v in pairs(player.GetAll()) do
-					if CheckPlayerSecurityRoom(v) and v:Team()==1 and v:Alive() then
-						
-						v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
-						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
-						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica).." ("..ply:GetName()..") killed you!")
-						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
-						
-					end
-				end
-				
-			end
-			
-			ChicaTriggered = false
-			
-			timer.Remove( "fnafgmChicaTrigger" )
-			
-		end)
-		
-	end
-	
-	if CheckBonnieTrigger(ply) and ply:Team()==2 and player_manager.GetPlayerClass(ply)=="player_fnafgmbonnie" and ply:Alive() and avisible[ply] and !timer.Exists( "fnafgmBonnieTrigger" ) and !BonnieTriggered then
-		
-		BonnieTriggered = true
-		
-		timer.Remove( "fnafgmPlayerHallway"..userid )
-		
-		ply:SetPos(Vector( -206, -1172, 65 ))
-		ply:SetAngles(Angle( 0, 360, 0 ))
-		ply:SetEyeAngles(Angle( 0, 360, 0 ))
-		ply:Freeze(true)
-		
-		local timet=2.5
-		if GAMEMODE.Vars.night==1 then
-			timet=5.5
-		elseif GAMEMODE.Vars.night==2 then
-			timet=5
-		elseif GAMEMODE.Vars.night==3 then
-			timet=4.5
-		elseif GAMEMODE.Vars.night==4 then
-			timet=4
-		elseif GAMEMODE.Vars.night==5 then
-			timet=3.5
-		elseif GAMEMODE.Vars.night==6 then
-			timet=3
-		end
-		
-		timer.Create( "fnafgmBonnieTrigger", timet, 1, function()
-			
-			if IsValid(ply) then
-				ply:Freeze(false)
-				ply:Kill()
-			end
-			
-			if door1:GetPos()!=Vector(-164.000000, -1168.000000, 112.000000) then
-			
-				for k, v in pairs(player.GetAll()) do
-					if CheckPlayerSecurityRoom(v) and v:Team()==1 and v:Alive() then
-						
-						v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
-						ply:PrintMessage(HUD_PRINTTALK, "You hit "..v:GetName())
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
-						v:TakeDamage(100, ply )
-						v:PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie).." ("..ply:GetName()..") killed you!")
-						MsgC(Color( 255, 255, 85 ), "FNAFGM: '"..ply:GetName().."' entered the security room and kill '"..v:GetName().."'\n")
-						
-					end
-				end
-				
-			end
-			
-			BonnieTriggered = false
-			
-			timer.Remove( "fnafgmBonnieTrigger" )
-			
-		end)
-		
 	end
 	
 	if ( drive.FinishMove( ply, mv ) ) then return true end
@@ -3081,20 +2790,6 @@ function fnafgmPlayerCanByPass(ply,what)
 	else
 		return false
 	end
-end
-
-
-function GM:PlayerFootstep( ply, vPos, iFoot, strSoundName, fVolume, pFilter )
-
-	if ply:Team()==2 then
-		if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" and CheckPlayerHallways(ply) and iFoot==0 then
-			sound.Play( GAMEMODE.Sound_foxystep0, vPos, fVolume )
-		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" and CheckPlayerHallways(ply) and iFoot==1 then
-			sound.Play( GAMEMODE.Sound_foxystep1, vPos, fVolume )
-		end
-		return true
-	end
-
 end
 
 
@@ -4030,7 +3725,7 @@ function GM:ShowSpare1( ply )
 	
 	if ply.TauntCooldown<=CurTime() then
 	
-		if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" then
+		--[[if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" then
 			sound.Play( GAMEMODE.Sound_Foxy, ply:GetPos() )
 		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmfreddy" then
 			sound.Play( table.Random(GAMEMODE.Sound_Freddy), ply:GetPos() )
@@ -4040,7 +3735,7 @@ function GM:ShowSpare1( ply )
 			sound.Play( table.Random(GAMEMODE.Sound_ChicaBonnie), ply:GetPos() )
 		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmgoldenfreddy" then
 			sound.Play( GAMEMODE.Sound_GoldenFoxy, ply:GetPos() )
-		end
+		end]]
 		
 		ply.TauntCooldown = CurTime() + 20
 	

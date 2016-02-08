@@ -1,18 +1,14 @@
 DEFINE_BASECLASS( "gamemode_base" )
 
 include( "player_class/player_securityguard.lua" )
-include( "player_class/player_foxy.lua" )
-include( "player_class/player_freddy.lua" )
-include( "player_class/player_bonnie.lua" )
-include( "player_class/player_chica.lua" )
-include( "player_class/player_goldenfreddy.lua" )
+include( "player_class/player_animatronic_controller.lua" )
 
 GM.Name 	= "Five Nights at Freddy's"
 GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.27
+GM.OfficialVersion 	= 1.28
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -806,61 +802,11 @@ function GM:GrabEarAnimation( ply )
 end
 
 
-function GM:CalcMainActivity( ply, velocity )
-
-	if ply:Team()!=2 then
-	
-		ply.CalcIdeal = ACT_MP_STAND_IDLE
-		ply.CalcSeqOverride = -1
-	
-		self:HandlePlayerLanding( ply, velocity, ply.m_bWasOnGround )
-	
-		if ( self:HandlePlayerNoClipping( ply, velocity ) ||
-			self:HandlePlayerDriving( ply ) ||
-			self:HandlePlayerVaulting( ply, velocity ) ||
-			self:HandlePlayerJumping( ply, velocity ) ||
-			self:HandlePlayerDucking( ply, velocity ) ||
-			self:HandlePlayerSwimming( ply, velocity ) ) then
-	
-		else
-	
-			local len2d = velocity:Length2D()
-			if ( len2d > 150 ) then ply.CalcIdeal = ACT_MP_RUN elseif ( len2d > 0.5 ) then ply.CalcIdeal = ACT_MP_WALK end
-	
-		end
-	
-		ply.m_bWasOnGround = ply:IsOnGround()
-		ply.m_bWasNoclipping = ( ply:GetMoveType() == MOVETYPE_NOCLIP && !ply:InVehicle() )
-	
-		return ply.CalcIdeal, ply.CalcSeqOverride
-		
-	else
-		
-		ply.CalcIdeal = ACT_MP_STAND_IDLE
-		ply.CalcSeqOverride = -1
-		
-		local len2d = velocity:Length2D()
-		if ( len2d > 150 ) then ply.CalcIdeal = ACT_MP_RUN elseif ( len2d > 0.5 ) then ply.CalcIdeal = ACT_MP_WALK end
-	
-		ply.m_bWasOnGround = ply:IsOnGround()
-		ply.m_bWasNoclipping = ( ply:GetMoveType() == MOVETYPE_NOCLIP && !ply:InVehicle() )
-	
-		return ply.CalcIdeal, ply.CalcSeqOverride
-		
-	end
-
-end
-
-
 function GM:Move( ply, mv )
 
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 	
 	if SERVER and ply.fnafviewactive then return true end
-	
-	if CLIENT and ply:Team()==2 and player_manager.GetPlayerClass(ply)!="player_fnafgmfoxy" and avisible then return true end
-	
-	if SERVER and ply:Team()==2 and player_manager.GetPlayerClass(ply)!="player_fnafgmfoxy" and avisible[ply] then return true end
 	
 	if ( drive.Move( ply, mv ) ) then return true end
 	
@@ -876,10 +822,6 @@ function GM:FinishMove( ply, mv )
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 	
 	if SERVER and ply.fnafviewactive then return true end
-	
-	if CLIENT and ply:Team()==2 and player_manager.GetPlayerClass(ply)!="player_fnafgmfoxy" and avisible then return true end
-	
-	if SERVER and ply:Team()==2 and player_manager.GetPlayerClass(ply)!="player_fnafgmfoxy" and avisible[ply] then return true end
 	
 	if ( drive.FinishMove( ply, mv ) ) then return true end
 	if ( player_manager.RunClass( ply, "FinishMove", mv ) ) then return true end
