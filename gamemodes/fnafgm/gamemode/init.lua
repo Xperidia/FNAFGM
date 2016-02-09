@@ -3752,6 +3752,7 @@ function GM:ShutDown()
 	end
 end
 
+
 concommand.Add( "fnafgm_debug_createcamera", function( ply,str )
 	
 	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) then
@@ -3789,5 +3790,42 @@ function GM:CreateCamera(x,y,z,pitch,yaw,roll,ply)
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_Cam"..num.." created by "..ply:GetName().."\n" )
 	else
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_Cam"..num.." created by console/script\n" )
+	end
+end
+
+
+concommand.Add( "fnafgm_debug_createanimatronic", function( ply,str )
+	
+	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) then
+		
+		GAMEMODE:CreateAnimatronic(ply)
+	
+	elseif IsValid(ply) then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Need debug access)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Need debug access)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		
+	end
+	
+end)
+function GM:CreateAnimatronic(ply)
+	if IsValid(ply) then
+		pos = ply:GetPos()
+		angles = ply:GetAngles()
+	end
+	local ent = ents.Create("fnafgm_animatronic")
+	ent:SetPos(pos)
+	ent:SetAngles(angles)
+	ent:Spawn()
+	if IsValid(ply) then
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_animatronic created by "..ply:GetName().."\n" )
+	else
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_animatronic created by console/script\n" )
 	end
 end
