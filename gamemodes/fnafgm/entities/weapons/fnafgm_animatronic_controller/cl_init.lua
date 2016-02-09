@@ -8,15 +8,23 @@ function fnafgmAnimatronicsController()
 	
 	if !IsValid(AnimatronicsControllerGUI) then
 		
-		if !nopeinit then
-			if game.GetMap()=="freddysnoevent" then
-				if !lastcam then
-					lastcam = 7
-				end
-			else
-				if !lastcam then
-					lastcam = 1
-				end
+		if game.GetMap()=="freddysnoevent" then
+			if !lastcam then
+				lastcam = 7
+			end
+		else
+			if !lastcam then
+				lastcam = 1
+			end
+		end
+		
+		if game.GetMap()=="freddysnoevent" then
+			if !LastA then
+				LastA = math.random( 0, 3 )
+			end
+		else
+			if !LastA then
+				LastA = math.random( 0, 3 )
 			end
 		end
 		
@@ -57,27 +65,34 @@ function fnafgmAnimatronicsController()
 			CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
 			CamsNames:SetSize( 512, 64 )
 			
-			local KitchenText = vgui.Create( "DLabel" )
-			KitchenText:SetParent(AnimatronicsControllerGUI)
-			KitchenText:SetText( "-CAMERA DISABLED-" )
-			KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-			KitchenText:SetFont("FNAFGMTIME")
-			KitchenText:SetPos( ScrW()/2-256, 80 )
-			KitchenText:SetContentAlignment( 8 )
-			KitchenText:SizeToContents()
+			local CtrlLbl = vgui.Create( "DLabel" )
+			CtrlLbl:SetParent(AnimatronicsControllerGUI)
+			CtrlLbl:SetText( "CONTROLLING" )
+			CtrlLbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			CtrlLbl:SetFont("FNAFGMTIME")
+			CtrlLbl:SetPos( 80, 80 )
+			CtrlLbl:SetContentAlignment( 7 )
+			CtrlLbl:SizeToContents()
 			
-			local KitchenText2 = vgui.Create( "DLabel" )
-			KitchenText2:SetParent(AnimatronicsControllerGUI)
-			KitchenText2:SetText( "AUDIO ONLY" )
-			KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
-			KitchenText2:SetFont("FNAFGMTIME")
-			KitchenText2:SetPos( ScrW()/2-150, 80+60 )
-			KitchenText2:SetContentAlignment( 8 )
-			KitchenText2:SizeToContents()
+			local ShowA = vgui.Create( "DLabel" )
+			ShowA:SetParent(AnimatronicsControllerGUI)
+			ShowA:SetText( "CONTROLLING" )
+			ShowA:SetTextColor( Color( 255, 255, 255, 255 ) )
+			ShowA:SetFont("FNAFGMTIME")
+			ShowA:SetPos( 80, 80+60 )
+			ShowA:SetContentAlignment( 8 )
+			ShowA:SizeToContents()
+			ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 			
-			if lastcam==11 then
-				KitchenText:SetTextColor( Color( 255, 255, 255, 255 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 255 ) )
+			local SelectA = vgui.Create( "DNumberWang" )
+			SelectA:SetParent(AnimatronicsControllerGUI)
+			SelectA:SetPos( 80, ScrH()-80-50-80 )
+			SelectA:SetMinMax(0,4)
+			SelectA:SetSize( 34, 28 )
+			SelectA:SetValue(LastA)
+			SelectA.OnValueChanged = function( val )
+				LastA = val:GetValue()
+				ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 			end
 			
 			local map = vgui.Create( "DImage" )
@@ -96,8 +111,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(1)
 				lastcam = 1
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM2B.Paint = function( self, w, h )
 				if lastcam==1 then
@@ -115,8 +128,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(2)
 				lastcam = 2
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM2A.Paint = function( self, w, h )
 				if lastcam==2 then
@@ -134,8 +145,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(3)
 				lastcam = 3
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM3.Paint = function( self, w, h )
 				if lastcam==3 then
@@ -153,8 +162,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(4)
 				lastcam = 4
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM4A.Paint = function( self, w, h )
 				if lastcam==4 then
@@ -172,8 +179,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(5)
 				lastcam = 5
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM4B.Paint = function( self, w, h )
 				if lastcam==5 then
@@ -191,8 +196,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(6)
 				lastcam = 6
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM5.Paint = function( self, w, h )
 				if lastcam==6 then
@@ -210,8 +213,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(7)
 				lastcam = 7
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM1A.Paint = function( self, w, h )
 				if lastcam==7 then
@@ -229,8 +230,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(8)
 				lastcam = 8
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM7.Paint = function( self, w, h )
 				if lastcam==8 then
@@ -248,8 +247,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(9)
 				lastcam = 9
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM1C.Paint = function( self, w, h )
 				if lastcam==9 then
@@ -267,8 +264,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(10)
 				lastcam = 10
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 			end
 			CAM1B.Paint = function( self, w, h )
 				if lastcam==10 then
@@ -286,8 +281,6 @@ function fnafgmAnimatronicsController()
 				fnafgmSetView(11)
 				lastcam = 11
 				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
-				KitchenText:SetTextColor( Color( 255, 255, 255, 255 ) )
-				KitchenText2:SetTextColor( Color( 255, 255, 255, 255 ) )
 			end
 			CAM6.Paint = function( self, w, h )
 				if lastcam==11 then

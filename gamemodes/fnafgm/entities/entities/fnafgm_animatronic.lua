@@ -6,25 +6,60 @@ ENT.Author = "Xperidia"
 
 function ENT:Initialize()
 	
-	self:SetModel( GAMEMODE.Models_freddy )
+	self:SetModel( GAMEMODE.Animatronic_Models[self:GetAType()] )
+	
+	self.OldAPos = self:GetAPos()
 	
 end
 
---[[function ENT:SetupDataTables()
+function ENT:SetupDataTables()
 
 	self:NetworkVar( "Int", 0, "AType" )
+	self:NetworkVar( "Int", 1, "APos" )
 
-end]]
+end
 
---[[function ENT:RunBehaviour()
-
-	while true do
+function ENT:RunBehaviour()
+	
+	--while true do
 		
 		self:StartActivity( ACT_HL2MP_IDLE )
-		coroutine.wait( 2 )
+		
+	--end
 
-		coroutine.yield()
+end
+
+function ENT:Think()
+	
+	local apos = self:GetAPos()
+	
+	if self.OldAPos != apos  then
+		
+		local my = self:GetAType()
+		
+		self.OldAPos = apos
+		
+		if GAMEMODE.AnimatronicAPos[my] and GAMEMODE.AnimatronicAPos[my][game.GetMap()] and GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos] then
+			self:SetPos(GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos][1])
+			self:SetAngles(GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos][2])
+		end
+		
 		
 	end
-
-end]]
+	
+	if apos == GAMEMODE.APos.freddysnoevent.Office or apos == GAMEMODE.APos.freddysnoevent.Kitchen then
+		
+		for _, ply in pairs( player.GetAll() ) do
+			
+			if ( ply:EyePos():Distance( self:EyePos() ) <= 100 ) then
+				
+				self:SetEyeTarget( ply:EyePos() )
+				break
+				
+			end
+			
+		end
+		
+	end
+	
+end

@@ -420,6 +420,77 @@ GM.MapListLinks = {
 	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
 }
 
+GM.Animatronic = {}
+GM.Animatronic.Freddy = 0
+GM.Animatronic.Bonnie = 1
+GM.Animatronic.Chica = 2
+GM.Animatronic.Foxy = 3
+GM.Animatronic.GoldenFreddy = 4
+
+GM.AnimatronicName = {}
+GM.AnimatronicName[0] = "Freddy"
+GM.AnimatronicName[1] = "Bonnie"
+GM.AnimatronicName[2] = "Chica"
+GM.AnimatronicName[3] = "Foxy"
+GM.AnimatronicName[4] = "Golden Freddy"
+
+GM.Animatronic_Models = {}
+GM.Animatronic_Models[GM.Animatronic.Freddy] = Model("models/splinks/fnaf/freddy/player_freddy.mdl")
+GM.Animatronic_Models[GM.Animatronic.Bonnie] = Model("models/splinks/fnaf/bonnie/player_bonnie.mdl")
+GM.Animatronic_Models[GM.Animatronic.Chica] = Model("models/splinks/fnaf/chica/player_chica.mdl")
+GM.Animatronic_Models[GM.Animatronic.Foxy] = Model("models/splinks/fnaf/foxy/player_foxy.mdl")
+GM.Animatronic_Models[GM.Animatronic.GoldenFreddy] = Model("models/splinks/fnaf/golden_freddy/player_golden_freddy.mdl")
+
+GM.APos = {}
+GM.APos.freddysnoevent = {
+	WHC = 1,
+	WH = 2,
+	SC = 3,
+	EH = 4,
+	EHC = 5,
+	Backstage = 6,
+	SS = 7,
+	Restroom = 8,
+	PC = 9,
+	DA = 10,
+	Kitchen = 11,
+	Office = 12
+}
+
+GM.AnimatronicAPos = {}
+GM.AnimatronicAPos[GM.Animatronic.Freddy] = {}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent = {}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EH] = { Vector(65,-740,65), Angle(0,265,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EHC] = { Vector(41,-1244,65), Angle(0,120,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(14,174,100), Angle(0,270,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Restroom] = { Vector(609,-174,65), Angle(0,136,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(98,-266,65), Angle(0,134,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = { Vector(270,-1004,64), Angle(0,90,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(43,-1171,65), Angle(0,180,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie] = {}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent = {}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WHC] = { Vector(-218,-1294,65), Angle(0,91,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WH] = { Vector(-222,-554,65), Angle(0,270,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SC] = { Vector(-376,-734,65), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Backstage] = { Vector(-432,94,65), Angle(0,270,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(-104,192,94), Angle(0,292,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(-158,-110,65), Angle(0,79,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-206,-1172,65), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica] = {}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent = {}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EH] = { Vector(62,-894,70), Angle(0,260,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EHC] = { Vector(64,-1290,70), Angle(0,111,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(106,198,96), Angle(0,258,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Restroom] = { Vector(513,-284,70), Angle(0,87,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(-30,-274,65), Angle(0,116,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(32,-1080,70), Angle(0,211,0) }
+GM.AnimatronicAPos[GM.Animatronic.Foxy] = {}
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent = {}
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.PC] = { Vector(-475,-358,108), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy] = {}
+GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent = {}
+GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = { Vector(305,-899,108), Angle(0,0,0) }
+
 GM.Vars = {}
 
 --[CVAR]--
