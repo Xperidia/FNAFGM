@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.28
+GM.OfficialVersion 	= 1.29
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -472,7 +472,7 @@ GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent = {}
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WHC] = { Vector(-218,-1294,65), Angle(0,91,0) }
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WH] = { Vector(-222,-554,65), Angle(0,270,0) }
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SC] = { Vector(-376,-734,65), Angle(0,0,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Backstage] = { Vector(-432,94,65), Angle(0,270,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Backstage] = { Vector(-432,-94,65), Angle(0,270,0) }
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(-104,192,94), Angle(0,292,0) }
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(-158,-110,65), Angle(0,79,0) }
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-206,-1172,65), Angle(0,0,0) }
@@ -563,6 +563,7 @@ function GM:Initialize()
 	GAMEMODE.Vars.fnafgmWorkShop = false
 	GAMEMODE.Vars.lastversion = 0
 	GAMEMODE.Vars.lastderivversion = 0
+	GAMEMODE.Vars.Animatronics = {}
 	
 	if !file.IsDir("fnafgm", "DATA") then
 		file.CreateDir( "fnafgm" )

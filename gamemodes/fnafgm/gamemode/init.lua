@@ -1880,6 +1880,18 @@ function fnafgmMapOverrides()
 				v:Fire("SetOff")
 			end
 			
+			local KitchenCam = ents.Create( "fnafgm_camera" )
+			KitchenCam:SetPos( Vector( 235, -1050, 97 ) )
+			KitchenCam:SetAngles( Angle( -33, 64, 15 ) )
+			KitchenCam:SetName( "fnafgm_Cam11" )
+			KitchenCam:Spawn()
+			
+			local OfficeCam = ents.Create( "fnafgm_camera" )
+			OfficeCam:SetPos( Vector( -82, -1254, 170 ) )
+			OfficeCam:SetAngles( Angle( 30, 90, 0 ) )
+			OfficeCam:SetName( "fnafgm_Cam12" )
+			OfficeCam:Spawn()
+			
 			GAMEMODE:CreateAnimatronic(0, 7)
 			GAMEMODE:CreateAnimatronic(1, 7)
 			GAMEMODE:CreateAnimatronic(2, 7)
@@ -3824,6 +3836,7 @@ concommand.Add( "fnafgm_debug_createanimatronic", function(ply,str,tbl,str)
 	end
 	
 end, nil, "Create a new Animatronic. Arguments: AType APos")
+
 function GM:CreateAnimatronic(a,apos,ply)
 	
 	if GAMEMODE.Vars.Animatronics and IsValid(GAMEMODE.Vars.Animatronics[a]) then GAMEMODE.Vars.Animatronics[a]:Remove() end
@@ -3841,14 +3854,13 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:SetAType(a or 0)
 	ent:SetAPos(apos or 7)
 	
-	if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  --[[and apos != GAMEMODE.APos.freddysnoevent.SS]] then
+	if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  and apos != GAMEMODE.APos.freddysnoevent.SS then
 		
 		local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
 		
 		if IsValid(camera) then
 			
 			ent:SetEyeTarget( camera:EyePos() )
-			ent:SetAngles( Angle(0,camera:EyeAngles()[2]-180,0) )
 			
 		end
 		
@@ -3856,14 +3868,61 @@ function GM:CreateAnimatronic(a,apos,ply)
 	
 	ent:Spawn()
 	
-	if !GAMEMODE.Vars.Animatronics then GAMEMODE.Vars.Animatronics = {} end
-	
 	GAMEMODE.Vars.Animatronics[a] = ent
 	
 	if IsValid(ply) then
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." "..(apos or 0).." created by "..ply:GetName().."\n" )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." "..(apos or 7).." created by "..ply:GetName().."\n" )
 	else
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." "..(apos or 0).." created by console/script\n" )
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." "..(apos or 7).." created by console/script\n" )
+	end
+	
+end
+
+
+util.AddNetworkString( "fnafgmSetAnimatronicPos" )
+net.Receive( "fnafgmSetAnimatronicPos", function( len, ply )
+	
+	local a = net.ReadInt(5)
+	local apos = net.ReadInt(5)
+	
+	GAMEMODE:SetAnimatronicPos(ply,a,apos)
+	
+end)
+
+function GM:SetAnimatronicPos(ply,a,apos)
+	
+	ent = GAMEMODE.Vars.Animatronics[a]
+	
+	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] then
+		
+		ent:SetAPos(apos or 7)
+		
+		if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  and apos != GAMEMODE.APos.freddysnoevent.SS then
+			
+			local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
+			
+			if IsValid(camera) then
+				
+				ent:SetEyeTarget( camera:EyePos() )
+				
+			end
+			
+		end
+		
+		if IsValid(ply) then
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by "..ply:GetName().."\n" )
+		else
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by console/script\n" )
+		end
+		
+	--[[else
+		
+		if IsValid(ply) then
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." NOT moved to "..(apos or 7).." by "..ply:GetName().."\n" )
+		else
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." NOT moved to "..(apos or 7).." by console/script\n" )
+		end]]
+		
 	end
 	
 end

@@ -106,11 +106,17 @@ function fnafgmAnimatronicsController()
 			CAM2B:SetSize( 76, 50 )
 			CAM2B:SetPos( 161, 408 )
 			CAM2B:SetText("")
-			CAM2B.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(1)
-				lastcam = 1
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM2B.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(1)
+					lastcam = 1
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Bonnie
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,1)
+				end
 			end
 			CAM2B.Paint = function( self, w, h )
 				if lastcam==1 then
@@ -123,11 +129,17 @@ function fnafgmAnimatronicsController()
 			CAM2A:SetSize( 76, 50 )
 			CAM2A:SetPos( 161, 357 )
 			CAM2A:SetText("")
-			CAM2A.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(2)
-				lastcam = 2
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM2A.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(2)
+					lastcam = 2
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Bonnie
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,2)
+				end
 			end
 			CAM2A.Paint = function( self, w, h )
 				if lastcam==2 then
@@ -140,11 +152,17 @@ function fnafgmAnimatronicsController()
 			CAM3:SetSize( 75, 49 )
 			CAM3:SetPos( 54, 334 )
 			CAM3:SetText("")
-			CAM3.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(3)
-				lastcam = 3
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM3.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(3)
+					lastcam = 3
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Bonnie
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,3)
+				end
 			end
 			CAM3.Paint = function( self, w, h )
 				if lastcam==3 then
@@ -157,11 +175,15 @@ function fnafgmAnimatronicsController()
 			CAM4A:SetSize( 75, 49 )
 			CAM4A:SetPos( 297, 358 )
 			CAM4A:SetText("")
-			CAM4A.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(4)
-				lastcam = 4
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM4A.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(4)
+					lastcam = 4
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,4)
+				end
 			end
 			CAM4A.Paint = function( self, w, h )
 				if lastcam==4 then
@@ -174,11 +196,15 @@ function fnafgmAnimatronicsController()
 			CAM4B:SetSize( 75, 48 )
 			CAM4B:SetPos( 297, 410 )
 			CAM4B:SetText("")
-			CAM4B.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(5)
-				lastcam = 5
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM4B.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(5)
+					lastcam = 5
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,5)
+				end
 			end
 			CAM4B.Paint = function( self, w, h )
 				if lastcam==5 then
@@ -191,11 +217,17 @@ function fnafgmAnimatronicsController()
 			CAM5:SetSize( 76, 49 )
 			CAM5:SetPos( 0, 143 )
 			CAM5:SetText("")
-			CAM5.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(6)
-				lastcam = 6
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM5.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(6)
+					lastcam = 6
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Bonnie
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,6)
+				end
 			end
 			CAM5.Paint = function( self, w, h )
 				if lastcam==6 then
@@ -208,11 +240,15 @@ function fnafgmAnimatronicsController()
 			CAM1A:SetSize( 76, 49 )
 			CAM1A:SetPos( 161, 37 )
 			CAM1A:SetText("")
-			CAM1A.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(7)
-				lastcam = 7
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM1A.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(7)
+					lastcam = 7
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,7)
+				end
 			end
 			CAM1A.Paint = function( self, w, h )
 				if lastcam==7 then
@@ -225,11 +261,15 @@ function fnafgmAnimatronicsController()
 			CAM7:SetSize( 76, 50 )
 			CAM7:SetPos( 431, 143 )
 			CAM7:SetText("")
-			CAM7.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(8)
-				lastcam = 8
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM7.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(8)
+					lastcam = 8
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,8)
+				end
 			end
 			CAM7.Paint = function( self, w, h )
 				if lastcam==8 then
@@ -242,11 +282,17 @@ function fnafgmAnimatronicsController()
 			CAM1C:SetSize( 75, 49 )
 			CAM1C:SetPos( 95, 208 )
 			CAM1C:SetText("")
-			CAM1C.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(9)
-				lastcam = 9
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM1C.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(9)
+					lastcam = 9
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Foxy
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,12)
+				end
 			end
 			CAM1C.Paint = function( self, w, h )
 				if lastcam==9 then
@@ -259,11 +305,15 @@ function fnafgmAnimatronicsController()
 			CAM1B:SetSize( 75, 48 )
 			CAM1B:SetPos( 136, 109 )
 			CAM1B:SetText("")
-			CAM1B.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(10)
-				lastcam = 10
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM1B.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(10)
+					lastcam = 10
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,10)
+				end
 			end
 			CAM1B.Paint = function( self, w, h )
 				if lastcam==10 then
@@ -276,14 +326,41 @@ function fnafgmAnimatronicsController()
 			CAM6:SetSize( 76, 49 )
 			CAM6:SetPos( 421, 312 )
 			CAM6:SetText("")
-			CAM6.DoClick = function( button )
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
-				fnafgmSetView(11)
-				lastcam = 11
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CAM6.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(11)
+					lastcam = 11
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					LastA = GAMEMODE.Animatronic.Freddy
+					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
+					GAMEMODE:SetAnimatronicPos(LastA,11)
+				end
 			end
 			CAM6.Paint = function( self, w, h )
 				if lastcam==11 then
+					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
+				end
+			end
+			
+			local OFFICE = vgui.Create( "DButton" )
+			OFFICE:SetParent(map)
+			OFFICE:SetSize( 60, 101 )
+			OFFICE:SetPos( 237, 357 )
+			OFFICE:SetText("")
+			OFFICE.OnMousePressed = function( button, key )
+				if key==MOUSE_LEFT then
+					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					fnafgmSetView(12)
+					lastcam = 12
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				elseif key==MOUSE_RIGHT then
+					GAMEMODE:SetAnimatronicPos(LastA,12)
+				end
+			end
+			OFFICE.Paint = function( self, w, h )
+				if lastcam==12 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end

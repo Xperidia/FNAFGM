@@ -708,6 +708,7 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	local client = LocalPlayer()
 	local tab = {}
 	local tab2 = {}
+	local tab3 = {}
 	
 	if game.GetMap()=="fnap_scc" and client:Team()==1 and !tobool(GAMEMODE.Vars.startday) and !tobool(GAMEMODE.Vars.nightpassed) and !tobool(GAMEMODE.Vars.gameend) then
 		
@@ -727,31 +728,43 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	if client:Team()==2 then
 	
 		for k,v in pairs(player.GetAll()) do
-			if client:Team()==2 and v:Team()==1 and client:Alive() and v:Alive() then
+			if v:Team()==1 and client:Alive() and v:Alive() then
 				table.insert(tab, v)
 			end
 		end
 		
+		for k,v in pairs(ents.FindByClass( "fnafgm_animatronic" )) do
+			if client:Alive() then
+				table.insert(tab2, v)
+			end
+		end
+		
 		halo.Add( tab, Color( 170, 0, 0 ), 1, 1, 1, true, true )
+		halo.Add( tab2, Color( 85, 85, 85 ), 1, 1, 1, true, true )
 		
 	end
 	
 	if client:Team()==TEAM_SPECTATOR then
 		
 		for k,v in pairs(player.GetAll()) do
-			if client:Team()==TEAM_SPECTATOR and v:Team()==1 and v:Alive() then
+			if v:Team()==1 and v:Alive() then
 				table.insert(tab, v)
 			end
 		end
 		
 		for k,v in pairs(player.GetAll()) do
-			if client:Team()==TEAM_SPECTATOR and v:Team()==2 and v:Alive() then
+			if v:Team()==2 and v:Alive() then
 				table.insert(tab2, v)
 			end
+		end
+		
+		for k,v in pairs(ents.FindByClass( "fnafgm_animatronic" )) do
+			table.insert(tab3, v)
 		end
 	
 		halo.Add( tab, team.GetColor(1), 1, 1, 1, true, true )
 		halo.Add( tab2, team.GetColor(2), 1, 1, 1, true, true )
+		halo.Add( tab3, team.GetColor(2), 1, 1, 1, true, true )
 	
 	end
 	
@@ -1187,4 +1200,13 @@ function fnafgmNotif(str,ne,dur,sound)
 	end
 	
 	if fnafgm_cl_flashwindow:GetBool() then system.FlashWindow() end
+end
+
+function GM:SetAnimatronicPos(a,apos)
+	
+	net.Start( "fnafgmSetAnimatronicPos" )
+		net.WriteInt(a, 5)
+		net.WriteInt(apos, 5)
+	net.SendToServer()
+	
 end

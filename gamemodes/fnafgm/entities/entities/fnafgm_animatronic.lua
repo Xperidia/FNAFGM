@@ -47,11 +47,11 @@ function ENT:Think()
 		
 	end
 	
-	if apos == GAMEMODE.APos.freddysnoevent.Office or apos == GAMEMODE.APos.freddysnoevent.Kitchen then
+	if apos == GAMEMODE.APos.freddysnoevent.Office then
 		
 		for _, ply in pairs( player.GetAll() ) do
 			
-			if ( ply:EyePos():Distance( self:EyePos() ) <= 100 ) then
+			if ( ply:EyePos():Distance( self:EyePos() ) <= 300 ) and ply:Team()==1 then
 				
 				self:SetEyeTarget( ply:EyePos() )
 				break
