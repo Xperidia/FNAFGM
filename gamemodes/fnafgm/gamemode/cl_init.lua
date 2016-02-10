@@ -394,6 +394,12 @@ end)
 
 net.Receive( "fnafgmCallIntro", function( len ) GAMEMODE:CallIntro() end)
 
+net.Receive( "fnafgmAnimatronicsList", function( len )
+
+	GAMEMODE.Vars.Animatronics = net.ReadTable()
+	
+end)
+
 
 function GM:CallIntro()
 	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then

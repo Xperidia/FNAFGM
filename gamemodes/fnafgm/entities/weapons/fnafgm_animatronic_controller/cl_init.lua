@@ -65,36 +65,6 @@ function fnafgmAnimatronicsController()
 			CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
 			CamsNames:SetSize( 512, 64 )
 			
-			local CtrlLbl = vgui.Create( "DLabel" )
-			CtrlLbl:SetParent(AnimatronicsControllerGUI)
-			CtrlLbl:SetText( "CONTROLLING" )
-			CtrlLbl:SetTextColor( Color( 255, 255, 255, 255 ) )
-			CtrlLbl:SetFont("FNAFGMTIME")
-			CtrlLbl:SetPos( 80, 80 )
-			CtrlLbl:SetContentAlignment( 7 )
-			CtrlLbl:SizeToContents()
-			
-			local ShowA = vgui.Create( "DLabel" )
-			ShowA:SetParent(AnimatronicsControllerGUI)
-			ShowA:SetText( "CONTROLLING" )
-			ShowA:SetTextColor( Color( 255, 255, 255, 255 ) )
-			ShowA:SetFont("FNAFGMTIME")
-			ShowA:SetPos( 80, 80+60 )
-			ShowA:SetContentAlignment( 8 )
-			ShowA:SizeToContents()
-			ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
-			
-			local SelectA = vgui.Create( "DNumberWang" )
-			SelectA:SetParent(AnimatronicsControllerGUI)
-			SelectA:SetPos( 80, ScrH()-80-50-80 )
-			SelectA:SetMinMax(0,4)
-			SelectA:SetSize( 34, 28 )
-			SelectA:SetValue(LastA)
-			SelectA.OnValueChanged = function( val )
-				LastA = val:GetValue()
-				ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
-			end
-			
 			local map = vgui.Create( "DImage" )
 			map:SetParent(AnimatronicsControllerGUI)
 			map:SetImage( GAMEMODE.Materials_mapfreddys )
@@ -114,7 +84,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Bonnie
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,1)
 				end
 			end
@@ -137,7 +106,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Bonnie
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,2)
 				end
 			end
@@ -160,7 +128,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Bonnie
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,3)
 				end
 			end
@@ -182,7 +149,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 4
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,4)
+					AnimatronicsControllerGUI:MoveMenu(4)
 				end
 			end
 			CAM4A.Paint = function( self, w, h )
@@ -203,7 +170,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 5
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,5)
+					AnimatronicsControllerGUI:MoveMenu(5)
 				end
 			end
 			CAM4B.Paint = function( self, w, h )
@@ -225,7 +192,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Bonnie
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,6)
 				end
 			end
@@ -247,7 +213,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 7
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,7)
+					AnimatronicsControllerGUI:MoveMenu(7)
 				end
 			end
 			CAM1A.Paint = function( self, w, h )
@@ -268,7 +234,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 8
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,8)
+					AnimatronicsControllerGUI:MoveMenu(8)
 				end
 			end
 			CAM7.Paint = function( self, w, h )
@@ -290,7 +256,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Foxy
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,12)
 				end
 			end
@@ -312,7 +277,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 10
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,10)
+					AnimatronicsControllerGUI:MoveMenu(10)
 				end
 			end
 			CAM1B.Paint = function( self, w, h )
@@ -334,7 +299,6 @@ function fnafgmAnimatronicsController()
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					LastA = GAMEMODE.Animatronic.Freddy
-					ShowA:SetText( GAMEMODE.AnimatronicName[LastA] )
 					GAMEMODE:SetAnimatronicPos(LastA,11)
 				end
 			end
@@ -356,7 +320,7 @@ function fnafgmAnimatronicsController()
 					lastcam = 12
 					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
-					GAMEMODE:SetAnimatronicPos(LastA,12)
+					AnimatronicsControllerGUI:MoveMenu(12)
 				end
 			end
 			OFFICE.Paint = function( self, w, h )
@@ -369,8 +333,30 @@ function fnafgmAnimatronicsController()
 		
 	end
 	
+	function AnimatronicsControllerGUI:MoveMenu(apos)
+		
+		local Menu = vgui.Create( "DMenu" )
+		
+		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
+			
+			if GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] then
+				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
+				btn:SetIcon( "fnafgm/icon16/"..k..".png" )
+				btn.OnMousePressed = function( button, key )
+					LastA = k
+					GAMEMODE:SetAnimatronicPos(LastA,apos)
+				end
+			end
+			
+		end
+		
+		Menu:Open()
+		
+	end
 	
 end
+
+
 
 net.Receive( "fnafgmAnimatronicsController", function( len )
 	fnafgmAnimatronicsController() 

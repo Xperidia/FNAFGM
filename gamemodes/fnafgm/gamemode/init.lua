@@ -53,6 +53,7 @@ util.AddNetworkString( "fnafgmSecurityTablet" )
 util.AddNetworkString( "fnafgmCloseTablet" )
 util.AddNetworkString( "fnafgmCallIntro" )
 util.AddNetworkString( "fnafgmAnimatronicsController" )
+util.AddNetworkString( "fnafgmAnimatronicsList" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -262,6 +263,14 @@ function GM:PlayerInitialSpawn( ply )
 	net.Start( "fnafgmDS" )
 		net.WriteBit( game.IsDedicated() )
 	net.Send(ply)
+	
+	if GAMEMODE.Vars.Animatronics != {} then
+		
+		net.Start( "fnafgmAnimatronicsList" )
+			net.WriteTable(GAMEMODE.Vars.Animatronics)
+		net.Send(ply)
+		
+	end
 	
 end
 
@@ -3869,6 +3878,10 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:Spawn()
 	
 	GAMEMODE.Vars.Animatronics[a] = ent
+	
+	net.Start( "fnafgmAnimatronicsList" )
+		net.WriteTable(GAMEMODE.Vars.Animatronics)
+	net.Broadcast()
 	
 	if IsValid(ply) then
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." "..(apos or 7).." created by "..ply:GetName().."\n" )
