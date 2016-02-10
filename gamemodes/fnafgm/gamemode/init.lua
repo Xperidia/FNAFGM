@@ -3848,7 +3848,7 @@ end, nil, "Create a new Animatronic. Arguments: AType APos")
 
 function GM:CreateAnimatronic(a,apos,ply)
 	
-	if GAMEMODE.Vars.Animatronics and IsValid(GAMEMODE.Vars.Animatronics[a]) then GAMEMODE.Vars.Animatronics[a]:Remove() end
+	if GAMEMODE.Vars.Animatronics and GAMEMODE.Vars.Animatronics[a][1] and IsValid(GAMEMODE.Vars.Animatronics[a][1]) then GAMEMODE.Vars.Animatronics[a][1]:Remove() end
 	
 	local ent = ents.Create("fnafgm_animatronic")
 	
@@ -3877,7 +3877,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	
 	ent:Spawn()
 	
-	GAMEMODE.Vars.Animatronics[a] = ent
+	GAMEMODE.Vars.Animatronics[a] = { ent, apos }
 	
 	net.Start( "fnafgmAnimatronicsList" )
 		net.WriteTable(GAMEMODE.Vars.Animatronics)
@@ -3904,7 +3904,7 @@ end)
 
 function GM:SetAnimatronicPos(ply,a,apos)
 	
-	ent = GAMEMODE.Vars.Animatronics[a]
+	ent = GAMEMODE.Vars.Animatronics[a][1]
 	
 	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] then
 		
@@ -3921,6 +3921,12 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			end
 			
 		end
+		
+		GAMEMODE.Vars.Animatronics[a] = { ent, apos }
+	
+		net.Start( "fnafgmAnimatronicsList" )
+			net.WriteTable(GAMEMODE.Vars.Animatronics)
+		net.Broadcast()
 		
 		if IsValid(ply) then
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by "..ply:GetName().."\n" )
