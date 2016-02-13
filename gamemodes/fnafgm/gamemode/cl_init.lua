@@ -495,7 +495,7 @@ function GM:HUDPaint()
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 				
-			elseif game.GetMap()=="fnaf2" and !usingsafezone then
+			elseif game.GetMap()=="fnaf2" and !GAMEMODE.Vars.usingsafezone then
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMNIGHT", ScrW()-64, H+32, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
@@ -779,10 +779,10 @@ end )
 
 net.Receive( "fnafgmCheckUpdate", function( len )
 
-	updateavailable = net.ReadBit()
+	GAMEMODE.Vars.updateavailable = net.ReadBit()
 	GAMEMODE.Vars.lastversion = net.ReadString()
 	
-	if tobool(updateavailable) then
+	if tobool(GAMEMODE.Vars.updateavailable) then
 		notification.AddLegacy("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, NOTIFY_GENERIC, 10)
 		chat.PlaySound()
 	end
@@ -826,7 +826,7 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		local updatearem = 0
 		local monitorspace = 0
 		
-		if tobool(updateavailable) then
+		if tobool(GAMEMODE.Vars.updateavailable) then
 			if IsValid(Monitor) then monitorspace = 30 end
 			draw.DrawText("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
@@ -868,7 +868,7 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 	end
  
 	if IsValid( player ) then
-		if (player:IsAdmin() and fnafgmcheckcreator(player)) then
+		if (player:IsAdmin() and GAMEMODE:CheckCreator(player)) then
 			table.insert( tab, Color( 85, 255, 255 ) )
 			table.insert( tab, "[Admin|FNAFGM Creator] " )
 		elseif (player:IsAdmin() and GAMEMODE:CheckDerivCreator(player)) then
@@ -877,7 +877,7 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 		elseif player:IsAdmin() then
 			table.insert( tab, Color( 170, 0, 0 ) )
 			table.insert( tab, "[Admin] " )
-		elseif fnafgmcheckcreator(player) then
+		elseif GAMEMODE:CheckCreator(player) then
 			table.insert( tab, Color( 85, 255, 255 ) )
 			table.insert( tab, "{FNAFGM Creator} " )
 		elseif GAMEMODE:CheckDerivCreator(player) then

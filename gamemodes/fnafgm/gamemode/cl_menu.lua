@@ -16,7 +16,7 @@ function fnafgmMenu()
 		end
 		fnafgmMenuF.Think = function(self)
 			
-			if xpad_anim:Active() then xpad_anim:Run() end
+			if xpsc_anim:Active() then xpsc_anim:Run() end
 			
 			local mousex = math.Clamp( gui.MouseX(), 1, ScrW()-1 )
 			local mousey = math.Clamp( gui.MouseY(), 1, ScrH()-1 )
@@ -195,6 +195,15 @@ function fnafgmMenu()
 		saveserver:SetValue( GetConVar("fnafgm_cl_saveonservers"):GetBool() )
 		saveserver:SizeToContents()
 		
+		local disablexpsc = vgui.Create( "DCheckBoxLabel" )
+		disablexpsc:SetParent(fnafgmMenuF.config)
+		disablexpsc:SetText(tostring(GAMEMODE.TranslatedStrings.disablexpsc or GAMEMODE.Strings.en.disablexpsc))
+		disablexpsc:SetPos( 15, 170 )
+		disablexpsc:SetDark( 1 )
+		disablexpsc:SetConVar( "fnafgm_cl_disablexpsc" )
+		disablexpsc:SetValue( GetConVar("fnafgm_cl_disablexpsc"):GetBool() )
+		disablexpsc:SizeToContents()
+		
 		
 		
 		fnafgmMenuF.info = vgui.Create( "DPanel" )
@@ -344,18 +353,21 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		
-		local xpad = vgui.Create( "DHTML" )
-		xpad:SetParent(fnafgmMenuF)
-		xpad:SetPos( 10, 480 )
-		xpad:SetSize( 620, 128 )
-		xpad:SetAllowLua(true)
-		xpad:OpenURL( "Xperidia.com/GMOD/ad?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
-		xpad:SetScrollbars(false)
-		
-		xpad_anim = Derma_Anim( "xpad_anim", fnafgmMenuF, function( pnl, anim, delta, data )
-			pnl:SetSize( 640, 138*delta+480 )
-		end)
+		if !GetConVar("fnafgm_cl_disablexpsc"):GetBool() then
+			
+			local xpsc = vgui.Create( "DHTML" )
+			xpsc:SetParent(fnafgmMenuF)
+			xpsc:SetPos( 10, 480 )
+			xpsc:SetSize( 620, 128 )
+			xpsc:SetAllowLua(true)
+			xpsc:OpenURL( "Xperidia.com/GMOD/sc/?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
+			xpsc:SetScrollbars(false)
+			
+			xpsc_anim = Derma_Anim( "xpsc_anim", fnafgmMenuF, function( pnl, anim, delta, data )
+				pnl:SetSize( 640, 138*delta+480 )
+			end)
+			
+		end
 		
 		hook.Call("fnafgmMenuCustom")
 		
@@ -369,5 +381,5 @@ function fnafgmMenu()
 end
 
 function fnafgmMenuAdLoaded()
-	if IsValid(fnafgmMenuF) then xpad_anim:Start(0.25) end
+	if IsValid(fnafgmMenuF) then xpsc_anim:Start(0.25) end
 end

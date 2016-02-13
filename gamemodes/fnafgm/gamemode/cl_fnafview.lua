@@ -1,8 +1,8 @@
-function fnafgmFNaFViewHUD()
+function GM:FNaFViewHUD()
 	
-	if !fnafviewactive and !engine.IsPlayingDemo() then
+	if !GAMEMODE.Vars.fnafviewactive and !engine.IsPlayingDemo() then
 		
-		fnafviewactive = true
+		GAMEMODE.Vars.fnafviewactive = true
 		
 		net.Start( "fnafgmfnafViewActive" )
 			net.WriteBit( true )
@@ -29,11 +29,11 @@ function fnafgmFNaFViewHUD()
 			
 		end
 		FNaFView.OnClose = function()
-			if usingsafezone then
-				usingsafezone = false
+			if GAMEMODE.Vars.usingsafezone then
+				GAMEMODE.Vars.usingsafezone = false
 				fnafgmSafeZone()
 			end
-			fnafviewactive = false
+			GAMEMODE.Vars.fnafviewactive = false
 			net.Start( "fnafgmfnafViewActive" )
 				net.WriteBit( false )
 			net.SendToServer()
@@ -244,14 +244,14 @@ function fnafgmFNaFViewHUD()
 					if !waits then waits=0 end
 					if waits<CurTime() then
 						waits = CurTime()+1
-						if usingsafezone then
+						if GAMEMODE.Vars.usingsafezone then
 							OpenT:Show()
 							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
-							usingsafezone = false
-						elseif !usingsafezone then
+							GAMEMODE.Vars.usingsafezone = false
+						elseif !GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
 							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
-							usingsafezone = true
+							GAMEMODE.Vars.usingsafezone = true
 						end
 						fnafgmSafeZone()
 					end
@@ -260,14 +260,14 @@ function fnafgmFNaFViewHUD()
 					if !waits then waits=0 end
 					if waits<CurTime() then
 						waits = CurTime()+0.5
-						if usingsafezone then
+						if GAMEMODE.Vars.usingsafezone then
 							OpenT:Show()
 							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
-							usingsafezone = false
-						elseif !usingsafezone then
+							GAMEMODE.Vars.usingsafezone = false
+						elseif !GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
 							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
-							usingsafezone = true
+							GAMEMODE.Vars.usingsafezone = true
 						end
 						fnafgmSafeZone()
 					end

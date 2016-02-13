@@ -155,8 +155,8 @@
 		20
 		{
 			"name"		"fnafgm_respawndelay"
-			"text"		"The time before respawn"
-			"help"		"The time before respawn. (After the death screen)"
+			"text"		"Time before respawn"
+			"help"		"Time before respawn. (After the death screen)"
 			"type"		"Numeric"
 			"default"	"0"
 		}
@@ -164,7 +164,7 @@
 		{
 			"name"		"fnafgm_enablebypass"
 			"text"		"Enable bypass"
-			"help"		"Enable admins, gamemode creators and customs groups bypass funcs."
+			"help"		"Enable the bypass funcs."
 			"type"		"CheckBox"
 			"default"	"0"
 		}

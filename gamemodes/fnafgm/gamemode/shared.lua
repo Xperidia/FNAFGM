@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.30
+GM.OfficialVersion 	= 1.31
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -120,7 +120,8 @@ GM.Strings = {
 		flashwindow = "Flashes the window on notifications (Windows only)",
 		password = "Password",
 		saveserver = "Save your own progress on servers",
-		progressinfo = "Last saved night"
+		progressinfo = "Last saved night",
+		disablexpsc = "Disable Xperidia's Show Case"
 	},
 	fr = {
 		freddys = "Coupez le courant pour démarrer la nuit",
@@ -156,7 +157,8 @@ GM.Strings = {
 		flashwindow = "Activer l'alerte fenêtre (Windows uniquement)",
 		password = "Mot de passe",
 		saveserver = "Sauvegarde de la progression sur les serveurs",
-		progressinfo = "Dernière nuit sauvegardée "
+		progressinfo = "Dernière nuit sauvegardée ",
+		disablexpsc = "Désactiver Xperidia's Show Case"
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		animatronics = "Animasyoncuları",
@@ -514,13 +516,14 @@ fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATE
 fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
 fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Override the bodygroups to use, if the model has any." )
 fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "The value is a Vector - so between 0-1 - not between 0-255." )
-fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "The time before respawn. (After the death screen)" )
-fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", tostring(game.IsDedicated()), FCVAR_REPLICATED, "Enable admins, gamemode creators and customs groups bypass funcs." )
+fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "Time before respawn. (After the death screen)" )
+fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", 0, FCVAR_REPLICATED, "Enable the bypass funcs." )
 fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
 fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
 fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
 fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
 fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
+fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
@@ -528,6 +531,7 @@ fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, 
 fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
 fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
 fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true, false )
+fnafgm_cl_disablexpsc = CreateClientConVar( "fnafgm_cl_disablexpsc", 0, true, false )
 
 
 function GM:Initialize()
@@ -610,26 +614,22 @@ function GM:Initialize()
 	
 	if SERVER then
 		
-		mapoverrideok = false
-		norespawn = false
-		active = false
-		updateavailable = false
-		derivupdateavailable = false
-		listgroup = {}
-		avisible = {}
-		powerdrain = GAMEMODE.Power_Drain_Time
-		tabused = {}
-		powerchecktime = nil
-		oldpowerdrain = nil
-		LightUse = {}
-		DoorClosed = {}
-		light1usewait = false
-		light2usewait = false
-		finishedweek = 0
-		usingsafedoor = {}
-		foxyknockdoorpena = 2
-		addfoxyknockdoorpena = 4
-		checkRestartNight = false
+		GAMEMODE.Vars.mapoverrideok = false
+		GAMEMODE.Vars.norespawn = false
+		GAMEMODE.Vars.active = false
+		GAMEMODE.Vars.updateavailable = false
+		GAMEMODE.Vars.derivupdateavailable = false
+		GAMEMODE.ListGroup = {}
+		GAMEMODE.Vars.powerdrain = GAMEMODE.Power_Drain_Time
+		GAMEMODE.Vars.tabused = {}
+		GAMEMODE.Vars.powerchecktime = nil
+		GAMEMODE.Vars.oldpowerdrain = nil
+		GAMEMODE.Vars.LightUse = {}
+		GAMEMODE.Vars.DoorClosed = {}
+		GAMEMODE.Vars.usingsafedoor = {}
+		GAMEMODE.Vars.foxyknockdoorpena = 2
+		GAMEMODE.Vars.addfoxyknockdoorpena = 4
+		GAMEMODE.Vars.checkRestartNight = false
 		
 		if !game.SinglePlayer() then
 			timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
@@ -637,10 +637,8 @@ function GM:Initialize()
 		
 		timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
 		
-		fnafgmrefreshbypass()
+		GAMEMODE:RefreshBypass()
 		
-		
-	
 	end
 	
 	timer.Create( "fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
@@ -763,19 +761,19 @@ function GM:LoadProgress()
 end
 
 
-function fnafgmrefreshbypass()
+function GM:RefreshBypass()
 	
 	if SERVER then
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: Checking bypasses...\n" )
 		local files, dir = file.Find("fnafgm/groups/" .. "*", "DATA")
-		table.Empty(listgroup)
+		table.Empty(GAMEMODE.ListGroup)
 		for k, v in pairs(files) do
-			listgroup["group_"..string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/"..v, "DATA") )
+			GAMEMODE.ListGroup["group_"..string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/"..v, "DATA") )
 		end
-		if table.Count(listgroup)==0 then
+		if table.Count(GAMEMODE.ListGroup)==0 then
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: No bypasses detected!\n" )
 		else
-			PrintTable(listgroup)
+			PrintTable(GAMEMODE.ListGroup)
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Bypasses checked!\n" )
 		end
 	end
@@ -806,7 +804,7 @@ function GM:CreateTeams()
 end
 
 
-function fnafgmcheckcreator(pl) --To easly debug others servers and credit
+function GM:CheckCreator(pl) --To easly debug others servers and credit
 	if (pl:SteamID()=="STEAM_0:1:18280147" or pl:SteamID()=="STEAM_0:1:35715092" or pl:SteamID()=="STEAM_0:1:51964687") then
 		return true
 	end
@@ -819,9 +817,9 @@ function GM:CheckDerivCreator(pl) --To credit you when you are detected
 end
 
 
-function fnafgmcustomcheck(pl,what) --Custom groups funcs
+function GM:CustomCheck(pl,what) --Custom groups funcs
 	
-	if listgroup["group_"..pl:GetUserGroup()] and table.HasValue(listgroup["group_"..pl:GetUserGroup()], what) then
+	if GAMEMODE.ListGroup["group_"..pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_"..pl:GetUserGroup()], what) then
 		return true
 	end
 	
@@ -830,7 +828,7 @@ function fnafgmcustomcheck(pl,what) --Custom groups funcs
 end
 
 
-function CheckPlayerSecurityRoom(ply)
+function GM:CheckPlayerSecurityRoom(ply)
 	
 	if (GAMEMODE.SecurityRoom[game.GetMap()]) then
 		local BoxCorner = GAMEMODE.SecurityRoom[game.GetMap()][1]
@@ -902,7 +900,7 @@ function GM:FinishMove( ply, mv )
 end
 
 
-function fnafgmFNaFView(ply)
+function GM:GoFNaFView(ply)
 	
 	GAMEMODE.Vars.fnafview = true
 	
@@ -910,12 +908,12 @@ function fnafgmFNaFView(ply)
 		if GAMEMODE.FNaFView[game.GetMap()] then
 			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
-			ply:SendLua([[fnafgmFNaFView()]])
+			ply:SendLua([[GAMEMODE:GoFNaFView()]])
 		end
 	end
 	
 	if CLIENT then
-		fnafgmFNaFViewHUD()
+		GAMEMODE:FNaFViewHUD()
 	end
 	
 end

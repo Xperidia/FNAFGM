@@ -14,14 +14,14 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	if name=="FoxyKnockDoor" then
 		
-		GAMEMODE.Vars.power = GAMEMODE.Vars.power - foxyknockdoorpena
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Foxy removed "..foxyknockdoorpena.."% of the power\n" )
+		GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power\n" )
 		fnafgmPowerUpdate()
-		if foxyknockdoorpena<=12 then foxyknockdoorpena = foxyknockdoorpena + addfoxyknockdoorpena end
-		if addfoxyknockdoorpena==4 then
-			addfoxyknockdoorpena = 6
-		elseif addfoxyknockdoorpena==6 then
-			addfoxyknockdoorpena = 4
+		if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
+		if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
+			GAMEMODE.Vars.addfoxyknockdoorpena = 6
+		elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
+			GAMEMODE.Vars.addfoxyknockdoorpena = 4
 		end
 		
 		
@@ -121,7 +121,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
 		
-		LightUse[id] = true
+		GAMEMODE.Vars.LightUse[id] = true
 		
 	
 	elseif name=="LightOff" then
@@ -130,7 +130,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
 		
-		LightUse[id] = false
+		GAMEMODE.Vars.LightUse[id] = false
 		
 	
 	elseif name=="DoorClosing" then
@@ -139,7 +139,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
 		
-		DoorClosed[id] = true
+		GAMEMODE.Vars.DoorClosed[id] = true
 		
 		
 	elseif name=="DoorOpen" then
@@ -148,7 +148,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		if id==nil then Error( "FNAFGM Link: NaN\n" ) return true end
 		
-		DoorClosed[id] = false
+		GAMEMODE.Vars.DoorClosed[id] = false
 		
 		
 	elseif name=="PlushTrapWin" then

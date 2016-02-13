@@ -139,7 +139,7 @@ local PLAYER_LINE = {
 			return
 		end
 		
-		if ( self.Player:IsAdmin() or fnafgmcheckcreator(self.Player) ) then
+		if ( self.Player:IsAdmin() or GAMEMODE:CheckCreator(self.Player) ) then
 			self:SetZPos( self.Player:EntIndex() - 2000 )
 			return
 		end
@@ -173,7 +173,7 @@ local PLAYER_LINE = {
 			return
 		end
 		
-		if ( fnafgmcheckcreator(self.Player) ) then
+		if ( GAMEMODE:CheckCreator(self.Player) ) then
 			draw.RoundedBox( 4, 0, 0, w, h, Color( 85, 255, 255, 255 ) )
 			return
 		end

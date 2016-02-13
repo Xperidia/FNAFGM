@@ -62,7 +62,7 @@ function SWEP:SecondaryAttack()
 	
 	if table.Count(ents.FindByClass( "fnafgm_camera" ))==0 then return end
 	
-	if SERVER and !self.Owner.fnafviewactive and ( ( CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") and !tempostart then
+	if SERVER and !self.Owner.fnafviewactive and ( ( GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") and !GAMEMODE.Vars.tempostart then
 		
 		net.Start( "fnafgmSecurityTablet" )
 		net.Send(self.Owner)
@@ -75,7 +75,7 @@ end
 
 function SWEP:Reload()
 	
-	if SERVER and !self.Owner.fnafviewactive and CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday and !tempostart then
+	if SERVER and !self.Owner.fnafviewactive and GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart then
 		fnafgmFNaFView(self.Owner)
 	end
 	
@@ -83,7 +83,7 @@ end
 
 function SWEP:Think()
 	
-	if SERVER and !CheckPlayerSecurityRoom(self.Owner) and !fnafgmPlayerCanByPass(self.Owner,"tab") then
+	if SERVER and !GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and !fnafgmPlayerCanByPass(self.Owner,"tab") then
 		net.Start( "fnafgmCloseTablet" )
 		net.Send(self.Owner)
 	end
