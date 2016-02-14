@@ -91,7 +91,7 @@ function fnafgmSecurityTablet()
 			net.SendToServer()
 		end
 		Monitor.Think = function()
-			if (!LocalPlayer():Alive() or tobool(tempostart) or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2")) then
+			if (!LocalPlayer():Alive() or tobool(GAMEMODE.Vars.tempostart) or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2")) then
 				Monitor:Close()
 			end
 		end

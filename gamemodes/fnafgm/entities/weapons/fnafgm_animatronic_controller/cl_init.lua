@@ -43,14 +43,13 @@ function fnafgmAnimatronicsController()
 		AnimatronicsControllerGUI:MakePopup()
 		AnimatronicsControllerGUI:SetKeyboardInputEnabled(false)
 		AnimatronicsControllerGUI.Paint = function( self, w, h )
-			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.DrawOutlinedRect( 35, 30, w-70, h-60 )
+			
 		end
 		AnimatronicsControllerGUI.OnClose = function()
 			fnafgmSetView(0)
 		end
 		AnimatronicsControllerGUI.Think = function()
-			if (!LocalPlayer():Alive() or tobool(tempostart)) then
+			if (!LocalPlayer():Alive() or tobool(GAMEMODE.Vars.tempostart)) then
 				AnimatronicsControllerGUI:Close()
 			end
 			if AnimatronicsControllerGUI.Map2_Anim:Active() then AnimatronicsControllerGUI.Map2_Anim:Run() else AnimatronicsControllerGUI.Map2_Anim:Start(2) end
@@ -84,6 +83,103 @@ function fnafgmAnimatronicsController()
 			end)
 			
 			AnimatronicsControllerGUI.Map2_Anim:Start(2)
+			
+			AnimatronicsControllerGUI.Freddy = vgui.Create( "DImage" )
+			AnimatronicsControllerGUI.Freddy:SetParent(AnimatronicsControllerGUI)
+			AnimatronicsControllerGUI.Freddy:SetImage( "fnafgm/animatronicsico/0.png" )
+			AnimatronicsControllerGUI.Freddy:SetPos( 42, 64 )
+			AnimatronicsControllerGUI.Freddy:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.Freddy:SetImageColor( Color( 85, 85, 85, 255 ) )
+			AnimatronicsControllerGUI.Freddy.Paint = function( self, w, h )
+				self:PaintAt( 0, 0, self:GetWide(), self:GetTall() )
+				surface.SetDrawColor( 255, 255, 255, 255 )
+				surface.DrawOutlinedRect( 0, 0, w, h )
+			end
+			
+			AnimatronicsControllerGUI.FreddyTxt = vgui.Create( "DLabel" )
+			AnimatronicsControllerGUI.FreddyTxt:SetParent(AnimatronicsControllerGUI.Freddy)
+			AnimatronicsControllerGUI.FreddyTxt:SetText( "X" )
+			AnimatronicsControllerGUI.FreddyTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
+			AnimatronicsControllerGUI.FreddyTxt:SetFont("FNAFGMTIME")
+			AnimatronicsControllerGUI.FreddyTxt:SetPos( 0, 0 )
+			AnimatronicsControllerGUI.FreddyTxt:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.FreddyTxt:SetContentAlignment( 2 )
+			
+			-- AnimatronicsControllerGUI.FreddyBtn = vgui.Create( "DButton" )
+			-- AnimatronicsControllerGUI.FreddyBtn:SetParent(AnimatronicsControllerGUI.Freddy)
+			-- AnimatronicsControllerGUI.FreddyBtn:SetPos( 0, 0 )
+			-- AnimatronicsControllerGUI.FreddyBtn:SetSize( 128, 32 )
+			-- AnimatronicsControllerGUI.FreddyBtn:SetText("TAUNT")
+			-- AnimatronicsControllerGUI.FreddyBtn:SetFont("FNAFGMNIGHT")
+			-- AnimatronicsControllerGUI.FreddyBtn:SetTextColor( Color( 255, 255, 255, 255 ) )
+			-- AnimatronicsControllerGUI.FreddyBtn.Paint = function( self, w, h )
+				-- draw.RoundedBox( 0, 0, 0, w, h, Color( 85, 85, 85, 128 ) )
+				-- surface.SetDrawColor( 255, 255, 255, 255 )
+				-- surface.DrawOutlinedRect( 0, 0, w, h )
+			-- end
+			
+			AnimatronicsControllerGUI.Bonnie = vgui.Create( "DImage" )
+			AnimatronicsControllerGUI.Bonnie:SetParent(AnimatronicsControllerGUI)
+			AnimatronicsControllerGUI.Bonnie:SetImage( "fnafgm/animatronicsico/1.png" )
+			AnimatronicsControllerGUI.Bonnie:SetPos( 170, 64 )
+			AnimatronicsControllerGUI.Bonnie:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.Bonnie:SetImageColor( Color( 85, 85, 85, 255 ) )
+			AnimatronicsControllerGUI.Bonnie.Paint = function( self, w, h )
+				self:PaintAt( 0, 0, self:GetWide(), self:GetTall() )
+				surface.SetDrawColor( 255, 255, 255, 255 )
+				surface.DrawOutlinedRect( 0, 0, w, h )
+			end
+			
+			AnimatronicsControllerGUI.BonnieTxt = vgui.Create( "DLabel" )
+			AnimatronicsControllerGUI.BonnieTxt:SetParent(AnimatronicsControllerGUI.Bonnie)
+			AnimatronicsControllerGUI.BonnieTxt:SetText( "X" )
+			AnimatronicsControllerGUI.BonnieTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
+			AnimatronicsControllerGUI.BonnieTxt:SetFont("FNAFGMTIME")
+			AnimatronicsControllerGUI.BonnieTxt:SetPos( 0, 0 )
+			AnimatronicsControllerGUI.BonnieTxt:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.BonnieTxt:SetContentAlignment( 2 )
+			
+			AnimatronicsControllerGUI.Chica = vgui.Create( "DImage" )
+			AnimatronicsControllerGUI.Chica:SetParent(AnimatronicsControllerGUI)
+			AnimatronicsControllerGUI.Chica:SetImage( "fnafgm/animatronicsico/2.png" )
+			AnimatronicsControllerGUI.Chica:SetPos( 298, 64 )
+			AnimatronicsControllerGUI.Chica:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.Chica:SetImageColor( Color( 85, 85, 85, 255 ) )
+			AnimatronicsControllerGUI.Chica.Paint = function( self, w, h )
+				self:PaintAt( 0, 0, self:GetWide(), self:GetTall() )
+				surface.SetDrawColor( 255, 255, 255, 255 )
+				surface.DrawOutlinedRect( 0, 0, w, h )
+			end
+			
+			AnimatronicsControllerGUI.ChicaTxt = vgui.Create( "DLabel" )
+			AnimatronicsControllerGUI.ChicaTxt:SetParent(AnimatronicsControllerGUI.Chica)
+			AnimatronicsControllerGUI.ChicaTxt:SetText( "X" )
+			AnimatronicsControllerGUI.ChicaTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
+			AnimatronicsControllerGUI.ChicaTxt:SetFont("FNAFGMTIME")
+			AnimatronicsControllerGUI.ChicaTxt:SetPos( 0, 0 )
+			AnimatronicsControllerGUI.ChicaTxt:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.ChicaTxt:SetContentAlignment( 2 )
+			
+			AnimatronicsControllerGUI.Foxy = vgui.Create( "DImage" )
+			AnimatronicsControllerGUI.Foxy:SetParent(AnimatronicsControllerGUI)
+			AnimatronicsControllerGUI.Foxy:SetImage( "fnafgm/animatronicsico/3.png" )
+			AnimatronicsControllerGUI.Foxy:SetPos( 426, 64 )
+			AnimatronicsControllerGUI.Foxy:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 85, 85, 85, 255 ) )
+			AnimatronicsControllerGUI.Foxy.Paint = function( self, w, h )
+				self:PaintAt( 0, 0, self:GetWide(), self:GetTall() )
+				surface.SetDrawColor( 255, 255, 255, 255 )
+				surface.DrawOutlinedRect( 0, 0, w, h )
+			end
+			
+			AnimatronicsControllerGUI.FoxyTxt = vgui.Create( "DLabel" )
+			AnimatronicsControllerGUI.FoxyTxt:SetParent(AnimatronicsControllerGUI.Foxy)
+			AnimatronicsControllerGUI.FoxyTxt:SetText( "X" )
+			AnimatronicsControllerGUI.FoxyTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
+			AnimatronicsControllerGUI.FoxyTxt:SetFont("FNAFGMTIME")
+			AnimatronicsControllerGUI.FoxyTxt:SetPos( 0, 0 )
+			AnimatronicsControllerGUI.FoxyTxt:SetSize( 128, 128 )
+			AnimatronicsControllerGUI.FoxyTxt:SetContentAlignment( 2 )
 			
 			local CAM2B = vgui.Create( "DButton" )
 			CAM2B:SetParent(AnimatronicsControllerGUI.Map)
@@ -347,7 +443,7 @@ function fnafgmAnimatronicsController()
 		
 		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
 			
-			if GAMEMODE.Vars.Animatronics[k][2]!=apos and GAMEMODE.Vars.Animatronics[k][2]!=12 and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] then
+			if GAMEMODE.Vars.Animatronics[k][2]!=apos and GAMEMODE.Vars.Animatronics[k][2]!=12 and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] and SysTime()+GAMEMODE.Vars.Animatronics[k][3]<=SysTime() then
 				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
 				btn:SetIcon( "fnafgm/icon16/"..k..".png" )
 				btn.OnMousePressed = function( button, key )

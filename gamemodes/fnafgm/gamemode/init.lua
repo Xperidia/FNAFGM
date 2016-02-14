@@ -3808,7 +3808,17 @@ function GM:CreateAnimatronic(a,apos,ply)
 	
 	ent:Spawn()
 	
-	GAMEMODE.Vars.Animatronics[a] = { ent, apos }
+	local cd = 0
+	
+	if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1] then
+		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1]
+	elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] then
+		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night]
+	elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
+		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
+	end
+	
+	GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, false }
 	
 	net.Start( "fnafgmAnimatronicsList" )
 		net.WriteTable(GAMEMODE.Vars.Animatronics)
@@ -3853,7 +3863,20 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			
 		end
 		
-		GAMEMODE.Vars.Animatronics[a] = { ent, apos }
+		local cd = 0
+		
+		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1] then
+			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1]
+		elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] then
+			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night]
+		elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
+			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
+		end
+		
+		local js = false
+		
+		
+		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, js }
 	
 		net.Start( "fnafgmAnimatronicsList" )
 			net.WriteTable(GAMEMODE.Vars.Animatronics)

@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.31
+GM.OfficialVersion 	= 1.32
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -488,11 +488,49 @@ GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.D
 GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(32,-1080,70), Angle(0,211,0) }
 GM.AnimatronicAPos[GM.Animatronic.Foxy] = {}
 GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.PC] = { Vector(-475,-358,80), Angle(0,0,0) }
-GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-475,-358,80), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.PC] = { Vector(-475,-358,90), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-475,-358,90), Angle(0,0,0) }
 GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy] = {}
 GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent = {}
 GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = { Vector(305,-899,108), Angle(0,0,0) }
+
+GM.AnimatronicsCD = {}
+GM.AnimatronicsCD[GM.Animatronic.Freddy] = {}
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent = {}
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[0] = 10
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[1] = 1000
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[2] = 1000
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[3] = 30
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[4] = 30
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[5] = 16
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[6] = 6
+GM.AnimatronicsCD[GM.Animatronic.Bonnie] = {}
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent = {}
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[0] = 10
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[1] = 60
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[2] = 40
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[3] = 30
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[4] = 20
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[5] = 16
+GM.AnimatronicsCD[GM.Animatronic.Bonnie].freddysnoevent[6] = 6
+GM.AnimatronicsCD[GM.Animatronic.Chica] = {}
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent = {}
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[0] = 10
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[1] = 60
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[2] = 40
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[3] = 30
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[4] = 20
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[5] = 16
+GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[6] = 6
+GM.AnimatronicsCD[GM.Animatronic.Foxy] = {}
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent = {}
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[0] = 60
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[1] = 1000
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[2] = 200
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[3] = 120
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[4] = 120
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[5] = 120
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[6] = 60
 
 GM.Vars = {}
 
@@ -918,3 +956,59 @@ function GM:GoFNaFView(ply)
 	
 end
 
+
+timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
+	
+	if tobool(GAMEMODE.Vars.startday) then
+		
+		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
+			
+			if GAMEMODE.Vars.Animatronics[k][3] and GAMEMODE.Vars.Animatronics[k][3]>0 then
+				GAMEMODE.Vars.Animatronics[k][3] = GAMEMODE.Vars.Animatronics[k][3] - 1
+			end
+			
+		end
+		
+		if CLIENT and IsValid(AnimatronicsControllerGUI) then
+			
+			if IsValid(AnimatronicsControllerGUI.Freddy) and IsValid(AnimatronicsControllerGUI.FreddyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]>0 then
+				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]
+				AnimatronicsControllerGUI.FreddyTxt:SetText( val.."s" )
+				AnimatronicsControllerGUI.Freddy:SetImageColor( Color( 85, 85, 85, 255 ) )
+			elseif IsValid(AnimatronicsControllerGUI.Freddy) and IsValid(AnimatronicsControllerGUI.FreddyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]==0 then
+				AnimatronicsControllerGUI.FreddyTxt:SetText( "" )
+				AnimatronicsControllerGUI.Freddy:SetImageColor( Color( 255, 255, 255, 255 ) )
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.Bonnie) and IsValid(AnimatronicsControllerGUI.BonnieTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]>0 then
+				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]
+				AnimatronicsControllerGUI.BonnieTxt:SetText( val.."s" )
+				AnimatronicsControllerGUI.Bonnie:SetImageColor( Color( 85, 85, 85, 255 ) )
+			elseif IsValid(AnimatronicsControllerGUI.Bonnie) and IsValid(AnimatronicsControllerGUI.BonnieTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]==0 then
+				AnimatronicsControllerGUI.BonnieTxt:SetText( "" )
+				AnimatronicsControllerGUI.Bonnie:SetImageColor( Color( 255, 255, 255, 255 ) )
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.Chica) and IsValid(AnimatronicsControllerGUI.ChicaTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]>0 then
+				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]
+				AnimatronicsControllerGUI.ChicaTxt:SetText( val.."s" )
+				AnimatronicsControllerGUI.Chica:SetImageColor( Color( 85, 85, 85, 255 ) )
+			elseif IsValid(AnimatronicsControllerGUI.Chica) and IsValid(AnimatronicsControllerGUI.ChicaTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]==0 then
+				AnimatronicsControllerGUI.ChicaTxt:SetText( "" )
+				AnimatronicsControllerGUI.Chica:SetImageColor( Color( 255, 255, 255, 255 ) )
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.Foxy) and IsValid(AnimatronicsControllerGUI.FoxyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]>0 then
+				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]
+				AnimatronicsControllerGUI.FoxyTxt:SetText( val.."s" )
+				AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 85, 85, 85, 255 ) )
+			elseif IsValid(AnimatronicsControllerGUI.Foxy) and IsValid(AnimatronicsControllerGUI.FoxyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]==0 then
+				AnimatronicsControllerGUI.FoxyTxt:SetText( "" )
+				AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 255, 255, 255, 255 ) )
+			end
+			
+		end
+		
+	end
+	
+end)
