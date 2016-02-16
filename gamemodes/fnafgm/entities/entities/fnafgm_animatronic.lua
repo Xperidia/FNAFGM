@@ -63,3 +63,29 @@ function ENT:Think()
 	end
 	
 end
+
+function ENT:Taunt()
+	
+	if !GAMEMODE.Vars.startday then return end
+	
+	local me = self:GetAType()
+	
+	if !GAMEMODE.Vars.Animatronics[me][4] then
+		GAMEMODE.Vars.Animatronics[me][4] = 0
+	end
+	
+	if GAMEMODE.Vars.Animatronics[me][4]<=CurTime() and GAMEMODE.Sound_Animatronic[me] then
+		
+		GAMEMODE.Vars.Animatronics[me][4] = CurTime() + 20
+		
+		net.Start( "fnafgmAnimatronicsList" )
+			net.WriteTable(GAMEMODE.Vars.Animatronics)
+		net.Broadcast()
+		
+		net.Start( "fnafgmAnimatronicTauntSnd" )
+			net.WriteInt( me, 5 )
+		net.Broadcast()
+	
+	end
+	
+end

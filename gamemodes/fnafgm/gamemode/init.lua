@@ -39,6 +39,7 @@ end
 DEFINE_BASECLASS( "gamemode_base" )
 
 
+util.AddNetworkString( "fnafgmVarsUpdate" )
 util.AddNetworkString( "fnafgmShowCheck" )
 util.AddNetworkString( "fnafgmSetView" )
 util.AddNetworkString( "fnafgmMuteCall" )
@@ -54,6 +55,14 @@ util.AddNetworkString( "fnafgmCloseTablet" )
 util.AddNetworkString( "fnafgmCallIntro" )
 util.AddNetworkString( "fnafgmAnimatronicsController" )
 util.AddNetworkString( "fnafgmAnimatronicsList" )
+util.AddNetworkString( "fnafgmCheckUpdate" )
+util.AddNetworkString( "fnafgmCheckUpdateD" )
+util.AddNetworkString( "fnafgmPowerUpdate" )
+util.AddNetworkString( "fnafgmTabUsed" )
+util.AddNetworkString( "fnafgmfnafViewActive" )
+util.AddNetworkString( "fnafgmSetAnimatronicPos" )
+util.AddNetworkString( "fnafgmAnimatronicTaunt" )
+util.AddNetworkString( "fnafgmAnimatronicTauntSnd" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -200,6 +209,16 @@ function GM:PlayerSpawn( pl )
 				timer.Remove( "fnafgmTempoFNaFView"..userid )
 			end)
 		end
+	end
+	
+	if pl:Team()==2 then 
+		timer.Create( "fnafgmTempoAC"..userid, 0.1, 1, function()
+			if IsValid(pl) and pl:Team()==2 then
+				net.Start( "fnafgmAnimatronicsController" )
+				net.Send(pl)
+			end
+			timer.Remove( "fnafgmTempoAC"..userid )
+		end)
 	end
 	
 end
@@ -2346,7 +2365,7 @@ function fnafgmMapOverrides()
 end
 
 
-util.AddNetworkString( "fnafgmVarsUpdate" )
+
 function fnafgmVarsUpdate()
 	
 	net.Start( "fnafgmVarsUpdate" )
@@ -2431,6 +2450,10 @@ function fnafgmTimeThink()
 		
 		timer.Create( "fnafgmNightPassed", 11, 1, function()
 			
+			fnafgmResetGame()
+			if !game.IsDedicated() then GAMEMODE.Vars.night = GAMEMODE.NightEnd end
+			fnafgmMapOverrides()
+			
 			if GAMEMODE.Materials_end[game.GetMap()] or file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) or file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) then
 				
 				local plus = false
@@ -2494,9 +2517,6 @@ function fnafgmTimeThink()
 			
 			GAMEMODE.Vars.gameend = false
 			GAMEMODE.Vars.norespawn = false
-			fnafgmResetGame()
-			if !game.IsDedicated() then GAMEMODE.Vars.night = GAMEMODE.NightEnd end
-			fnafgmMapOverrides()
 			fnafgmVarsUpdate()
 			if GAMEMODE.Vars.night==GAMEMODE.NightEnd then
 				MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start the hell!\n" )
@@ -2750,8 +2770,6 @@ function fnafgmPlayerCanByPass(ply,what)
 	end
 end
 
-
-util.AddNetworkString( "fnafgmCheckUpdate" )
 function fnafgmCheckUpdate()
 	
 	net.Start( "fnafgmCheckUpdate" )
@@ -2761,7 +2779,6 @@ function fnafgmCheckUpdate()
 	
 end
 
-util.AddNetworkString( "fnafgmCheckUpdateD" )
 function fnafgmCheckUpdateD()
 	
 	net.Start( "fnafgmCheckUpdateD" )
@@ -3200,7 +3217,7 @@ end
 
 function GM:PlayerSay( ply, text, teamonly )
 	
-	comm = string.lower( text ) -- Make the chat message entirely lowercase
+	comm = string.lower( text )
 	
 	if ( comm == "!start" ) then
 		fnafgmUse(ply, nil, true)
@@ -3585,7 +3602,6 @@ function GM:Think()
 end
 
 
-util.AddNetworkString( "fnafgmPowerUpdate" )
 function fnafgmPowerUpdate()
 	
 	net.Start( "fnafgmPowerUpdate" )
@@ -3597,19 +3613,20 @@ function fnafgmPowerUpdate()
 	
 end
 
-util.AddNetworkString( "fnafgmTabUsed" )
+
 net.Receive( "fnafgmTabUsed", function( len, ply )
 	
 	GAMEMODE.Vars.tabused[ply] = tobool(net.ReadBit())
 	
 end)
 
-util.AddNetworkString( "fnafgmfnafViewActive" )
+
 net.Receive( "fnafgmfnafViewActive", function( len, ply )
 	
 	ply.fnafviewactive = tobool(net.ReadBit())
 	
 end)
+
 
 
 function GM:PlayerShouldTaunt( ply, actid )
@@ -3669,35 +3686,6 @@ end
 function GM:ShowHelp( ply )
 
 	ply:SendLua("fnafgmMenu()")
-	
-end
-
-
-function GM:ShowSpare1( ply )
-	
-	if !ply:Alive() or !GAMEMODE.Vars.startday then return end
-	
-	if !ply.TauntCooldown then
-		ply.TauntCooldown = 0
-	end
-	
-	if ply.TauntCooldown<=CurTime() then
-	
-		--[[if player_manager.GetPlayerClass(ply)=="player_fnafgmfoxy" then
-			sound.Play( GAMEMODE.Sound_Foxy, ply:GetPos() )
-		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmfreddy" then
-			sound.Play( table.Random(GAMEMODE.Sound_Freddy), ply:GetPos() )
-		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmchica" then
-			sound.Play( table.Random(GAMEMODE.Sound_ChicaBonnie), ply:GetPos() )
-		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmbonnie" then
-			sound.Play( table.Random(GAMEMODE.Sound_ChicaBonnie), ply:GetPos() )
-		elseif player_manager.GetPlayerClass(ply)=="player_fnafgmgoldenfreddy" then
-			sound.Play( GAMEMODE.Sound_GoldenFoxy, ply:GetPos() )
-		end]]
-		
-		ply.TauntCooldown = CurTime() + 20
-	
-	end
 	
 end
 
@@ -3818,7 +3806,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 	end
 	
-	GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, false }
+	GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, 0 }
 	
 	net.Start( "fnafgmAnimatronicsList" )
 		net.WriteTable(GAMEMODE.Vars.Animatronics)
@@ -3833,7 +3821,6 @@ function GM:CreateAnimatronic(a,apos,ply)
 end
 
 
-util.AddNetworkString( "fnafgmSetAnimatronicPos" )
 net.Receive( "fnafgmSetAnimatronicPos", function( len, ply )
 	
 	local a = net.ReadInt(5)
@@ -3873,10 +3860,8 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 		end
 		
-		local js = false
 		
-		
-		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, js }
+		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }
 	
 		net.Start( "fnafgmAnimatronicsList" )
 			net.WriteTable(GAMEMODE.Vars.Animatronics)
@@ -3899,4 +3884,13 @@ function GM:SetAnimatronicPos(ply,a,apos)
 	end
 	
 end
+
+
+net.Receive( "fnafgmAnimatronicTaunt", function( len, ply )
+	
+	local a = net.ReadInt(5)
+	
+	GAMEMODE.Vars.Animatronics[a][1]:Taunt()
+	
+end)
 

@@ -1216,3 +1216,19 @@ function GM:SetAnimatronicPos(a,apos)
 	net.SendToServer()
 	
 end
+
+function GM:AnimatronicTaunt(a)
+	
+	net.Start( "fnafgmAnimatronicTaunt" )
+		net.WriteInt(a, 5)
+	net.SendToServer()
+	
+end
+
+net.Receive( "fnafgmAnimatronicTauntSnd", function( len )
+
+	local a = net.ReadInt( 5 )
+	
+	GAMEMODE.Vars.Animatronics[a][1]:EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a]))
+	
+end)

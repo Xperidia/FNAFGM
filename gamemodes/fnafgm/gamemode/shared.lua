@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.32
+GM.OfficialVersion 	= 1.33
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -59,10 +59,13 @@ GM.Sound_end = {
 	freddys = Sound("fnafgm/end.ogg"),
 	fnaf2 = Sound("fnafgm/end2.ogg")
 }
-GM.Sound_Foxy = Sound("fnafgm/piratesong2.ogg")
-GM.Sound_ChicaBonnie = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
-GM.Sound_Freddy = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
-GM.Sound_GoldenFoxy = Sound("fnafgm/goldenfreddy.ogg")
+GM.Sound_Animatronic = {}
+GM.Sound_Animatronic[0] = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
+GM.Sound_Animatronic[1] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
+GM.Sound_Animatronic[2] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
+GM.Sound_Animatronic[3] = { Sound("fnafgm/piratesong2.ogg") }
+GM.Sound_Animatronic[4] = { Sound("fnafgm/goldenfreddy.ogg") }
+
 GM.Sound_Calls = {
 	freddys = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
 }
@@ -650,6 +653,20 @@ function GM:Initialize()
 		
 	end
 	
+	if GAMEMODE.Vars.SGvsA then
+		for key, val in pairs(GAMEMODE.Sound_Animatronic) do
+			for k, v in pairs(GAMEMODE.Sound_Animatronic[key]) do
+				sound.Add( {
+					name = "fnafgm_"..key.."_"..k,
+					channel = CHAN_STATIC,
+					volume = 1.0,
+					level = 0,
+					sound = v
+				} )
+			end
+		end
+	end
+	
 	if SERVER then
 		
 		GAMEMODE.Vars.mapoverrideok = false
@@ -1005,6 +1022,30 @@ timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
 			elseif IsValid(AnimatronicsControllerGUI.Foxy) and IsValid(AnimatronicsControllerGUI.FoxyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]==0 then
 				AnimatronicsControllerGUI.FoxyTxt:SetText( "" )
 				AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 255, 255, 255, 255 ) )
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.FreddyBtn) and GAMEMODE.Vars.Animatronics[0][4]>CurTime() then
+				AnimatronicsControllerGUI.FreddyBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[0][4]-CurTime(),0).."s")
+			elseif IsValid(AnimatronicsControllerGUI.FreddyBtn) then
+				AnimatronicsControllerGUI.FreddyBtn:SetText("TAUNT")
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.BonnieBtn) and GAMEMODE.Vars.Animatronics[1][4]>CurTime() then
+				AnimatronicsControllerGUI.BonnieBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[1][4]-CurTime(),0).."s")
+			elseif IsValid(AnimatronicsControllerGUI.BonnieBtn) then
+				AnimatronicsControllerGUI.BonnieBtn:SetText("TAUNT")
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.ChicaBtn) and GAMEMODE.Vars.Animatronics[2][4]>CurTime() then
+				AnimatronicsControllerGUI.ChicaBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[2][4]-CurTime(),0).."s")
+			elseif IsValid(AnimatronicsControllerGUI.ChicaBtn) then
+				AnimatronicsControllerGUI.ChicaBtn:SetText("TAUNT")
+			end
+			
+			if IsValid(AnimatronicsControllerGUI.FoxyBtn) and GAMEMODE.Vars.Animatronics[3][4]>CurTime() then
+				AnimatronicsControllerGUI.FoxyBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[3][4]-CurTime(),0).."s")
+			elseif IsValid(AnimatronicsControllerGUI.FoxyBtn) then
+				AnimatronicsControllerGUI.FoxyBtn:SetText("TAUNT")
 			end
 			
 		end
