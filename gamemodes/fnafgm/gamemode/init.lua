@@ -2617,7 +2617,7 @@ function GM:FinishMove( ply, mv )
 			timer.Create( "fnafgmPlayerSecurityRoomNot"..userid, PSRTT, 1, function()
 				
 				if (IsValid(ply)) then
-					ply:ConCommand("play "..GAMEMODE.Sound_GoldenFoxy)
+					ply:ConCommand("play "..GAMEMODE.Sound_Animatronic[4][1])
 					ply:Kill()
 					MsgC(Color( 255, 255, 85 ), "FNAFGM: "..ply:GetName().." is dead by the outside!\n")
 				end
@@ -3860,6 +3860,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 		end
 		
+		if apos==GAMEMODE.APos.freddysnoevent.Office then
+			ent:GoJumpscare()
+		end
 		
 		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }
 	
@@ -3873,14 +3876,6 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by console/script\n" )
 		end
 		
-	--[[else
-		
-		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." NOT moved to "..(apos or 7).." by "..ply:GetName().."\n" )
-		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." NOT moved to "..(apos or 7).." by console/script\n" )
-		end]]
-		
 	end
 	
 end
@@ -3890,7 +3885,7 @@ net.Receive( "fnafgmAnimatronicTaunt", function( len, ply )
 	
 	local a = net.ReadInt(5)
 	
-	GAMEMODE.Vars.Animatronics[a][1]:Taunt()
+	GAMEMODE.Vars.Animatronics[a][1]:Taunt(ply)
 	
 end)
 

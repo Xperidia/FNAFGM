@@ -922,7 +922,7 @@ hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
 			[ "$pp_colour_addg" ] = 0.02,
 			[ "$pp_colour_addb" ] = 0.02,
 			[ "$pp_colour_brightness" ] = 0.01,
-			[ "$pp_colour_contrast" ] = 4,
+			[ "$pp_colour_contrast" ] = 2,
 			[ "$pp_colour_colour" ] = 0.6,
 			[ "$pp_colour_mulr" ] = 0.02,
 			[ "$pp_colour_mulg" ] = 0.02,
@@ -935,7 +935,7 @@ hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
 			[ "$pp_colour_addg" ] = 0,
 			[ "$pp_colour_addb" ] = 0,
 			[ "$pp_colour_brightness" ] = 0,
-			[ "$pp_colour_contrast" ] = 0.6,
+			[ "$pp_colour_contrast" ] = 0.1,
 			[ "$pp_colour_colour" ] = 0,
 			[ "$pp_colour_mulr" ] = 0,
 			[ "$pp_colour_mulg" ] = 0,
@@ -1229,6 +1229,6 @@ net.Receive( "fnafgmAnimatronicTauntSnd", function( len )
 
 	local a = net.ReadInt( 5 )
 	
-	GAMEMODE.Vars.Animatronics[a][1]:EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a]))
+	if GAMEMODE.Vars.Animatronics[a][1] then GAMEMODE.Vars.Animatronics[a][1]:EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a])) end
 	
 end)
