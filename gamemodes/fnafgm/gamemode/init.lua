@@ -3808,7 +3808,7 @@ function GM:SetAnimatronicPos(ply,a,apos)
 	
 	ent = GAMEMODE.Vars.Animatronics[a][1]
 	
-	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] then
+	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] and IsValid(ent) then
 		
 		if GAMEMODE.Vars.Animatronics[a][3]==-1 or !GAMEMODE.Vars.startday then return end
 		
@@ -3865,7 +3865,7 @@ net.Receive( "fnafgmAnimatronicTaunt", function( len, ply )
 	
 	local a = net.ReadInt(5)
 	
-	GAMEMODE.Vars.Animatronics[a][1]:Taunt(ply)
+	if IsValid(GAMEMODE.Vars.Animatronics[a][1]) then GAMEMODE.Vars.Animatronics[a][1]:Taunt(ply) end
 	
 end)
 

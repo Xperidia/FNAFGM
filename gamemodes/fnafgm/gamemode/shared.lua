@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.35
+GM.OfficialVersion 	= 1.36
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -408,7 +408,7 @@ GM.MapList = {
 	fnaf3 = "FNaF 3",
 	fnaf4house = "FNaF 4",
 	fnaf4noclips = "FNaF 4 NC",
-	fnaf4versus = "FNaF 4 PvP",
+	--fnaf4versus = "FNaF 4 PvP",
 	fnaf_freddypizzaevents = "FNaF Mix"
 }
 
@@ -419,7 +419,7 @@ GM.MapListLinks = {
 	fnaf3 = "http://steamcommunity.com/sharedfiles/filedetails/?id=409285826",
 	fnaf4house = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
 	fnaf4noclips = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
-	fnaf4versus = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
+	--fnaf4versus = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
 	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
 }
 
@@ -628,7 +628,7 @@ function GM:Initialize()
 	end
 	
 	
-	if (game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf4versus") then
+	if (game.GetMap()=="freddysnoevent" --[[or game.GetMap()=="fnaf4versus"]]) then
 		GAMEMODE.Vars.SGvsA=true
 		GAMEMODE.Vars.modetext = " - PvP SGvsA"
 	end

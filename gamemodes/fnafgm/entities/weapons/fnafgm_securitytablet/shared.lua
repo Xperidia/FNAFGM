@@ -76,7 +76,7 @@ end
 function SWEP:Reload()
 	
 	if SERVER and !self.Owner.fnafviewactive and GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart then
-		fnafgmFNaFView(self.Owner)
+		GAMEMODE:GoFNaFView(self.Owner)
 	end
 	
 end

@@ -775,7 +775,11 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
 	
-	if GAMEMODE.Vars.SGvsA then
+	if game.GetMap()=="fnaf4versus" then
+		draw.DrawText("Sorry but this map is not supported anymore.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+		draw.DrawText("Sorry but this map doesn't have events.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif GAMEMODE.Vars.SGvsA then
 		draw.DrawText("Sorry but SGvsA is not a finished product.\nYou can play anyway, but it's not something stable or balanced.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(128, 128, 128, 128), TEXT_ALIGN_CENTER)
 	end
 	

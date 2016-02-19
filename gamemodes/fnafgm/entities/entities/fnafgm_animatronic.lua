@@ -16,6 +16,8 @@ function ENT:Initialize()
 	
 	self:SetRenderMode( RENDERMODE_TRANSALPHA )
 	
+	self:SetHealth(2147483647)
+	
 end
 
 function ENT:SetupDataTables()
@@ -30,11 +32,11 @@ function ENT:RunBehaviour()
 	while true do
 		
 		if self.FoxyMove then
+			self.FoxyMove = false
 			self:SetSequence( self:LookupSequence( "sprint_all" ) )
 			self:ResetSequenceInfo()
 			self:SetCycle(0)
 			self:SetPlaybackRate(1)
-			self.FoxyMove = false
 			for k, v in pairs(player.GetAll()) do
 				
 				if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
@@ -45,7 +47,7 @@ function ENT:RunBehaviour()
 				
 			end
 			self.loco:SetDesiredSpeed( 600 )
-			self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=3})
+			self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=4})
 			self:Jumpscare()
 		end
 		
@@ -258,7 +260,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-		elseif me==GAMEMODE.Animatronic.Foxy and self.FoxyMoveState=="ok" then
+		elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -281,6 +283,16 @@ function ENT:Jumpscare()
 					
 				end
 				
+			end
+			
+			GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power\n" )
+			fnafgmPowerUpdate()
+			if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
+			if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
+				GAMEMODE.Vars.addfoxyknockdoorpena = 6
+			elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
+				GAMEMODE.Vars.addfoxyknockdoorpena = 4
 			end
 			
 		end
