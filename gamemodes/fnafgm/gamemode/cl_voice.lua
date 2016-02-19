@@ -37,8 +37,10 @@ end
 function PANEL:Paint( w, h )
 
 	if ( !IsValid( self.ply ) ) then return end
-	if fnafgmcheckcreator(self.ply) then
+	if GAMEMODE:CheckCreator(self.ply) then
 		draw.RoundedBox( 4, 0, 0, w, h, Color( self.ply:VoiceVolume() * 85, self.ply:VoiceVolume() * 255, self.ply:VoiceVolume() * 255, 240 ) )
+	elseif GAMEMODE:CheckDerivCreator(self.ply) then
+		draw.RoundedBox( 4, 0, 0, w, h, Color( self.ply:VoiceVolume() * 255, self.ply:VoiceVolume() * 170, 0, 240 ) )
 	elseif self.ply:IsAdmin() then
 		draw.RoundedBox( 4, 0, 0, w, h, Color( self.ply:VoiceVolume() * 170, 0, 0, 240 ) )
 	else

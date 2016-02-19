@@ -274,7 +274,7 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		if !game.IsDedicated() and !tobool(DS) then --This doesn't work https://github.com/Facepunch/garrysmod-issues/issues/1495
+		if !game.IsDedicated() and !GAMEMODE.Vars.DS then --This doesn't work https://github.com/Facepunch/garrysmod-issues/issues/1495
 			
 			local resetprogress = vgui.Create( "DButton" )
 			resetprogress:SetParent(fnafgmMenuF.info)

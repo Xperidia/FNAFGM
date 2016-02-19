@@ -49,7 +49,7 @@ function fnafgmAnimatronicsController()
 			fnafgmSetView(0)
 		end
 		AnimatronicsControllerGUI.Think = function()
-			if !LocalPlayer():Alive() or LocalPlayer():Team()!=2 then
+			if !LocalPlayer():Alive() or LocalPlayer():Team()!=2 or tobool(GAMEMODE.Vars.gameend) then
 				AnimatronicsControllerGUI:Close()
 			end
 			if AnimatronicsControllerGUI.Map2_Anim:Active() then AnimatronicsControllerGUI.Map2_Anim:Run() else AnimatronicsControllerGUI.Map2_Anim:Start(2) end
@@ -98,7 +98,7 @@ function fnafgmAnimatronicsController()
 			
 			AnimatronicsControllerGUI.FreddyTxt = vgui.Create( "DLabel" )
 			AnimatronicsControllerGUI.FreddyTxt:SetParent(AnimatronicsControllerGUI.Freddy)
-			AnimatronicsControllerGUI.FreddyTxt:SetText( "X" )
+			AnimatronicsControllerGUI.FreddyTxt:SetText( "" )
 			AnimatronicsControllerGUI.FreddyTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
 			AnimatronicsControllerGUI.FreddyTxt:SetFont("FNAFGMTIME")
 			AnimatronicsControllerGUI.FreddyTxt:SetPos( 0, 0 )
@@ -135,7 +135,7 @@ function fnafgmAnimatronicsController()
 			
 			AnimatronicsControllerGUI.BonnieTxt = vgui.Create( "DLabel" )
 			AnimatronicsControllerGUI.BonnieTxt:SetParent(AnimatronicsControllerGUI.Bonnie)
-			AnimatronicsControllerGUI.BonnieTxt:SetText( "X" )
+			AnimatronicsControllerGUI.BonnieTxt:SetText( "" )
 			AnimatronicsControllerGUI.BonnieTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
 			AnimatronicsControllerGUI.BonnieTxt:SetFont("FNAFGMTIME")
 			AnimatronicsControllerGUI.BonnieTxt:SetPos( 0, 0 )
@@ -172,7 +172,7 @@ function fnafgmAnimatronicsController()
 			
 			AnimatronicsControllerGUI.ChicaTxt = vgui.Create( "DLabel" )
 			AnimatronicsControllerGUI.ChicaTxt:SetParent(AnimatronicsControllerGUI.Chica)
-			AnimatronicsControllerGUI.ChicaTxt:SetText( "X" )
+			AnimatronicsControllerGUI.ChicaTxt:SetText( "" )
 			AnimatronicsControllerGUI.ChicaTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
 			AnimatronicsControllerGUI.ChicaTxt:SetFont("FNAFGMTIME")
 			AnimatronicsControllerGUI.ChicaTxt:SetPos( 0, 0 )
@@ -209,7 +209,7 @@ function fnafgmAnimatronicsController()
 			
 			AnimatronicsControllerGUI.FoxyTxt = vgui.Create( "DLabel" )
 			AnimatronicsControllerGUI.FoxyTxt:SetParent(AnimatronicsControllerGUI.Foxy)
-			AnimatronicsControllerGUI.FoxyTxt:SetText( "X" )
+			AnimatronicsControllerGUI.FoxyTxt:SetText( "" )
 			AnimatronicsControllerGUI.FoxyTxt:SetTextColor( Color( 255, 255, 255, 255 ) )
 			AnimatronicsControllerGUI.FoxyTxt:SetFont("FNAFGMTIME")
 			AnimatronicsControllerGUI.FoxyTxt:SetPos( 0, 0 )
@@ -494,7 +494,7 @@ function fnafgmAnimatronicsController()
 		
 		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
 			
-			if GAMEMODE.Vars.Animatronics[k][2]!=apos and GAMEMODE.Vars.Animatronics[k][2]!=12 and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] and SysTime()+GAMEMODE.Vars.Animatronics[k][3]<=SysTime() then
+			if GAMEMODE.Vars.Animatronics[k][2]!=apos and GAMEMODE.Vars.Animatronics[k][2]!=12 and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] and GAMEMODE.Vars.Animatronics[k][3]!=-1 and SysTime()+GAMEMODE.Vars.Animatronics[k][3]<=SysTime() then
 				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
 				btn:SetIcon( "fnafgm/icon16/"..k..".png" )
 				btn.OnMousePressed = function( button, key )

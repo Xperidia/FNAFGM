@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.34
+GM.OfficialVersion 	= 1.35
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -46,8 +46,8 @@ GM.Sound_endnight = Sound("fnafgm/clocks_chimes.ogg")
 GM.Sound_endnight2 = Sound("fnafgm/clocks_chimes2.ogg")
 GM.Sound_xscream = Sound("fnafgm/xscream.ogg")
 GM.Sound_xscream2 = Sound("fnafgm/xscream2.ogg")
-GM.Sound_foxystep0 = Sound("fnafgm/run0.ogg")
-GM.Sound_foxystep1 = Sound("fnafgm/run1.ogg")
+GM.Sound_foxystep = Sound("fnafgm/run.ogg")
+GM.Sound_foxyknock = Sound("fnafgm/knock.ogg")
 GM.Sound_securitycampop = Sound("fnafgm/camdown.ogg")
 GM.Sound_securitycampop2 = Sound("fnafgm/monitoron2.ogg")
 GM.Sound_securitycamdown2 = Sound("fnafgm/monitoroff2.ogg")
@@ -299,11 +299,9 @@ GM.Strings = {
 function GM:LoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
-		--table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings[lang] )
 		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' strings loaded!\n" )
 	elseif lang!="" then
-		--table.Merge( GAMEMODE.TranslatedStrings, GAMEMODE.Strings["en"] )
 		table.Empty(GAMEMODE.TranslatedStrings)
 		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/\n" )
 	end
@@ -440,10 +438,10 @@ GM.AnimatronicName[3] = "Foxy"
 GM.AnimatronicName[4] = "Golden Freddy"
 
 GM.Animatronic_Models = {}
-GM.Animatronic_Models[GM.Animatronic.Freddy] = Model("models/splinks/fnaf/freddy/player_freddy.mdl")
-GM.Animatronic_Models[GM.Animatronic.Bonnie] = Model("models/splinks/fnaf/bonnie/player_bonnie.mdl")
-GM.Animatronic_Models[GM.Animatronic.Chica] = Model("models/splinks/fnaf/chica/player_chica.mdl")
-GM.Animatronic_Models[GM.Animatronic.Foxy] = Model("models/splinks/fnaf/foxy/player_foxy.mdl")
+GM.Animatronic_Models[GM.Animatronic.Freddy] = Model("models/splinks/fnaf/freddy/combine_freddy.mdl")
+GM.Animatronic_Models[GM.Animatronic.Bonnie] = Model("models/splinks/fnaf/bonnie/combine_bonnie.mdl")
+GM.Animatronic_Models[GM.Animatronic.Chica] = Model("models/splinks/fnaf/chica/combine_chica.mdl")
+GM.Animatronic_Models[GM.Animatronic.Foxy] = Model("models/splinks/fnaf/foxy/combine_foxy.mdl")
 GM.Animatronic_Models[GM.Animatronic.GoldenFreddy] = Model("models/splinks/fnaf/golden_freddy/player_golden_freddy.mdl")
 
 GM.APos = {}
@@ -501,8 +499,8 @@ GM.AnimatronicsCD = {}
 GM.AnimatronicsCD[GM.Animatronic.Freddy] = {}
 GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent = {}
 GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[0] = 10
-GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[1] = 1000
-GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[2] = 1000
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[1] = -1
+GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[2] = -1
 GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[3] = 30
 GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[4] = 30
 GM.AnimatronicsCD[GM.Animatronic.Freddy].freddysnoevent[5] = 16
@@ -528,7 +526,7 @@ GM.AnimatronicsCD[GM.Animatronic.Chica].freddysnoevent[6] = 6
 GM.AnimatronicsCD[GM.Animatronic.Foxy] = {}
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent = {}
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[0] = 60
-GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[1] = 1000
+GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[1] = -1
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[2] = 200
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[3] = 120
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[4] = 120

@@ -90,8 +90,6 @@ concommand.Add("fnafgm_menu", function(ply)
 	
 end)
 
-willviewcheck = false
-
 surface.CreateFont("FNAFGMTIME", {
 	font = sfont2,
 	size = 38, 
@@ -243,8 +241,6 @@ include( 'cl_fnafview.lua' )
 include( 'cl_menu.lua' )
 include( 'cl_secret.lua' )
 
-avisible=true
-
 
 function fnafgmWarn()
 
@@ -364,16 +360,10 @@ end)
 
 net.Receive( "fnafgmShowCheck", function( len )
 
-	willviewcheck = net.ReadBit()
-	local plus = net.ReadBit()
+	GAMEMODE.Vars.willviewcheck = tobool(net.ReadBit())
+	local plus = tobool(net.ReadBit())
 	
 	GAMEMODE:CallEnding(plus)
-	
-end)
-
-net.Receive( "fnafgmAVisible", function( len )
-
-	avisible = net.ReadBit()
 	
 end)
 
@@ -388,7 +378,7 @@ end)
 
 net.Receive( "fnafgmDS", function( len )
 
-	DS = net.ReadBit()
+	GAMEMODE.Vars.DS = tobool(net.ReadBit())
 	
 end)
 
@@ -418,7 +408,7 @@ function GM:CallEnding(plus)
 	
 	local add = ""
 	
-	if tobool(plus) then
+	if plus then
 		add = "_6"
 	end
 	
@@ -657,35 +647,13 @@ function GM:HUDPaint()
 			
 	end
 	
-	if client:Team()==2 and client:Alive() then
-		if player_manager.GetPlayerClass(client)=="player_fnafgmfoxy" then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif player_manager.GetPlayerClass(client)=="player_fnafgmfreddy" then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif player_manager.GetPlayerClass(client)=="player_fnafgmchica" then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif player_manager.GetPlayerClass(client)=="player_fnafgmbonnie" then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif player_manager.GetPlayerClass(client)=="player_fnafgmgoldenfreddy" then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.goldenfreddy or GAMEMODE.Strings.en.goldenfreddy), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.95, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		end
-		if IsValid(client:GetActiveWeapon()) and client:GetActiveWeapon():GetClass()=="fnafgm_animatronic" then
-			if tobool(avisible) then
-				draw.DrawText("VISIBLE - LOCKED", "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.90, Color(255, 85, 85, 255), TEXT_ALIGN_CENTER)
-			elseif !tobool(avisible) then
-				draw.DrawText("INVISIBLE - MOVEMENT FREE", "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.90, Color(85, 255, 85, 255), TEXT_ALIGN_CENTER)
-			end
-		end
-		
-	end
-	
 	if GAMEMODE.Vars.SGvsA and client:Team()==TEAM_UNASSIGNED and !GAMEMODE.Vars.poweroff then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_SGvsA or GAMEMODE.Strings.en.unassigned_SGvsA), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.8, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 	elseif client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2" then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_powerdown or GAMEMODE.Strings.en.unassigned_powerdown), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
-	if tobool(willviewcheck) and client:Team()==TEAM_UNASSIGNED then
+	if GAMEMODE.Vars.willviewcheck and client:Team()==TEAM_UNASSIGNED then
 		
 		if game.GetMap()=="freddys" then
 			

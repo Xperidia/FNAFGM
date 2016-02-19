@@ -12,6 +12,10 @@ function ENT:Initialize()
 	
 	self:SetModelScale( 1.16, 0 )
 	
+	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+	
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	
 end
 
 function ENT:SetupDataTables()
@@ -23,11 +27,41 @@ end
 
 function ENT:RunBehaviour()
 	
-	--while true do
+	while true do
 		
-		self:StartActivity( ACT_HL2MP_IDLE )
+		if self.FoxyMove then
+			self:SetSequence( self:LookupSequence( "sprint_all" ) )
+			self:ResetSequenceInfo()
+			self:SetCycle(0)
+			self:SetPlaybackRate(1)
+			self.FoxyMove = false
+			for k, v in pairs(player.GetAll()) do
+				
+				if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+					
+					v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+					
+				end
+				
+			end
+			self.loco:SetDesiredSpeed( 600 )
+			self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=3})
+			self:Jumpscare()
+		end
 		
-	--end
+		if !self.FoxyWillMove and !self.FoxyMove then
+			self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
+			self:ResetSequenceInfo()
+			self:SetPlaybackRate(0)
+		elseif self.FoxyWillMove then
+			self:SetSequence( self:LookupSequence( "idle_angry_melee" ) )
+			self:ResetSequenceInfo()
+			self:SetPlaybackRate(0)
+		end
+		
+		if self.FoxyWillMove or self.FoxyMove then coroutine.wait(0.1) else coroutine.wait(1) end
+		
+	end
 
 end
 
@@ -40,6 +74,8 @@ function ENT:Think()
 		
 		local my = self:GetAType()
 		
+		self:SetColor( Color( 255, 255, 255, 0 ) )
+		
 		self.OldAPos = apos
 		
 		if GAMEMODE.AnimatronicAPos[my] and GAMEMODE.AnimatronicAPos[my][game.GetMap()] and GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos] then
@@ -47,9 +83,11 @@ function ENT:Think()
 			self:SetAngles(GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos][2])
 		end
 		
+		self:SetColor( Color( 255, 255, 255, 255 ) )
+		
 	end
 	
-	if apos == GAMEMODE.APos.freddysnoevent.Office then
+	if apos == GAMEMODE.APos[game.GetMap()].Office then
 		
 		for _, ply in pairs( player.GetAll() ) do
 			
@@ -66,7 +104,7 @@ function ENT:Think()
 	
 	if SERVER and GAMEMODE.Vars.startday then
 		
-		for k, v in pairs (ents.FindInSphere (self:GetPos(), 19)) do
+		for k, v in pairs (ents.FindInSphere (self:GetPos(), 24)) do
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team()==1 then
 				
 				local attacker = self
@@ -152,9 +190,19 @@ function ENT:GoJumpscare()
 		timet=3
 	end
 	
+	if me==GAMEMODE.Animatronic.Foxy then
+		self.FoxyWillMove = true
+	end
+	
 	timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
 		
-		if me!=GAMEMODE.Animatronic.Foxy then self:Jumpscare() end
+		if me!=GAMEMODE.Animatronic.Foxy then
+			self:Jumpscare()
+		else
+			self:SetPos(Vector(-365,-358,64))
+			self.FoxyWillMove = false
+			self.FoxyMove = true
+		end
 		
 		timer.Remove( "fnafgmJumpscare"..me )
 		
@@ -210,7 +258,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-		elseif me==GAMEMODE.Animatronic.Foxy and door1:GetPos()!=Vector(-164.000000, -1168.000000, 112.000000) then
+		elseif me==GAMEMODE.Animatronic.Foxy and self.FoxyMoveState=="ok" then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -223,14 +271,36 @@ function ENT:Jumpscare()
 				
 			end
 			
+		elseif me==GAMEMODE.Animatronic.Foxy then
+			
+			for k, v in pairs(player.GetAll()) do
+				
+				if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+					
+					v:ConCommand("play "..GAMEMODE.Sound_foxyknock)
+					
+				end
+				
+			end
+			
 		end
 		
 		if me==GAMEMODE.Animatronic.Foxy then
-			GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos.freddysnoevent.PC)
+			
+			self:SetColor( Color( 255, 255, 255, 0 ) )
+			
+			timer.Create( "fnafgmFoxyReset", 1, 1, function()
+				self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][1])
+				self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][2])
+				GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].PC)
+				self:SetColor( Color( 255, 255, 255, 255 ) )
+				timer.Remove( "fnafgmFoxyReset" )
+			end)
 		else
-			GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos.freddysnoevent.SS)
+			GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].SS)
 		end
 		
 	end
 	
 end
+

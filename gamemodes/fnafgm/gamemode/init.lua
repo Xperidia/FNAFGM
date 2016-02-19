@@ -1575,6 +1575,7 @@ function fnafgmResetGame()
 	GAMEMODE.Vars.mute = true
 	timer.Remove( "fnafgmEndCall" )
 	timer.Remove("fnafgmTimeThink")
+	timer.Remove("fnafgmPreRestartNight")
 	timer.Remove("fnafgmRestartNight")
 	timer.Remove("fnafgmNightPassed")
 	timer.Remove("fnafgmPowerOff1")
@@ -3149,18 +3150,10 @@ concommand.Add("fnafgm_debug_restart", function(ply)
 				end
 			end
 			
-			fnafgmRestartNight()
-			
-			net.Start( "fnafgmNotif" )
-				net.WriteString( "The game has been stoped/restarted" )
-				net.WriteInt(4,3)
-				net.WriteFloat(5)
-				net.WriteBit(true)
-			net.Broadcast()
 			if IsValid(ply) then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been stoped/restarted by "..ply:GetName().."\n" )
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game will be stoped/restarted by "..ply:GetName().."\n" )
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been stoped/restarted by console\n" )
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game will be stoped/restarted by console\n" )
 			end
 			
 		end
@@ -3228,31 +3221,6 @@ function GM:PlayerSay( ply, text, teamonly )
 		ply:SendLua([[fnafgmMenu()]])
 	elseif ( comm == "/"..string.lower(GAMEMODE.ShortName) ) then
 		ply:SendLua([[fnafgmMenu()]])
-		return ""
-	elseif ( ( comm == "!stop" or comm == "!restart" ) and fnafgmPlayerCanByPass(ply,"debug") and GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active ) then
-		
-		GAMEMODE.Vars.norespawn=true
-		
-		for k, v in pairs(player.GetAll()) do
-			if (v:Team()==1 or v:Team()==2) and v:Alive() then
-				v:KillSilent()
-			end
-		end
-		
-		fnafgmRestartNight()
-		
-	elseif ( ( comm == "/stop" or comm == "/restart" ) and fnafgmPlayerCanByPass(ply,"debug") and GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active ) then
-		
-		GAMEMODE.Vars.norespawn=true
-		
-		for k, v in pairs(player.GetAll()) do
-			if (v:Team()==1 or v:Team()==2) and v:Alive() then
-				v:KillSilent()
-			end
-		end
-		
-		fnafgmRestartNight()
-		
 		return ""
 	end
 	
@@ -3578,13 +3546,19 @@ function GM:Think()
 			timer.Remove("fnafgmPowerOff2")
 			timer.Remove("fnafgmPowerOff3")
 			
-			timer.Create( "fnafgmRestartNight", fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt()+0.1, 1, function()
+			timer.Create( "fnafgmPreRestartNight", fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt(), 1, function()
 				
 				for k, v in pairs(player.GetAll()) do
 					if (v:Team()==1 or v:Team()==2) and v:Alive() then
 						v:KillSilent()
 					end
 				end
+				
+				timer.Remove( "fnafgmPreRestartNight" )
+				
+			end)
+			
+			timer.Create( "fnafgmRestartNight", fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt()+0.1, 1, function()
 				
 				fnafgmRestartNight()
 				
@@ -3836,6 +3810,10 @@ function GM:SetAnimatronicPos(ply,a,apos)
 	
 	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] then
 		
+		if GAMEMODE.Vars.Animatronics[a][3]==-1 or !GAMEMODE.Vars.startday then return end
+		
+		if IsValid(ply) and GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos.freddysnoevent.Office then return end
+		
 		ent:SetAPos(apos or 7)
 		
 		if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  and apos != GAMEMODE.APos.freddysnoevent.SS then
@@ -3862,6 +3840,8 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		
 		if apos==GAMEMODE.APos.freddysnoevent.Office then
 			ent:GoJumpscare()
+		elseif GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos.freddysnoevent.Office then
+			cd = GAMEMODE.Vars.Animatronics[a][3]
 		end
 		
 		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }
