@@ -17,7 +17,7 @@ AddCSLuaFile( "cl_secret.lua" )
 
 include( 'shared.lua' )
 
-if file.Exists( "models/splinks/fnaf/freddy/player_freddy.mdl", "GAME" ) or GAMEMODE.Vars.SGvsA then
+if file.Exists( "models/splinks/fnaf/freddy/player_freddy.mdl", "GAME" ) or GM.Vars.SGvsA then
 	resource.AddWorkshop( "363563548" )
 end
 if game.GetMap()=="fnaf2" then resource.AddWorkshop( "382155331" ) end
