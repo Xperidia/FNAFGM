@@ -16,7 +16,7 @@ function fnafgmMenu()
 		end
 		fnafgmMenuF.Think = function(self)
 			
-			if xpsc_anim:Active() then xpsc_anim:Run() end
+			if xpsc_anim and xpsc_anim:Active() then xpsc_anim:Run() end
 			
 			local mousex = math.Clamp( gui.MouseX(), 1, ScrW()-1 )
 			local mousey = math.Clamp( gui.MouseY(), 1, ScrH()-1 )
