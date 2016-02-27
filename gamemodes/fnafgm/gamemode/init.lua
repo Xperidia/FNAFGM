@@ -17,25 +17,15 @@ AddCSLuaFile( "cl_secret.lua" )
 
 include( 'shared.lua' )
 
-if file.Exists( "models/splinks/fnaf/freddy/player_freddy.mdl", "GAME" ) or GM.Vars.SGvsA then
-	resource.AddWorkshop( "363563548" )
-end
-if game.GetMap()=="fnaf2" then resource.AddWorkshop( "382155331" ) end
-if game.GetMap()=="fnaf_freddypizzaevents" then
-	resource.AddWorkshop( "407563661" )
-	resource.AddWorkshop( "423349175" )
-	resource.AddWorkshop( "382393981" )
-end
+resource.AddWorkshop( "363563548" )
+
 if player_manager.AllValidModels()["Guard_01"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=169011381 if available
 	resource.AddWorkshop( "169011381" )
 end
-if game.GetMap()=="fnaf4versus" and player_manager.AllValidModels()["FNAF4 - Nightmare Freddy"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=542539281 if available
-	resource.AddWorkshop( "542539281" )
-end
+-- if game.GetMap()=="fnaf4versus" and player_manager.AllValidModels()["FNAF4 - Nightmare Freddy"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=542539281 if available
+	-- resource.AddWorkshop( "542539281" )
+-- end
 
---
--- Make BaseClass available
---
 DEFINE_BASECLASS( "gamemode_base" )
 
 
@@ -189,7 +179,7 @@ function GM:PlayerSpawn( pl )
 	
 	if fnafgm_timethink_autostart:GetBool() and pl:Team()==1 then
 		timer.Create( "fnafgmStart", 0.002, 1, function()
-			fnafgmUse(pl, nil, true)
+			GAMEMODE:StartNight(ply)
 			timer.Remove( "fnafgmStart" )
 		end)
 	end
@@ -233,7 +223,7 @@ function GM:PlayerShouldTakeDamage( ply, attacker )
 		return false
 	end
 	
-	if ( ( game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" ) and ply:Team()==1 and attacker:GetClass()=="func_door" and fnafgm_preventdoorkill:GetBool() ) then
+	if ( ( game.GetMap()=="freddysnoevent" ) and ply:Team()==1 and attacker:GetClass()=="func_door" and fnafgm_preventdoorkill:GetBool() ) then
 		local doorsafe = GAMEMODE:PlayerSelectSpawn( ply ):GetPos()
 		if IsValid(tp) then
 			doorsafe = tp:GetPos()
@@ -499,32 +489,14 @@ function GM:PostPlayerDeath( ply )
 				
 				if ((fnafgm_pinionsupport:GetBool()) and (!fnafgm_respawnenabled:GetBool() or GAMEMODE.Vars.norespawn)) then Pinion:ShowMOTD(ply) end
 				
-				if game.GetMap()=="freddys" and ents.FindByName( "fnafgm_Cam6" )[1] then
+				if game.GetMap()=="freddysnoevent" and ents.FindByName( "fnafgm_Cam6" )[1] then
 					ply:SetViewEntity( ents.FindByName( "fnafgm_Cam6" )[1] )
-				elseif game.GetMap()=="fnaf2" and ents.FindByName( "DeathCam" )[1] then
+				elseif game.GetMap()=="fnaf2noevents" and ents.FindByName( "DeathCam" )[1] then
 					ply:SetViewEntity( ents.FindByName( "DeathCam" )[1] )
 				end
 				
 				if game.SinglePlayer() then
 					timer.Remove("fnafgmTimeThink")
-					if game.GetMap()=="freddys" and !GAMEMODE.Vars.poweroff then
-						if IsValid(ents.FindByName( "FoxyTime" )[1]) then ents.FindByName( "FoxyTime" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "foxytest" )[1]) then ents.FindByName( "foxytest" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "foxytest2" )[1]) then ents.FindByName( "foxytest2" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "FoxyKilledYou" )[1]) then ents.FindByName( "FoxyKilledYou" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "foxydeath" )[1]) then ents.FindByName( "foxydeath" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "EventTimer" )[1]) then ents.FindByName( "EventTimer" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "EventTimer2" )[1]) then ents.FindByName( "EventTimer2" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "FreddyDeath" )[1]) then ents.FindByName( "FreddyDeath" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "freddytest" )[1]) then ents.FindByName( "freddytest" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "BonnieOffice" )[1]) then ents.FindByName( "BonnieOffice" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "BonnieDeath" )[1]) then ents.FindByName( "BonnieDeath" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "bonnietest" )[1]) then ents.FindByName( "bonnietest" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "ChicaOffice" )[1]) then ents.FindByName( "ChicaOffice" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "ChicaDeath" )[1]) then ents.FindByName( "ChicaDeath" )[1]:Fire("Kill") end
-						if IsValid(ents.FindByName( "chicatest" )[1]) then ents.FindByName( "chicatest" )[1]:Fire("Kill") end
-					end
 					hook.Call("fnafgmGeneralDeath")
 				end
 				
@@ -541,7 +513,7 @@ function GM:PostPlayerDeath( ply )
 					if (!GAMEMODE.Vars.nightpassed and IsValid(ply) and !ply:Alive()) then
 						
 						ply:ConCommand( "pp_mat_overlay ''" )
-						if game.GetMap()=="fnaf2" then
+						if game.GetMap()=="fnaf2noevents" then
 							ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_fnaf2deathcam )
 						end
 						ply:ScreenFade(16, color_black, 0, 0 )
@@ -741,7 +713,7 @@ function fnafgmUse(ply, ent, test, test2)
 		return false
 	end
 	
-	if (game.GetMap()=="freddys") then
+	if false and game.GetMap()=="freddys" then
 		
 		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !GAMEMODE.Vars.startday then
 			
@@ -940,7 +912,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 		end
 		
-	elseif (game.GetMap()=="freddysnoevent") then
+	elseif false and game.GetMap()=="freddysnoevent" then
 		
 		if ( test or ( btn and btn:IsValid() and ent==btn and ply:IsValid() and ply:Alive() ) ) and !GAMEMODE.Vars.startday then
 			
@@ -1009,7 +981,7 @@ function fnafgmUse(ply, ent, test, test2)
 			
 		end
 		
-	elseif (game.GetMap()=="fnaf2") then
+	elseif false and (game.GetMap()=="fnaf2noevents") then
 		
 		if btn and btn:IsValid() and btnm and btnm:IsValid() and !GAMEMODE.Vars.startday then
 			
@@ -1242,13 +1214,57 @@ function fnafgmUse(ply, ent, test, test2)
 		
 	end
 	
-	if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+	if game.GetMap()=="freddysnoevent" then
 
-		if door1btn and IsValid(door1btn) and ent==door1btn then
+		if door1btn and IsValid(door1btn) and ent==door1btn and !GAMEMODE.Vars.DoorWait1 then
+			
+			GAMEMODE.Vars.DoorWait1 = true
+			
 			ent:Fire("use")
+			
+			if IsValid(ply) and !GAMEMODE.Vars.DoorClosed[1] then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Left button used by "..ply:GetName().." (The door was open)\n" )
+			elseif IsValid(ply) and GAMEMODE.Vars.DoorClosed[1] then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Left button used by "..ply:GetName().." (The door was closed)\n" )
+			end
+			
+			timer.Create( "fnafgmDoorWait1", 0.7, 1, function()
+				
+				GAMEMODE.Vars.DoorWait1 = false
+				
+				timer.Remove( "fnafgmDoorWait1" )
+				
+			end)
+			
 			return false
-		elseif door2btn and IsValid(door2btn) and ent==door2btn then
+			
+		elseif door1btn and IsValid(door1btn) and ent==door1btn and GAMEMODE.Vars.DoorWait1 then
+			return false
+		end
+		
+		if door2btn and IsValid(door2btn) and ent==door2btn and !GAMEMODE.Vars.DoorWait2 then
+			
+			GAMEMODE.Vars.DoorWait2 = true
+			
 			ent:Fire("use")
+			
+			if IsValid(ply) and !GAMEMODE.Vars.DoorClosed[2] then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Right button used by "..ply:GetName().." (The door was open)\n" )
+			elseif IsValid(ply) and GAMEMODE.Vars.DoorClosed[2] then
+				MsgC( Color( 255, 255, 85 ), "FNAFGM: Right button used by "..ply:GetName().." (The door was closed)\n" )
+			end
+			
+			timer.Create( "fnafgmDoorWait2", 0.7, 1, function()
+				
+				GAMEMODE.Vars.DoorWait2 = false
+				
+				timer.Remove( "fnafgmDoorWait2" )
+				
+			end)
+			
+			return false
+			
+		elseif door2btn and IsValid(door2btn) and ent==door2btn and GAMEMODE.Vars.DoorWait2 then
 			return false
 		end
 		
@@ -1257,11 +1273,9 @@ function fnafgmUse(ply, ent, test, test2)
 			if !GAMEMODE.Vars.light1usewait and !GAMEMODE.Vars.poweroff then
 					
 				GAMEMODE.Vars.light1usewait = true
-				GAMEMODE.Vars.LightUse[1] = !GAMEMODE.Vars.LightUse[1]
 				light1:Fire("use")
 				
 				if GAMEMODE.Vars.LightUse[2] then
-					GAMEMODE.Vars.LightUse[2] = !GAMEMODE.Vars.LightUse[2]
 					light2:Fire("use")
 				end
 				
@@ -1284,11 +1298,9 @@ function fnafgmUse(ply, ent, test, test2)
 			if !GAMEMODE.Vars.light2usewait and !GAMEMODE.Vars.poweroff then
 				
 				GAMEMODE.Vars.light2usewait = true
-				GAMEMODE.Vars.LightUse[2] = !GAMEMODE.Vars.LightUse[2]
 				light2:Fire("use")
 				
 				if GAMEMODE.Vars.LightUse[1] then
-					GAMEMODE.Vars.LightUse[1] = !GAMEMODE.Vars.LightUse[1]
 					light1:Fire("use")
 				end
 				
@@ -1309,7 +1321,7 @@ function fnafgmUse(ply, ent, test, test2)
 	end
 		
 	
-	if game.GetMap()=="fnaf2" then
+	if game.GetMap()=="fnaf2noevents" then
 		
 		if light1 and IsValid(light1) and ent==light1 then
 			
@@ -1448,27 +1460,89 @@ end
 hook.Add( "PlayerUse", "fnafgmUse", fnafgmUse )
 
 
-function GM:SetNightTemplate(power)
+function GM:StartNight(ply)
 	
-	--FNAF2
-	if GAMEMODE.Vars.night==1 then
-		GAMEMODE.Vars.power = 115
-		GAMEMODE.Vars.powertot = 115
-	elseif GAMEMODE.Vars.night==2 then
-		GAMEMODE.Vars.power = 100
-		GAMEMODE.Vars.powertot = 100
-	elseif GAMEMODE.Vars.night==3 then
-		GAMEMODE.Vars.power = 85
-		GAMEMODE.Vars.powertot = 85
-	elseif GAMEMODE.Vars.night==4 then
-		GAMEMODE.Vars.power = 67
-		GAMEMODE.Vars.powertot = 67
-	else
-		GAMEMODE.Vars.power = 50
-		GAMEMODE.Vars.powertot = 50
+	if GAMEMODE.Vars.startday then return end
+	
+	if game.GetMap()=="freddysnoevent" then
+		
+		GAMEMODE:SetNightTemplate(true)
+		if GAMEMODE.Vars.Halloween or fnafgm_forceseasonalevent:GetInt()==3 then
+			sound.Play( "fnafgm/robotvoice.wav", Vector( -80, -1163, 128 ), 150 )
+		end
+		
+		for k, v in pairs(ents.FindByName("Lights")) do
+			v:Fire("TurnOff")
+		end
+		for k, v in pairs(ents.FindByName("PowerDown")) do
+			v:Fire("PlaySound")
+		end
+		for k, v in pairs(ents.FindByName("SpotLights")) do
+			v:Fire("TurnOff")
+		end
+		for k, v in pairs(ents.FindByName("SpotLights2")) do
+			v:Fire("TurnOff")
+		end
+		for k, v in pairs(ents.FindByName("CameraLights")) do
+			v:Fire("TurnOn")
+		end
+		for k, v in pairs(ents.FindByName("cc2")) do
+			v:Fire("Enable")
+		end
+		ents.FindByName( "Powerlvl" )[1]:Fire("Enable")
+		
+		fnafgmVarsUpdate()
+		
+		for k, v in pairs(team.GetPlayers(1)) do
+			if v:Alive() then
+				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
+			end
+		end
+		
+		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+					v:SetPos( Vector( -80, -1224, 64 ) )
+					v:SetEyeAngles(Angle( 0, 90, 0 ))
+				end
+			end
+			
+			timer.Remove( "fnafgmTempoStartM" )
+			
+		end)
+		
+		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+			
+			GAMEMODE.Vars.tempostart = false
+			fnafgmVarsUpdate()
+			fnafgmPowerUpdate()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+					GAMEMODE:GoFNaFView(v)
+				end
+			end
+			
+			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+			
+			timer.Remove( "fnafgmTempoStart" )
+			
+		end)
+		
 	end
 	
-	--BASE
+	if IsValid(ply) then
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..GAMEMODE.Vars.night.." started by "..ply:GetName().."\n" )
+	else
+		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..GAMEMODE.Vars.night.." started by console/map/other\n" )
+	end
+	
+end
+
+
+function GM:SetNightTemplate(power)
+	
 	GAMEMODE.Vars.startday = true
 	GAMEMODE.Vars.tempostart = true
 	GAMEMODE.Vars.night = GAMEMODE.Vars.night+1
@@ -1596,8 +1670,8 @@ function fnafgmMapOverrides()
 		
 		if (game.GetMap()=="freddys") then
 			
-			for k, tmp in pairs(ents.FindByName("Pwrbtn")) do
-				btn = tmp
+			for k, v in pairs(ents.FindByName("Pwrbtn")) do
+				v:Remove()
 			end
 			
 			for k, v in pairs(ents.FindByName("genroomkey")) do
@@ -1733,8 +1807,8 @@ function fnafgmMapOverrides()
 			
 		elseif (game.GetMap()=="freddysnoevent") then
 			
-			for k, tmp in pairs(ents.FindByName("Pwrbtn")) do
-				btn = tmp
+			for k, v in pairs(ents.FindByName("Pwrbtn")) do
+				v:Remove()
 			end
 			
 			for k, v in pairs(ents.FindByName("powerconsumotion")) do
@@ -1796,6 +1870,15 @@ function fnafgmMapOverrides()
 			for k, v in pairs(ents.FindByName("Genbutton")) do
 				v:Remove()
 			end
+			
+			ents.FindByName( "Door1" )[1]:Fire("addoutput", "OnFullyOpen fnafgm_link,DoorOpen,1,0,-1")
+			ents.FindByName( "Door1" )[1]:Fire("addoutput", "OnClose fnafgm_link,DoorClosing,1,0,-1")
+			ents.FindByName( "Door2" )[1]:Fire("addoutput", "OnFullyOpen fnafgm_link,DoorOpen,2,0,-1")
+			ents.FindByName( "Door2" )[1]:Fire("addoutput", "OnClose fnafgm_link,DoorClosing,2,0,-1")
+			ents.FindByName( "Light1button" )[1]:Fire("addoutput", "OnIn fnafgm_link,LightOn,1,0,-1")
+			ents.FindByName( "Light1button" )[1]:Fire("addoutput", "OnOut fnafgm_link,LightOff,1,0,-1")
+			ents.FindByName( "Light2button" )[1]:Fire("addoutput", "OnIn fnafgm_link,LightOn,2,0,-1")
+			ents.FindByName( "Light2button" )[1]:Fire("addoutput", "OnOut fnafgm_link,LightOff,2,0,-1")
 			
 			local spawn = ents.Create( "info_player_terrorist" )
 			spawn:SetPos( Vector( -140, -1237, 70 ) )
@@ -1917,7 +2000,7 @@ function fnafgmMapOverrides()
 			
 			GAMEMODE.Vars.mapoverrideok = true
 			
-		elseif (game.GetMap()=="fnaf2") then
+		elseif (game.GetMap()=="fnaf2noevents") then
 			
 			for k, v in pairs(ents.FindByName("toybutt")) do
 				btn = v
@@ -2434,7 +2517,7 @@ function fnafgmTimeThink()
 		
 		for k, v in pairs(player.GetAll()) do
 			if ( game.SinglePlayer() ) then v:ConCommand("stopsound") else v:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
-			if game.GetMap()=="fnaf2" then
+			if game.GetMap()=="fnaf2noevents" then
 				v:ConCommand("play "..GAMEMODE.Sound_endnight2)
 			else
 				v:ConCommand("play "..GAMEMODE.Sound_endnight)
@@ -2552,7 +2635,7 @@ function fnafgmTimeThink()
 		
 		for k, v in pairs(player.GetAll()) do
 			if ( game.SinglePlayer() ) then v:ConCommand("stopsound") else v:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
-			if game.GetMap()=="fnaf2" then
+			if game.GetMap()=="fnaf2noevents" then
 				v:ConCommand("play "..GAMEMODE.Sound_endnight2)
 			else
 				v:ConCommand("play "..GAMEMODE.Sound_endnight)
@@ -2611,7 +2694,7 @@ function GM:FinishMove( ply, mv )
 		elseif !GAMEMODE:CheckPlayerSecurityRoom(ply) and !timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) and ply:Alive() and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and ply:Team()==1 and !fnafgmPlayerCanByPass(ply,"nokillextsr") then
 			
 			local PSRTT=5
-			if game.GetMap()=="fnaf2" then
+			if game.GetMap()=="fnaf2noevents" then
 				PSRTT=21
 			end
 			
@@ -3048,15 +3131,13 @@ end )
 
 function fnafgmShutLights()
 	
-	if game.GetMap()=="fnaf2" then return end
+	if game.GetMap()=="fnaf2noevents" then return end
 	
 	if light1 and IsValid(light1) and GAMEMODE.Vars.LightUse[1] then
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then GAMEMODE.Vars.LightUse[1] = !GAMEMODE.Vars.LightUse[1] end
 		light1:Fire("use")
 	end
 	
 	if light2 and IsValid(light2) and GAMEMODE.Vars.LightUse[2] then
-		if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then GAMEMODE.Vars.LightUse[2] = !GAMEMODE.Vars.LightUse[2] end
 		light2:Fire("use")
 	end
 	
@@ -3068,13 +3149,10 @@ end )
 function fnafgmUseLight(id)
 	
 	if id==1 and light1 and IsValid(light1) and !GAMEMODE.Vars.light1usewait then
-		GAMEMODE.Vars.LightUse[1] = !GAMEMODE.Vars.LightUse[1]
 		light1:Fire("use")
 	elseif id==2 and light2 and IsValid(light2) and !GAMEMODE.Vars.light2usewait then
-		GAMEMODE.Vars.LightUse[2] = !GAMEMODE.Vars.LightUse[2]
 		light2:Fire("use")
 	elseif id==3 and light3 and IsValid(light3) and !GAMEMODE.Vars.light3usewait then
-		GAMEMODE.Vars.LightUse[3] = !GAMEMODE.Vars.LightUse[3]
 		light3:Fire("use")
 	end
 	
@@ -3088,7 +3166,7 @@ end)
 
 concommand.Add("fnafgm_debug_start", function(ply)
 	
-	fnafgmUse(ply, nil, true)
+	GAMEMODE:StartNight(ply)
 	
 end)
 
@@ -3188,13 +3266,13 @@ function GM:PlayerSwitchFlashlight(ply, on)
 		
 	end
 	
-	if (game.GetMap()=="fnaf2" and !GAMEMODE.Vars.poweroff) then
+	if (game.GetMap()=="fnaf2noevents" and !GAMEMODE.Vars.poweroff) then
 		
 		return true
 		
 	end
 	
-	if (game.GetMap()=="fnaf2" and GAMEMODE.Vars.poweroff) then
+	if (game.GetMap()=="fnaf2noevents" and GAMEMODE.Vars.poweroff) then
 	
 		ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
 		
@@ -3213,9 +3291,9 @@ function GM:PlayerSay( ply, text, teamonly )
 	comm = string.lower( text )
 	
 	if ( comm == "!start" ) then
-		fnafgmUse(ply, nil, true)
+		GAMEMODE:StartNight(ply)
 	elseif ( comm == "/start" ) then
-		fnafgmUse(ply, nil, true)
+		GAMEMODE:StartNight(ply)
 		return ""
 	elseif ( comm == "!"..string.lower(GAMEMODE.ShortName) ) then
 		ply:SendLua([[fnafgmMenu()]])
@@ -3241,27 +3319,6 @@ function GM:Think()
 			
 			GAMEMODE.Vars.powerusage = 0
 			
-			if door1:GetPos()==Vector(-164.000000, -1168.000000, 112.000000) then -- Door 1 use
-				
-				door1btn:Fire("use")
-				door1btn:Fire("lock", "", 0.75)
-				if IsValid(door1light) then
-					door1light:Remove()
-				end
-				
-			end
-			
-			
-			if door2:GetPos()==Vector(4.000000, -1168.000000, 112.000000) then -- Door 2 use
-				
-				door2btn:Fire("use")
-				door2btn:Fire("lock", "", 0.75)
-				if IsValid(door2light) then
-					door2light:Remove()
-				end
-				
-			end
-			
 		else
 		
 			local tabactualuse = false --Calc tab usage
@@ -3283,14 +3340,14 @@ function GM:Think()
 			end
 			
 			
-			if door1:GetPos()==Vector(-164.000000, -1168.000000, 112.000000) then -- Door 1 use
+			if GAMEMODE.Vars.DoorClosed[1] then -- Door 1 use
 				
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
 				
 			end
 			
 			
-			if door2:GetPos()==Vector(4.000000, -1168.000000, 112.000000) then -- Door 2 use
+			if GAMEMODE.Vars.DoorClosed[2] then -- Door 2 use
 				
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
 				
@@ -3431,7 +3488,7 @@ function GM:Think()
 		
 		fnafgmPowerUpdate()
 		
-	elseif GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active and (game.GetMap()=="fnaf2") then
+	elseif GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active and (game.GetMap()=="fnaf2noevents") then
 		
 		GAMEMODE.Vars.powerusage = 0
 		

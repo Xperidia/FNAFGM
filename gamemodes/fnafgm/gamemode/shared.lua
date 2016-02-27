@@ -325,42 +325,21 @@ GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
 GM.Spawns_animatronics = { "info_player_counterterrorist" }
 
 GM.SecurityRoom = {
-	freddys = { Vector(-160,-1275,60), Vector(0,-1058,170) },
 	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
-	fnaf2 = { Vector(138,-340,190), Vector(-138,128,0) },
-	fnaf_freddypizzaevents = { Vector(-325,1765,125), Vector(-623,2095,0) },
+	fnaf2noevents = { Vector(138,-340,190), Vector(-138,128,0) },
 	fnaf3 = { Vector(-174,-178,190), Vector(174,-342,65) },
 	fnaf4house = { Vector(-756,125,128), Vector(-514,-190,0) },
 	fnaf4noclips = { Vector(-756,125,128), Vector(-514,-190,0) }
 }
 
-GM.Hallways = {
-	freddysnoevent = { Vector(108,-1323,182), Vector(0,-487,64), Vector(-160,-1325,182), Vector(-270,-487,60) }
-}
-
-GM.DoorBonnie = {
-	freddysnoevent = { Vector(-169,-1138,160), Vector(-212,-1201,64) }
-}
-
-GM.DoorFreddy = {
-	freddysnoevent = { Vector(9,-1197,160), Vector(46,-1135,64) }
-}
-
-GM.DoorChica = {
-	freddysnoevent = { Vector(14,-1120,160), Vector(30,-1056,64) }
-}
-
 GM.DeadBodiesTeleport = {
-	freddys = { Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92) },
 	freddysnoevent = { Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92) },
-	fnaf2 = { Vector(-412, 1431, 92), Vector(-290, 1482, 92), Vector(-223, 1436, 92), Vector(-328, 1414, 92) },
-	fnaf_freddypizzaevents = { Vector(329, 654, 64) }
+	fnaf2noevents = { Vector(-412, 1431, 92), Vector(-290, 1482, 92), Vector(-223, 1436, 92), Vector(-328, 1414, 92) }
 }
 
 GM.FNaFView = {
-	freddys = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
 	freddysnoevent = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
-	fnaf2 = { Vector( 0, -300, 0 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
+	fnaf2noevents = { Vector( 0, -300, 0 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
 	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) }
 }
 
@@ -372,10 +351,6 @@ GM.Materials_mapfreddys = "fnafgm/maps/freddys"
 GM.Materials_mapfnaf2 = "fnafgm/maps/fnaf2"
 GM.Materials_usage = "fnafgm/usage/usage_"
 GM.Materials_battery = "fnafgm/battery/battery_"
-GM.Materials_end = {
-	freddys = true,
-	fnaf2 = true
-}
 GM.Materials_animatronic = "fnafgm/weapons/freddy"
 GM.Materials_foxy = "fnafgm/weapons/foxy"
 GM.Materials_fnaf2deathcam = "fnafgm/overlays/fnaf2deathcam"
@@ -389,51 +364,45 @@ GM.Models_freddy = Model("models/splinks/fnaf/freddy/player_freddy.mdl")
 GM.Models_goldenfreddy = Model("models/splinks/fnaf/golden_freddy/player_golden_freddy.mdl")
 
 GM.CamsNames = {
-	freddys_1 = "West Hall Corner",
-	freddys_2 = "West Hall",
-	freddys_3 = "Supply Closet",
-	freddys_4 = "East Hall",
-	freddys_5 = "East Hall Corner",
-	freddys_6 = "Backstage",
-	freddys_7 = "Show Stage",
-	freddys_8 = "Restroom",
-	freddys_9 = "Pirate Cove",
-	freddys_10 = "Dining Area",
-	freddys_11 = "Kitchen",
-	fnaf2_1 = "Party Room 1",
-	fnaf2_2 = "Party Room 2",
-	fnaf2_3 = "Party Room 3",
-	fnaf2_4 = "Party Room 4",
-	fnaf2_5 = "Right Air Vent",
-	fnaf2_6 = "Left Air Vent",
-	fnaf2_7 = "Main Hall",
-	fnaf2_8 = "Parts/Service",
-	fnaf2_9 = "Kid's Cove",
-	fnaf2_10 = "Prize Corner",
-	fnaf2_11 = "Game Area",
-	fnaf2_12 = "Show Stage"
+	freddysnoevent_1 = "West Hall Corner",
+	freddysnoevent_2 = "West Hall",
+	freddysnoevent_3 = "Supply Closet",
+	freddysnoevent_4 = "East Hall",
+	freddysnoevent_5 = "East Hall Corner",
+	freddysnoevent_6 = "Backstage",
+	freddysnoevent_7 = "Show Stage",
+	freddysnoevent_8 = "Restroom",
+	freddysnoevent_9 = "Pirate Cove",
+	freddysnoevent_10 = "Dining Area",
+	freddysnoevent_11 = "Kitchen",
+	fnaf2noevents_1 = "Party Room 1",
+	fnaf2noevents_2 = "Party Room 2",
+	fnaf2noevents_3 = "Party Room 3",
+	fnaf2noevents_4 = "Party Room 4",
+	fnaf2noevents_5 = "Right Air Vent",
+	fnaf2noevents_6 = "Left Air Vent",
+	fnaf2noevents_7 = "Main Hall",
+	fnaf2noevents_8 = "Parts/Service",
+	fnaf2noevents_9 = "Kid's Cove",
+	fnaf2noevents_10 = "Prize Corner",
+	fnaf2noevents_11 = "Game Area",
+	fnaf2noevents_12 = "Show Stage"
 }
 
 GM.MapList = {
-	freddys = "FNaF 1",
-	freddysnoevent = "SGvsA",
-	fnaf2 = "FNaF 2",
+	freddysnoevent = "FNaF 1",
+	fnaf2noevents = "FNaF 2",
 	fnaf3 = "FNaF 3",
-	fnaf4house = "FNaF 4",
-	fnaf4noclips = "FNaF 4 NC",
-	--fnaf4versus = "FNaF 4 PvP",
-	fnaf_freddypizzaevents = "FNaF Mix"
+	fnaf4house = "FNaF 4"
+	--fnaf4versus = "FNaF 4 PvP"
 }
 
 GM.MapListLinks = {
-	freddys = "http://steamcommunity.com/sharedfiles/filedetails/?id=300674206",
 	freddysnoevent = "http://steamcommunity.com/sharedfiles/filedetails/?id=311282498",
-	fnaf2 = "http://steamcommunity.com/sharedfiles/filedetails/?id=382153719",
+	fnaf2noevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=342417402",
 	fnaf3 = "http://steamcommunity.com/sharedfiles/filedetails/?id=409285826",
-	fnaf4house = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
-	fnaf4noclips = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
-	--fnaf4versus = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146",
-	fnaf_freddypizzaevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=410244396"
+	fnaf4house = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146"
+	--fnaf4versus = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146"
 }
 
 GM.Animatronic = {}
@@ -442,6 +411,12 @@ GM.Animatronic.Bonnie = 1
 GM.Animatronic.Chica = 2
 GM.Animatronic.Foxy = 3
 GM.Animatronic.GoldenFreddy = 4
+GM.Animatronic.ToyFreddy = 5
+GM.Animatronic.ToyBonnie = 6
+GM.Animatronic.ToyChica = 7
+GM.Animatronic.Mangle = 8
+GM.Animatronic.Puppet = 9
+GM.Animatronic.Springtrap = 10
 
 GM.AnimatronicName = {}
 GM.AnimatronicName[0] = "Freddy"
@@ -449,6 +424,12 @@ GM.AnimatronicName[1] = "Bonnie"
 GM.AnimatronicName[2] = "Chica"
 GM.AnimatronicName[3] = "Foxy"
 GM.AnimatronicName[4] = "Golden Freddy"
+GM.AnimatronicName[5] = "Toy Freddy"
+GM.AnimatronicName[6] = "Toy Bonnie"
+GM.AnimatronicName[7] = "Toy Chica"
+GM.AnimatronicName[8] = "Mangle"
+GM.AnimatronicName[9] = "The Puppet"
+GM.AnimatronicName[10] = "Springtrap"
 
 GM.Animatronic_Models = {}
 GM.Animatronic_Models[GM.Animatronic.Freddy] = Model("models/splinks/fnaf/freddy/combine_freddy.mdl")
@@ -641,10 +622,10 @@ function GM:Initialize()
 	end
 	
 	
-	if (game.GetMap()=="freddysnoevent" --[[or game.GetMap()=="fnaf4versus"]]) then
-		GAMEMODE.Vars.SGvsA=true
-		GAMEMODE.Vars.modetext = " - PvP SGvsA"
-	end
+	--if (game.GetMap()=="freddysnoevent" --[[or game.GetMap()=="fnaf4versus"]]) then
+		--GAMEMODE.Vars.SGvsA=true
+		--GAMEMODE.Vars.modetext = " - PvP SGvsA"
+	--end
 	
 	
 	if GetHostName()=="1987" then --Not a easter egg ^^
@@ -851,7 +832,7 @@ function GM:CreateTeams()
 	
 	team.SetUp( 1, tostring(GAMEMODE.TranslatedStrings.sg or GAMEMODE.Strings.en.sg), GAMEMODE.Colors_sg )
 	team.SetClass(1, { "player_fnafgmsecurityguard" } )
-	if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" then
+	if game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" then
 		team.SetSpawnPoint( 1, { "info_player_terrorist" } )
 	elseif game.GetMap()=="fnaf_freddypizzaevents" then
 		team.SetSpawnPoint( 1, { "info_player_deathmatch" } )

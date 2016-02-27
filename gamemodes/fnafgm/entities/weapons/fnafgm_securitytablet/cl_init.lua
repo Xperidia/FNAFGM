@@ -30,12 +30,12 @@ function fnafgmSecurityTablet()
 		local nopeinit = hook.Call("fnafgmSecurityTabletCustomInit") or false
 		
 		if !nopeinit then
-			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+			if game.GetMap()=="freddysnoevent" then
 				if !lastcam then
 					lastcam = 7
 				end
 				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
-			elseif game.GetMap()=="fnaf2" then
+			elseif game.GetMap()=="fnaf2noevents" then
 				if !lastcam then
 					lastcam = 12
 				end
@@ -45,11 +45,6 @@ function fnafgmSecurityTablet()
 					lastcam = 2
 				end
 				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop3)
-			elseif game.GetMap()=="fnaf_freddypizzaevents" then
-				if !lastcam then
-					lastcam = 7
-				end
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 			else
 				if !lastcam then
 					lastcam = 1
@@ -79,7 +74,7 @@ function fnafgmSecurityTablet()
 			surface.DrawOutlinedRect( 35, 30, w-70, h-60 )
 			surface.SetDrawColor( 255, 0, 0, 255 )
 			draw.NoTexture()
-			if (game.GetMap()!="fnaf2" and game.GetMap()!="fnaf3") and math.fmod( math.Round( CurTime() ), 2 ) == 0 then
+			if (game.GetMap()!="fnaf2noevents" and game.GetMap()!="fnaf3") and math.fmod( math.Round( CurTime() ), 2 ) == 0 then
 				draw.Circle( 160, 160, 45, 64 )
 			end
 		end
@@ -91,7 +86,7 @@ function fnafgmSecurityTablet()
 			net.SendToServer()
 		end
 		Monitor.Think = function()
-			if (!LocalPlayer():Alive() or tobool(GAMEMODE.Vars.tempostart) or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2")) then
+			if (!LocalPlayer():Alive() or tobool(GAMEMODE.Vars.tempostart) or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2noevents")) then
 				Monitor:Close()
 			end
 		end
@@ -101,11 +96,11 @@ function fnafgmSecurityTablet()
 		
 		if !nope then
 			
-			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+			if game.GetMap()=="freddysnoevent" then
 				
 				local CamsNames = vgui.Create( "DLabel" )
 				CamsNames:SetParent(Monitor)
-				CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+				CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 				CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 				CamsNames:SetFont("FNAFGMTIME")
 				CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
@@ -171,7 +166,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(1)
 					lastcam = 1
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -190,7 +185,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(2)
 					lastcam = 2
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -209,7 +204,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(3)
 					lastcam = 3
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -228,7 +223,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(4)
 					lastcam = 4
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -247,7 +242,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(5)
 					lastcam = 5
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -266,7 +261,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(6)
 					lastcam = 6
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -285,7 +280,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(7)
 					lastcam = 7
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -304,7 +299,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(8)
 					lastcam = 8
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -323,7 +318,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(9)
 					lastcam = 9
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -342,7 +337,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(10)
 					lastcam = 10
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
@@ -361,7 +356,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(11)
 					lastcam = 11
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..lastcam] or "" )
 					KitchenText:SetTextColor( Color( 255, 255, 255, 255 ) )
 					KitchenText2:SetTextColor( Color( 255, 255, 255, 255 ) )
 				end
@@ -413,12 +408,12 @@ function fnafgmSecurityTablet()
 				end
 		
 		
-			elseif game.GetMap()=="fnaf2" then
+			elseif game.GetMap()=="fnaf2noevents" then
 		
 		
 				local CamsNames = vgui.Create( "DLabel" )
 				CamsNames:SetParent(Monitor)
-				CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+				CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 				CamsNames:SetFont("FNAFGMTIME")
 				CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
@@ -461,7 +456,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 9 )
 					lastcam = 9
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM12.Paint = function( self, w, h )
 					if lastcam==9 then
@@ -479,7 +474,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 11 )
 					lastcam = 11
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM10.Paint = function( self, w, h )
 					if lastcam==11 then
@@ -496,7 +491,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 7 )
 					lastcam = 7
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM7.Paint = function( self, w, h )
 					if lastcam==7 then
@@ -513,7 +508,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 4 )
 					lastcam = 4
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM4.Paint = function( self, w, h )
 					if lastcam==4 then
@@ -530,7 +525,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 2 )
 					lastcam = 2
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM2.Paint = function( self, w, h )
 					if lastcam==2 then
@@ -547,7 +542,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 5 )
 					lastcam = 5
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM6.Paint = function( self, w, h )
 					if lastcam==5 then
@@ -565,7 +560,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 10 )
 					lastcam = 10
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM11.Paint = function( self, w, h )
 					if lastcam==10 then
@@ -583,7 +578,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 12 )
 					lastcam = 12
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM9.Paint = function( self, w, h )
 					if lastcam==12 then
@@ -600,7 +595,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 8 )
 					lastcam = 8
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM8.Paint = function( self, w, h )
 					if lastcam==8 then
@@ -617,7 +612,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 3 )
 					lastcam = 3
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM3.Paint = function( self, w, h )
 					if lastcam==3 then
@@ -634,7 +629,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 1 )
 					lastcam = 1
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM1.Paint = function( self, w, h )
 					if lastcam==1 then
@@ -651,7 +646,7 @@ function fnafgmSecurityTablet()
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView( 6 )
 					lastcam = 6
-					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2_"..lastcam] or "" )
+					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..lastcam] or "" )
 				end
 				CAM5.Paint = function( self, w, h )
 					if lastcam==6 then

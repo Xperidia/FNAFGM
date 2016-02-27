@@ -2,7 +2,7 @@ include( 'shared.lua' )
 
 DEFINE_BASECLASS( "gamemode_base" )
 
-if !sfont and game.GetMap()=="fnaf2" then
+if !sfont and game.GetMap()=="fnaf2noevents" then
 	
 	if file.Exists( "resource/fonts/OCR_A_Std.ttf", "GAME" ) then
 		
@@ -252,7 +252,7 @@ function fnafgmWarn()
 		
 	end
 	
-	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus") and fnafgm_cl_warn:GetBool() then
+	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus") and fnafgm_cl_warn:GetBool() then
 		
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css))
 		notification.AddLegacy(tostring(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css), NOTIFY_ERROR, 10)
@@ -445,26 +445,8 @@ function GM:HUDPaint()
 			
 			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
-			if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
-				draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-			elseif client:Team()==2 then
+			if client:Team()==2 then
 				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
-			end
-			
-			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-				if client:Team()==1 then
-					cam.Start3D(EyePos(), EyeAngles())
-						render.SetMaterial( Material( "fnafgm/xpnbc" ) )
-						local varpos = math.random(16, 30)
-						render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
-					cam.End3D()
-				end
-			elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-				cam.Start3D(EyePos(), EyeAngles())
-					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
-					local varpos = math.random(64, 100)
-					render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
-				cam.End3D()
 			end
 		
 		elseif !tobool(GAMEMODE.Vars.tempostart) then
@@ -485,7 +467,7 @@ function GM:HUDPaint()
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 				
-			elseif game.GetMap()=="fnaf2" and !GAMEMODE.Vars.usingsafezone then
+			elseif game.GetMap()=="fnaf2noevents" and !GAMEMODE.Vars.usingsafezone then
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMNIGHT", ScrW()-64, H+32, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
@@ -526,7 +508,7 @@ function GM:HUDPaint()
 					
 				end
 			
-			elseif game.GetMap()!="fnaf2" and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
+			elseif game.GetMap()!="fnaf2noevents" and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
 				
 				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
 					GAMEMODE.Vars.powerusage=math.Rand( 1, 7 )
@@ -623,33 +605,15 @@ function GM:HUDPaint()
 		
 		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 		
-		if client:Team()==1 and (GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()]) then
-			draw.DrawText(string.upper(string.format(GAMEMODE.TranslatedStrings[game.GetMap()] or GAMEMODE.Strings.en[game.GetMap()], GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-		elseif client:Team()==2 then
+		if client:Team()==2 then
 			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 		end
 		
-		if client:Team()==1 then
-			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
-				cam.Start3D(EyePos(), EyeAngles())
-					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
-					local varpos = math.random(16, 30)
-					render.DrawSprite( Vector(-470, -224, 122), varpos, varpos, GAMEMODE.Colors_surl)
-				cam.End3D()
-			elseif game.GetMap()=="fnaf2" and client:Team()==1 then
-				cam.Start3D(EyePos(), EyeAngles())
-					render.SetMaterial( Material( "fnafgm/xpnbc" ) )
-					local varpos = math.random(64, 100)
-					render.DrawSprite( Vector(-345, 1323, 70), varpos, varpos, GAMEMODE.Colors_surl)
-				cam.End3D()
-			end
-		end
-			
 	end
 	
 	if GAMEMODE.Vars.SGvsA and client:Team()==TEAM_UNASSIGNED and !GAMEMODE.Vars.poweroff then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_SGvsA or GAMEMODE.Strings.en.unassigned_SGvsA), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.8, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-	elseif client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2" then
+	elseif client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2noevents" then
 		draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.unassigned_powerdown or GAMEMODE.Strings.en.unassigned_powerdown), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
@@ -659,11 +623,11 @@ function GM:HUDPaint()
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-4, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 			
-		elseif game.GetMap()=="fnaf2" and !tobool(GAMEMODE.Vars.overfive) then
+		elseif game.GetMap()=="fnaf2noevents" and !tobool(GAMEMODE.Vars.overfive) then
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-50, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 		
-		elseif game.GetMap()=="fnaf2" then
+		elseif game.GetMap()=="fnaf2noevents" then
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", 128, ScrH()-370, Color(0, 0, 0, 255), TEXT_ALIGN_LEFT)
 			
@@ -775,12 +739,12 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
 	
-	if game.GetMap()=="fnaf4versus" then
+	if game.GetMap()=="freddys" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf_freddypizzaevents" then
 		draw.DrawText("Sorry but this map is not supported anymore.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	elseif game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+	elseif game.GetMap()=="fnaf4versus" then
+		draw.DrawText("Sorry but this map is not supported for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
 		draw.DrawText("Sorry but this map doesn't have events.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	elseif GAMEMODE.Vars.SGvsA then
-		draw.DrawText("Sorry but SGvsA is not a finished product.\nYou can play anyway, but it's not something stable or balanced.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(128, 128, 128, 128), TEXT_ALIGN_CENTER)
 	end
 	
 	if !fnafgm_cl_hideversion:GetBool() then

@@ -27,6 +27,22 @@ function ENT:SetupDataTables()
 
 end
 
+function ENT:KeyValue(k, v)
+	
+	if debugmode then print(k, v) end
+	
+	if string.Left(k, 5) == "AType" then
+		
+		self:SetAType(tonumber(string.sub(k, 6)))
+		
+	elseif string.Left(k, 4) == "APos" then
+		
+		self:SetAPos(tonumber(string.sub(k, 5)))
+		
+	end
+	
+end
+
 function ENT:RunBehaviour()
 	
 	while true do
@@ -218,7 +234,7 @@ function ENT:Jumpscare()
 	
 	if SERVER and GAMEMODE.Vars.startday then
 		
-		if me==GAMEMODE.Animatronic.Freddy and door2:GetPos()!=Vector(4.000000, -1168.000000, 112.000000) then
+		if me==GAMEMODE.Animatronic.Freddy and GAMEMODE.Vars.DoorClosed[2] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -232,7 +248,9 @@ function ENT:Jumpscare()
 				
 			end
 			
-		elseif me==GAMEMODE.Animatronic.Bonnie and door1:GetPos()!=Vector(-164.000000, -1168.000000, 112.000000) then
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			
+		elseif me==GAMEMODE.Animatronic.Bonnie and GAMEMODE.Vars.DoorClosed[1] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -246,7 +264,9 @@ function ENT:Jumpscare()
 				
 			end
 			
-		elseif me==GAMEMODE.Animatronic.Chica and door2:GetPos()!=Vector(4.000000, -1168.000000, 112.000000) then
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			
+		elseif me==GAMEMODE.Animatronic.Chica and GAMEMODE.Vars.DoorClosed[2] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -260,6 +280,8 @@ function ENT:Jumpscare()
 				
 			end
 			
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			
 		elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
 			
 			for k, v in pairs(player.GetAll()) do
@@ -272,6 +294,8 @@ function ENT:Jumpscare()
 				end
 				
 			end
+			
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
 			
 		elseif me==GAMEMODE.Animatronic.Foxy then
 			

@@ -112,7 +112,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	elseif name=="StartNight" then
 		
-		fnafgmUse(activator, nil, true)
+		GAMEMODE:StartNight(activator)
 		
 	
 	elseif name=="LightOn" then
@@ -141,6 +141,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		GAMEMODE.Vars.DoorClosed[id] = true
 		
+		--MsgC( Color( 255, 255, 85 ), "FNAFGM: Door "..id.." closed\n" )
+		
 		
 	elseif name=="DoorOpen" then
 		
@@ -150,10 +152,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 		GAMEMODE.Vars.DoorClosed[id] = false
 		
+		--MsgC( Color( 255, 255, 85 ), "FNAFGM: Door "..id.." open\n" )
 		
-	elseif name=="PlushTrapWin" then
-		
-		PlushTrapWin=true
 	
 	elseif name=="Jumpscared" then
 		
