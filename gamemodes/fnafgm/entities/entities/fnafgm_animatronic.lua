@@ -248,7 +248,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
 		elseif me==GAMEMODE.Animatronic.Bonnie and GAMEMODE.Vars.DoorClosed[1] then
 			
@@ -264,7 +264,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
 		elseif me==GAMEMODE.Animatronic.Chica and GAMEMODE.Vars.DoorClosed[2] then
 			
@@ -280,7 +280,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
 		elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
 			
@@ -295,7 +295,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "...GAMEMODE:AnimatronicName[me].."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
 		elseif me==GAMEMODE.Animatronic.Foxy then
 			

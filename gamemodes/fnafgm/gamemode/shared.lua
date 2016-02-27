@@ -527,6 +527,44 @@ GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[4] = 120
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[5] = 120
 GM.AnimatronicsCD[GM.Animatronic.Foxy].freddysnoevent[6] = 60
 
+GM.AnimatronicsMaxCD = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy] = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[0] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[1] = -1
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[2] = -1
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[3] = 90
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[4] = 60
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[5] = 30
+GM.AnimatronicsMaxCD[GM.Animatronic.Freddy].freddysnoevent[6] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie] = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[0] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[1] = 90
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[2] = 60
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[3] = 45
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[4] = 30
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[5] = 30
+GM.AnimatronicsMaxCD[GM.Animatronic.Bonnie].freddysnoevent[6] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica] = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[0] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[1] = 90
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[2] = 60
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[3] = 45
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[4] = 30
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[5] = 30
+GM.AnimatronicsMaxCD[GM.Animatronic.Chica].freddysnoevent[6] = 10
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy] = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent = {}
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[0] = 170
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[1] = -1
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[2] = 500
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[3] = 400
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[4] = 300
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[5] = 170
+GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[6] = 170
+
 GM.Vars = {}
 
 --[CVAR]--
