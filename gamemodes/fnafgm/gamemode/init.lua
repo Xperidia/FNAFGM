@@ -1530,6 +1530,15 @@ function GM:StartNight(ply)
 			
 		end)
 		
+		for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+			
+			local randtime = math.random(GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night], GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][GAMEMODE.Vars.night])
+			if GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night]!=-1 then
+				timer.Create( "fnafgmAnimatronicMove"..k, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(k) end)
+			end
+			
+		end
+		
 	end
 	
 	if IsValid(ply) then
@@ -2538,7 +2547,7 @@ function fnafgmTimeThink()
 			if !game.IsDedicated() then GAMEMODE.Vars.night = GAMEMODE.NightEnd end
 			fnafgmMapOverrides()
 			
-			if GAMEMODE.Materials_end[game.GetMap()] or file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) or file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) then
+			if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) or file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..".vmt", "GAME" ) then
 				
 				local plus = false
 				if GAMEMODE.Vars.night>GAMEMODE.NightEnd then
@@ -3416,7 +3425,7 @@ function GM:Think()
 			ents.FindByName( "doorbeam1" )[1]:Fire("LightOff")
 			ents.FindByName( "doorbeam2" )[1]:Fire("LightOff")
 			
-			if game.GetMap()=="freddys" then
+			if game.GetMap()=="freddysnoevent" then
 				
 				for k, v in pairs(ents.FindByClass( "light" )) do
 					v:Fire("TurnOff")
@@ -3428,37 +3437,29 @@ function GM:Think()
 					v:Fire("TurnOff")
 				end
 				
-				if IsValid(ents.FindByName( "FreddyOfficeRelay" )[1]) then ents.FindByName( "FreddyOfficeRelay" )[1]:Fire("Trigger") end
-				if IsValid(ents.FindByName( "ChicaOfficeRelay" )[1]) then ents.FindByName( "ChicaOfficeRelay" )[1]:Fire("Trigger") end
-				if IsValid(ents.FindByName( "BonnieOfficeRelay" )[1]) then ents.FindByName( "BonnieOfficeRelay" )[1]:Fire("Trigger") end
-				if IsValid(ents.FindByName( "FoxyTime" )[1]) then ents.FindByName( "FoxyTime" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxytest" )[1]) then ents.FindByName( "foxytest" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxytest2" )[1]) then ents.FindByName( "foxytest2" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "FoxyKilledYou" )[1]) then ents.FindByName( "FoxyKilledYou" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxydeath" )[1]) then ents.FindByName( "foxydeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "EventTimer" )[1]) then ents.FindByName( "EventTimer" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "EventTimer2" )[1]) then ents.FindByName( "EventTimer2" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "BonnieDeath" )[1]) then ents.FindByName( "BonnieDeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "bonnietest" )[1]) then ents.FindByName( "bonnietest" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "ChicaOffice" )[1]) then ents.FindByName( "ChicaOffice" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "ChicaDeath" )[1]) then ents.FindByName( "ChicaDeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "chicatest" )[1]) then ents.FindByName( "chicatest" )[1]:Fire("Kill") end
+				for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+					
+					GAMEMODE:SetAnimatronicPos(nil,k,GAMEMODE.APos[game.GetMap()].SS)
+					
+				end
 				
 				timer.Create( "fnafgmPowerOff1", 5, 1, function()
-					if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:SetPos(Vector( -193, -1115, 65 )) end
-					if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:SetAngles(Angle( 0, 0, 35 )) end
-					if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:Fire("Enable") end
-					if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:Fire("EnableCollision") end
-					if IsValid(ents.FindByName( "BonnieOffice" )[1]) then ents.FindByName( "BonnieOffice" )[1]:SetPos(Vector( 43, -1171, 65 )) end
-					if IsValid(ents.FindByName( "BonnieOffice" )[1]) then ents.FindByName( "BonnieOffice" )[1]:SetAngles(Angle( 0, 180, 0 )) end
-					if IsValid(ents.FindByName( "BonnieOffice" )[1]) then ents.FindByName( "BonnieOffice" )[1]:Fire("EnableCollision") end
-					for k, v in pairs(team.GetPlayers(1)) do
+					
+					local fred = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][1]
+					if IsValid(fred) then
+						fred:SetPos(Vector(-206,-1172,65))
+						fred:SetAngles(Angle(0,0,0))
+					end
+					
+					for k, v in pairs(player.GetAll()) do
 						v:ConCommand("play ".."freddys/muffledtune.wav")
-						if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+						if v:Team()==1 and v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
 							v:SetPos( Vector( -80, -1224, 64 ) )
 						end
 					end
+					
 					timer.Remove("fnafgmPowerOff1")
+					
 				end)
 				
 				timer.Create( "fnafgmPowerOff2", 24.58, 1, function()
@@ -3469,8 +3470,6 @@ function GM:Think()
 				end)
 				
 				timer.Create( "fnafgmPowerOff3", 29.58, 1, function()
-					if IsValid(ents.FindByName( "FreddyDeath" )[1]) then ents.FindByName( "FreddyDeath" )[1]:Fire("Trigger") end
-					if IsValid(ents.FindByName( "freddytest" )[1]) then ents.FindByName( "freddytest" )[1]:Fire("Trigger") end
 					for k, v in pairs(team.GetPlayers(1)) do
 						if v:Alive() then
 							v:KillSilent()
@@ -3576,25 +3575,6 @@ function GM:Think()
 				net.WriteBit(true)
 			net.Broadcast()
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: The security guards are dead, the night will be reset\n" )
-			
-			if game.GetMap()=="freddys" and !GAMEMODE.Vars.poweroff then
-				if IsValid(ents.FindByName( "FoxyTime" )[1]) then ents.FindByName( "FoxyTime" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxytest" )[1]) then ents.FindByName( "foxytest" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxytest2" )[1]) then ents.FindByName( "foxytest2" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "FoxyKilledYou" )[1]) then ents.FindByName( "FoxyKilledYou" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "foxydeath" )[1]) then ents.FindByName( "foxydeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "EventTimer" )[1]) then ents.FindByName( "EventTimer" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "EventTimer2" )[1]) then ents.FindByName( "EventTimer2" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "FreddyDeath" )[1]) then ents.FindByName( "FreddyDeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "FreddyOffice" )[1]) then ents.FindByName( "FreddyOffice" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "freddytest" )[1]) then ents.FindByName( "freddytest" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "BonnieOffice" )[1]) then ents.FindByName( "BonnieOffice" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "BonnieDeath" )[1]) then ents.FindByName( "BonnieDeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "bonnietest" )[1]) then ents.FindByName( "bonnietest" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "ChicaOffice" )[1]) then ents.FindByName( "ChicaOffice" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "ChicaDeath" )[1]) then ents.FindByName( "ChicaDeath" )[1]:Fire("Kill") end
-				if IsValid(ents.FindByName( "chicatest" )[1]) then ents.FindByName( "chicatest" )[1]:Fire("Kill") end
-			end
 			
 			hook.Call("fnafgmGeneralDeath")
 			
@@ -3813,7 +3793,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:SetAType(a or 0)
 	ent:SetAPos(apos or 7)
 	
-	if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  and apos != GAMEMODE.APos.freddysnoevent.SS then
+	if apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].Kitchen  and apos != GAMEMODE.APos[game.GetMap()].SS then
 		
 		local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
 		
@@ -3869,11 +3849,11 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		
 		if GAMEMODE.Vars.Animatronics[a][3]==-1 or !GAMEMODE.Vars.startday then return end
 		
-		if IsValid(ply) and GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos.freddysnoevent.Office then return end
+		if IsValid(ply) and ( GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].Office or GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].SS ) then return end
 		
 		ent:SetAPos(apos or 7)
 		
-		if apos != GAMEMODE.APos.freddysnoevent.Office and apos != GAMEMODE.APos.freddysnoevent.Kitchen  and apos != GAMEMODE.APos.freddysnoevent.SS then
+		if apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].Kitchen  and apos != GAMEMODE.APos[game.GetMap()].SS then
 			
 			local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
 			
@@ -3895,9 +3875,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 		end
 		
-		if apos==GAMEMODE.APos.freddysnoevent.Office then
+		if apos==GAMEMODE.APos[game.GetMap()].Office then
 			ent:GoJumpscare()
-		elseif GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos.freddysnoevent.Office then
+		elseif GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].Office then
 			cd = GAMEMODE.Vars.Animatronics[a][3]
 		end
 		
@@ -3908,9 +3888,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		net.Broadcast()
 		
 		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by "..ply:GetName().."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(GAMEMODE.AnimatronicName[a] or a or 0).." moved to "..(apos or 7).." by "..ply:GetName().."\n" )
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(a or 0).." moved to "..(apos or 7).." by console/script\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..(GAMEMODE.AnimatronicName[a] or a or 0).." moved to "..(apos or 7).." by console/script\n" )
 		end
 		
 	end
@@ -3926,3 +3906,29 @@ net.Receive( "fnafgmAnimatronicTaunt", function( len, ply )
 	
 end)
 
+
+function GM:AutoMoveAnimatronic(a)
+	
+	if GAMEMODE.Vars.startday and !GAMEMODE.Vars.SGvsA and !GAMEMODE.Vars.poweroff then
+		
+		local papos = table.GetKeys(GAMEMODE.AnimatronicAPos[a][game.GetMap()])
+		
+		table.RemoveByValue(papos, GAMEMODE.APos[game.GetMap()].SS)
+		
+		local apos = table.Random(papos)
+		
+		if GAMEMODE.Vars.Animatronics[a][2]!=GAMEMODE.APos[game.GetMap()].Office then GAMEMODE:SetAnimatronicPos(nil,a,apos) end
+		
+		local randtime = math.random(GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night], GAMEMODE.AnimatronicsMaxCD[a][game.GetMap()][GAMEMODE.Vars.night])
+		
+		if GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night]!=-1 then
+			timer.Adjust( "fnafgmAnimatronicMove"..a, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(a) end)
+		end
+		
+	elseif !GAMEMODE.Vars.startday then
+		
+		timer.Remove( "fnafgmAnimatronicMove"..a )
+		
+	end
+	
+end

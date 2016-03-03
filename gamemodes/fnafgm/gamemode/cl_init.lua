@@ -743,8 +743,8 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		draw.DrawText("Sorry but this map is not supported anymore.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
 	elseif game.GetMap()=="fnaf4versus" then
 		draw.DrawText("Sorry but this map is not supported for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	elseif game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
-		draw.DrawText("Sorry but this map doesn't have events.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+		draw.DrawText("Sorry but this map doesn't have events for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
 	if !fnafgm_cl_hideversion:GetBool() then

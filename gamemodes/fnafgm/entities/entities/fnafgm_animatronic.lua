@@ -213,7 +213,6 @@ function ENT:GoJumpscare()
 	end
 	
 	timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
-		
 		if me!=GAMEMODE.Animatronic.Foxy then
 			self:Jumpscare()
 		else
@@ -234,7 +233,7 @@ function ENT:Jumpscare()
 	
 	if SERVER and GAMEMODE.Vars.startday then
 		
-		if me==GAMEMODE.Animatronic.Freddy and GAMEMODE.Vars.DoorClosed[2] then
+		if me==GAMEMODE.Animatronic.Freddy and !GAMEMODE.Vars.DoorClosed[2] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -250,7 +249,7 @@ function ENT:Jumpscare()
 			
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
-		elseif me==GAMEMODE.Animatronic.Bonnie and GAMEMODE.Vars.DoorClosed[1] then
+		elseif me==GAMEMODE.Animatronic.Bonnie and !GAMEMODE.Vars.DoorClosed[1] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
@@ -266,7 +265,7 @@ function ENT:Jumpscare()
 			
 			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
 			
-		elseif me==GAMEMODE.Animatronic.Chica and GAMEMODE.Vars.DoorClosed[2] then
+		elseif me==GAMEMODE.Animatronic.Chica and !GAMEMODE.Vars.DoorClosed[2] then
 			
 			for k, v in pairs(player.GetAll()) do
 				
