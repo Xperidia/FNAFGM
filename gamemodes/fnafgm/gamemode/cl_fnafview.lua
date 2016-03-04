@@ -40,7 +40,7 @@ function GM:FNaFViewHUD()
 		end
 		FNaFView.Think = function()
 			
-			if IsValid(MUTE) and tobool(GAMEMODE.Vars.mute) then
+			if IsValid(MUTE) and GAMEMODE.Vars.mute then
 				MUTE:Remove()
 				MUTEb:Remove()
 			end
@@ -56,7 +56,7 @@ function GM:FNaFViewHUD()
 				FNaFView:Close()
 			end
 			
-			if !tobool(GAMEMODE.Vars.startday) then
+			if !GAMEMODE.Vars.startday then
 				FNaFView:Close()
 			end
 			
@@ -122,7 +122,7 @@ function GM:FNaFViewHUD()
 			ExitZone:SetText("")
 		end
 		
-		if !tobool(GAMEMODE.Vars.mute) then
+		if !GAMEMODE.Vars.mute then
 			MUTE = vgui.Create( "DImage" )
 			MUTE:SetParent(FNaFView)
 			MUTE:SetImage( "fnafgm/mute" )

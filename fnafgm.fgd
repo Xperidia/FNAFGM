@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V4.8 BY XPERIDIA
+// FNAFGM FGD V4.9 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -87,4 +87,12 @@
 @PointClass base(Angles) studioprop("models/editor/playerstart.mdl") = fnafgm_dummy : "DUMMY"
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+@PointClass base(Targetname, Angles) studio() = fnafgm_animatronic : "FNAFGM Animatronic"
+[
+	model(studio) : "Model"
+	target(target_destination) : "Target Path Corner" : : "If set, the name of a path corner entity that this NPC will walk to, after spawning."
+	AType(String) : "Squad Name" : : "NPCs that are in the same squad (i.e. have matching squad names) will share information about enemies, and will take turns attacking and covering each other."
+	APos(String) : "Hint Group" : "" : "Hint groups are used by NPCs to restrict their hint-node searching to a subset of the map's hint nodes. Only hint nodes with matching hint group names will be considered by this NPC."
 ]

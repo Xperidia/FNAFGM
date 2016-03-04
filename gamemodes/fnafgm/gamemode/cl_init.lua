@@ -322,8 +322,7 @@ fnafgmHUDhide = {
 	CHudBattery = true,
 	CHudDamageIndicator = true,
 	CHudDeathNotice = true,
-	CHudZoom = true,
-	CHudChat = GM.Vars.b87
+	CHudZoom = true
 }
 
 hook.Add("HUDShouldDraw", "HideHUD", function( name )
@@ -337,7 +336,7 @@ hook.Add("HUDShouldDraw", "HideHUD", function( name )
 		return false
 	elseif name=="CHudCrosshair" and engine.IsPlayingDemo() then
 		return false
-	elseif name=="CHudCrosshair" and (tobool(GAMEMODE.Vars.tempostart) or tobool(GAMEMODE.Vars.gameend) or tobool(GAMEMODE.Vars.nightpassed)) then
+	elseif name=="CHudCrosshair" and (GAMEMODE.Vars.tempostart or GAMEMODE.Vars.gameend or GAMEMODE.Vars.nightpassed) then
 		return false
 	end
 end)
@@ -345,16 +344,16 @@ end)
 
 net.Receive( "fnafgmVarsUpdate", function( len )
 
-	GAMEMODE.Vars.startday = net.ReadBit()
-	GAMEMODE.Vars.gameend = net.ReadBit()
-	GAMEMODE.Vars.iniok = net.ReadBit()
+	GAMEMODE.Vars.startday = tobool(net.ReadBit())
+	GAMEMODE.Vars.gameend = tobool(net.ReadBit())
+	GAMEMODE.Vars.iniok = tobool(net.ReadBit())
 	GAMEMODE.Vars.time = net.ReadInt( 5 )
 	GAMEMODE.Vars.AMPM = net.ReadString()
 	GAMEMODE.Vars.night = net.ReadInt( 32 )
-	GAMEMODE.Vars.nightpassed = net.ReadBit()
-	GAMEMODE.Vars.tempostart = net.ReadBit()
-	GAMEMODE.Vars.mute = net.ReadBit()
-	GAMEMODE.Vars.overfive = net.ReadBit()
+	GAMEMODE.Vars.nightpassed = tobool(net.ReadBit())
+	GAMEMODE.Vars.tempostart = tobool(net.ReadBit())
+	GAMEMODE.Vars.mute = tobool(net.ReadBit())
+	GAMEMODE.Vars.overfive = tobool(net.ReadBit())
 	
 end)
 
@@ -436,12 +435,12 @@ function GM:HUDPaint()
 	if (GAMEMODE.Vars.b87) then return end
 	
 	local H = 46
-	if tobool(GAMEMODE.Vars.iniok) then
-		if tobool(GAMEMODE.Vars.nightpassed) or tobool(GAMEMODE.Vars.gameend) then
+	if GAMEMODE.Vars.iniok then
+		if GAMEMODE.Vars.nightpassed or GAMEMODE.Vars.gameend then
 			
 			draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMCH", ScrW() * 0.515, ScrH() * 0.410, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
-		elseif !tobool(GAMEMODE.Vars.startday) then
+		elseif !GAMEMODE.Vars.startday then
 			
 			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			
@@ -449,7 +448,7 @@ function GM:HUDPaint()
 				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 			end
 		
-		elseif !tobool(GAMEMODE.Vars.tempostart) then
+		elseif !GAMEMODE.Vars.tempostart then
 				
 			if game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 				
@@ -623,7 +622,7 @@ function GM:HUDPaint()
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-4, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 			
-		elseif game.GetMap()=="fnaf2noevents" and !tobool(GAMEMODE.Vars.overfive) then
+		elseif game.GetMap()=="fnaf2noevents" and !GAMEMODE.Vars.overfive then
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-50, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 		
@@ -648,7 +647,7 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	local tab2 = {}
 	local tab3 = {}
 	
-	if game.GetMap()=="fnap_scc" and client:Team()==1 and !tobool(GAMEMODE.Vars.startday) and !tobool(GAMEMODE.Vars.nightpassed) and !tobool(GAMEMODE.Vars.gameend) then
+	if game.GetMap()=="fnap_scc" and client:Team()==1 and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.nightpassed and !GAMEMODE.Vars.gameend then
 		
 		local BoxCorner = Vector(-313,-408,0)
 		local OppositeCorner = Vector(-374,-371,-70)
@@ -711,10 +710,10 @@ end )
 
 net.Receive( "fnafgmCheckUpdate", function( len )
 
-	GAMEMODE.Vars.updateavailable = net.ReadBit()
+	GAMEMODE.Vars.updateavailable = tobool(net.ReadBit())
 	GAMEMODE.Vars.lastversion = net.ReadString()
 	
-	if tobool(GAMEMODE.Vars.updateavailable) then
+	if GAMEMODE.Vars.updateavailable then
 		notification.AddLegacy("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, NOTIFY_GENERIC, 10)
 		chat.PlaySound()
 	end
@@ -724,10 +723,10 @@ end)
 
 net.Receive( "fnafgmCheckUpdateD", function( len )
 
-	derivupdateavailable = net.ReadBit()
+	derivupdateavailable = tobool(net.ReadBit())
 	GAMEMODE.Vars.lastderivversion = net.ReadString()
 	
-	if tobool(derivupdateavailable) then
+	if derivupdateavailable then
 		notification.AddLegacy(tostring(GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, NOTIFY_GENERIC, 10)
 		chat.PlaySound()
 	end
@@ -762,12 +761,12 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		local updatearem = 0
 		local monitorspace = 0
 		
-		if tobool(GAMEMODE.Vars.updateavailable) then
+		if GAMEMODE.Vars.updateavailable then
 			if IsValid(Monitor) then monitorspace = 30 end
 			draw.DrawText("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
-		if tobool(derivupdateavailable) then
+		if derivupdateavailable then
 			if IsValid(Monitor) then monitorspace = 30 end
 			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
@@ -852,7 +851,7 @@ end
 
 hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
     local client = LocalPlayer()
-	if tobool(GAMEMODE.Vars.startday) and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
+	if GAMEMODE.Vars.startday and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
 		local colormod = {
 			[ "$pp_colour_addr" ] = 0.02,
 			[ "$pp_colour_addg" ] = 0.02,

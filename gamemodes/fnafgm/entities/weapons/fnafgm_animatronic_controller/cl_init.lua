@@ -49,7 +49,7 @@ function fnafgmAnimatronicsController()
 			fnafgmSetView(0)
 		end
 		AnimatronicsControllerGUI.Think = function()
-			if !LocalPlayer():Alive() or LocalPlayer():Team()!=2 or tobool(GAMEMODE.Vars.gameend) then
+			if !LocalPlayer():Alive() or LocalPlayer():Team()!=2 or GAMEMODE.Vars.gameend then
 				AnimatronicsControllerGUI:Close()
 			end
 			if AnimatronicsControllerGUI.Map2_Anim:Active() then AnimatronicsControllerGUI.Map2_Anim:Run() else AnimatronicsControllerGUI.Map2_Anim:Start(2) end

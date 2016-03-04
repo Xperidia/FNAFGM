@@ -6,7 +6,7 @@ ENT.Author = "Xperidia"
 
 function ENT:Initialize()
 	
-	self:SetModel( GAMEMODE.Animatronic_Models[self:GetAType()] )
+	if GAMEMODE.Animatronic_Models[self:GetAType()] and GAMEMODE.Animatronic_Models[self:GetAType()][game.GetMap()] then self:SetModel( GAMEMODE.Animatronic_Models[self:GetAType()][game.GetMap()] ) end
 	
 	self.OldAPos = self:GetAPos()
 	

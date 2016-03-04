@@ -112,7 +112,7 @@ function fnafgmMenu()
 			bugreportbtn:SetPos( 155, 185 )
 			bugreportbtn:SetSize( 140, 20 )
 			bugreportbtn.DoClick = function()
-				gui.OpenURL( "http://steamcommunity.com/workshop/filedetails/discussion/408243366/537405286650706286/" )
+				gui.OpenURL( "http://steamcommunity.com/workshop/filedetails/discussion/408243366/412448792354976786/" )
 				fnafgmMenuF:Close()
 			end
 			
