@@ -454,6 +454,15 @@ function GM:KeyPress( ply, key )
 end
 
 
+function GM:DoPlayerDeath( ply, attacker, dmginfo )
+
+	ply:CreateRagdoll()
+	
+	ply:AddDeaths( 1 )
+
+end
+
+
 function GM:PostPlayerDeath( ply )
 	
 	local userid = ply:UserID()
@@ -2516,7 +2525,10 @@ function fnafgmTimeThink()
 			if v:GetViewEntity()!=v then
 				v:SetViewEntity(v)
 			end
-			if v:Team()==1 then v:ConCommand( "pp_mat_overlay ''" ) end
+			if v:Team()==1 then
+				v:ConCommand( "pp_mat_overlay ''" )
+				v:AddFrags(1)
+			end
 		end
 		game.CleanUpMap()
 		
@@ -2650,6 +2662,9 @@ function fnafgmTimeThink()
 				v:ConCommand("play "..GAMEMODE.Sound_endnight)
 			end
 			v:ConCommand( "pp_mat_overlay ''" )
+			if v:Team()==1 then
+				v:AddFrags(1)
+			end
 			v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 65536 )
 			if (v:Team()==1 or v:Team()==2) and v:Alive() then
 				v:KillSilent()
@@ -3588,6 +3603,9 @@ function GM:Think()
 				for k, v in pairs(player.GetAll()) do
 					if (v:Team()==1 or v:Team()==2) and v:Alive() then
 						v:KillSilent()
+					end
+					if v:Team()==2 then
+						v:AddFrags(1)
 					end
 				end
 				
