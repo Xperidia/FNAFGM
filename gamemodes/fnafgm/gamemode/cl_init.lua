@@ -1164,6 +1164,6 @@ net.Receive( "fnafgmAnimatronicTauntSnd", function( len )
 
 	local a = net.ReadInt( 5 )
 	
-	if GAMEMODE.Vars.Animatronics[a][1] then GAMEMODE.Vars.Animatronics[a][1]:EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a])) end
+	if GAMEMODE.Vars.Animatronics[a][1] then LocalPlayer():EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a])) end
 	
 end)

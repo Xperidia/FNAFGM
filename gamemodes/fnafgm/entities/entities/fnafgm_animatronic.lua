@@ -180,9 +180,9 @@ function ENT:Taunt(ply)
 		net.Broadcast()
 		
 		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Taunt "..me.." by "..ply:GetName().."\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by "..ply:GetName().."\n" )
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Taunt "..me.." by console/script\n" )
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by console/script\n" )
 		end
 	
 	end
@@ -213,9 +213,9 @@ function ENT:GoJumpscare()
 	end
 	
 	timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
-		if me!=GAMEMODE.Animatronic.Foxy then
+		if GAMEMODE.Vars.startday and me!=GAMEMODE.Animatronic.Foxy then
 			self:Jumpscare()
-		else
+		elseif GAMEMODE.Vars.startday then
 			self:SetPos(Vector(-365,-358,64))
 			self.FoxyWillMove = false
 			self.FoxyMove = true

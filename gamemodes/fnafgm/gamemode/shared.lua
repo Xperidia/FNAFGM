@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.40
+GM.OfficialVersion 	= 1.41
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -375,6 +375,7 @@ GM.CamsNames = {
 	freddysnoevent_9 = "Pirate Cove",
 	freddysnoevent_10 = "Dining Area",
 	freddysnoevent_11 = "Kitchen",
+	freddysnoevent_12 = "Office",
 	fnaf2noevents_1 = "Party Room 1",
 	fnaf2noevents_2 = "Party Room 2",
 	fnaf2noevents_3 = "Party Room 3",
@@ -688,17 +689,15 @@ function GM:Initialize()
 		
 	end
 	
-	if GAMEMODE.Vars.SGvsA then
-		for key, val in pairs(GAMEMODE.Sound_Animatronic) do
-			for k, v in pairs(GAMEMODE.Sound_Animatronic[key]) do
-				sound.Add( {
-					name = "fnafgm_"..key.."_"..k,
-					channel = CHAN_STATIC,
-					volume = 1.0,
-					level = 0,
-					sound = v
-				} )
-			end
+	for key, val in pairs(GAMEMODE.Sound_Animatronic) do
+		for k, v in pairs(GAMEMODE.Sound_Animatronic[key]) do
+			sound.Add( {
+				name = "fnafgm_"..key.."_"..k,
+				channel = CHAN_STATIC,
+				volume = 1.0,
+				level = 0,
+				sound = v
+			} )
 		end
 	end
 	

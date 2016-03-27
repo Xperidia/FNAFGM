@@ -148,7 +148,7 @@ function GM:FNaFViewHUD()
 		
 		if !nope then
 			
-			if game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent" then
+			if game.GetMap()=="freddysnoevent" then
 				
 				OpenT = vgui.Create( "DButton" )
 				OpenT:SetParent(FNaFView)
@@ -191,7 +191,7 @@ function GM:FNaFViewHUD()
 				end
 		
 		
-			elseif game.GetMap()=="fnaf2" then
+			elseif game.GetMap()=="fnaf2noevents" then
 			
 				OpenT = vgui.Create( "DButton" )
 				OpenT:SetParent(FNaFView)
