@@ -1764,6 +1764,10 @@ function fnafgmMapOverrides()
 				v:Fire("SetOff")
 			end
 			
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyFreddy, GAMEMODE.APos.fnaf2noevents.SS)
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyBonnie, GAMEMODE.APos.fnaf2noevents.SS)
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyChica, GAMEMODE.APos.fnaf2noevents.SS)
+			
 			GAMEMODE.Vars.mapoverrideok = true
 			
 		elseif (game.GetMap()=="fnaf_freddypizzaevents") then
@@ -3487,12 +3491,14 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		
 		local cd = 0
 		
-		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1] then
+		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1] then
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1]
-		elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] then
+		elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] then
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night]
-		elseif GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
+		elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
+		else
+			MsgC( Color( 255, 255, 85 ), "FNAFGM: Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!\n")
 		end
 		
 		if apos==GAMEMODE.APos[game.GetMap()].Office then
