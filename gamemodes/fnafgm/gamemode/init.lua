@@ -1175,6 +1175,50 @@ function GM:StartNight(ply)
 			
 		end)
 		
+	elseif game.GetMap()=="fnaf3" then
+		
+		GAMEMODE:SetNightTemplate(true)
+		
+		fnafgmVarsUpdate()
+		
+		for k, v in pairs(team.GetPlayers(1)) do
+			if v:Alive() then
+				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
+				v:ConCommand("play "..GAMEMODE.Sound_startday)
+			end
+		end
+	
+		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+					local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
+					v:SetPos( spawn )
+					v:SetEyeAngles(Angle( 0, 90, 0 ))
+				end
+			end
+			
+			timer.Remove( "fnafgmTempoStartM" )
+			
+		end)
+
+		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+			
+			GAMEMODE.Vars.tempostart = false
+			fnafgmVarsUpdate()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+					GAMEMODE:GoFNaFView(v)
+				end
+			end
+			
+			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+			
+			timer.Remove( "fnafgmTempoStart" )
+			
+		end)
+		
 	elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
 		
 		GAMEMODE:SetNightTemplate(false)
@@ -2772,21 +2816,21 @@ net.Receive( "fnafgmShutLights",function(bits,ply)
 	fnafgmShutLights()
 end )
 
-function fnafgmUseLight(id)
+function fnafgmUseLight(id,ply)
 	
 	if id==1 and light1 and IsValid(light1) and !GAMEMODE.Vars.light1usewait then
-		light1:Fire("use")
+		fnafgmUse(ply, light1, false, true)
 	elseif id==2 and light2 and IsValid(light2) and !GAMEMODE.Vars.light2usewait then
-		light2:Fire("use")
+		fnafgmUse(ply, light2, false, true)
 	elseif id==3 and light3 and IsValid(light3) and !GAMEMODE.Vars.light3usewait then
-		light3:Fire("use")
+		fnafgmUse(ply, light3, false, true)
 	end
 	
 end
 net.Receive( "fnafgmUseLight",function(bits,ply)
 	local id = net.ReadFloat()
 	if (!id) then return end
-	fnafgmUseLight(id)
+	fnafgmUseLight(id,ply)
 end)
 
 

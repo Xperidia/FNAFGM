@@ -432,11 +432,13 @@ function fnafgmSecurityTablet()
 				lightbtn:SetSize( ScrW()/2+64, ScrH()-400 )
 				lightbtn:SetPos( 64, 256 )
 				lightbtn:SetText( "" )
-				lightbtn.DoClick = function( button )
-					if lastcam==6 then
-						fnafgmUseLight(1)
-					elseif lastcam==5 then
-						fnafgmUseLight(3)
+				lightbtn.OnMousePressed = function( button, key )
+					if key==MOUSE_LEFT then
+						if lastcam==6 then
+							fnafgmUseLight(1)
+						elseif lastcam==5 then
+							fnafgmUseLight(3)
+						end
 					end
 				end
 				lightbtn.Paint = function( self, w, h )
