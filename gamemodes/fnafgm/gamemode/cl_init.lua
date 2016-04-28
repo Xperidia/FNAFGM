@@ -4,72 +4,28 @@ DEFINE_BASECLASS( "gamemode_base" )
 
 if !sfont and game.GetMap()=="fnaf2noevents" then
 	
-	if file.Exists( "resource/fonts/OCR_A_Std.ttf", "GAME" ) then
-		
-		sfont = "OCR A Std"
-		sfont2 = "Graph 35+ pix"
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = true
-		
-	elseif file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-		
-		sfont = "Graph 35+ pix"
-		sfont2 = sfont
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = false
-		
-	else
-		
-		sfont = "Courier"
-		sfont2 = sfont
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = false
-		
-	end
+	sfont = "OCR A Std"
+	sfont2 = "Graph 35+ pix"
+	sfont3 = sfont
+	sfont4 = sfont2
 	
 elseif !sfont and game.GetMap()=="fnaf3" then
 	
-	if file.Exists( "resource/fonts/5Computers-In-Love.ttf", "GAME" ) then
-		
-		sfont = "5Computers In Love"
-		sfont2 = "Graph 35+ pix"
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = true
-		
-	elseif file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then
-		
-		sfont = "Graph 35+ pix"
-		sfont2 = sfont
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = false
-		
-	else
-		
-		sfont = "Courier"
-		sfont2 = sfont
-		sfont3 = sfont
-		sfont4 = sfont2
-		fontloaded = false
-		
-	end
+	sfont = "5Computers In Love"
+	sfont2 = "Graph 35+ pix"
+	sfont3 = sfont
+	sfont4 = sfont2
 	
 elseif !sfont and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" ) then
 	
-	fontloaded = true
-	if file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then sfont = "Graph 35+ pix" else sfont = "Courier" fontloaded = false end
+	sfont = "Graph 35+ pix"
 	sfont2 = sfont
-	if file.Exists( "resource/fonts/Precious.ttf", "GAME" ) then sfont3 = "Precious" else sfont3 = sfont fontloaded = false end
-	if file.Exists( "resource/fonts/DJB-Get-Digital.ttf", "GAME" ) then sfont4 = "DJB Get Digital" else sfont4 = sfont2 fontloaded = false end
+	sfont3 = "Precious"
+	sfont4 = "DJB Get Digital"
 	
 elseif !sfont then
 	
-	fontloaded = true
-	if file.Exists( "resource/fonts/graph-35-pix.ttf", "GAME" ) then sfont = "Graph 35+ pix" else sfont = "Courier" fontloaded = false end
+	sfont = "Graph 35+ pix"
 	sfont2 = sfont
 	sfont3 = sfont
 	sfont4 = sfont2
@@ -243,14 +199,6 @@ include( 'cl_secret.lua' )
 
 
 function fnafgmWarn()
-
-	if !fontloaded and fnafgm_cl_warn:GetBool() then
-		
-		LocalPlayer():PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font))
-		notification.AddLegacy(tostring(GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font), NOTIFY_ERROR, 10)
-		surface.PlaySound( "buttons/button10.wav" )
-		
-	end
 	
 	if !IsMounted( 'cstrike' ) and (game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus") and fnafgm_cl_warn:GetBool() then
 		

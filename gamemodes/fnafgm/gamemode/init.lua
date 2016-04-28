@@ -3134,7 +3134,7 @@ function GM:Think()
 					for k, v in pairs(team.GetPlayers(1)) do
 						if v:Alive() then
 							v:Kill()
-							v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
+							v:ConCommand( "pp_mat_overlay fnafgm/screamers/freddysnoevent_0" )
 							v:ConCommand("play "..GAMEMODE.Sound_xscream)
 						end
 					end

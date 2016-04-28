@@ -126,24 +126,13 @@ function ENT:Think()
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team()==1 then
 				
 				local attacker = self
-				local anima = "Unknown"
 				local sound = GAMEMODE.Sound_xscream
 				
 				if ( !IsValid( attacker ) ) then attacker = self end
-				if me==GAMEMODE.Animatronic.Freddy then
-					v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
-					anima = tostring(GAMEMODE.TranslatedStrings.freddy or GAMEMODE.Strings.en.freddy)
-				elseif me==GAMEMODE.Animatronic.Chica then
-					v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
-					anima = tostring(GAMEMODE.TranslatedStrings.chica or GAMEMODE.Strings.en.chica)
-				elseif me==GAMEMODE.Animatronic.Bonnie then
-					v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
-					anima = tostring(GAMEMODE.TranslatedStrings.bonnie or GAMEMODE.Strings.en.bonnie)
-				elseif me==GAMEMODE.Animatronic.Foxy then
-					anima = tostring(GAMEMODE.TranslatedStrings.foxy or GAMEMODE.Strings.en.foxy)
-				elseif me==GAMEMODE.Animatronic.GoldenFreddy then
-					v:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_goldenfreddy )
-					anima = tostring(GAMEMODE.TranslatedStrings.goldenfreddy or GAMEMODE.Strings.en.goldenfreddy)
+				
+				if file.Exists( "materials/"..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me, "GAME" ) then v:ConCommand( "pp_mat_overlay "..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me ) end
+				
+				if me==GAMEMODE.Animatronic.GoldenFreddy then
 					sound = GAMEMODE.Sound_xscream2
 				end
 				

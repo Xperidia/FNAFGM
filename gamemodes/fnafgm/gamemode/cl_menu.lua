@@ -83,17 +83,6 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		if !fontloaded then
-			
-			local fontlbl = vgui.Create( "DLabel" )
-			fontlbl:SetParent(fnafgmMenuF.links)
-			fontlbl:SetText( tostring(GAMEMODE.TranslatedStrings.fonthint or GAMEMODE.Strings.en.fonthint) )
-			fontlbl:SetPos( 15, 30 )
-			fontlbl:SetDark( 1 )
-			fontlbl:SizeToContents()
-			
-		end
-		
 		if engine.ActiveGamemode()=="fnafgm" then
 			
 			questionbtn = vgui.Create( "DButton" )
@@ -218,38 +207,31 @@ function fnafgmMenu()
 		infolbl:SetDark( 1 )
 		infolbl:SizeToContents()
 		
-		local fontinfo = vgui.Create( "DLabel" )
-		fontinfo:SetParent(fnafgmMenuF.info)
-		fontinfo:SetText( tostring(GAMEMODE.TranslatedStrings.fontloaded or GAMEMODE.Strings.en.fontloaded)..": "..tostring(fontloaded or "false") )
-		fontinfo:SetPos( 15, 30 )
-		fontinfo:SetDark( 1 )
-		fontinfo:SizeToContents()
-		
 		local cssinfo = vgui.Create( "DLabel" )
 		cssinfo:SetParent(fnafgmMenuF.info)
 		cssinfo:SetText( "Counter Strike: Source: "..tostring(IsMounted( 'cstrike' ) or "false") )
-		cssinfo:SetPos( 15, 50 )
+		cssinfo:SetPos( 15, 30 )
 		cssinfo:SetDark( 1 )
 		cssinfo:SizeToContents()
 		
 		local mapinfo = vgui.Create( "DLabel" )
 		mapinfo:SetParent(fnafgmMenuF.info)
 		mapinfo:SetText( "Map: "..game.GetMap() )
-		mapinfo:SetPos( 15, 70 )
+		mapinfo:SetPos( 15, 50 )
 		mapinfo:SetDark( 1 )
 		mapinfo:SizeToContents()
 		
 		local langinfo = vgui.Create( "DLabel" )
 		langinfo:SetParent(fnafgmMenuF.info)
 		langinfo:SetText( tostring(GAMEMODE.TranslatedStrings.lang or GAMEMODE.Strings.en.lang)..": "..GetConVarString("gmod_language") )
-		langinfo:SetPos( 15, 90 )
+		langinfo:SetPos( 15, 70 )
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
 		
 		local progressinfo = vgui.Create( "DLabel" )
 		progressinfo:SetParent(fnafgmMenuF.info)
 		progressinfo:SetText( tostring(GAMEMODE.TranslatedStrings.progressinfo or GAMEMODE.Strings.en.progressinfo)..": "..(nightp or "?") )
-		progressinfo:SetPos( 15, 110 )
+		progressinfo:SetPos( 15, 90 )
 		progressinfo:SetDark( 1 )
 		progressinfo:SizeToContents()
 		

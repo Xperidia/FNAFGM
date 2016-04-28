@@ -1,0 +1,14 @@
+"UnlitGeneric"
+{
+	"$basetexture" "fnafgm/screamers/freddysnoevent_2"
+
+	"Proxies" 
+	{ 
+		"AnimatedTexture" 
+		{
+			"animatedTextureVar" "$basetexture" 
+			"animatedTextureFrameNumVar" "$frame" 
+			"animatedTextureFrameRate" "23"
+		 } 
+	} 
+}
