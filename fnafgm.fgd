@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V4.9 BY XPERIDIA
+// FNAFGM FGD V5.0 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -82,11 +82,6 @@
 	output OnCase14(void) : "Fired when the input value equals the Case14 value."
 	output OnCase15(void) : "Fired when the input value equals the Case15 value."
 	output OnCase16(void) : "Fired when the input value equals the Case16 value."
-]
-
-@PointClass base(Angles) studioprop("models/editor/playerstart.mdl") = fnafgm_dummy : "DUMMY"
-[
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
 
 @PointClass base(Targetname, Angles) studio() = fnafgm_animatronic : "FNAFGM Animatronic"

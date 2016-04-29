@@ -88,24 +88,22 @@ function ENT:Think()
 	local me = self:GetAType()
 	local apos = self:GetAPos()
 	
-	if self.OldAPos != apos then
-		
-		local my = self:GetAType()
+	if apos!=nil and self.OldAPos != apos then
 		
 		self:SetColor( Color( 255, 255, 255, 0 ) )
 		
 		self.OldAPos = apos
 		
-		if GAMEMODE.AnimatronicAPos[my] and GAMEMODE.AnimatronicAPos[my][game.GetMap()] and GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos] then
-			self:SetPos(GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos][1])
-			self:SetAngles(GAMEMODE.AnimatronicAPos[my][game.GetMap()][apos][2])
+		if GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
+			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+			self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][2])
 		end
 		
 		self:SetColor( Color( 255, 255, 255, 255 ) )
 		
 	end
 	
-	if apos == GAMEMODE.APos[game.GetMap()].Office then
+	if apos!=nil and apos == GAMEMODE.APos[game.GetMap()].Office then
 		
 		for _, ply in pairs( player.GetAll() ) do
 			
