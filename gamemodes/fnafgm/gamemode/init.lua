@@ -84,7 +84,7 @@ function GM:ResetProgress(ply)
 	
 	file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 	
-	MsgC( Color( 255, 255, 85 ), "FNAFGM: Progress erased!\n" )
+	GAMEMODE:Log("Progress erased!")
 	
 	net.Start( "fnafgmNotif" )
 		net.WriteString( "Progress erased!" )
@@ -313,7 +313,7 @@ function GM:ChangeMap(ply,map)
 	
 	if ply:IsListenServerHost() or ply:IsAdmin() or game.GetMap()=="gm_construct" or game.GetMap()=="gm_flatgrass" then
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Map changing to "..map.." because of "..ply:GetName().."\n" )
+		GAMEMODE:Log("Map changing to "..map.." because of "..ply:GetName())
 		RunConsoleCommand( "changelevel", map )
 		
 	else
@@ -731,9 +731,9 @@ function fnafgmUse(ply, ent, test, test2)
 			ent:Fire("use")
 			
 			if IsValid(ply) and !GAMEMODE.Vars.DoorClosed[1] then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Left button used by "..ply:GetName().." (The door was open)\n" )
+				GAMEMODE:Log("Left button used by "..ply:GetName().." (The door was open)")
 			elseif IsValid(ply) and GAMEMODE.Vars.DoorClosed[1] then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Left button used by "..ply:GetName().." (The door was closed)\n" )
+				GAMEMODE:Log("Left button used by "..ply:GetName().." (The door was closed)")
 			end
 			
 			timer.Create( "fnafgmDoorWait1", 0.7, 1, function()
@@ -757,9 +757,9 @@ function fnafgmUse(ply, ent, test, test2)
 			ent:Fire("use")
 			
 			if IsValid(ply) and !GAMEMODE.Vars.DoorClosed[2] then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Right button used by "..ply:GetName().." (The door was open)\n" )
+				GAMEMODE:Log("Right button used by "..ply:GetName().." (The door was open)")
 			elseif IsValid(ply) and GAMEMODE.Vars.DoorClosed[2] then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Right button used by "..ply:GetName().." (The door was closed)\n" )
+				GAMEMODE:Log("Right button used by "..ply:GetName().." (The door was closed)")
 			end
 			
 			timer.Create( "fnafgmDoorWait2", 0.7, 1, function()
@@ -1109,7 +1109,7 @@ function GM:StartNight(ply)
 				
 			else
 				
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[k].." ("..(k or 0)..")") or k or 0).."!\n")
+				GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[k].." ("..(k or 0)..")") or k or 0).."!")
 				
 			end
 			
@@ -1326,9 +1326,9 @@ function GM:StartNight(ply)
 	end
 	
 	if IsValid(ply) then
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..GAMEMODE.Vars.night.." started by "..ply:GetName().."\n" )
+		GAMEMODE:Log("Night "..GAMEMODE.Vars.night.." started by "..ply:GetName())
 	else
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..GAMEMODE.Vars.night.." started by console/map/other\n" )
+		GAMEMODE:Log("Night "..GAMEMODE.Vars.night.." started by console/map/other")
 	end
 	
 end
@@ -1359,7 +1359,7 @@ function fnafgmAutoCleanUp()
 		end
 
 		if !online then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Auto clean up\n" )
+			GAMEMODE:Log("Auto clean up")
 			GAMEMODE.Vars.active = false
 			fnafgmResetGame()
 			fnafgmMapOverrides()
@@ -1411,7 +1411,7 @@ function fnafgmRestartNight()
 		GAMEMODE.Vars.norespawn=false
 		GAMEMODE.Vars.checkRestartNight=false
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: The night is reset\n" )
+		GAMEMODE:Log("The night is reset")
 		
 	end
 	
@@ -2102,11 +2102,11 @@ function fnafgmMapOverrides()
 			end
 			
 			GAMEMODE.Vars.mapoverrideok = true
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: There is no map overrides for this map...\n" )
+			GAMEMODE:Log("There is no map overrides for this map...")
 			
 		end
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Map overrides done\n" )
+		GAMEMODE:Log("Map overrides done")
 		
 	end
 	
@@ -2149,11 +2149,11 @@ function fnafgmTimeThink()
 		GAMEMODE.Vars.time = GAMEMODE.Vars.time+1
 	end
 	
-	MsgC( Color( 255, 255, 85 ), "FNAFGM: "..GAMEMODE.Vars.time..GAMEMODE.Vars.AMPM.." (Power left: "..GAMEMODE.Vars.power.."%)\n" )
+	GAMEMODE:Log(GAMEMODE.Vars.time..GAMEMODE.Vars.AMPM.." (Power left: "..GAMEMODE.Vars.power.."%)")
 	
 	if (GAMEMODE.Vars.time == GAMEMODE.TimeEnd and GAMEMODE.Vars.night >= GAMEMODE.NightEnd and GAMEMODE.Vars.AMPM == GAMEMODE.AMPM_End and !fnafgm_timethink_infinitenights:GetBool()) then
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Last night passed ("..GAMEMODE.Vars.night..") (Power left: "..GAMEMODE.Vars.power.."%)\n" )
+		GAMEMODE:Log("Last night passed ("..GAMEMODE.Vars.night..") (Power left: "..GAMEMODE.Vars.power.."%)")
 		GAMEMODE.Vars.startday = false
 		GAMEMODE.Vars.gameend = true
 		timer.Remove("fnafgmTimeThink")
@@ -2270,9 +2270,9 @@ function fnafgmTimeThink()
 			GAMEMODE.Vars.norespawn = false
 			fnafgmVarsUpdate()
 			if GAMEMODE.Vars.night==GAMEMODE.NightEnd then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start the hell!\n" )
+				GAMEMODE:Log("Ready to start the hell!")
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start a new week!\n" )
+				GAMEMODE:Log("Ready to start a new week!")
 			end
 			timer.Remove("fnafgmNightPassed")
 		
@@ -2280,7 +2280,7 @@ function fnafgmTimeThink()
 		
 	elseif (GAMEMODE.Vars.time == GAMEMODE.TimeEnd and GAMEMODE.Vars.AMPM == GAMEMODE.AMPM_End and !fnafgm_timethink_endlesstime:GetBool()) then
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Night "..GAMEMODE.Vars.night.." passed (Power left: "..GAMEMODE.Vars.power.."%)\n" )
+		GAMEMODE:Log("Night "..GAMEMODE.Vars.night.." passed (Power left: "..GAMEMODE.Vars.power.."%)")
 		GAMEMODE.Vars.startday = false
 		GAMEMODE.Vars.nightpassed = true
 		timer.Remove("fnafgmTimeThink")
@@ -2337,7 +2337,7 @@ function fnafgmTimeThink()
 			GAMEMODE.Vars.nightpassed = false
 			GAMEMODE.Vars.norespawn = false
 			fnafgmVarsUpdate()
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Ready to start a new night\n" )
+			GAMEMODE:Log("Ready to start a new night")
 			timer.Remove("fnafgmNightPassed")
 			
 		end)
@@ -2373,7 +2373,7 @@ function GM:FinishMove( ply, mv )
 				if (IsValid(ply)) then
 					ply:ConCommand("play "..GAMEMODE.Sound_Animatronic[4][1])
 					ply:Kill()
-					MsgC(Color( 255, 255, 85 ), "FNAFGM: "..ply:GetName().." is dead by the outside!\n")
+					GAMEMODE:Log(ply:GetName().." is dead by the outside!")
 				end
 				
 				timer.Remove( "fnafgmPlayerSecurityRoomNot"..userid )
@@ -2555,43 +2555,43 @@ function fnafgmCheckForNewVersion(ply,util)
 			if GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion == GAMEMODE.Vars.lastversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion.."\n" )
+					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion,true)
 				end
 				GAMEMODE.Vars.updateavailable = false
 				
 			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion > GAMEMODE.Vars.lastversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion.."\n" )
+					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion,true)
 				end
 				GAMEMODE.Vars.updateavailable = false
 				
 			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion < GAMEMODE.Vars.lastversion and code==200 then
 				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "FNAFGM: An update is available! V"..GAMEMODE.Vars.lastversion) end
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: An update is available! V"..GAMEMODE.Vars.lastversion.."\n" )
+				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "[FNAFGM] An update is available! V"..GAMEMODE.Vars.lastversion) end
+				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastversion,true)
 				GAMEMODE.Vars.updateavailable = true
 				
 			elseif GAMEMODE.Vars.lastversion==0 and code==200 then
 				
-				ErrorNoHalt( "FNAFGM: Failed to check the version (Bad content or version 0)\n" )
+				ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad content or version 0)\n" )
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad content or version 0)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad content or version 0)")
 				else
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad content or version 0)\n" )
+					GAMEMODE:Log("Failed to check the version (Bad content or version 0)",true)
 				end
 				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Error "..tostring(code or "?")..")")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Error "..tostring(code or "?")..")")
 				else
-					MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Error "..tostring(code or "?")..")\n" )
+					GAMEMODE:Log("Failed to check the version (Error "..tostring(code or "?")..")",true)
 				end
 				
 			end
@@ -2601,12 +2601,12 @@ function fnafgmCheckForNewVersion(ply,util)
 		end,
 		function( error )
 			
-			ErrorNoHalt( "FNAFGM: Failed to check the version (Bad address/No connection)\n" )
+			ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad address/No connection)\n" )
 			
 			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, "FNAFGM: Failed to check the version (Bad address/No connection)")
+				ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad address/No connection)")
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Failed to check the version (Bad address/No connection)\n" )
+				GAMEMODE:Log("Failed to check the version (Bad address/No connection)",true)
 			end
 			
 		end
@@ -2625,43 +2625,43 @@ function fnafgmCheckForNewVersion(ply,util)
 			if GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version == GAMEMODE.Vars.lastderivversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version.."\n" )
+					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version)
 				end
 				GAMEMODE.Vars.derivupdateavailable = false
 				
 			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version > GAMEMODE.Vars.lastderivversion and code==200 then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version)
 				elseif util==true then
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version.."\n" )
+					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version)
 				end
 				GAMEMODE.Vars.derivupdateavailable = false
 				
 			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version < GAMEMODE.Vars.lastderivversion and code==200 then
 				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, GAMEMODE.ShortName..": An update is available! V"..GAMEMODE.Vars.lastderivversion) end
-				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": An update is available! V"..GAMEMODE.Vars.lastderivversion.."\n" )
+				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "["..GAMEMODE.ShortName.."] An update is available! V"..GAMEMODE.Vars.lastderivversion) end
+				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastderivversion)
 				GAMEMODE.Vars.derivupdateavailable = true
 				
 			elseif GAMEMODE.Vars.lastderivversion==0 and code==200 then
 				
-				ErrorNoHalt( GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)\n" )
+				ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0)\n" )
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0)")
 				else
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Bad content or version 0)\n" )
+					GAMEMODE:Log("Failed to check the version (Bad content or version 0)")
 				end
 				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Error "..tostring(code or "?")..")")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Error "..tostring(code or "?")..")")
 				else
-					MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Error "..tostring(code or "?")..")\n" )
+					GAMEMODE:Log("Failed to check the version (Error "..tostring(code or "?")..")")
 				end
 				
 			end
@@ -2671,12 +2671,12 @@ function fnafgmCheckForNewVersion(ply,util)
 		end,
 		function( error )
 			
-			ErrorNoHalt( GAMEMODE.ShortName..": Failed to check the version (Bad address?)\n" )
+			ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad address?)\n" )
 			
 			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.ShortName..": Failed to check the version (Bad address?)")
+				ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad address?)")
 			else
-				MsgC( Color( 255, 255, 85 ), GAMEMODE.ShortName..": Failed to check the version (Bad address?)\n" )
+				GAMEMODE:Log("Failed to check the version (Bad address?)")
 			end
 			
 		end
@@ -2854,9 +2854,9 @@ concommand.Add("fnafgm_debug_reset", function(ply)
 			net.WriteBit(true)
 		net.Broadcast()
 		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been reset by "..ply:GetName().."\n" )
+			GAMEMODE:Log("The game has been reset by "..ply:GetName())
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: The game has been reset by console\n" )
+			GAMEMODE:Log("The game has been reset by console")
 		end
 	
 	elseif IsValid(ply) then
@@ -2899,9 +2899,9 @@ concommand.Add("fnafgm_debug_restart", function(ply)
 			end
 			
 			if IsValid(ply) then
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game will be stoped/restarted by "..ply:GetName().."\n" )
+				GAMEMODE:Log("The game will be stoped/restarted by "..ply:GetName())
 			else
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: The game will be stoped/restarted by console\n" )
+				GAMEMODE:Log("The game will be stoped/restarted by console")
 			end
 			
 		end
@@ -2981,7 +2981,7 @@ function GM:Think()
 	
 	hook.Call("fnafgmCustomPowerCalc")
 	
-	if GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent") then
+	if GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active and (game.GetMap()=="freddysnoevent") then
 		
 		GAMEMODE.Vars.powerusage = GAMEMODE.Power_Usage_Base
 		
@@ -3145,7 +3145,7 @@ function GM:Think()
 			
 			GAMEMODE.Vars.poweroff = true
 			GAMEMODE.Vars.norespawn = true
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: The power is gone :)\n" )
+			GAMEMODE:Log("The power is gone :)")
 		end
 		
 		fnafgmPowerUpdate()
@@ -3207,7 +3207,7 @@ function GM:Think()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: The battery is dead\n" )
+			GAMEMODE:Log("The battery is dead")
 			
 		end
 		
@@ -3237,7 +3237,7 @@ function GM:Think()
 				net.WriteFloat(5)
 				net.WriteBit(true)
 			net.Broadcast()
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: The security guards are dead, the night will be reset\n" )
+			GAMEMODE:Log("The security guards are dead, the night will be reset")
 			
 			hook.Call("fnafgmGeneralDeath")
 			
@@ -3410,9 +3410,9 @@ function GM:CreateCamera(x,y,z,pitch,yaw,roll,ply)
 	CAM:SetName("fnafgm_Cam"..num)
 	CAM:Spawn()
 	if IsValid(ply) then
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_Cam"..num.." created by "..ply:GetName().."\n" )
+		GAMEMODE:Log("fnafgm_Cam"..num.." created by "..ply:GetName())
 	else
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: fnafgm_Cam"..num.." created by console/script\n" )
+		GAMEMODE:Log("fnafgm_Cam"..num.." created by console/script")
 	end
 end
 
@@ -3482,7 +3482,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
 		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 	else
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!\n")
+		GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!")
 	end
 	
 	GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, 0 }
@@ -3492,9 +3492,9 @@ function GM:CreateAnimatronic(a,apos,ply)
 	net.Broadcast()
 	
 	if IsValid(ply) then
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).."\n" )
+		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
 	else
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).."\n" )
+		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
 	end
 	
 end
@@ -3542,7 +3542,7 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
 			cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!\n")
+			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!")
 		end
 		
 		if apos==GAMEMODE.APos[game.GetMap()].Office then
@@ -3558,9 +3558,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		net.Broadcast()
 		
 		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by "..ply:GetName().."\n" )
+			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by "..ply:GetName())
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script\n" )
+			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script")
 		end
 		
 	end
@@ -3604,3 +3604,4 @@ function GM:AutoMoveAnimatronic(a)
 	end
 	
 end
+

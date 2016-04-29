@@ -566,7 +566,7 @@ function GM:HUDPaint()
 	
 	if GAMEMODE.Vars.willviewcheck and client:Team()==TEAM_UNASSIGNED then
 		
-		if game.GetMap()=="freddys" then
+		if game.GetMap()=="freddysnoevent" then
 			
 			draw.DrawText(client:GetName(), "FNAFGMCHECK", ScrW()/2-50, ScrH()/2-4, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER)
 			

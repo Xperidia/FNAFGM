@@ -169,9 +169,9 @@ function ENT:Taunt(ply)
 		net.Broadcast()
 		
 		if IsValid(ply) then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by "..ply:GetName().."\n" )
+			GAMEMODE:Log(((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by "..ply:GetName())
 		else
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by console/script\n" )
+			GAMEMODE:Log(((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by console/script")
 		end
 	
 	end
@@ -236,7 +236,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
+			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
 			
 		elseif me==GAMEMODE.Animatronic.Bonnie and !GAMEMODE.Vars.DoorClosed[1] then
 			
@@ -252,7 +252,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
+			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
 			
 		elseif me==GAMEMODE.Animatronic.Chica and !GAMEMODE.Vars.DoorClosed[2] then
 			
@@ -268,7 +268,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
+			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
 			
 		elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
 			
@@ -283,7 +283,7 @@ function ENT:Jumpscare()
 				
 			end
 			
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Jumpscared by "..GAMEMODE.AnimatronicName[me].."\n" )
+			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
 			
 		elseif me==GAMEMODE.Animatronic.Foxy then
 			
@@ -298,7 +298,7 @@ function ENT:Jumpscare()
 			end
 			
 			GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power\n" )
+			GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
 			fnafgmPowerUpdate()
 			if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
 			if GAMEMODE.Vars.addfoxyknockdoorpena==4 then

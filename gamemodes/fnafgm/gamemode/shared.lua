@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.44
+GM.OfficialVersion 	= 1.45
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -56,8 +56,8 @@ GM.Sound_securitycamdown3 = Sound("fnafgm/monitoroff3.ogg")
 GM.Sound_camselect = Sound("fnafgm/camselect.ogg")
 GM.Sound_lighterror = Sound("fnafgm/lighterror.ogg")
 GM.Sound_end = {
-	freddys = Sound("fnafgm/end.ogg"),
-	fnaf2 = Sound("fnafgm/end2.ogg")
+	freddysnoevent = Sound("fnafgm/end.ogg"),
+	fnaf2noevents = Sound("fnafgm/end2.ogg")
 }
 GM.Sound_Animatronic = {}
 GM.Sound_Animatronic[0] = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
@@ -81,9 +81,6 @@ GM.Strings = {
 		animatronic = "Animatronic",
 		tonight = "To Night",
 		night = "Night",
-		freddys = "Turn off the main power to start the night",
-		fnaf2 = "Turn on the %s to start the night",
-		fnaf_freddypizzaevents = "Type !start to start the map",
 		startanimatronics = "The main power is on",
 		foxy = "Foxy",
 		freddy = "Freddy",
@@ -124,9 +121,6 @@ GM.Strings = {
 		disablexpsc = "Disable Xperidia's Show Case"
 	},
 	fr = {
-		freddys = "Coupez le courant pour démarrer la nuit",
-		fnaf2 = "Activez les %s pour démarrer la nuit",
-		fnaf_freddypizzaevents = "TAPPEZ !START POUR DÉMARRER",
 		startanimatronics = "Le courant est allumé",
 		unassigned_SGvsA = "Choisissez un camp",
 		unassigned_powerdown = "Vous ne pouvez pas rejoindre quand il n'y a plus d'energie !",
@@ -163,9 +157,6 @@ GM.Strings = {
 		animatronic = "Animasyoncu",
 		--tonight = "Bu Gece",
 		--night = "Gece",
-		freddys = "Ana gücü kapatarak oyuna baþlayýn.",
-		fnaf2 = "Bunu açarak %s Geceye baþlayýn.",
-		fnaf_freddypizzaevents = "!start yazarak geceye baþlayýn.",
 		startanimatronics = "Ana güç açýk",
 		unassigned_SGvsA = "Takým seçin",
 		powerleft = "Kalan güç:",
@@ -204,9 +195,6 @@ GM.Strings = {
 		animatronic = "Аниматроник",
 		--tonight = "На ночь",
 		--night = "Ночь",
-		freddys = "Выключите главное питание, чтобы начать ночь",
-		fnaf2 = "Включите аниматроников, чтобы начать ночь",
-		fnaf_freddypizzaevents = "Введите !start, чтобы начать игру",
 		startanimatronics = "Главное питание включено",
 		foxy = "Фокси",
 		freddy = "Фредди",
@@ -251,9 +239,6 @@ GM.Strings = {
 		animatronic = "Аніматронік",
 		--tonight = "На Ніч",
 		--night = "Ніч",
-		freddys = "Вимкніть головне живлення, щоб почати ніч",
-		fnaf2 = "Увімкніть аніматроніков, щоб почати ніч",
-		fnaf_freddypizzaevents = "Введіть !start, щоб почати гру",
 		startanimatronics = "Головне харчування включено",
 		foxy = "Фоксі",
 		freddy = "Фредді",
@@ -298,10 +283,10 @@ function GM:LoadLanguage(lang)
 	
 	if lang!="" and GAMEMODE.Strings[lang] then
 		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' strings loaded!\n" )
+		GAMEMODE:Log("'"..lang.."' strings loaded!")
 	elseif lang!="" then
 		table.Empty(GAMEMODE.TranslatedStrings)
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: '"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/\n" )
+		GAMEMODE:Log("'"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
 	end
 	
 end
@@ -634,6 +619,7 @@ fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVA
 fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
 fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
 fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
+fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and logs." )
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
@@ -786,7 +772,7 @@ function GM:SaveProgress()
 		
 		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved! ("..tab.Night..")\n" )
+		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
 	end
 	
@@ -821,7 +807,7 @@ function GM:SaveProgress()
 		
 		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression saved! ("..tab.Night..")\n" )
+		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
 	end
 	
@@ -847,7 +833,7 @@ function GM:LoadProgress()
 					end
 				end
 				
-				MsgC( Color( 255, 255, 85 ), "FNAFGM: Progression loaded! ("..GAMEMODE.Vars.night..")\n" )
+				GAMEMODE:Log("Progression loaded! ("..GAMEMODE.Vars.night..")")
 				
 				return
 				
@@ -886,17 +872,17 @@ end
 function GM:RefreshBypass()
 	
 	if SERVER then
-		MsgC( Color( 255, 255, 85 ), "FNAFGM: Checking bypasses...\n" )
+		GAMEMODE:Log("Checking bypasses...")
 		local files, dir = file.Find("fnafgm/groups/" .. "*", "DATA")
 		table.Empty(GAMEMODE.ListGroup)
 		for k, v in pairs(files) do
 			GAMEMODE.ListGroup["group_"..string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/"..v, "DATA") )
 		end
 		if table.Count(GAMEMODE.ListGroup)==0 then
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: No bypasses detected!\n" )
+			GAMEMODE:Log("No bypasses detected!")
 		else
 			PrintTable(GAMEMODE.ListGroup)
-			MsgC( Color( 255, 255, 85 ), "FNAFGM: Bypasses checked!\n" )
+			GAMEMODE:Log("Bypasses checked!")
 		end
 	end
 	
@@ -1120,3 +1106,19 @@ timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
 	end
 	
 end)
+
+
+function GM:Log(str,tn)
+	
+	local name = (GAMEMODE.ShortName or "FNAFGM")
+	if tn then name = "FNAFGM" end
+	
+	if game.IsDedicated() or GAMEMODE.Vars.DS then
+		local tmstmp = os.time()
+		local time = os.date( "L %d/%m/%Y - %H:%M:%S" , tmstmp )
+		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+	elseif fnafgm_enabledevmode:GetBool() then
+		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+	end
+	
+end
