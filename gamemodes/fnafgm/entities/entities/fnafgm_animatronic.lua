@@ -103,7 +103,7 @@ function ENT:Think()
 		
 	end
 	
-	if apos!=nil and apos == GAMEMODE.APos[game.GetMap()].Office then
+	if apos!=nil and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
 		
 		for _, ply in pairs( player.GetAll() ) do
 			
