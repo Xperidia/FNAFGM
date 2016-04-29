@@ -31,13 +31,13 @@ function ENT:KeyValue(k, v)
 	
 	if debugmode then print(k, v) end
 	
-	if string.Left(k, 5) == "AType" then
+	if k == "AType" then
 		
-		self:SetAType(tonumber(string.sub(k, 6)))
+		self:SetAType(tonumber(v))
 		
-	elseif string.Left(k, 4) == "APos" then
+	elseif k == "APos" then
 		
-		self:SetAPos(tonumber(string.sub(k, 5)))
+		self:SetAPos(tonumber(v))
 		
 	end
 	
