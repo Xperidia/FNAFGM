@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.48
+GM.OfficialVersion 	= 1.49
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -620,6 +620,7 @@ fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, 
 fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
 fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
 fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and logs." )
+fnafgm_sgvsa = CreateConVar( "fnafgm_sgvsa", 0, FCVAR_REPLICATED, "Enable PvP SGvsA mode." )
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
@@ -685,10 +686,20 @@ function GM:Initialize()
 	end
 	
 	
-	--if (game.GetMap()=="freddysnoevent" --[[or game.GetMap()=="fnaf4versus"]]) then
-		--GAMEMODE.Vars.SGvsA=true
-		--GAMEMODE.Vars.modetext = " - PvP SGvsA"
-	--end
+	if fnafgm_sgvsa:GetBool() then
+		GAMEMODE.Vars.SGvsA = true
+		GAMEMODE.Vars.modetext = " - PvP SGvsA"
+	end
+	
+	cvars.AddChangeCallback( "fnafgm_sgvsa", function( convar_name, value_old, value_new )
+		if tonumber(value_new)>=1 then
+			GAMEMODE.Vars.SGvsA = true
+			GAMEMODE.Vars.modetext = " - PvP SGvsA"
+		else
+			GAMEMODE.Vars.SGvsA = false
+			GAMEMODE.Vars.modetext = ""
+		end
+	end)
 	
 	
 	if GetHostName()=="1987" then --Not a easter egg ^^

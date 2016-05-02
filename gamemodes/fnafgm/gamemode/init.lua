@@ -465,6 +465,8 @@ end
 
 function GM:PostPlayerDeath( ply )
 	
+	ply:SendLua([[GAMEMODE.Vars.lastcam=nil]])
+	
 	local userid = ply:UserID()
 	local oldteam = ply:Team()
 	
@@ -1062,6 +1064,11 @@ function GM:StartNight(ply)
 				v:Fire("Enable")
 			end
 			ents.FindByName( "Powerlvl" )[1]:Fire("Enable")
+			
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Freddy, GAMEMODE.APos.freddysnoevent.SS)
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Bonnie, GAMEMODE.APos.freddysnoevent.SS)
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Chica, GAMEMODE.APos.freddysnoevent.SS)
+			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Foxy, GAMEMODE.APos.freddysnoevent.PC)
 			
 			fnafgmVarsUpdate()
 			
@@ -1793,7 +1800,7 @@ function fnafgmMapOverrides()
 			DeathCam:SetName( "DeathCam" )
 			DeathCam:Spawn()
 			
-			SafeZoneCam = ents.Create( "fnafgm_camera" )
+			local SafeZoneCam = ents.Create( "fnafgm_camera" )
 			SafeZoneCam:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] + Vector( 0, 0, 64 ) )
 			SafeZoneCam:SetAngles( GAMEMODE.FNaFView[game.GetMap()][2] )
 			SafeZoneCam:SetName( "SafeZoneCam" )
@@ -2707,43 +2714,40 @@ concommand.Add("fnafgm_version", function(ply)
 end) 
 
 
-function fnafgmSetCamera(id)
-	local camlink = ents.FindByName( "camlink"..id )[1]
-	local cam = ents.FindByName( "Cam"..id )[1]
-	if ( IsValid(camlink) and IsValid(cam) ) then
-		camlink:Fire( "SetCamera","Cam"..id,0 )
-		cam:Fire( "SetOnAndTurnOthersOff",true,0 )
-	elseif IsValid(camlink) and IsValid(ents.FindByName( "CamOff" )[1]) and id==11 then
-		camlink:Fire( "SetCamera","CamOff",0 )
-		ents.FindByName( "CamOff" )[1]:Fire( "SetOnAndTurnOthersOff",true,0 )
-	end
-end
-
-function fnafgmMusicBox()
-	local musicbox = ents.FindByName( "rotbutton" )[1]
-	if ( IsValid(musicbox) ) then
-		musicbox:Fire( "use" )
-	end
-end
-
-
 function fnafgmSetView(ply,id)
 	
 	local cam = ents.FindByName( "Cam"..id )[1]
 	local fnafgmCam = ents.FindByName( "fnafgm_Cam"..id )[1]
+	local isok = false
 	
 	if ( IsValid(fnafgmCam) and IsValid(ply) ) then
 		ply:SetViewEntity( fnafgmCam )
+		isok = true
 	elseif ( IsValid(cam) and IsValid(ply) ) then
 		cam:Fire( "SetOn" )
 		ply:SetViewEntity( cam )
+		isok = true
 	elseif IsValid(ply) and id==0 then
 		ply:SetViewEntity( ply )
+		isok = true
 	elseif IsValid(ply) and id==11 then
 		local cam = ents.FindByName( "fnafgm_CamOff" )[1]
 		if IsValid(cam) then
 			ply:SetViewEntity( cam )
+			isok = true
 		end
+	end
+	
+	if isok then
+		ply.lastcam = id
+	end
+	
+	if id==0 then
+		
+	elseif GAMEMODE.CamsNames[game.GetMap().."_"..id] then
+		GAMEMODE:Log( ply:GetName().." requested "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." camera ("..id..") | Granted? "..tostring(isok) )
+	else
+		GAMEMODE:Log( ply:GetName().." requested camera "..id.." | Granted? "..tostring(isok) )
 	end
 	
 end
@@ -3530,7 +3534,7 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		
 		if GAMEMODE.Vars.Animatronics[a][3]==-1 or !GAMEMODE.Vars.startday then return end
 		
-		if IsValid(ply) and ( GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].Office or GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].SS ) then return end
+		if IsValid(ply) and ( GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].Office ) then return end
 		
 		ent:SetAPos(apos or 7)
 		

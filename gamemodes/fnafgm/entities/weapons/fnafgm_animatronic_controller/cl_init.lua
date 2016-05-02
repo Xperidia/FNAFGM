@@ -9,12 +9,12 @@ function fnafgmAnimatronicsController()
 	if !IsValid(AnimatronicsControllerGUI) then
 		
 		if game.GetMap()=="freddysnoevent" then
-			if !lastcam then
-				lastcam = 7
+			if !GAMEMODE.Vars.lastcam then
+				GAMEMODE.Vars.lastcam = 7
 			end
 		else
-			if !lastcam then
-				lastcam = 1
+			if !GAMEMODE.Vars.lastcam then
+				GAMEMODE.Vars.lastcam = 1
 			end
 		end
 		
@@ -28,7 +28,7 @@ function fnafgmAnimatronicsController()
 			end
 		end
 		
-		fnafgmSetView(lastcam)
+		fnafgmSetView(GAMEMODE.Vars.lastcam)
 		
 		AnimatronicsControllerGUI = vgui.Create( "DFrame" )
 		AnimatronicsControllerGUI:ParentToHUD()
@@ -59,7 +59,7 @@ function fnafgmAnimatronicsController()
 			
 			local CamsNames = vgui.Create( "DLabel" )
 			CamsNames:SetParent(AnimatronicsControllerGUI)
-			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+			CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 			CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 			CamsNames:SetFont("FNAFGMTIME")
 			CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
@@ -241,14 +241,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(1)
-					lastcam = 1
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 1
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(1)
 				end
 			end
 			CAM2B.Paint = function( self, w, h )
-				if lastcam==1 then
+				if GAMEMODE.Vars.lastcam==1 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -262,14 +262,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(2)
-					lastcam = 2
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 2
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(2)
 				end
 			end
 			CAM2A.Paint = function( self, w, h )
-				if lastcam==2 then
+				if GAMEMODE.Vars.lastcam==2 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -283,14 +283,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(3)
-					lastcam = 3
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 3
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(3)
 				end
 			end
 			CAM3.Paint = function( self, w, h )
-				if lastcam==3 then
+				if GAMEMODE.Vars.lastcam==3 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -304,14 +304,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(4)
-					lastcam = 4
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 4
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(4)
 				end
 			end
 			CAM4A.Paint = function( self, w, h )
-				if lastcam==4 then
+				if GAMEMODE.Vars.lastcam==4 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -325,14 +325,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(5)
-					lastcam = 5
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 5
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(5)
 				end
 			end
 			CAM4B.Paint = function( self, w, h )
-				if lastcam==5 then
+				if GAMEMODE.Vars.lastcam==5 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -346,14 +346,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(6)
-					lastcam = 6
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 6
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(6)
 				end
 			end
 			CAM5.Paint = function( self, w, h )
-				if lastcam==6 then
+				if GAMEMODE.Vars.lastcam==6 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -367,14 +367,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(7)
-					lastcam = 7
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 7
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(7)
 				end
 			end
 			CAM1A.Paint = function( self, w, h )
-				if lastcam==7 then
+				if GAMEMODE.Vars.lastcam==7 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -388,14 +388,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(8)
-					lastcam = 8
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 8
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(8)
 				end
 			end
 			CAM7.Paint = function( self, w, h )
-				if lastcam==8 then
+				if GAMEMODE.Vars.lastcam==8 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -409,14 +409,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(9)
-					lastcam = 9
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 9
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					
 				end
 			end
 			CAM1C.Paint = function( self, w, h )
-				if lastcam==9 then
+				if GAMEMODE.Vars.lastcam==9 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -430,14 +430,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(10)
-					lastcam = 10
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 10
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(10)
 				end
 			end
 			CAM1B.Paint = function( self, w, h )
-				if lastcam==10 then
+				if GAMEMODE.Vars.lastcam==10 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -451,14 +451,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(11)
-					lastcam = 11
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 11
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(11)
 				end
 			end
 			CAM6.Paint = function( self, w, h )
-				if lastcam==11 then
+				if GAMEMODE.Vars.lastcam==11 then
 					draw.RoundedBox( 0, 4, 4, w-8, h-8, Color( 136, 168, 0, 128 ) )
 				end
 			end
@@ -472,14 +472,14 @@ function fnafgmAnimatronicsController()
 				if key==MOUSE_LEFT then
 					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
 					fnafgmSetView(12)
-					lastcam = 12
-					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..lastcam] or "" )
+					GAMEMODE.Vars.lastcam = 12
+					CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 				elseif key==MOUSE_RIGHT then
 					AnimatronicsControllerGUI:MoveMenu(12)
 				end
 			end
 			OFFICE.Paint = function( self, w, h )
-				if lastcam==12 then
+				if GAMEMODE.Vars.lastcam==12 then
 					draw.RoundedBox( 0, 2, 2, w-4, h-4, Color( 136, 168, 0, 128 ) )
 				end
 			end
