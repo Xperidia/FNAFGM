@@ -27,6 +27,8 @@ SWEP.BounceWeaponIcon = false
 SWEP.ViewModel			= "models/weapons/c_arms.mdl"
 SWEP.WorldModel			= ""
 
+local laststate
+
 function SWEP:Initialize()
 	self:SetWeaponHoldType("normal")
 	if CLIENT then
@@ -86,6 +88,26 @@ function SWEP:Think()
 	if SERVER and !GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and !fnafgmPlayerCanByPass(self.Owner,"tab") then
 		net.Start( "fnafgmCloseTablet" )
 		net.Send(self.Owner)
+	end
+	
+	if SERVER then
+		if GAMEMODE.Vars.tabused[ply] and laststate!=1 then
+			self:SetWeaponHoldType("camera")
+			laststate = 1
+		elseif !GAMEMODE.Vars.tabused[ply] and laststate!=0 then
+			self:SetWeaponHoldType("normal")
+			laststate = 0
+		end
+	end
+	
+	if CLIENT then
+		if IsValid(Monitor) and laststate!=1 then
+			self:SetWeaponHoldType("camera")
+			laststate = 1
+		elseif !IsValid(Monitor) and laststate!=0 then
+			self:SetWeaponHoldType("normal")
+			laststate = 0
+		end
 	end
 	
 end

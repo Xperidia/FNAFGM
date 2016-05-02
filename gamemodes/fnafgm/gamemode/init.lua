@@ -1032,226 +1032,50 @@ function GM:StartNight(ply)
 	
 	if GAMEMODE.Vars.startday then return end
 	
-	if game.GetMap()=="freddysnoevent" then
-		
-		GAMEMODE:SetNightTemplate(true)
-		if GAMEMODE.Vars.Halloween or fnafgm_forceseasonalevent:GetInt()==3 then
-			sound.Play( "fnafgm/robotvoice.wav", Vector( -80, -1163, 128 ), 150 )
-		end
-		
-		for k, v in pairs(ents.FindByName("Lights")) do
-			v:Fire("TurnOff")
-		end
-		for k, v in pairs(ents.FindByName("PowerDown")) do
-			v:Fire("PlaySound")
-		end
-		for k, v in pairs(ents.FindByName("SpotLights")) do
-			v:Fire("TurnOff")
-		end
-		for k, v in pairs(ents.FindByName("SpotLights2")) do
-			v:Fire("TurnOff")
-		end
-		for k, v in pairs(ents.FindByName("CameraLights")) do
-			v:Fire("TurnOn")
-		end
-		for k, v in pairs(ents.FindByName("cc2")) do
-			v:Fire("Enable")
-		end
-		ents.FindByName( "Powerlvl" )[1]:Fire("Enable")
-		
-		fnafgmVarsUpdate()
-		
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
-				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-			end
-		end
-		
-		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
-			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
-					v:SetPos( Vector( -80, -1224, 64 ) )
-					v:SetEyeAngles(Angle( 0, 90, 0 ))
-				end
-			end
-			
-			timer.Remove( "fnafgmTempoStartM" )
-			
-		end)
-		
-		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
-			
-			GAMEMODE.Vars.tempostart = false
-			fnafgmVarsUpdate()
-			fnafgmPowerUpdate()
-			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-					GAMEMODE:GoFNaFView(v)
-				end
-			end
-			
-			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
-			
-			timer.Remove( "fnafgmTempoStart" )
-			
-		end)
-		
-		for k, v in pairs(GAMEMODE.Vars.Animatronics) do
-			
-			if GAMEMODE.AnimatronicsCD[k] and GAMEMODE.AnimatronicsCD[k][game.GetMap()] and GAMEMODE.AnimatronicsMaxCD[k] and GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()] then
-				
-				local randtime = math.random(GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsCD[k][game.GetMap()][0], GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][0])
-				if GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night]!=-1 then
-					timer.Create( "fnafgmAnimatronicMove"..k, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(k) end)
-				end
-				
-			else
-				
-				GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[k].." ("..(k or 0)..")") or k or 0).."!")
-				
-			end
-			
-		end
-		
-	elseif game.GetMap()=="fnaf2noevents" then
-		
-		GAMEMODE:SetNightTemplate(false)
-		if GAMEMODE.Vars.night==1 then
-			GAMEMODE.Vars.power = 115
-			GAMEMODE.Vars.powertot = 115
-		elseif GAMEMODE.Vars.night==2 then
-			GAMEMODE.Vars.power = 100
-			GAMEMODE.Vars.powertot = 100
-		elseif GAMEMODE.Vars.night==3 then
-			GAMEMODE.Vars.power = 85
-			GAMEMODE.Vars.powertot = 85
-		elseif GAMEMODE.Vars.night==4 then
-			GAMEMODE.Vars.power = 67
-			GAMEMODE.Vars.powertot = 67
-		else
-			GAMEMODE.Vars.power = 50
-			GAMEMODE.Vars.powertot = 50
-		end
-		
-		fnafgmVarsUpdate()
+	local nope = hook.Call("fnafgmCustomStart", ply)
 	
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
-				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-			end
-		end
-	
-		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
-			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
-					local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-					v:SetPos( spawn )
-					v:SetEyeAngles(Angle( 0, 90, 0 ))
-				end
-			end
-			
-			timer.Remove( "fnafgmTempoStartM" )
-			
-		end)
-	
-		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
-			
-			GAMEMODE.Vars.tempostart = false
-			fnafgmVarsUpdate()
-			fnafgmPowerUpdate()
-			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-					GAMEMODE:GoFNaFView(v)
-				end
-			end
-			
-			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
-			
-			timer.Remove( "fnafgmTempoStart" )
-			
-		end)
+	if !nope then
 		
-	elseif game.GetMap()=="fnaf3" then
-		
-		GAMEMODE:SetNightTemplate(true)
-		
-		fnafgmVarsUpdate()
-		
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
-				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-				v:ConCommand("play "..GAMEMODE.Sound_startday)
-			end
-		end
-	
-		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+		if game.GetMap()=="freddysnoevent" then
 			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
-					local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-					v:SetPos( spawn )
-					v:SetEyeAngles(Angle( 0, 90, 0 ))
-				end
+			GAMEMODE:SetNightTemplate(true)
+			if GAMEMODE.Vars.Halloween or fnafgm_forceseasonalevent:GetInt()==3 then
+				sound.Play( "fnafgm/robotvoice.wav", Vector( -80, -1163, 128 ), 150 )
 			end
 			
-			timer.Remove( "fnafgmTempoStartM" )
+			for k, v in pairs(ents.FindByName("Lights")) do
+				v:Fire("TurnOff")
+			end
+			for k, v in pairs(ents.FindByName("PowerDown")) do
+				v:Fire("PlaySound")
+			end
+			for k, v in pairs(ents.FindByName("SpotLights")) do
+				v:Fire("TurnOff")
+			end
+			for k, v in pairs(ents.FindByName("SpotLights2")) do
+				v:Fire("TurnOff")
+			end
+			for k, v in pairs(ents.FindByName("CameraLights")) do
+				v:Fire("TurnOn")
+			end
+			for k, v in pairs(ents.FindByName("cc2")) do
+				v:Fire("Enable")
+			end
+			ents.FindByName( "Powerlvl" )[1]:Fire("Enable")
 			
-		end)
-
-		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
-			
-			GAMEMODE.Vars.tempostart = false
 			fnafgmVarsUpdate()
 			
 			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-					GAMEMODE:GoFNaFView(v)
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
 				end
 			end
 			
-			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
-			
-			timer.Remove( "fnafgmTempoStart" )
-			
-		end)
-		
-	elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
-		
-		GAMEMODE:SetNightTemplate(false)
-		if PlushTrapWin then GAMEMODE.Vars.time=2 PlushTrapWin=false else GAMEMODE.Vars.time = GAMEMODE.TimeBase end
-			
-		fnafgmVarsUpdate()
-		
-		if game.GetMap()!="fnaf4versus" then
-			
-			for k, v in pairs(ents.FindByClass("info_player_start")) do
-				v:Remove()
-			end
-			
-			local spawn = ents.Create( "info_player_start" )
-			spawn:SetPos( Vector( -640, -63, 0 ) )
-			spawn:SetAngles( Angle( 0, 90, 0 ) )
-			spawn:Spawn()
-		
-		end
-		
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
-				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-			end
-		end
-		
-		if game.GetMap()!="fnaf4versus" then
-	
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
 					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
-						v:SetPos( Vector( -640, -63, 0 ) )
+						v:SetPos( Vector( -80, -1224, 64 ) )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
 					end
 				end
@@ -1260,68 +1084,250 @@ function GM:StartNight(ply)
 				
 			end)
 			
-		end
-
-		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				GAMEMODE.Vars.tempostart = false
+				fnafgmVarsUpdate()
+				fnafgmPowerUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						GAMEMODE:GoFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
 			
-			GAMEMODE.Vars.tempostart = false
+			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+				
+				if GAMEMODE.AnimatronicsCD[k] and GAMEMODE.AnimatronicsCD[k][game.GetMap()] and GAMEMODE.AnimatronicsMaxCD[k] and GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()] then
+					
+					local randtime = math.random(GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsCD[k][game.GetMap()][0], GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][0])
+					if GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night]!=-1 then
+						timer.Create( "fnafgmAnimatronicMove"..k, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(k) end)
+					end
+					
+				else
+					
+					GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[k].." ("..(k or 0)..")") or k or 0).."!")
+					
+				end
+				
+			end
+			
+		elseif game.GetMap()=="fnaf2noevents" then
+			
+			GAMEMODE:SetNightTemplate(false)
+			if GAMEMODE.Vars.night==1 then
+				GAMEMODE.Vars.power = 115
+				GAMEMODE.Vars.powertot = 115
+			elseif GAMEMODE.Vars.night==2 then
+				GAMEMODE.Vars.power = 100
+				GAMEMODE.Vars.powertot = 100
+			elseif GAMEMODE.Vars.night==3 then
+				GAMEMODE.Vars.power = 85
+				GAMEMODE.Vars.powertot = 85
+			elseif GAMEMODE.Vars.night==4 then
+				GAMEMODE.Vars.power = 67
+				GAMEMODE.Vars.powertot = 67
+			else
+				GAMEMODE.Vars.power = 50
+				GAMEMODE.Vars.powertot = 50
+			end
+			
 			fnafgmVarsUpdate()
-			fnafgmPowerUpdate()
-			
+		
 			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-					GAMEMODE:GoFNaFView(v)
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
 				end
 			end
-			
-			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
-			
-			timer.Remove( "fnafgmTempoStart" )
-			
-		end)
 		
-	elseif game.GetMap()!="gm_construct" and game.GetMap()!="gm_flatgrass" then
-		
-		GAMEMODE:SetNightTemplate(true)
-		
-		fnafgmVarsUpdate()
-		
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
-				v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-			end
-		end
-	
-		timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
-			
-			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
-					local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
-					v:SetPos( spawn )
-					v:SetEyeAngles(Angle( 0, 90, 0 ))
+			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
+						v:SetPos( spawn )
+						v:SetEyeAngles(Angle( 0, 90, 0 ))
+					end
 				end
-			end
+				
+				timer.Remove( "fnafgmTempoStartM" )
+				
+			end)
+		
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				GAMEMODE.Vars.tempostart = false
+				fnafgmVarsUpdate()
+				fnafgmPowerUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						GAMEMODE:GoFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
 			
-			timer.Remove( "fnafgmTempoStartM" )
+		elseif game.GetMap()=="fnaf3" then
 			
-		end)
-
-		timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+			GAMEMODE:SetNightTemplate(true)
 			
-			GAMEMODE.Vars.tempostart = false
 			fnafgmVarsUpdate()
 			
 			for k, v in pairs(team.GetPlayers(1)) do
-				if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-					GAMEMODE:GoFNaFView(v)
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
+					v:ConCommand("play "..GAMEMODE.Sound_startday)
+				end
+			end
+		
+			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
+						v:SetPos( spawn )
+						v:SetEyeAngles(Angle( 0, 90, 0 ))
+					end
+				end
+				
+				timer.Remove( "fnafgmTempoStartM" )
+				
+			end)
+
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				GAMEMODE.Vars.tempostart = false
+				fnafgmVarsUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						GAMEMODE:GoFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
+			
+		elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
+			
+			GAMEMODE:SetNightTemplate(false)
+			if PlushTrapWin then GAMEMODE.Vars.time=2 PlushTrapWin=false else GAMEMODE.Vars.time = GAMEMODE.TimeBase end
+				
+			fnafgmVarsUpdate()
+			
+			if game.GetMap()!="fnaf4versus" then
+				
+				for k, v in pairs(ents.FindByClass("info_player_start")) do
+					v:Remove()
+				end
+				
+				local spawn = ents.Create( "info_player_start" )
+				spawn:SetPos( Vector( -640, -63, 0 ) )
+				spawn:SetAngles( Angle( 0, 90, 0 ) )
+				spawn:Spawn()
+			
+			end
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
 				end
 			end
 			
-			timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+			if game.GetMap()!="fnaf4versus" then
+		
+				timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+					
+					for k, v in pairs(team.GetPlayers(1)) do
+						if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+							v:SetPos( Vector( -640, -63, 0 ) )
+							v:SetEyeAngles(Angle( 0, 90, 0 ))
+						end
+					end
+					
+					timer.Remove( "fnafgmTempoStartM" )
+					
+				end)
+				
+			end
+
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				GAMEMODE.Vars.tempostart = false
+				fnafgmVarsUpdate()
+				fnafgmPowerUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						GAMEMODE:GoFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
 			
-			timer.Remove( "fnafgmTempoStart" )
+		elseif game.GetMap()!="gm_construct" and game.GetMap()!="gm_flatgrass" then
 			
-		end)
+			GAMEMODE:SetNightTemplate(true)
+			
+			fnafgmVarsUpdate()
+			
+			for k, v in pairs(team.GetPlayers(1)) do
+				if v:Alive() then
+					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
+				end
+			end
+		
+			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
+						v:SetPos( spawn )
+						v:SetEyeAngles(Angle( 0, 90, 0 ))
+					end
+				end
+				
+				timer.Remove( "fnafgmTempoStartM" )
+				
+			end)
+
+			timer.Create( "fnafgmTempoStart", 2.5, 1, function()
+				
+				GAMEMODE.Vars.tempostart = false
+				fnafgmVarsUpdate()
+				
+				for k, v in pairs(team.GetPlayers(1)) do
+					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+						GAMEMODE:GoFNaFView(v)
+					end
+				end
+				
+				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
+				
+				timer.Remove( "fnafgmTempoStart" )
+				
+			end)
+			
+		end
 		
 	end
 	
@@ -3293,7 +3299,14 @@ end
 
 net.Receive( "fnafgmTabUsed", function( len, ply )
 	
-	GAMEMODE.Vars.tabused[ply] = tobool(net.ReadBit())
+	local state = tobool(net.ReadBit())
+	
+	GAMEMODE.Vars.tabused[ply] = state
+	if state then
+		GAMEMODE:Log(ply:GetName().." is using the monitor")
+	elseif !state then
+		GAMEMODE:Log(ply:GetName().." closed the monitor")
+	end
 	
 end)
 
