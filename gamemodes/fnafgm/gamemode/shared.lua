@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.49
+GM.OfficialVersion 	= 1.50
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -445,6 +445,8 @@ GM.APos.fnaf2noevents = {
 	SS = 12,
 	Office = 13
 }
+
+GM.ASSEye = {}
 
 GM.AnimatronicAPos = {}
 GM.AnimatronicAPos[GM.Animatronic.Freddy] = {}

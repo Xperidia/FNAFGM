@@ -3476,7 +3476,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:SetAType(a or 0)
 	ent:SetAPos(apos or 7)
 	
-	if apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].Kitchen  and apos != GAMEMODE.APos[game.GetMap()].SS then
+	if apos!=nil and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
 		
 		local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
 		
@@ -3485,6 +3485,10 @@ function GM:CreateAnimatronic(a,apos,ply)
 			ent:SetEyeTarget( camera:EyePos() )
 			
 		end
+		
+	elseif apos!=nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
+		
+		ent:SetEyeTarget( GAMEMODE.ASSEye[game.GetMap()] )
 		
 	end
 	
