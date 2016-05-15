@@ -91,10 +91,10 @@ function SWEP:Think()
 	end
 	
 	if SERVER then
-		if GAMEMODE.Vars.tabused[ply] and laststate!=1 then
+		if GAMEMODE.Vars.tabused[self.Owner] and laststate!=1 then
 			self:SetWeaponHoldType("camera")
 			laststate = 1
-		elseif !GAMEMODE.Vars.tabused[ply] and laststate!=0 then
+		elseif !GAMEMODE.Vars.tabused[self.Owner] and laststate!=0 then
 			self:SetWeaponHoldType("normal")
 			laststate = 0
 		end

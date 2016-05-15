@@ -18,6 +18,24 @@ function ENT:Initialize()
 	
 	self:SetHealth(2147483647)
 	
+	local apos = self:GetAPos()
+	
+	if apos!=nil and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
+		
+		local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
+		
+		if IsValid(camera) then
+			
+			self:SetEyeTarget( camera:EyePos() )
+			
+		end
+		
+	elseif apos!=nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
+		
+		self:SetEyeTarget( GAMEMODE.ASSEye[game.GetMap()] )
+		
+	end
+	
 end
 
 function ENT:SetupDataTables()
