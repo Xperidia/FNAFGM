@@ -64,7 +64,7 @@ function SWEP:SecondaryAttack()
 	
 	if table.Count(ents.FindByClass( "fnafgm_camera" ))==0 then return end
 	
-	if SERVER and !self.Owner.fnafviewactive and ( ( GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") and !GAMEMODE.Vars.tempostart then
+	if SERVER and !self.Owner.fnafviewactive and ( ( GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and GAMEMODE.Vars.startday ) or fnafgmPlayerCanByPass(self.Owner,"tab") ) and (!GAMEMODE.Vars.poweroff or GAMEMODE.FT==2) and !GAMEMODE.Vars.tempostart then
 		
 		net.Start( "fnafgmSecurityTablet" )
 		net.Send(self.Owner)
@@ -90,7 +90,7 @@ function SWEP:Think()
 		net.Send(self.Owner)
 	end
 	
-	if SERVER then
+	--[[if SERVER then
 		if GAMEMODE.Vars.tabused[self.Owner] and laststate!=1 then
 			self:SetHoldType("camera")
 			laststate = 1
@@ -98,7 +98,7 @@ function SWEP:Think()
 			self:SetHoldType("normal")
 			laststate = 0
 		end
-	end
+	end]]
 	
 	if CLIENT then
 		if IsValid(Monitor) and laststate!=1 then

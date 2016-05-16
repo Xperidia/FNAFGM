@@ -27,5 +27,50 @@ end
 function ENT:SetupDataTables()
 
 	self:NetworkVar( "Int", 0, "CamID" )
+	self:NetworkVar( "Bool", 0, "LightState" )
 
+end
+
+function ENT:Light()
+
+	self:SwitchLight( !self:GetLightState() )
+
+end
+
+function ENT:SwitchLight( rstate )
+
+	if ( rstate == self:GetLightState() ) then return end
+
+	if ( !rstate ) then
+		
+		SafeRemoveEntity( self.flashlight )
+		SafeRemoveEntity( self.flare )
+		self.flashlight = nil
+		self.flare = nil
+		self:SetLightState( false )
+		return
+		
+	end
+	
+	self:SetLightState( true )
+	
+	local angForward = self:GetAngles()
+	
+	self.flashlight = ents.Create( "env_projectedtexture" )
+	
+	self.flashlight:SetParent( self.Entity )
+	
+	self.flashlight:SetLocalPos( Vector( 0, 0, 0 ) )
+	self.flashlight:SetLocalAngles( Angle(0,0,0) )
+	
+	self.flashlight:SetKeyValue( "enableshadows", 1 )
+	self.flashlight:SetKeyValue( "shadowquality", 1 )
+	self.flashlight:SetKeyValue( "farz", 750 )
+	self.flashlight:SetKeyValue( "nearz", 4 )
+	self.flashlight:SetKeyValue( "lightfov", 75 )
+	
+	self.flashlight:Spawn()
+	
+	self.flashlight:Input( "SpotlightTexture", NULL, NULL, "effects/flashlight/soft" )
+	
 end

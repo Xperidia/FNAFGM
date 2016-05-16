@@ -53,6 +53,7 @@ util.AddNetworkString( "fnafgmfnafViewActive" )
 util.AddNetworkString( "fnafgmSetAnimatronicPos" )
 util.AddNetworkString( "fnafgmAnimatronicTaunt" )
 util.AddNetworkString( "fnafgmAnimatronicTauntSnd" )
+util.AddNetworkString( "fnafgmCamLight" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -2946,13 +2947,13 @@ function GM:PlayerSwitchFlashlight(ply, on)
 		
 	end
 	
-	if (game.GetMap()=="fnaf2noevents" and !GAMEMODE.Vars.poweroff) then
+	if (GAMEMODE.FT==2 and !GAMEMODE.Vars.poweroff) then
 		
 		return true
 		
 	end
 	
-	if (game.GetMap()=="fnaf2noevents" and GAMEMODE.Vars.poweroff) then
+	if (GAMEMODE.FT==2 and GAMEMODE.Vars.poweroff) then
 	
 		ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
 		
@@ -3037,6 +3038,19 @@ function GM:Think()
 			if GAMEMODE.Vars.LightUse[1] or GAMEMODE.Vars.LightUse[2] then -- Lights use
 				
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
+				
+			else
+				
+				for k, v in pairs(ents.FindByClass( "fnafgm_camera" )) do
+					
+					if v:GetLightState() then
+						
+						GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
+						break
+						
+					end
+					
+				end
 				
 			end
 			
@@ -3166,17 +3180,28 @@ function GM:Think()
 		
 		if !GAMEMODE.Vars.poweroff then
 			
-				
+			
 			if GAMEMODE.Vars.LightUse[1] or GAMEMODE.Vars.LightUse[2] or GAMEMODE.Vars.LightUse[3] then -- Lights use
 				
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage + 1
 				
 			end
 			
+			for k, v in pairs(ents.FindByClass( "fnafgm_camera" )) do
+				
+				if v:GetLightState() then
+					
+					GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
+					break
+					
+				end
+				
+			end
+			
 			for k, v in pairs(team.GetPlayers(1)) do
 				
 				if v:FlashlightIsOn() then
-						
+					
 					GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage + 1
 					
 				end
@@ -3419,7 +3444,7 @@ function GM:CreateCamera(x,y,z,pitch,yaw,roll,ply)
 	local angles = Angle(pitch,yaw,roll)
 	if IsValid(ply) then
 		pos = ply:GetPos()
-		angles = ply:GetAngles()
+		angles = ply:EyeAngles()
 	end
 	local CAM = ents.Create("fnafgm_camera")
 	CAM:SetPos(pos)
@@ -3626,3 +3651,64 @@ function GM:AutoMoveAnimatronic(a)
 	
 end
 
+function GM:CamLight(ply,id,rstate)
+	
+	if GAMEMODE.FT!=2 then return end
+	
+	if GAMEMODE.Vars.poweroff and rstate!=false then return end
+	
+	local camera = ents.FindByName( "fnafgm_Cam"..id )[1]
+	
+	if ( IsValid(camera) ) then
+		
+		local camstate = camera:GetLightState()
+		
+		if camstate==rstate then return end
+		
+		if rstate==true then
+			camera:SwitchLight(true)
+		elseif rstate==false then
+			camera:SwitchLight(false)
+		else
+			camera:Light()
+		end
+		
+		camstate = camera:GetLightState()
+	
+		if id==0 then
+			
+		elseif GAMEMODE.CamsNames[game.GetMap().."_"..id] then
+			GAMEMODE:Log( ply:GetName().." toggle camera light of "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." ("..id..") | New state: "..Either( camstate, "on", "off" ) )
+		else
+			GAMEMODE:Log( ply:GetName().." toggle camera light "..id.." | New state: "..Either( camstate, "on", "off" ) )
+		end
+		
+	end
+	
+end
+net.Receive( "fnafgmCamLight",function(bits,ply)
+	local id = net.ReadFloat()
+	local rstate = tobool(net.ReadBool())
+	if (!id) then return end
+	GAMEMODE:CamLight(ply,id,rstate)
+end)
+concommand.Add( "fnafgm_debug_light", function( ply,cmd,args )
+	
+	if (IsValid(ply) and fnafgmPlayerCanByPass(ply,"debug")) then
+		
+		GAMEMODE:CamLight(ply,args[1])
+	
+	elseif IsValid(ply) then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Need debug access)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Need debug access)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		
+	end
+	
+end)

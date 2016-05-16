@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.52
+GM.OfficialVersion 	= 1.53
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -21,6 +21,15 @@ end
 GM.CustomVersionChecker = ""
 GM.IsFNAFGMDerived = true
 
+GM.FT = 1
+
+if game.GetMap()=="fnaf2noevents" then
+	GM.FT = 2
+elseif game.GetMap()=="fnaf3" then
+	GM.FT = 3
+elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
+	GM.FT = 4
+end
 
 --[[ Gamemode constants for derivations ]]--
 GM.TimeBase = 12

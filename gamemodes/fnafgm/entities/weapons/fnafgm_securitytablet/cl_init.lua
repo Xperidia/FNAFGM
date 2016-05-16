@@ -55,6 +55,8 @@ function fnafgmSecurityTablet()
 		
 		fnafgmSetView(GAMEMODE.Vars.lastcam)
 		
+		local lastlstate = {false,GAMEMODE.Vars.lastcam}
+		
 		LocalPlayer():ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_camstatic )
 		
 		Monitor = vgui.Create( "DFrame" )
@@ -74,21 +76,41 @@ function fnafgmSecurityTablet()
 			surface.DrawOutlinedRect( 35, 30, w-70, h-60 )
 			surface.SetDrawColor( 255, 0, 0, 255 )
 			draw.NoTexture()
-			if (game.GetMap()!="fnaf2noevents" and game.GetMap()!="fnaf3") and math.fmod( math.Round( CurTime() ), 2 ) == 0 then
+			if GAMEMODE.FT==1 and math.fmod( math.Round( CurTime() ), 2 ) == 0 then
 				draw.Circle( 160, 160, 45, 64 )
 			end
 		end
 		Monitor.OnClose = function()
 			fnafgmSetView(0)
+			if lastlstate[1]==true then fnafgmCamLight( GAMEMODE.Vars.lastcam, false ) end
 			LocalPlayer():ConCommand( "pp_mat_overlay ''" )
 			net.Start( "fnafgmTabUsed" )
 				net.WriteBit( false )
 			net.SendToServer()
 		end
 		Monitor.Think = function()
-			if (!LocalPlayer():Alive() or GAMEMODE.Vars.tempostart or (GAMEMODE.Vars.poweroff and game.GetMap()!="fnaf2noevents")) then
+			
+			if (!LocalPlayer():Alive() or GAMEMODE.Vars.tempostart or (GAMEMODE.Vars.poweroff and GAMEMODE.FT!=2)) then
 				Monitor:Close()
 			end
+			
+			if input.IsKeyDown(KEY_LCONTROL) and lastlstate[1]!=true then 
+				
+				fnafgmCamLight( GAMEMODE.Vars.lastcam, true )
+				lastlstate = { true, GAMEMODE.Vars.lastcam }
+				
+			elseif !input.IsKeyDown(KEY_LCONTROL) and lastlstate[1]!=false then 
+				
+				fnafgmCamLight( GAMEMODE.Vars.lastcam, false )
+				lastlstate = { false, GAMEMODE.Vars.lastcam }
+				
+			elseif lastlstate[1]==true and GAMEMODE.Vars.lastcam!=lastlstate[2] then
+				
+				fnafgmCamLight( lastlstate[2], false )
+				lastlstate[1] = false
+				
+			end
+			
 		end
 		
 		

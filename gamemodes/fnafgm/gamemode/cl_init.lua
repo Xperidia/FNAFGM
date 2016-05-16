@@ -2,21 +2,21 @@ include( 'shared.lua' )
 
 DEFINE_BASECLASS( "gamemode_base" )
 
-if !sfont and game.GetMap()=="fnaf2noevents" then
+if !sfont and GM.FT==2 then
 	
 	sfont = "OCR A Std"
 	sfont2 = "Graph 35+ pix"
 	sfont3 = sfont
 	sfont4 = sfont2
 	
-elseif !sfont and game.GetMap()=="fnaf3" then
+elseif !sfont and GM.FT==3 then
 	
 	sfont = "5Computers In Love"
 	sfont2 = "Graph 35+ pix"
 	sfont3 = sfont
 	sfont4 = sfont2
 	
-elseif !sfont and ( game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" ) then
+elseif !sfont and GM.FT==4 then
 	
 	sfont = "Graph 35+ pix"
 	sfont2 = sfont
@@ -414,7 +414,7 @@ function GM:HUDPaint()
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGM4TIME", ScrW()-52, H, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 				
-			elseif game.GetMap()=="fnaf2noevents" and !GAMEMODE.Vars.usingsafezone then
+			elseif GAMEMODE.FT==2 and !GAMEMODE.Vars.usingsafezone then
 				
 				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMNIGHT", ScrW()-64, H+32, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
@@ -455,7 +455,7 @@ function GM:HUDPaint()
 					
 				end
 			
-			elseif game.GetMap()!="fnaf2noevents" and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
+			elseif GAMEMODE.FT!=2 and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
 				
 				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
 					GAMEMODE.Vars.powerusage=math.Rand( 1, 7 )
@@ -1064,6 +1064,13 @@ end
 function fnafgmChangeMap(map)
 	net.Start( "fnafgmChangeMap" )
 		net.WriteString(map)
+	net.SendToServer()
+end
+
+function fnafgmCamLight( id, rstate )
+	net.Start( "fnafgmCamLight" )
+		net.WriteFloat(id)
+		net.WriteBool(rstate)
 	net.SendToServer()
 end
 
