@@ -52,7 +52,7 @@ function fnafgmAnimatronicsController()
 			if !LocalPlayer():Alive() or LocalPlayer():Team()!=2 or GAMEMODE.Vars.gameend then
 				AnimatronicsControllerGUI:Close()
 			end
-			if AnimatronicsControllerGUI.Map2_Anim:Active() then AnimatronicsControllerGUI.Map2_Anim:Run() else AnimatronicsControllerGUI.Map2_Anim:Start(2) end
+			if AnimatronicsControllerGUI.Map2_Anim and AnimatronicsControllerGUI.Map2_Anim:Active() then AnimatronicsControllerGUI.Map2_Anim:Run() elseif AnimatronicsControllerGUI.Map2_Anim then AnimatronicsControllerGUI.Map2_Anim:Start(2) end
 		end
 		
 		if game.GetMap()=="freddysnoevent" then
