@@ -45,7 +45,7 @@ function GM:FNaFViewHUD()
 				MUTEb:Remove()
 			end
 			
-			if !LocalPlayer():Alive() or (GAMEMODE.Vars.power==0 and game.GetMap()!="fnaf2") then
+			if !LocalPlayer():Alive() or (GAMEMODE.Vars.power==0 and GAMEMODE.FT!=2) then
 				OpenT:Remove()
 				if IsValid(lightroom) then
 					lightroom:Remove()
