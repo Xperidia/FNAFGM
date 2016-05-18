@@ -3476,7 +3476,7 @@ concommand.Add( "fnafgm_debug_createanimatronic", function(ply,str,tbl,str)
 			net.WriteBit(true)
 		net.Send(ply)
 		
-	else
+	elseif !IsValid(ply) then
 		
 		GAMEMODE:CreateAnimatronic(tonumber(tbl[1] or 0), tonumber(tbl[2] or 7))
 		
@@ -3501,41 +3501,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:SetAType(a or 0)
 	ent:SetAPos(apos or 7)
 	
-	if apos!=nil and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
-		
-		local camera = ents.FindByName( "fnafgm_Cam"..apos )[1]
-		
-		if IsValid(camera) then
-			
-			ent:SetEyeTarget( camera:EyePos() )
-			
-		end
-		
-	elseif apos!=nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
-		
-		ent:SetEyeTarget( GAMEMODE.ASSEye[game.GetMap()] )
-		
-	end
-	
 	ent:Spawn()
-	
-	local cd = 0
-	
-	if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1] then
-		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night+1]
-	elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] then
-		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night]
-	elseif GAMEMODE.AnimatronicsCD[a] and GAMEMODE.AnimatronicsCD[a][game.GetMap()] and GAMEMODE.AnimatronicsCD[a][game.GetMap()][0] then
-		cd = GAMEMODE.AnimatronicsCD[a][game.GetMap()][0]
-	else
-		GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).."!")
-	end
-	
-	GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, 0 }
-	
-	net.Start( "fnafgmAnimatronicsList" )
-		net.WriteTable(GAMEMODE.Vars.Animatronics)
-	net.Broadcast()
 	
 	if IsValid(ply) then
 		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))

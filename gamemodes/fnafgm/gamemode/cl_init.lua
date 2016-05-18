@@ -951,7 +951,7 @@ function GM:MapSelect(AvMaps)
 	local AllMaps = GAMEMODE.MapList
 	local x = 4
 	local y = 156
-	for ID, Map in SortedPairsByValue( AllMaps ) do
+	for ID, Map in pairs( AllMaps ) do
 		
 		local MapI = vgui.Create( "DButton", MapSelectF )
 		MapI:SetPos( x, 24 )

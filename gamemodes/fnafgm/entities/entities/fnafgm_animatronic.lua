@@ -6,19 +6,20 @@ ENT.Author = "Xperidia"
 
 function ENT:Initialize()
 	
-	if GAMEMODE.Animatronic_Models[self:GetAType()] and GAMEMODE.Animatronic_Models[self:GetAType()][game.GetMap()] then self:SetModel( GAMEMODE.Animatronic_Models[self:GetAType()][game.GetMap()] ) end
+	local me = self:GetAType()
+	local apos = self:GetAPos()
 	
-	self.OldAPos = self:GetAPos()
+	if GAMEMODE.Animatronic_Models[me] and GAMEMODE.Animatronic_Models[me][game.GetMap()] then self:SetModel( GAMEMODE.Animatronic_Models[me][game.GetMap()] ) end
 	
-	self:SetModelScale( 1.16, 0 )
+	self.OldAPos = apos
+	
+	if me<=10 then self:SetModelScale( 1.16, 0 ) end
 	
 	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 	
 	self:SetRenderMode( RENDERMODE_TRANSALPHA )
 	
 	self:SetHealth(2147483647)
-	
-	local apos = self:GetAPos()
 	
 	if apos!=nil and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
 		
@@ -33,6 +34,28 @@ function ENT:Initialize()
 	elseif apos!=nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
 		
 		self:SetEyeTarget( GAMEMODE.ASSEye[game.GetMap()] )
+		
+	end
+	
+	if SERVER then
+		
+		local cd = 0
+		
+		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night+1] then
+			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night+1]
+		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night] then
+			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night]
+		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][0] then
+			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][0]
+		else
+			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).."!")
+		end
+		
+		GAMEMODE.Vars.Animatronics[me] = { self, apos, cd, 0 }
+		
+		net.Start( "fnafgmAnimatronicsList" )
+			net.WriteTable(GAMEMODE.Vars.Animatronics)
+		net.Broadcast()
 		
 	end
 	
@@ -62,6 +85,8 @@ function ENT:KeyValue(k, v)
 end
 
 function ENT:RunBehaviour()
+	
+	self.loco:SetDesiredSpeed( 0 )
 	
 	while true do
 		
@@ -119,6 +144,10 @@ function ENT:Think()
 		
 		self:SetColor( Color( 255, 255, 255, 255 ) )
 		
+	end
+	
+	if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
+		self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
 	end
 	
 	if apos!=nil and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
