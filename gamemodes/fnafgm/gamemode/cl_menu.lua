@@ -83,6 +83,16 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
+		local xpucp = vgui.Create( "DButton" )
+		xpucp:SetParent(fnafgmMenuF.links)
+		xpucp:SetText( "Xperidia Account" )
+		xpucp:SetPos( 90, 30 )
+		xpucp:SetSize( 125, 20 )
+		xpucp.DoClick = function()
+			gui.OpenURL( "https://www.xperidia.com/UCP/" )
+			fnafgmMenuF:Close()
+		end
+		
 		if engine.ActiveGamemode()=="fnafgm" then
 			
 			questionbtn = vgui.Create( "DButton" )

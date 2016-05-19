@@ -1034,6 +1034,40 @@ function GM:MapSelect(AvMaps)
 end
 
 
+function GM:Stats()
+	
+	local steamid = LocalPlayer():SteamID64()
+	
+	if !file.IsDir( (GAMEMODE.ShortName or "fnafgm").."/stats", "DATA" ) then
+		file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/stats" )
+	end
+	
+	local needstat = !file.Exists( (GAMEMODE.ShortName or "fnafgm").."/stats/" .. steamid .. ".txt", "DATA" )
+	
+	if needstat then
+		
+		http.Post( "https://www.xperidia.com/UCP/stats.php", { steamid = steamid, zone = (GAMEMODE.ShortName or "fnafgm") },
+		function( responseText, contentLength, responseHeaders, statusCode )
+			
+			if statusCode == 200 then
+				file.Write( (GAMEMODE.ShortName or "fnafgm").."/stats/" .. steamid .. ".txt", "" )
+				GAMEMODE:Log(responseText)
+			else
+				GAMEMODE:Log("Error while registering the gamemode (ERROR "..statusCode..")")
+			end
+			
+		end, 
+		function( errorMessage )
+			
+			GAMEMODE:Log(errorMessage)
+			
+		end )
+		
+	end
+	
+end
+
+
 function fnafgmSetView( id )
 	net.Start( "fnafgmSetView" )
 		net.WriteFloat(id)

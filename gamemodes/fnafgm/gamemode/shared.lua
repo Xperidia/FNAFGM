@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.56
+GM.OfficialVersion 	= 1.57
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -780,8 +780,8 @@ function GM:SaveProgress()
 	
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
-		if !file.IsDir("fnafgm/progress", "DATA") then
-			file.CreateDir( "fnafgm/progress" )
+		if !file.IsDir((GAMEMODE.ShortName or "fnafgm").."/progress", "DATA") then
+			file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/progress" )
 		end
 		
 		local tab = {}
@@ -792,7 +792,7 @@ function GM:SaveProgress()
 			tab.Night = GAMEMODE.Vars.night
 		end
 		
-		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
 		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
@@ -800,7 +800,7 @@ function GM:SaveProgress()
 	
 	if CLIENT and !GAMEMODE.Vars.SGvsA and fnafgm_cl_saveonservers:GetBool() then
 		
-		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		
@@ -815,8 +815,8 @@ function GM:SaveProgress()
 				
 			end
 		
-		elseif !file.IsDir("fnafgm/progress", "DATA") then
-			file.CreateDir( "fnafgm/progress" )
+		elseif !file.IsDir( (GAMEMODE.ShortName or "fnafgm").."/progress", "DATA" ) then
+			file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/progress" )
 		end
 		
 		local tab = {}
@@ -827,7 +827,7 @@ function GM:SaveProgress()
 			tab.Night = GAMEMODE.Vars.night
 		end
 		
-		file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
 		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
@@ -840,7 +840,7 @@ function GM:LoadProgress()
 	
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
-		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		
@@ -867,7 +867,7 @@ function GM:LoadProgress()
 	
 	if CLIENT and !GAMEMODE.Vars.SGvsA then
 		
-		local filep = file.Read( "fnafgm/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		

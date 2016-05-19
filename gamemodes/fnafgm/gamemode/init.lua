@@ -384,6 +384,7 @@ function GM:PlayerRequestTeam( ply, teamid )
 		-- Messages here should be outputted by this function
 	return end
 	
+	ply:SendLua("GAMEMODE:Stats()")
 	GAMEMODE:PlayerJoinTeam( ply, teamid )
 
 end
