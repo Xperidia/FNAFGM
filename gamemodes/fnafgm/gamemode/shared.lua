@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.57
+GM.OfficialVersion 	= 1.58
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -1122,6 +1122,8 @@ timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
 			elseif IsValid(AnimatronicsControllerGUI.FoxyBtn) then
 				AnimatronicsControllerGUI.FoxyBtn:SetText("TAUNT")
 			end
+			
+			hook.Call("fnafgmCustomAnimatronicsCD")
 			
 		end
 		

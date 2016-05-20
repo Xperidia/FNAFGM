@@ -146,7 +146,7 @@ function ENT:Think()
 		
 	end
 	
-	if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
+	if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me!=GAMEMODE.Animatronic.Freddy) then
 		self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
 	end
 	
@@ -242,22 +242,28 @@ function ENT:GoJumpscare()
 		timet=3
 	end
 	
-	if me==GAMEMODE.Animatronic.Foxy then
-		self.FoxyWillMove = true
-	end
+	local nope = hook.Call("fnafgmCustomGoJumpscare",nil,me,self,timet) or false
 	
-	timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
-		if GAMEMODE.Vars.startday and me!=GAMEMODE.Animatronic.Foxy then
-			self:Jumpscare()
-		elseif GAMEMODE.Vars.startday then
-			self:SetPos(Vector(-365,-358,64))
-			self.FoxyWillMove = false
-			self.FoxyMove = true
+	if !nope then
+		
+		if me==GAMEMODE.Animatronic.Foxy then
+			self.FoxyWillMove = true
 		end
 		
-		timer.Remove( "fnafgmJumpscare"..me )
+		timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
+			if GAMEMODE.Vars.startday and me!=GAMEMODE.Animatronic.Foxy then
+				self:Jumpscare()
+			elseif GAMEMODE.Vars.startday then
+				self:SetPos(Vector(-365,-358,64))
+				self.FoxyWillMove = false
+				self.FoxyMove = true
+			end
+			
+			timer.Remove( "fnafgmJumpscare"..me )
+			
+		end)
 		
-	end)
+	end
 	
 end
 
@@ -267,106 +273,112 @@ function ENT:Jumpscare()
 	
 	if SERVER and GAMEMODE.Vars.startday then
 		
-		if me==GAMEMODE.Animatronic.Freddy and !GAMEMODE.Vars.DoorClosed[2] then
-			
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
-					
-					v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
-					v:ConCommand("play "..GAMEMODE.Sound_xscream)
-					v:TakeDamage(100, self )
-					
-				end
-				
-			end
-			
-			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
-			
-		elseif me==GAMEMODE.Animatronic.Bonnie and !GAMEMODE.Vars.DoorClosed[1] then
-			
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
-					
-					v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
-					v:ConCommand("play "..GAMEMODE.Sound_xscream)
-					v:TakeDamage(100, self )
-					
-				end
-				
-			end
-			
-			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
-			
-		elseif me==GAMEMODE.Animatronic.Chica and !GAMEMODE.Vars.DoorClosed[2] then
-			
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
-					
-					v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
-					v:ConCommand("play "..GAMEMODE.Sound_xscream)
-					v:TakeDamage(100, self )
-					
-				end
-				
-			end
-			
-			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
-			
-		elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
-			
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
-					
-					v:ConCommand("play "..GAMEMODE.Sound_xscream)
-					v:TakeDamage(100, self )
-					
-				end
-				
-			end
-			
-			GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
-			
-		elseif me==GAMEMODE.Animatronic.Foxy then
-			
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
-					
-					v:ConCommand("play "..GAMEMODE.Sound_foxyknock)
-					
-				end
-				
-			end
-			
-			GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
-			GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
-			fnafgmPowerUpdate()
-			if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
-			if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
-				GAMEMODE.Vars.addfoxyknockdoorpena = 6
-			elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
-				GAMEMODE.Vars.addfoxyknockdoorpena = 4
-			end
-			
-		end
+		local nope = hook.Call("fnafgmCustomJumpscare",nil,me,self) or false
 		
-		if me==GAMEMODE.Animatronic.Foxy then
+		if !nope then
 			
-			self:SetColor( Color( 255, 255, 255, 0 ) )
+			if me==GAMEMODE.Animatronic.Freddy and !GAMEMODE.Vars.DoorClosed[2] then
+				
+				for k, v in pairs(player.GetAll()) do
+					
+					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+						
+						v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
+						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:TakeDamage(100, self )
+						
+					end
+					
+				end
+				
+				GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
+				
+			elseif me==GAMEMODE.Animatronic.Bonnie and !GAMEMODE.Vars.DoorClosed[1] then
+				
+				for k, v in pairs(player.GetAll()) do
+					
+					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+						
+						v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
+						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:TakeDamage(100, self )
+						
+					end
+					
+				end
+				
+				GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
+				
+			elseif me==GAMEMODE.Animatronic.Chica and !GAMEMODE.Vars.DoorClosed[2] then
+				
+				for k, v in pairs(player.GetAll()) do
+					
+					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+						
+						v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
+						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:TakeDamage(100, self )
+						
+					end
+					
+				end
+				
+				GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
+				
+			elseif me==GAMEMODE.Animatronic.Foxy and ( self.FoxyMoveState=="ok" or GAMEMODE:CheckPlayerSecurityRoom(self) ) then
+				
+				for k, v in pairs(player.GetAll()) do
+					
+					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+						
+						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:TakeDamage(100, self )
+						
+					end
+					
+				end
+				
+				GAMEMODE:Log("Jumpscared by "..GAMEMODE.AnimatronicName[me])
+				
+			elseif me==GAMEMODE.Animatronic.Foxy then
+				
+				for k, v in pairs(player.GetAll()) do
+					
+					if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+						
+						v:ConCommand("play "..GAMEMODE.Sound_foxyknock)
+						
+					end
+					
+				end
+				
+				GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
+				GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
+				fnafgmPowerUpdate()
+				if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
+				if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
+					GAMEMODE.Vars.addfoxyknockdoorpena = 6
+				elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
+					GAMEMODE.Vars.addfoxyknockdoorpena = 4
+				end
+				
+			end
 			
-			timer.Create( "fnafgmFoxyReset", 1, 1, function()
-				self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][1])
-				self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][2])
-				GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].PC)
-				self:SetColor( Color( 255, 255, 255, 255 ) )
-				timer.Remove( "fnafgmFoxyReset" )
-			end)
-		else
-			GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].SS)
+			if me==GAMEMODE.Animatronic.Foxy then
+				
+				self:SetColor( Color( 255, 255, 255, 0 ) )
+				
+				timer.Create( "fnafgmFoxyReset", 1, 1, function()
+					self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][1])
+					self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][GAMEMODE.APos[game.GetMap()].PC][2])
+					GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].PC)
+					self:SetColor( Color( 255, 255, 255, 255 ) )
+					timer.Remove( "fnafgmFoxyReset" )
+				end)
+			else
+				GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].SS)
+			end
+			
 		end
 		
 	end

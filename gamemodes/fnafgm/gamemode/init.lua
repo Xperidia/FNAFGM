@@ -3126,6 +3126,7 @@ function GM:Think()
 				for k, v in pairs(GAMEMODE.Vars.Animatronics) do
 					
 					GAMEMODE:SetAnimatronicPos(nil,k,GAMEMODE.APos[game.GetMap()].SS)
+					timer.Remove( "fnafgmAnimatronicMove"..k )
 					
 				end
 				
@@ -3543,6 +3544,10 @@ function GM:SetAnimatronicPos(ply,a,apos)
 				ent:SetEyeTarget( camera:EyePos() )
 				
 			end
+			
+		elseif apos!=nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
+			
+			ent:SetEyeTarget( GAMEMODE.ASSEye[game.GetMap()] )
 			
 		end
 		
