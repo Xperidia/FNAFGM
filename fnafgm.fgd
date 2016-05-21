@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V5.0 BY XPERIDIA
+// FNAFGM FGD V5.1 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -20,6 +20,7 @@
 	input LightOn(integer) : "X light is on."
 	input LightOff(integer) : "X light is off."
 	input Jumpscared(string) : "Who trigger a jumpscare?"
+	input ChangeLastCam(integer) : "Change the last camera."
 ]
 
 @PointClass base(Targetname) iconsprite("editor/logic_case.vmt") = fnafgm_logic_case_prob :	"FNAFGM Logic Case Prob"

@@ -51,6 +51,16 @@ function ENT:Initialize()
 			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).."!")
 		end
 		
+		if GAMEMODE.AnimatronicsSkins[a] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] then
+			self:SetSkin( GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] )
+		end
+		
+		if GAMEMODE.AnimatronicsFlex[me] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] then
+			for k, v in pairs ( GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] ) do
+				self:SetFlexWeight( v[1], v[2] )
+			end
+		end
+		
 		GAMEMODE.Vars.Animatronics[me] = { self, apos, cd, 0 }
 		
 		net.Start( "fnafgmAnimatronicsList" )

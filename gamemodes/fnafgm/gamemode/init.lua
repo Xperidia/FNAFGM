@@ -3575,6 +3575,26 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			cd = GAMEMODE.Vars.Animatronics[a][3]
 		end
 		
+		if GAMEMODE.AnimatronicsSkins[a] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] then
+			ent:SetSkin( GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] )
+		else
+			ent:SetSkin( 0 )
+		end
+		
+		local nflex = ent:GetFlexNum()
+		
+		for i=0, nflex - 1 do
+			
+			ent:SetFlexWeight( i, 0 )
+		
+		end
+		
+		if GAMEMODE.AnimatronicsFlex[a] and GAMEMODE.AnimatronicsFlex[a][game.GetMap()] and GAMEMODE.AnimatronicsFlex[a][game.GetMap()][apos] then
+			for k, v in pairs ( GAMEMODE.AnimatronicsFlex[a][game.GetMap()][apos] ) do
+				ent:SetFlexWeight( v[1], v[2] )
+			end
+		end
+		
 		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }
 	
 		net.Start( "fnafgmAnimatronicsList" )
