@@ -274,10 +274,10 @@ function ENT:GoJumpscare()
 		
 		timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
 			
-			local sgdead = false
+			local sgdead = true
 			for k, v in pairs(player.GetAll()) do
 				if v:Alive() and v:Team()==1 then
-					sgdead = true
+					sgdead = false
 					break
 				end
 			end

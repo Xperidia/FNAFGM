@@ -496,16 +496,22 @@ function fnafgmAnimatronicsController()
 		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
 			
 			if GAMEMODE.Vars.Animatronics[k][2]!=apos and GAMEMODE.Vars.Animatronics[k][2]!=GAMEMODE.APos[game.GetMap()].Office and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] and GAMEMODE.Vars.Animatronics[k][3]!=-1 and SysTime()+GAMEMODE.Vars.Animatronics[k][3]<=SysTime() then
+				
+				if apos==GAMEMODE.APos[game.GetMap()].SS then break end
+				
 				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
+				
 				if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png", "GAME" ) then
 					btn:SetIcon( string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png" )
 				elseif file.Exists( "materials/fnafgm/icon16/"..k..".png", "GAME" ) then
 					btn:SetIcon( "fnafgm/icon16/"..k..".png" )
 				end
+				
 				btn.OnMousePressed = function( button, key )
 					GAMEMODE:SetAnimatronicPos(k,apos)
 					Menu:Remove()
 				end
+				
 			end
 			
 		end

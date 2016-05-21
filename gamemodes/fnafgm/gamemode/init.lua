@@ -3628,6 +3628,7 @@ function GM:AutoMoveAnimatronic(a)
 		local papos = table.GetKeys(GAMEMODE.AnimatronicAPos[a][game.GetMap()])
 		
 		table.RemoveByValue(papos, GAMEMODE.APos[game.GetMap()].SS)
+		if game.GetMap()=="freddysnoevent" then table.RemoveByValue(papos, GAMEMODE.APos["freddysnoevent"].PC) end
 		
 		local apos = table.Random(papos)
 		
