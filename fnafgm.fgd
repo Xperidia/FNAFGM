@@ -87,3 +87,8 @@
 	AType(String) : "Animatronic type"
 	APos(String) : "Animatronic initial pos"
 ]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"
+[
+	
+]

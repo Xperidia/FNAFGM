@@ -3268,6 +3268,12 @@ function GM:Think()
 			
 			GAMEMODE.Vars.norespawn=true
 			
+			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+				
+				timer.Remove( "fnafgmAnimatronicMove"..k )
+				
+			end
+			
 			net.Start( "fnafgmNotif" )
 				net.WriteString( "The "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
 				net.WriteInt(0,3)

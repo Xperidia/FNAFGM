@@ -251,6 +251,17 @@ function ENT:GoJumpscare()
 		end
 		
 		timer.Create( "fnafgmJumpscare"..me, timet, 1, function()
+			
+			local sgdead = false
+			for k, v in pairs(player.GetAll()) do
+				if v:Alive() and v:Team()==1 then
+					sgdead = true
+					break
+				end
+			end
+			
+			if sgdead then return end
+			
 			if GAMEMODE.Vars.startday and me!=GAMEMODE.Animatronic.Foxy then
 				self:Jumpscare()
 			elseif GAMEMODE.Vars.startday then

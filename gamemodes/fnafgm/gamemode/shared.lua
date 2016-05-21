@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.58
+GM.OfficialVersion 	= 1.59
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -301,7 +301,7 @@ function GM:LoadLanguage(lang)
 end
 
 GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
-GM.Spawns_animatronics = { "info_player_counterterrorist" }
+GM.Spawns_animatronics = { "info_player_counterterrorist", "fnafgm_teamanimatronics_start" }
 
 GM.SecurityRoom = {
 	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
