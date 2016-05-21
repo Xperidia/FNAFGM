@@ -100,34 +100,40 @@ function ENT:RunBehaviour()
 	
 	while true do
 		
-		if self.FoxyMove then
-			self.FoxyMove = false
-			self:SetSequence( self:LookupSequence( "sprint_all" ) )
-			self:ResetSequenceInfo()
-			self:SetCycle(0)
-			self:SetPlaybackRate(1)
-			for k, v in pairs(player.GetAll()) do
-				
-				if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+		local nope = hook.Call("fnafgmCustomFoxy",nil,self) or false
+			
+		if !nope then
+		
+			if self.FoxyMove then
+				self.FoxyMove = false
+				self:SetSequence( self:LookupSequence( "sprint_all" ) )
+				self:ResetSequenceInfo()
+				self:SetCycle(0)
+				self:SetPlaybackRate(1)
+				for k, v in pairs(player.GetAll()) do
 					
-					v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+					if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+						
+						v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+						
+					end
 					
 				end
-				
+				self.loco:SetDesiredSpeed( 600 )
+				self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=4})
+				self:Jumpscare()
 			end
-			self.loco:SetDesiredSpeed( 600 )
-			self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=4})
-			self:Jumpscare()
-		end
-		
-		if !self.FoxyWillMove and !self.FoxyMove then
-			self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
-			self:ResetSequenceInfo()
-			self:SetPlaybackRate(0)
-		elseif self.FoxyWillMove then
-			self:SetSequence( self:LookupSequence( "idle_angry_melee" ) )
-			self:ResetSequenceInfo()
-			self:SetPlaybackRate(0)
+			
+			if !self.FoxyWillMove and !self.FoxyMove then
+				self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
+				self:ResetSequenceInfo()
+				self:SetPlaybackRate(0)
+			elseif self.FoxyWillMove then
+				self:SetSequence( self:LookupSequence( "idle_angry_melee" ) )
+				self:ResetSequenceInfo()
+				self:SetPlaybackRate(0)
+			end
+			
 		end
 		
 		if self.FoxyWillMove or self.FoxyMove then coroutine.wait(0.1) else coroutine.wait(1) end
@@ -156,8 +162,14 @@ function ENT:Think()
 		
 	end
 	
-	if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me!=GAMEMODE.Animatronic.Freddy) then
-		self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+	local nope = hook.Call("fnafgmFixPos",nil,self,me,apos) or false
+		
+	if !nope then
+		
+		if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me!=GAMEMODE.Animatronic.Freddy) then
+			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+		end
+		
 	end
 	
 	if apos!=nil and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
