@@ -3522,8 +3522,8 @@ end
 
 net.Receive( "fnafgmSetAnimatronicPos", function( len, ply )
 	
-	local a = net.ReadInt(5)
-	local apos = net.ReadInt(5)
+	local a = net.ReadInt(6)
+	local apos = net.ReadInt(6)
 	
 	GAMEMODE:SetAnimatronicPos(ply,a,apos)
 	

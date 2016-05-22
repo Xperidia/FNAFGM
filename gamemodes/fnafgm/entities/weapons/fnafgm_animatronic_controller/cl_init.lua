@@ -499,6 +499,10 @@ function fnafgmAnimatronicsController()
 				
 				if apos==GAMEMODE.APos[game.GetMap()].SS then break end
 				
+				nope = hook.Call("fnafgmPreventAnimatronicMove", nil, k,apos)
+				
+				if nope then break end
+				
 				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
 				
 				if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png", "GAME" ) then

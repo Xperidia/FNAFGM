@@ -1135,8 +1135,8 @@ end
 function GM:SetAnimatronicPos(a,apos)
 	
 	net.Start( "fnafgmSetAnimatronicPos" )
-		net.WriteInt(a, 5)
-		net.WriteInt(apos, 5)
+		net.WriteInt(a, 6)
+		net.WriteInt(apos, 6)
 	net.SendToServer()
 	
 end
