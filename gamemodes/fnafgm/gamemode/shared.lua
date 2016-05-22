@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.62
+GM.OfficialVersion 	= 1.63
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -603,6 +603,8 @@ GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[6] = 170
 GM.AnimatronicsSkins = {}
 
 GM.AnimatronicsFlex = {}
+
+GM.AnimatronicsAnim = {}
 
 GM.Vars = {}
 

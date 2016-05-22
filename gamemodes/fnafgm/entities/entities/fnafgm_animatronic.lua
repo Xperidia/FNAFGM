@@ -51,14 +51,29 @@ function ENT:Initialize()
 			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic "..((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).."!")
 		end
 		
-		if GAMEMODE.AnimatronicsSkins[a] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()] and GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] then
-			self:SetSkin( GAMEMODE.AnimatronicsSkins[a][game.GetMap()][apos] )
+		if GAMEMODE.AnimatronicsSkins[me] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] then
+			self:SetSkin( GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] )
 		end
 		
 		if GAMEMODE.AnimatronicsFlex[me] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] then
 			for k, v in pairs ( GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] ) do
 				self:SetFlexWeight( v[1], v[2] )
 			end
+		end
+		
+		if GAMEMODE.AnimatronicsAnim[me] and GAMEMODE.AnimatronicsAnim[me][game.GetMap()] and GAMEMODE.AnimatronicsAnim[me][game.GetMap()][apos] then
+			
+			self:SetSequence( self:LookupSequence( GAMEMODE.AnimatronicsAnim[me][game.GetMap()][apos] ) )
+			self:ResetSequenceInfo()
+			self:SetCycle(0)
+			self:SetPlaybackRate(1)
+			
+		else
+			
+			self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
+			self:ResetSequenceInfo()
+			self:SetPlaybackRate(0)
+			
 		end
 		
 		GAMEMODE.Vars.Animatronics[me] = { self, apos, cd, 0 }
@@ -103,40 +118,50 @@ function ENT:RunBehaviour()
 		local nope = hook.Call("fnafgmCustomFoxy",nil,self) or false
 			
 		if !nope then
-		
-			if self.FoxyMove then
-				self.FoxyMove = false
-				self:SetSequence( self:LookupSequence( "sprint_all" ) )
-				self:ResetSequenceInfo()
-				self:SetCycle(0)
-				self:SetPlaybackRate(1)
-				for k, v in pairs(player.GetAll()) do
-					
-					if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+			
+			if self:GetAType()==GAMEMODE.Animatronic.Foxy then
+				
+				if self.FoxyMove then
+					self.FoxyMove = false
+					self:SetSequence( self:LookupSequence( "sprint_all" ) )
+					self:ResetSequenceInfo()
+					self:SetCycle(0)
+					self:SetPlaybackRate(1)
+					for k, v in pairs(player.GetAll()) do
 						
-						v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+						if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
+							
+							v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+							
+						end
 						
 					end
-					
+					self.loco:SetDesiredSpeed( 600 )
+					self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=3.5,draw=true})
+					self:Jumpscare()
 				end
-				self.loco:SetDesiredSpeed( 600 )
-				self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=4})
-				self:Jumpscare()
-			end
-			
-			if !self.FoxyWillMove and !self.FoxyMove then
-				self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
-				self:ResetSequenceInfo()
-				self:SetPlaybackRate(0)
-			elseif self.FoxyWillMove then
-				self:SetSequence( self:LookupSequence( "idle_angry_melee" ) )
-				self:ResetSequenceInfo()
-				self:SetPlaybackRate(0)
+				
+				if !self.FoxyWillMove and !self.FoxyMove then
+					self:SetSequence( self:LookupSequence( "Idle_Unarmed" ) )
+					self:ResetSequenceInfo()
+					self:SetCycle(0)
+					self:SetPlaybackRate(0)
+				elseif self.FoxyWillMove then
+					self:SetSequence( self:LookupSequence( "idle_angry_melee" ) )
+					self:ResetSequenceInfo()
+					self:SetCycle(0)
+					self:SetPlaybackRate(0)
+				end
+				
+				if self.FoxyWillMove or self.FoxyMove then coroutine.wait(0.1) else coroutine.wait(1) end
+				
+			else
+				
+				coroutine.wait(120)
+				
 			end
 			
 		end
-		
-		if self.FoxyWillMove or self.FoxyMove then coroutine.wait(0.1) else coroutine.wait(1) end
 		
 	end
 
@@ -282,7 +307,7 @@ function ENT:GoJumpscare()
 				end
 			end
 			
-			if sgdead then return end
+			if sgdead then timer.Remove( "fnafgmJumpscare"..me ) return end
 			
 			if GAMEMODE.Vars.startday and me!=GAMEMODE.Animatronic.Foxy then
 				self:Jumpscare()

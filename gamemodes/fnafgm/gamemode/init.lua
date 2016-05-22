@@ -3595,6 +3595,21 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			end
 		end
 		
+		if GAMEMODE.AnimatronicsAnim[a] and GAMEMODE.AnimatronicsAnim[a][game.GetMap()] and GAMEMODE.AnimatronicsAnim[a][game.GetMap()][apos] then
+			
+			ent:SetSequence( ent:LookupSequence( GAMEMODE.AnimatronicsAnim[a][game.GetMap()][apos] ) )
+			ent:ResetSequenceInfo()
+			ent:SetCycle(0)
+			ent:SetPlaybackRate(1)
+			
+		else
+			
+			ent:SetSequence( ent:LookupSequence( "Idle_Unarmed" ) )
+			ent:ResetSequenceInfo()
+			ent:SetPlaybackRate(0)
+			
+		end
+		
 		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }
 	
 		net.Start( "fnafgmAnimatronicsList" )
