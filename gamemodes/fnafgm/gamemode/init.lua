@@ -3647,6 +3647,8 @@ function GM:AutoMoveAnimatronic(a)
 		
 		local apos = table.Random(papos)
 		
+		apos = hook.Call("fnafgmChangeAutoMove", nil, a) or apos
+		
 		if GAMEMODE.Vars.Animatronics[a][2]!=GAMEMODE.APos[game.GetMap()].Office then GAMEMODE:SetAnimatronicPos(nil,a,apos) end
 		
 		local randtime = math.random(GAMEMODE.AnimatronicsCD[a][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsCD[a][game.GetMap()][0], GAMEMODE.AnimatronicsMaxCD[a][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsMaxCD[a][game.GetMap()][0])
