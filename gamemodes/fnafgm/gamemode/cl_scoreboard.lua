@@ -173,18 +173,23 @@ local PLAYER_LINE = {
 			return
 		end
 		
-		if ( GAMEMODE:CheckCreator(self.Player) ) then
+		if ( GAMEMODE:CheckCreator(self.Player) or self.Player:GetNWInt( "XperidiaRank", 0 )==3 ) then
 			draw.RoundedBox( 4, 0, 0, w, h, Color( 85, 255, 255, 255 ) )
 			return
 		end
 		
-		if ( GAMEMODE:CheckDerivCreator(self.Player) ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 255, 170, 0, 255 ) )
+		if ( GAMEMODE:CheckDerivCreator(self.Player) or self.Player:GetNWInt( "XperidiaRank", 0 )==2 ) then
+			draw.RoundedBox( 4, 0, 0, w, h, Color( 170, 0, 170, 255 ) )
 			return
 		end
 
 		if ( self.Player:IsAdmin() ) then
 			draw.RoundedBox( 4, 0, 0, w, h, Color( 170, 0, 0, 255 ) )
+			return
+		end
+		
+		if ( self.Player:GetUserGroup()=="premium" or self.Player:GetNWInt( "XperidiaRank", 0 )==1 ) then
+			draw.RoundedBox( 4, 0, 0, w, h, Color( 255, 170, 0, 255 ) )
 			return
 		end
 

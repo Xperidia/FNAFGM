@@ -137,7 +137,7 @@ function ENT:RunBehaviour()
 						
 					end
 					self.loco:SetDesiredSpeed( 600 )
-					self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=3.5,draw=true})
+					self.FoxyMoveState = self:MoveToPos(Vector(-140, -1164, 64),{maxage=3.5})
 					self:Jumpscare()
 				end
 				

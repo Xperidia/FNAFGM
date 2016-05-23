@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.66
+GM.OfficialVersion 	= 1.67
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -944,7 +944,7 @@ end
 
 
 function GM:CheckCreator(pl) --To easly debug others servers and credit
-	if (pl:SteamID()=="STEAM_0:1:18280147" or pl:SteamID()=="STEAM_0:1:35715092" or pl:SteamID()=="STEAM_0:1:51964687") then
+	if pl:SteamID()=="STEAM_0:1:18280147" then
 		return true
 	end
 	return false
@@ -959,6 +959,8 @@ end
 function GM:CustomCheck(pl,what) --Custom groups funcs
 	
 	if GAMEMODE.ListGroup["group_"..pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_"..pl:GetUserGroup()], what) then
+		return true
+	elseif pl.XperidiaRank and pl.XperidiaRank>0 and GAMEMODE.ListGroup["group_premium"] and table.HasValue(GAMEMODE.ListGroup["group_premium"], what) then
 		return true
 	end
 	
@@ -1166,6 +1168,54 @@ function GM:Log(str,tn)
 		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
 	elseif fnafgm_enabledevmode:GetBool() then
 		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+	end
+	
+end
+
+
+function GM:RetrieveXperidiaAccountRank(ply)
+	
+	if !SERVER then return end
+	
+	if !IsValid(ply) then return end
+	
+	if ply:IsBot() then return end
+	
+	if !ply.XperidiaRankLastTime or ply.XperidiaRankLastTime+3600<SysTime() then
+		
+		local steamid = ply:SteamID64()
+		
+		local XperidiaRanks = { "Premium", "Creator", "Administrator" }
+		
+		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...")
+		
+		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
+		function( responseText, contentLength, responseHeaders, statusCode )
+			
+			if statusCode == 200 then
+				
+				local rank = tonumber(string.Right(responseText, contentLength-3))
+				ply.XperidiaRank = rank
+				ply:SetNWInt( "XperidiaRank", rank )
+				ply.XperidiaRankLastTime = SysTime()
+				
+				if XperidiaRanks[rank] then
+					GAMEMODE:Log("The Xperidia Rank for "..ply:GetName().." is "..XperidiaRanks[rank])
+				else
+					GAMEMODE:Log(ply:GetName().." doesn't have any Xperidia Rank...")
+				end
+				
+			else
+				GAMEMODE:Log("Error while retriving Xperidia Rank for "..ply:GetName().." (ERROR "..statusCode..")")
+			end
+			
+		end, 
+		function( errorMessage )
+			
+			GAMEMODE:Log(errorMessage)
+			
+		end )
+		
 	end
 	
 end

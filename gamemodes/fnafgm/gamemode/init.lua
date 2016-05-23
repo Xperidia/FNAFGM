@@ -245,6 +245,8 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerInitialSpawn( ply )
 	
+	GAMEMODE:RetrieveXperidiaAccountRank(ply)
+	
 	fnafgmCheckForNewVersion(ply,false)
 	
 	if !ply:IsBot() then
@@ -466,6 +468,8 @@ end
 
 
 function GM:PostPlayerDeath( ply )
+	
+	GAMEMODE:RetrieveXperidiaAccountRank(ply)
 	
 	ply:SendLua([[GAMEMODE.Vars.lastcam=nil]])
 	

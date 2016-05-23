@@ -766,20 +766,17 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 			table.insert( tab, Color( 85, 255, 255 ) )
 			table.insert( tab, "{FNAFGM Creator} " )
 		elseif GAMEMODE:CheckDerivCreator(player) then
-			table.insert( tab, Color( 255, 170, 0 ) )
+			table.insert( tab, Color( 170, 0, 170 ) )
 			table.insert( tab, "{"..GAMEMODE.ShortName.." Creator} " )
-		elseif player:SteamID()=="STEAM_0:1:49648853" then
-			table.insert( tab, Color( 170, 0, 170 ) )
-			table.insert( tab, "[FNAF4 map creator] " )
-		elseif player:GetUserGroup()=="premium" then
+		elseif player:GetNWInt( "XperidiaRank", 0 )==3 then
+			table.insert( tab, Color( 85, 255, 255 ) )
+			table.insert( tab, "{Xperidia Admin} " )
+		elseif player:GetNWInt( "XperidiaRank", 0 )==2 then
 			table.insert( tab, Color( 255, 170, 0 ) )
-			table.insert( tab, "[Premium] " )
-		elseif player:GetUserGroup()=="vip" then
-			table.insert( tab, Color( 170, 0, 170 ) )
-			table.insert( tab, "[VIP] " )
-		elseif player:GetUserGroup()~="user" then
-			table.insert( tab, GAMEMODE.Colors_defaultchat )
-			table.insert( tab, "[".. string.upper( string.sub(player:GetUserGroup(), 1, 1) )..string.sub(player:GetUserGroup(), 2).."] " )
+			table.insert( tab, "{Xperidia Creator} " )
+		elseif player:GetNWInt( "XperidiaRank", 0 )==1 then
+			table.insert( tab, Color( 255, 170, 0 ) )
+			table.insert( tab, "{Xperidia Premium} " )
 		end
 		table.insert( tab, player )
 	else
