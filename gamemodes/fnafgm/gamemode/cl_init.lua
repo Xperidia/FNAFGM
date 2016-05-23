@@ -590,6 +590,8 @@ end
 
 hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	
+	if GetConVar("fnafgm_cl_disablehalos"):GetBool() then return end
+	
 	local client = LocalPlayer()
 	local tab = {}
 	local tab2 = {}

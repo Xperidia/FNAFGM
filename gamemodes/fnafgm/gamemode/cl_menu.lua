@@ -203,6 +203,15 @@ function fnafgmMenu()
 		disablexpsc:SetValue( GetConVar("fnafgm_cl_disablexpsc"):GetBool() )
 		disablexpsc:SizeToContents()
 		
+		local disablehalo = vgui.Create( "DCheckBoxLabel" )
+		disablehalo:SetParent(fnafgmMenuF.config)
+		disablehalo:SetText(tostring(GAMEMODE.TranslatedStrings.disablehalo or GAMEMODE.Strings.en.disablehalo))
+		disablehalo:SetPos( 15, 190 )
+		disablehalo:SetDark( 1 )
+		disablehalo:SetConVar( "fnafgm_cl_disablehalos" )
+		disablehalo:SetValue( GetConVar("fnafgm_cl_disablehalos"):GetBool() )
+		disablehalo:SizeToContents()
+		
 		
 		
 		fnafgmMenuF.info = vgui.Create( "DPanel" )

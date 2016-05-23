@@ -501,19 +501,21 @@ function fnafgmAnimatronicsController()
 				
 				nope = hook.Call("fnafgmPreventAnimatronicMove", nil, k,apos)
 				
-				if nope then break end
-				
-				local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
-				
-				if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png", "GAME" ) then
-					btn:SetIcon( string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png" )
-				elseif file.Exists( "materials/fnafgm/icon16/"..k..".png", "GAME" ) then
-					btn:SetIcon( "fnafgm/icon16/"..k..".png" )
-				end
-				
-				btn.OnMousePressed = function( button, key )
-					GAMEMODE:SetAnimatronicPos(k,apos)
-					Menu:Remove()
+				if !nope then 
+					
+					local btn = Menu:AddOption( GAMEMODE.AnimatronicName[k] )
+					
+					if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png", "GAME" ) then
+						btn:SetIcon( string.lower(GAMEMODE.ShortName).."/icon16/"..k..".png" )
+					elseif file.Exists( "materials/fnafgm/icon16/"..k..".png", "GAME" ) then
+						btn:SetIcon( "fnafgm/icon16/"..k..".png" )
+					end
+					
+					btn.OnMousePressed = function( button, key )
+						GAMEMODE:SetAnimatronicPos(k,apos)
+						Menu:Remove()
+					end
+					
 				end
 				
 			end

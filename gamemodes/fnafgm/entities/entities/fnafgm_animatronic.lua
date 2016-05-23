@@ -339,7 +339,7 @@ function ENT:Jumpscare()
 				
 				for k, v in pairs(player.GetAll()) do
 					
-					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
@@ -355,7 +355,7 @@ function ENT:Jumpscare()
 				
 				for k, v in pairs(player.GetAll()) do
 					
-					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
@@ -371,7 +371,7 @@ function ENT:Jumpscare()
 				
 				for k, v in pairs(player.GetAll()) do
 					
-					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
@@ -387,7 +387,7 @@ function ENT:Jumpscare()
 				
 				for k, v in pairs(player.GetAll()) do
 					
-					if v:Team()==1 and v:Alive() and GAMEMODE:CheckPlayerSecurityRoom(v) then
+					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand("play "..GAMEMODE.Sound_xscream)
 						v:TakeDamage(100, self )

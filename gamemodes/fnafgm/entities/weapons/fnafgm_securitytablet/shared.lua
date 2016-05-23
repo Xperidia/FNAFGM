@@ -85,7 +85,7 @@ end
 
 function SWEP:Think()
 	
-	if SERVER and !GAMEMODE:CheckPlayerSecurityRoom(self.Owner) and !fnafgmPlayerCanByPass(self.Owner,"tab") then
+	if SERVER and !self.Owner.IsOnSecurityRoom and !fnafgmPlayerCanByPass(self.Owner,"tab") then
 		net.Start( "fnafgmCloseTablet" )
 		net.Send(self.Owner)
 	end

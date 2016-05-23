@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.65
+GM.OfficialVersion 	= 1.66
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -127,7 +127,8 @@ GM.Strings = {
 		password = "Password",
 		saveserver = "Save your own progress on servers",
 		progressinfo = "Last saved night",
-		disablexpsc = "Disable Xperidia's Show Case"
+		disablexpsc = "Disable Xperidia's Show Case",
+		disablehalo = "Disable halos (Improve performance)"
 	},
 	fr = {
 		startanimatronics = "Le courant est allumé",
@@ -158,7 +159,8 @@ GM.Strings = {
 		password = "Mot de passe",
 		saveserver = "Sauvegarde de la progression sur les serveurs",
 		progressinfo = "Dernière nuit sauvegardée ",
-		disablexpsc = "Désactiver Xperidia's Show Case"
+		disablexpsc = "Désactiver Xperidia's Show Case",
+		disablehalo = "Désactiver les halos (Améliore la performance)"
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		sg = "Güvenlik Görevlileri",
@@ -305,10 +307,10 @@ GM.Spawns_animatronics = { "info_player_counterterrorist", "fnafgm_teamanimatron
 
 GM.SecurityRoom = {
 	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
-	fnaf2noevents = { Vector(138,-340,190), Vector(-138,128,0) },
-	fnaf3 = { Vector(-174,-178,190), Vector(174,-342,65) },
-	fnaf4house = { Vector(-756,125,128), Vector(-514,-190,0) },
-	fnaf4noclips = { Vector(-756,125,128), Vector(-514,-190,0) }
+	fnaf2noevents = { Vector(-138,-340,0), Vector(138,128,190) },
+	fnaf3 = { Vector(-174,-342,65), Vector(174,-178,190) },
+	fnaf4house = { Vector(-756,-190,0), Vector(-514,125,128) },
+	fnaf4noclips = { Vector(-756,-190,0), Vector(-514,125,128) }
 }
 
 GM.DeadBodiesTeleport = {
@@ -646,6 +648,7 @@ fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false 
 fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
 fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true, false )
 fnafgm_cl_disablexpsc = CreateClientConVar( "fnafgm_cl_disablexpsc", 0, true, false )
+fnafgm_cl_disablehalos = CreateClientConVar( "fnafgm_cl_disablehalos", 0, true, false )
 
 
 function GM:Initialize()
@@ -967,19 +970,33 @@ end
 function GM:CheckPlayerSecurityRoom(ply)
 	
 	if (GAMEMODE.SecurityRoom[game.GetMap()]) then
-		local BoxCorner = GAMEMODE.SecurityRoom[game.GetMap()][1]
-		local OppositeCorner = GAMEMODE.SecurityRoom[game.GetMap()][2]
-		local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-		if table.HasValue(PlayersInArea, ply) then return true end
-		if GAMEMODE.SecurityRoom[game.GetMap()][3] then
-			local BoxCorner = GAMEMODE.SecurityRoom[game.GetMap()][3]
-			local OppositeCorner = GAMEMODE.SecurityRoom[game.GetMap()][4]
-			local PlayersInArea = ents.FindInBox(BoxCorner,OppositeCorner)
-			if table.HasValue(PlayersInArea, ply) then return true end
+		
+		local ret = ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][1], GAMEMODE.SecurityRoom[game.GetMap()][2] )
+		
+		if ret then
+			
+			return true
+			
 		end
+		
+		if GAMEMODE.SecurityRoom[game.GetMap()][3] then
+			
+			local ret = ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][3], GAMEMODE.SecurityRoom[game.GetMap()][4] )
+			
+			if ret then
+				
+				return true
+				
+			end
+			
+		end
+		
 		return false
+		
 	else
+		
 		return nil
+		
 	end
 	
 end
@@ -1041,10 +1058,10 @@ function GM:GoFNaFView(ply)
 	GAMEMODE.Vars.fnafview = true
 	
 	if SERVER then 
-		if GAMEMODE.FNaFView[game.GetMap()] then
+		if GAMEMODE.FNaFView[game.GetMap()] and ply:Team()==1 and ply:Alive() then
+			if ply:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
 			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
-			ply:SendLua([[GAMEMODE:GoFNaFView()]])
 		end
 	end
 	

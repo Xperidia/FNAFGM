@@ -192,7 +192,7 @@ function GM:PlayerSpawn( pl )
 			if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 			if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 			timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
-				if IsValid(pl) and pl:Team()==1 and pl:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
+				if IsValid(pl) then
 					GAMEMODE:GoFNaFView(pl)
 					if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 					if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
@@ -1082,8 +1082,8 @@ function GM:StartNight(ply)
 			
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
-				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+				for k, v in pairs(player.GetAll()) do
+					if v:Team()==1 and v:Alive() then
 						v:SetPos( Vector( -80, -1224, 64 ) )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
 					end
@@ -1100,9 +1100,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-						GAMEMODE:GoFNaFView(v)
-					end
+					GAMEMODE:GoFNaFView(v)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1158,8 +1156,8 @@ function GM:StartNight(ply)
 		
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
-				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+				for k, v in pairs(player.GetAll()) do
+					if v:Team()==1 and v:Alive() and !v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
 						v:SetPos( spawn )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
@@ -1177,9 +1175,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-						GAMEMODE:GoFNaFView(v)
-					end
+					GAMEMODE:GoFNaFView(v)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1203,8 +1199,8 @@ function GM:StartNight(ply)
 		
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
-				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+				for k, v in pairs(player.GetAll()) do
+					if v:Team()==1 and v:Alive() and !v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
 						v:SetPos( spawn )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
@@ -1221,9 +1217,7 @@ function GM:StartNight(ply)
 				fnafgmVarsUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-						GAMEMODE:GoFNaFView(v)
-					end
+					GAMEMODE:GoFNaFView(v)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1262,8 +1256,8 @@ function GM:StartNight(ply)
 		
 				timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 					
-					for k, v in pairs(team.GetPlayers(1)) do
-						if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+					for k, v in pairs(player.GetAll()) do
+						if v:Team()==1 and v:Alive() and !v.IsOnSecurityRoom then
 							v:SetPos( Vector( -640, -63, 0 ) )
 							v:SetEyeAngles(Angle( 0, 90, 0 ))
 						end
@@ -1282,9 +1276,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-						GAMEMODE:GoFNaFView(v)
-					end
+					GAMEMODE:GoFNaFView(v)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1307,8 +1299,8 @@ function GM:StartNight(ply)
 		
 			timer.Create( "fnafgmTempoStartM", 0.01, 1, function()
 				
-				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+				for k, v in pairs(player.GetAll()) do
+					if v:Team()==1 and v:Alive() and !v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn( v ):GetPos()
 						v:SetPos( spawn )
 						v:SetEyeAngles(Angle( 0, 90, 0 ))
@@ -1325,9 +1317,7 @@ function GM:StartNight(ply)
 				fnafgmVarsUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					if v:Team()==1 and v:Alive() and v:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then
-						GAMEMODE:GoFNaFView(v)
-					end
+					GAMEMODE:GoFNaFView(v)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -2368,15 +2358,21 @@ function GM:FinishMove( ply, mv )
 	
 	local userid = ply:UserID()
 	
-	if fnafgm_killextsrplayers:GetBool() and GAMEMODE:CheckPlayerSecurityRoom(ply)!=nil then
+	local IsOnSecurityRoom = GAMEMODE:CheckPlayerSecurityRoom(ply)
 	
-		if GAMEMODE:CheckPlayerSecurityRoom(ply) or !ply:Alive() then
+	if !ply.IsOnSecurityRoom or ply.IsOnSecurityRoom!=IsOnSecurityRoom then
+		ply.IsOnSecurityRoom = IsOnSecurityRoom
+	end
+	
+	if fnafgm_killextsrplayers:GetBool() and IsOnSecurityRoom!=nil then
+	
+		if IsOnSecurityRoom or !ply:Alive() then
 			
 			if timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) then
 				timer.Remove( "fnafgmPlayerSecurityRoomNot"..userid )
 			end
 			
-		elseif !GAMEMODE:CheckPlayerSecurityRoom(ply) and !timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) and ply:Alive() and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and ply:Team()==1 and !fnafgmPlayerCanByPass(ply,"nokillextsr") then
+		elseif !IsOnSecurityRoom and !timer.Exists( "fnafgmPlayerSecurityRoomNot"..userid ) and ply:Alive() and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and ply:Team()==1 and !fnafgmPlayerCanByPass(ply,"nokillextsr") then
 			
 			local PSRTT=5
 			if game.GetMap()=="fnaf2noevents" then
@@ -3140,7 +3136,7 @@ function GM:Think()
 					
 					for k, v in pairs(player.GetAll()) do
 						v:ConCommand("play ".."freddys/muffledtune.wav")
-						if v:Team()==1 and v:Alive() and !GAMEMODE:CheckPlayerSecurityRoom(v) then
+						if v:Team()==1 and v:Alive() and !v.IsOnSecurityRoom then
 							v:SetPos( Vector( -80, -1224, 64 ) )
 						end
 					end

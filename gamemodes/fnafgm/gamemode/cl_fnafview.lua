@@ -8,7 +8,6 @@ function GM:FNaFViewHUD()
 			net.WriteBit( true )
 		net.SendToServer()
 		
-		if GAMEMODE.FNaFView[game.GetMap()][1] then LocalPlayer():SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 		if GAMEMODE.FNaFView[game.GetMap()][2] then LocalPlayer():SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 		
 		FNaFView = vgui.Create( "DFrame" )
