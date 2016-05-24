@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.68
+GM.OfficialVersion 	= 1.69
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -57,7 +57,8 @@ GM.Sound_xscream = Sound("fnafgm/xscream.ogg")
 GM.Sound_xscream2 = Sound("fnafgm/xscream2.ogg")
 GM.Sound_foxystep = Sound("fnafgm/run.ogg")
 GM.Sound_foxyknock = Sound("fnafgm/knock.ogg")
-GM.Sound_securitycampop = Sound("fnafgm/camdown.ogg")
+GM.Sound_securitycampop = Sound("fnafgm/monitoron.ogg")
+GM.Sound_securitycamdown = Sound("fnafgm/camdown.ogg")
 GM.Sound_securitycampop2 = Sound("fnafgm/monitoron2.ogg")
 GM.Sound_securitycamdown2 = Sound("fnafgm/monitoroff2.ogg")
 GM.Sound_securitycampop3 = Sound("fnafgm/monitoron3.ogg")
@@ -80,6 +81,7 @@ GM.Sound_Calls = {
 }
 GM.Sound_maskon = Sound("fnafgm/maskon.ogg")
 GM.Sound_maskoff = Sound("fnafgm/maskoff.ogg")
+GM.Sound_windowscare = Sound("fnafgm/windowscare.ogg")
 
 GM.TranslatedStrings = {}
 
@@ -750,6 +752,129 @@ function GM:Initialize()
 			} )
 		end
 	end
+	
+	for k, v in pairs(GAMEMODE.Sound_end) do
+		sound.Add( {
+			name = "fnafgm_end_"..k,
+			channel = CHAN_STATIC,
+			volume = 1.0,
+			level = 0,
+			sound = v
+		} )
+	end
+	
+	sound.Add( {
+		name = "fnafgm_campop",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycampop
+	} )
+	sound.Add( {
+		name = "fnafgm_campop2",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycampop2
+	} )
+	sound.Add( {
+		name = "fnafgm_campop3",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycampop3
+	} )
+	sound.Add( {
+		name = "fnafgm_camdown",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycamdown
+	} )
+	sound.Add( {
+		name = "fnafgm_camdown2",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycamdown2
+	} )
+	sound.Add( {
+		name = "fnafgm_camdown3",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_securitycamdown3
+	} )
+	sound.Add( {
+		name = "fnafgm_camselect",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_camselect
+	} )
+	sound.Add( {
+		name = "fnafgm_maskon",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_maskon
+	} )
+	sound.Add( {
+		name = "fnafgm_maskoff",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_maskoff
+	} )
+	sound.Add( {
+		name = "fnafgm_scream",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_xscream
+	} )
+	sound.Add( {
+		name = "fnafgm_scream2",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_xscream2
+	} )
+	sound.Add( {
+		name = "fnafgm_foxyknock",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_foxyknock
+	} )
+	sound.Add( {
+		name = "fnafgm_foxystep",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_foxystep
+	} )
+	sound.Add( {
+		name = "fnafgm_lighterror",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_lighterror
+	} )
+	sound.Add( {
+		name = "fnafgm_startday",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_startday
+	} )
+	sound.Add( {
+		name = "fnafgm_windowscare",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_windowscare
+	} )
 	
 	if SERVER then
 		

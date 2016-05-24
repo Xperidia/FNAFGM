@@ -34,22 +34,22 @@ function fnafgmSecurityTablet()
 				if !GAMEMODE.Vars.lastcam then
 					GAMEMODE.Vars.lastcam = 7
 				end
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+				LocalPlayer():EmitSound("fnafgm_campop")
 			elseif game.GetMap()=="fnaf2noevents" then
 				if !GAMEMODE.Vars.lastcam then
 					GAMEMODE.Vars.lastcam = 12
 				end
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop2)
+				LocalPlayer():EmitSound("fnafgm_campop2")
 			elseif game.GetMap()=="fnaf3" then
 				if !GAMEMODE.Vars.lastcam then
 					GAMEMODE.Vars.lastcam = 2
 				end
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop3)
+				LocalPlayer():EmitSound("fnafgm_campop3")
 			else
 				if !GAMEMODE.Vars.lastcam then
 					GAMEMODE.Vars.lastcam = 1
 				end
-				LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+				LocalPlayer():EmitSound("fnafgm_campop")
 			end
 		end
 		
@@ -84,6 +84,9 @@ function fnafgmSecurityTablet()
 			fnafgmSetView(0)
 			if lastlstate[1]==true then fnafgmCamLight( GAMEMODE.Vars.lastcam, false ) end
 			LocalPlayer():ConCommand( "pp_mat_overlay ''" )
+			LocalPlayer():StopSound( "fnafgm_campop" )
+			LocalPlayer():StopSound( "fnafgm_campop2" )
+			LocalPlayer():StopSound( "fnafgm_campop3" )
 			net.Start( "fnafgmTabUsed" )
 				net.WriteBit( false )
 			net.SendToServer()
@@ -185,7 +188,7 @@ function fnafgmSecurityTablet()
 				CAM2B:SetPos( 161, 408 )
 				CAM2B:SetText("")
 				CAM2B.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(1)
 					GAMEMODE.Vars.lastcam = 1
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -204,7 +207,7 @@ function fnafgmSecurityTablet()
 				CAM2A:SetPos( 161, 357 )
 				CAM2A:SetText("")
 				CAM2A.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(2)
 					GAMEMODE.Vars.lastcam = 2
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -223,7 +226,7 @@ function fnafgmSecurityTablet()
 				CAM3:SetPos( 54, 334 )
 				CAM3:SetText("")
 				CAM3.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(3)
 					GAMEMODE.Vars.lastcam = 3
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -242,7 +245,7 @@ function fnafgmSecurityTablet()
 				CAM4A:SetPos( 297, 358 )
 				CAM4A:SetText("")
 				CAM4A.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(4)
 					GAMEMODE.Vars.lastcam = 4
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -261,7 +264,7 @@ function fnafgmSecurityTablet()
 				CAM4B:SetPos( 297, 410 )
 				CAM4B:SetText("")
 				CAM4B.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(5)
 					GAMEMODE.Vars.lastcam = 5
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -280,7 +283,7 @@ function fnafgmSecurityTablet()
 				CAM5:SetPos( 0, 143 )
 				CAM5:SetText("")
 				CAM5.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(6)
 					GAMEMODE.Vars.lastcam = 6
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -299,7 +302,7 @@ function fnafgmSecurityTablet()
 				CAM1A:SetPos( 161, 37 )
 				CAM1A:SetText("")
 				CAM1A.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(7)
 					GAMEMODE.Vars.lastcam = 7
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -318,7 +321,7 @@ function fnafgmSecurityTablet()
 				CAM7:SetPos( 431, 143 )
 				CAM7:SetText("")
 				CAM7.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(8)
 					GAMEMODE.Vars.lastcam = 8
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -337,7 +340,7 @@ function fnafgmSecurityTablet()
 				CAM1C:SetPos( 95, 208 )
 				CAM1C:SetText("")
 				CAM1C.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(9)
 					GAMEMODE.Vars.lastcam = 9
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -356,7 +359,7 @@ function fnafgmSecurityTablet()
 				CAM1B:SetPos( 136, 109 )
 				CAM1B:SetText("")
 				CAM1B.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(10)
 					GAMEMODE.Vars.lastcam = 10
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -375,7 +378,7 @@ function fnafgmSecurityTablet()
 				CAM6:SetPos( 421, 312 )
 				CAM6:SetText("")
 				CAM6.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView(11)
 					GAMEMODE.Vars.lastcam = 11
 					CamsNames:SetText( GAMEMODE.CamsNames["freddysnoevent_"..GAMEMODE.Vars.lastcam] or "" )
@@ -397,7 +400,7 @@ function fnafgmSecurityTablet()
 				CloseT.DoClick = function( button )
 					if IsValid(FNaFView) then waitt = CurTime()+1 end
 					Monitor:Close()
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+					LocalPlayer():EmitSound("fnafgm_camdown")
 					if IsValid(OpenT) then OpenT:Show() end
 				end
 				CloseT.OnCursorEntered = function()
@@ -406,7 +409,7 @@ function fnafgmSecurityTablet()
 						if waitt<CurTime() then
 							waitt = CurTime()+0.5
 							Monitor:Close()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+							LocalPlayer():EmitSound("fnafgm_camdown")
 							if IsValid(OpenT) then OpenT:Show() end
 						end
 					end
@@ -477,7 +480,7 @@ function fnafgmSecurityTablet()
 				CAM12:SetPos( 422, 291 )
 				CAM12:SetText( "" )
 				CAM12.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 9 )
 					GAMEMODE.Vars.lastcam = 9
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -495,7 +498,7 @@ function fnafgmSecurityTablet()
 				CAM10:SetPos( 321, 234 )
 				CAM10:SetText( "" )
 				CAM10.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 11 )
 					GAMEMODE.Vars.lastcam = 11
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -512,7 +515,7 @@ function fnafgmSecurityTablet()
 				CAM7:SetPos( 216, 142 )
 				CAM7:SetText( "" )
 				CAM7.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 7 )
 					GAMEMODE.Vars.lastcam = 7
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -529,7 +532,7 @@ function fnafgmSecurityTablet()
 				CAM4:SetPos( 191, 213 )
 				CAM4:SetText( "" )
 				CAM4.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 4 )
 					GAMEMODE.Vars.lastcam = 4
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -546,7 +549,7 @@ function fnafgmSecurityTablet()
 				CAM2:SetPos( 188, 291 )
 				CAM2:SetText( "" )
 				CAM2.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 2 )
 					GAMEMODE.Vars.lastcam = 2
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -563,7 +566,7 @@ function fnafgmSecurityTablet()
 				CAM6:SetPos( 175, 401 )
 				CAM6:SetText( "" )
 				CAM6.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 5 )
 					GAMEMODE.Vars.lastcam = 5
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -581,7 +584,7 @@ function fnafgmSecurityTablet()
 				CAM11:SetPos( 442, 182 )
 				CAM11:SetText( "" )
 				CAM11.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 10 )
 					GAMEMODE.Vars.lastcam = 10
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -599,7 +602,7 @@ function fnafgmSecurityTablet()
 				CAM9:SetPos( 401, 94 )
 				CAM9:SetText( "" )
 				CAM9.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 12 )
 					GAMEMODE.Vars.lastcam = 12
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -616,7 +619,7 @@ function fnafgmSecurityTablet()
 				CAM8:SetPos( 34, 129 )
 				CAM8:SetText( "" )
 				CAM8.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 8 )
 					GAMEMODE.Vars.lastcam = 8
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -633,7 +636,7 @@ function fnafgmSecurityTablet()
 				CAM3:SetPos( 32, 213 )
 				CAM3:SetText( "" )
 				CAM3.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 3 )
 					GAMEMODE.Vars.lastcam = 3
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -650,7 +653,7 @@ function fnafgmSecurityTablet()
 				CAM1:SetPos( 32, 290 )
 				CAM1:SetText( "" )
 				CAM1.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 1 )
 					GAMEMODE.Vars.lastcam = 1
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -667,7 +670,7 @@ function fnafgmSecurityTablet()
 				CAM5:SetPos( 40, 401 )
 				CAM5:SetText( "" )
 				CAM5.DoClick = function( button )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( 6 )
 					GAMEMODE.Vars.lastcam = 6
 					CamsNames:SetText( GAMEMODE.CamsNames["fnaf2noevents_"..GAMEMODE.Vars.lastcam] or "" )
@@ -687,7 +690,7 @@ function fnafgmSecurityTablet()
 				CloseT.DoClick = function( button )
 					if IsValid(FNaFView) then waitt = CurTime()+1 end
 					Monitor:Close()
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown2)
+					LocalPlayer():EmitSound("fnafgm_camdown2")
 					if IsValid(OpenT) then OpenT:Show() end
 					if IsValid(SafeE) then SafeE:Show() end
 				end
@@ -697,7 +700,7 @@ function fnafgmSecurityTablet()
 						if waitt<CurTime() then
 							waitt = CurTime()+0.5
 							Monitor:Close()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown2)
+							LocalPlayer():EmitSound("fnafgm_camdown2")
 							if IsValid(OpenT) then OpenT:Show() end
 							if IsValid(SafeE) then SafeE:Show() end
 						end
@@ -740,7 +743,7 @@ function fnafgmSecurityTablet()
 				CAM:SetSize( 34, 28 )
 				CAM:SetValue(GAMEMODE.Vars.lastcam)
 				CAM.OnValueChanged = function( val )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( math.Round( val:GetValue() ) )
 					GAMEMODE.Vars.lastcam = val:GetValue()
 					CamsNames:SetText( "CAM"..val:GetValue() )
@@ -756,7 +759,7 @@ function fnafgmSecurityTablet()
 				CloseT.DoClick = function( button )
 					if IsValid(FNaFView) then waitt = CurTime()+1 end
 					Monitor:Close()
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown3)
+					LocalPlayer():EmitSound("fnafgm_camdown3")
 					if IsValid(OpenT) then OpenT:Show() end
 				end
 				CloseT.OnCursorEntered = function()
@@ -765,7 +768,7 @@ function fnafgmSecurityTablet()
 						if waitt<CurTime() then
 							waitt = CurTime()+0.5
 							Monitor:Close()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycamdown3)
+							LocalPlayer():EmitSound("fnafgm_camdown3")
 							if IsValid(OpenT) then OpenT:Show() end
 						end
 					end
@@ -807,7 +810,7 @@ function fnafgmSecurityTablet()
 				CAM:SetSize( 34, 28 )
 				CAM:SetValue(GAMEMODE.Vars.lastcam)
 				CAM.OnValueChanged = function( val )
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_camselect)
+					LocalPlayer():EmitSound("fnafgm_camselect")
 					fnafgmSetView( math.Round( val:GetValue() ) )
 					GAMEMODE.Vars.lastcam = val:GetValue()
 					CamsNames:SetText( "CAM"..val:GetValue() )
@@ -823,7 +826,7 @@ function fnafgmSecurityTablet()
 				CloseT.DoClick = function( button )
 					if IsValid(FNaFView) then waitt = CurTime()+1 end
 					Monitor:Close()
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+					LocalPlayer():EmitSound("fnafgm_camdown")
 					if IsValid(OpenT) then OpenT:Show() end
 				end
 				CloseT.OnCursorEntered = function()
@@ -832,7 +835,7 @@ function fnafgmSecurityTablet()
 						if waitt<CurTime() then
 							waitt = CurTime()+0.5
 							Monitor:Close()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+							LocalPlayer():EmitSound("fnafgm_camdown")
 							if IsValid(OpenT) then OpenT:Show() end
 						end
 					end

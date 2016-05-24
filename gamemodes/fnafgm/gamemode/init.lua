@@ -153,7 +153,7 @@ function GM:PlayerSpawn( pl )
 	
 	if GAMEMODE.Vars.b87 then
 		pl:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_goldenfreddy )
-		pl:ConCommand("play "..GAMEMODE.Sound_xscream2)
+		pl:SendLua([[LocalPlayer():EmitSound("fnafgm_scream2")]])
 		GAMEMODE.Vars.norespawn = true
 		local userid = pl:UserID()
 		timer.Create( "fnafgm87"..userid, 20, 1, function()
@@ -787,7 +787,7 @@ function fnafgmUse(ply, ent, test, test2)
 		if light1 and IsValid(light1) and ent==light1 then
 			
 			if !GAMEMODE.Vars.light1usewait and !GAMEMODE.Vars.poweroff then
-					
+				
 				GAMEMODE.Vars.light1usewait = true
 				light1:Fire("use")
 				
@@ -877,8 +877,8 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 				
 			elseif !GAMEMODE.Vars.light1usewait and GAMEMODE.Vars.poweroff then
-			
-				ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
+				
+				ply:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
 				GAMEMODE.Vars.light1usewait = true
 				
 				timer.Create( "fnafgmlight1usewait", 1, 1, function()
@@ -933,8 +933,8 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 				
 			elseif !GAMEMODE.Vars.light2usewait and GAMEMODE.Vars.poweroff then
-			
-				ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
+				
+				ply:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
 				GAMEMODE.Vars.light2usewait = true
 				
 				timer.Create( "fnafgmlight2usewait", 1, 1, function()
@@ -989,8 +989,8 @@ function fnafgmUse(ply, ent, test, test2)
 				end
 				
 			elseif !GAMEMODE.Vars.light3usewait and GAMEMODE.Vars.poweroff then
-			
-				ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
+				
+				ply:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
 				GAMEMODE.Vars.light3usewait = true
 				
 				timer.Create( "fnafgmlight3usewait", 1, 1, function()
@@ -1197,7 +1197,7 @@ function GM:StartNight(ply)
 			for k, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then
 					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5 )
-					v:ConCommand("play "..GAMEMODE.Sound_startday)
+					v:SendLua([[LocalPlayer():EmitSound("fnafgm_startday")]])
 				end
 			end
 		
@@ -2193,7 +2193,7 @@ function fnafgmTimeThink()
 		
 		for k, v in pairs(player.GetAll()) do
 			if ( game.SinglePlayer() ) then v:ConCommand("stopsound") else v:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
-			if game.GetMap()=="fnaf2noevents" then
+			if GAMEMODE.FT==2 then
 				v:ConCommand("play "..GAMEMODE.Sound_endnight2)
 			else
 				v:ConCommand("play "..GAMEMODE.Sound_endnight)
@@ -2235,7 +2235,7 @@ function fnafgmTimeThink()
 						v:SetTeam(TEAM_UNASSIGNED)
 						
 						if GAMEMODE.Sound_end[game.GetMap()] then
-							v:ConCommand("play "..GAMEMODE.Sound_end[game.GetMap()])
+							v:SendLua([[LocalPlayer():EmitSound("fnafgm_end_"..game.GetMap())]])
 						end
 						
 					end
@@ -2311,7 +2311,7 @@ function fnafgmTimeThink()
 		
 		for k, v in pairs(player.GetAll()) do
 			if ( game.SinglePlayer() ) then v:ConCommand("stopsound") else v:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
-			if game.GetMap()=="fnaf2noevents" then
+			if GAMEMODE.FT==2 then
 				v:ConCommand("play "..GAMEMODE.Sound_endnight2)
 			else
 				v:ConCommand("play "..GAMEMODE.Sound_endnight)
@@ -2386,7 +2386,7 @@ function GM:FinishMove( ply, mv )
 			timer.Create( "fnafgmPlayerSecurityRoomNot"..userid, PSRTT, 1, function()
 				
 				if (IsValid(ply)) then
-					ply:ConCommand("play "..GAMEMODE.Sound_Animatronic[4][1])
+					ply:SendLua([[LocalPlayer():EmitSound("fnafgm_4_1")]])
 					ply:Kill()
 					GAMEMODE:Log(ply:GetName().." is dead by the outside!")
 				end
@@ -2955,8 +2955,8 @@ function GM:PlayerSwitchFlashlight(ply, on)
 	end
 	
 	if (GAMEMODE.FT==2 and GAMEMODE.Vars.poweroff) then
-	
-		ply:ConCommand("play "..GAMEMODE.Sound_lighterror)
+		
+		ply:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
 		
 	end
 	
@@ -3161,7 +3161,7 @@ function GM:Think()
 						if v:Alive() then
 							v:Kill()
 							v:ConCommand( "pp_mat_overlay fnafgm/screamers/freddysnoevent_0" )
-							v:ConCommand("play "..GAMEMODE.Sound_xscream)
+							v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						end
 					end
 					timer.Remove("fnafgmPowerOff3")
@@ -3235,10 +3235,10 @@ function GM:Think()
 			for k, v in pairs(team.GetPlayers(1)) do
 				
 				if v:FlashlightIsOn() and !fnafgmPlayerCanByPass(v,"flashlight") then
-						
+					
 					v:Flashlight( false )
 					
-					v:ConCommand("play "..GAMEMODE.Sound_lighterror)
+					v:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
 					
 				end
 				
@@ -3657,7 +3657,7 @@ function GM:AutoMoveAnimatronic(a)
 			timer.Adjust( "fnafgmAnimatronicMove"..a, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(a) end)
 		end
 		
-		--GAMEMODE.Vars.Animatronics[a][1]:Taunt()
+		if a==GAMEMODE.Animatronic.Freddy then GAMEMODE.Vars.Animatronics[a][1]:Taunt() end
 		
 	elseif !GAMEMODE.Vars.startday then
 		

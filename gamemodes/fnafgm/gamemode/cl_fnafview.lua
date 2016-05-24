@@ -158,7 +158,6 @@ function GM:FNaFViewHUD()
 					waitt = CurTime()+1
 					fnafgmSecurityTablet()
 					fnafgmShutLights()
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 					OpenT:Hide()
 				end
 				OpenT.OnCursorEntered = function()
@@ -167,7 +166,6 @@ function GM:FNaFViewHUD()
 						waitt = CurTime()+0.5
 						fnafgmSecurityTablet()
 						fnafgmShutLights()
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
 						OpenT:Hide()
 					end
 				end
@@ -199,8 +197,7 @@ function GM:FNaFViewHUD()
 				OpenT:SetText( "" )
 				OpenT.DoClick = function( button )
 					waitt = CurTime()+1
-					fnafgmSecurityTablet() 
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+					fnafgmSecurityTablet()
 					OpenT:Hide()
 					SafeE:Hide()
 				end
@@ -208,8 +205,7 @@ function GM:FNaFViewHUD()
 					if !waitt then waitt=0 end
 					if waitt<CurTime() then
 						waitt = CurTime()+0.5
-						fnafgmSecurityTablet() 
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+						fnafgmSecurityTablet()
 						OpenT:Hide()
 						SafeE:Hide()
 					end
@@ -245,11 +241,13 @@ function GM:FNaFViewHUD()
 						waits = CurTime()+1
 						if GAMEMODE.Vars.usingsafezone then
 							OpenT:Show()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
+							LocalPlayer():StopSound("fnafgm_maskon")
+							LocalPlayer():EmitSound("fnafgm_maskoff")
 							GAMEMODE.Vars.usingsafezone = false
 						elseif !GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
+							LocalPlayer():StopSound("fnafgm_maskoff")
+							LocalPlayer():EmitSound("fnafgm_maskon")
 							GAMEMODE.Vars.usingsafezone = true
 						end
 						fnafgmSafeZone()
@@ -261,11 +259,13 @@ function GM:FNaFViewHUD()
 						waits = CurTime()+0.5
 						if GAMEMODE.Vars.usingsafezone then
 							OpenT:Show()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskoff)
+							LocalPlayer():StopSound("fnafgm_maskon")
+							LocalPlayer():EmitSound("fnafgm_maskoff")
 							GAMEMODE.Vars.usingsafezone = false
 						elseif !GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
-							LocalPlayer():ConCommand("play "..GAMEMODE.Sound_maskon)
+							LocalPlayer():StopSound("fnafgm_maskoff")
+							LocalPlayer():EmitSound("fnafgm_maskon")
 							GAMEMODE.Vars.usingsafezone = true
 						end
 						fnafgmSafeZone()
@@ -299,16 +299,14 @@ function GM:FNaFViewHUD()
 				OpenT:SetText( "" )
 				OpenT.DoClick = function( button )
 					waitt = CurTime()+1
-					fnafgmSecurityTablet() 
-					LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+					fnafgmSecurityTablet()
 					OpenT:Hide()
 				end
 				OpenT.OnCursorEntered = function()
 					if !waitt then waitt=0 end
 					if waitt<CurTime() then
 						waitt = CurTime()+0.5
-						fnafgmSecurityTablet() 
-						LocalPlayer():ConCommand("play "..GAMEMODE.Sound_securitycampop)
+						fnafgmSecurityTablet()
 						OpenT:Hide()
 					end
 				end

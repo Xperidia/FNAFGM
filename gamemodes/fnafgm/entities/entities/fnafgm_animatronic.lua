@@ -131,7 +131,7 @@ function ENT:RunBehaviour()
 						
 						if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
 							
-							v:ConCommand("play "..GAMEMODE.Sound_foxystep)
+							v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxystep")]])
 							
 						end
 						
@@ -187,6 +187,55 @@ function ENT:Think()
 		
 	end
 	
+	if SERVER then
+		
+		local nope = hook.Call("fnafgmWindowScare",nil,self,me,apos) or false
+		
+		if !nope then
+			
+			if game.GetMap()=="freddysnoevent" then
+				
+				if me==GAMEMODE.Animatronic.Freddy then
+					
+					if apos==GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and !self.wsip then
+						self:EmitSound("fnafgm_windowscare")
+						self.wsip = true
+					elseif apos==GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[2] and self.wsip then
+						self.wsip = false
+					elseif apos!=GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+						self.wsip = false
+					end
+					
+				elseif me==GAMEMODE.Animatronic.Bonnie then
+					
+					if apos==GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[1] and !self.wsip then
+						self:EmitSound("fnafgm_windowscare")
+						self.wsip = true
+					elseif apos==GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[1] and self.wsip then
+						self.wsip = false
+					elseif apos!=GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+						self.wsip = false
+					end
+					
+				elseif me==GAMEMODE.Animatronic.Chica then
+					
+					if apos==GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and !self.wsip then
+						self:EmitSound("fnafgm_windowscare")
+						self.wsip = true
+					elseif apos==GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[2] and self.wsip then
+						self.wsip = false
+					elseif apos!=GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+						self.wsip = false
+					end
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+	
 	local nope = hook.Call("fnafgmFixPos",nil,self,me,apos) or false
 		
 	if !nope then
@@ -218,17 +267,12 @@ function ENT:Think()
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team()==1 then
 				
 				local attacker = self
-				local sound = GAMEMODE.Sound_xscream
 				
 				if ( !IsValid( attacker ) ) then attacker = self end
 				
 				if file.Exists( "materials/"..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me, "GAME" ) then v:ConCommand( "pp_mat_overlay "..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me ) end
 				
-				if me==GAMEMODE.Animatronic.GoldenFreddy then
-					sound = GAMEMODE.Sound_xscream2
-				end
-				
-				v:ConCommand("play "..sound)
+				v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 				v:TakeDamage(100, attacker, self )
 				
 			end
@@ -342,7 +386,7 @@ function ENT:Jumpscare()
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
 					end
@@ -358,7 +402,7 @@ function ENT:Jumpscare()
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
 					end
@@ -374,7 +418,7 @@ function ENT:Jumpscare()
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
 						v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
 					end
@@ -389,7 +433,7 @@ function ENT:Jumpscare()
 					
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
-						v:ConCommand("play "..GAMEMODE.Sound_xscream)
+						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
 					end
@@ -404,7 +448,7 @@ function ENT:Jumpscare()
 					
 					if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED then
 						
-						v:ConCommand("play "..GAMEMODE.Sound_foxyknock)
+						v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxyknock")]])
 						
 					end
 					
