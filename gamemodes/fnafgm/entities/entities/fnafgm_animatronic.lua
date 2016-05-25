@@ -234,14 +234,14 @@ function ENT:Think()
 			
 		end
 		
-	end
-	
-	local nope = hook.Call("fnafgmFixPos",nil,self,me,apos) or false
-		
-	if !nope then
-		
-		if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me!=GAMEMODE.Animatronic.Freddy) then
-			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+		local nope = hook.Call("fnafgmFixPos",nil,self,me,apos) or false
+			
+		if !nope then
+			
+			if me!=GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me!=GAMEMODE.Animatronic.Freddy) then
+				self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+			end
+			
 		end
 		
 	end
@@ -264,18 +264,20 @@ function ENT:Think()
 	if SERVER and GAMEMODE.Vars.startday then
 		
 		for k, v in pairs (ents.FindInSphere (self:GetPos(), 24)) do
+			
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team()==1 then
 				
 				local attacker = self
 				
 				if ( !IsValid( attacker ) ) then attacker = self end
 				
-				if file.Exists( "materials/"..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me, "GAME" ) then v:ConCommand( "pp_mat_overlay "..GAMEMODE.ShortName.."/screamers/"..game.GetMap()..me ) end
+				v:SendLua('GAMEMODE:JumpscareOverlay("'..(string.lower(GAMEMODE.ShortName) or "fnafgm")..'/screamers/'..game.GetMap().."_"..me..'")')
 				
 				v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 				v:TakeDamage(100, attacker, self )
 				
 			end
+			
 		end
 		
 	end
@@ -385,7 +387,7 @@ function ENT:Jumpscare()
 					
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
-						v:ConCommand( "pp_mat_overlay freddys/fazbear_deathscreen" )
+						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_0")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
@@ -401,7 +403,7 @@ function ENT:Jumpscare()
 					
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
-						v:ConCommand( "pp_mat_overlay freddys/bonniedeath" )
+						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_1")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						
@@ -417,7 +419,7 @@ function ENT:Jumpscare()
 					
 					if v:Team()==1 and v:Alive() and v.IsOnSecurityRoom then
 						
-						v:ConCommand( "pp_mat_overlay freddys/chicadeath" )
+						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_2")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(100, self )
 						

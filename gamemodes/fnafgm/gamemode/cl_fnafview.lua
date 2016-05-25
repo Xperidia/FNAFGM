@@ -36,6 +36,7 @@ function GM:FNaFViewHUD()
 			net.Start( "fnafgmfnafViewActive" )
 				net.WriteBit( false )
 			net.SendToServer()
+			GAMEMODE.Vars.FNaFViewLastTime = SysTime()
 		end
 		FNaFView.Think = function()
 			
@@ -70,15 +71,15 @@ function GM:FNaFViewHUD()
 				speed = 5
 			end
 			
-			if LocalPlayer():Alive() and IsValid(LeftZone) and vgui.GetHoveredPanel()==LeftZone and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()[2]<=GAMEMODE.FNaFView[game.GetMap()][3][2] then
+			if LocalPlayer():Alive() and IsValid(LeftZone) and ( vgui.GetHoveredPanel()==LeftZone or LocalPlayer():KeyDown(IN_MOVELEFT) ) and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()[2]<=GAMEMODE.FNaFView[game.GetMap()][3][2] then
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, speed, 0 ))
 			end
 			
-			if LocalPlayer():Alive() and IsValid(RightZone) and vgui.GetHoveredPanel()==RightZone and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()[2]>=GAMEMODE.FNaFView[game.GetMap()][4][2] then
+			if LocalPlayer():Alive() and IsValid(RightZone) and ( vgui.GetHoveredPanel()==RightZone or LocalPlayer():KeyDown(IN_MOVERIGHT) ) and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()[2]>=GAMEMODE.FNaFView[game.GetMap()][4][2] then
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles()+Angle( 0, -speed, 0 ))
 			end
 			
-			if FNaFView.m_fCreateTime+1<SysTime() and LocalPlayer():KeyReleased(IN_RELOAD) then
+			if FNaFView.m_fCreateTime+0.5<SysTime() and LocalPlayer():KeyDown(IN_RELOAD) then
 				FNaFView:Close()
 			end
 			

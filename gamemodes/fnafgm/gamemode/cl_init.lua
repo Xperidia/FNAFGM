@@ -340,13 +340,13 @@ end)
 
 function GM:CallIntro()
 	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language") )
+		GAMEMODE.Vars.IntroScreen = string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")
 	elseif file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_en.vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_en" )
+		GAMEMODE.Vars.IntroScreen = string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_en"
 	elseif file.Exists( "materials/fnafgm/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay","fnafgm/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language") )
+		GAMEMODE.Vars.IntroScreen = "fnafgm/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")
 	elseif file.Exists( "materials/fnafgm/introscreen/"..game.GetMap().."_en.vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay","fnafgm/introscreen/"..game.GetMap().."_en" )
+		GAMEMODE.Vars.IntroScreen = "fnafgm/introscreen/"..game.GetMap().."_en"
 	end
 end
 
@@ -360,13 +360,13 @@ function GM:CallEnding(plus)
 	end
 	
 	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add )
+		GAMEMODE.Vars.EndScreen = string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add
 	elseif file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..add..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay",string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..add )
+		GAMEMODE.Vars.EndScreen = string.lower(GAMEMODE.ShortName).."/endscreen/"..game.GetMap().."_en"..add
 	elseif file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay","fnafgm/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add )
+		GAMEMODE.Vars.EndScreen = "fnafgm/endscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..add
 	elseif file.Exists( "materials/fnafgm/endscreen/"..game.GetMap().."_en"..add..".vmt", "GAME" ) then
-		RunConsoleCommand( "pp_mat_overlay","fnafgm/endscreen/"..game.GetMap().."_en"..add )
+		GAMEMODE.Vars.EndScreen = "fnafgm/endscreen/"..game.GetMap().."_en"..add
 	end
 	
 end
@@ -590,7 +590,7 @@ end
 
 hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 	
-	if GetConVar("fnafgm_cl_disablehalos"):GetBool() then return end
+	if GetConVar("fnafgm_cl_disablehalos") and GetConVar("fnafgm_cl_disablehalos"):GetBool() then return end
 	
 	local client = LocalPlayer()
 	local tab = {}
@@ -757,7 +757,7 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 			table.insert( tab, Color( 85, 255, 255 ) )
 			table.insert( tab, "[Admin|FNAFGM Creator] " )
 		elseif (player:IsAdmin() and GAMEMODE:CheckDerivCreator(player)) then
-			table.insert( tab, Color( 255, 170, 0 ) )
+			table.insert( tab, Color( 170, 0, 170 ) )
 			table.insert( tab, "[Admin|"..GAMEMODE.ShortName.." Creator] " )
 		elseif player:IsAdmin() then
 			table.insert( tab, Color( 170, 0, 0 ) )
@@ -796,19 +796,19 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 end
 
 
-hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
-    local client = LocalPlayer()
-	if GAMEMODE.Vars.startday and client:Team()==2 and game.GetMap()=="freddysnoevent" and client:Alive() then
+function GM:RenderScreenspaceEffects()
+	local client = LocalPlayer()
+	if client:Team()==1 and IsValid(Monitor) and game.GetMap()=="freddysnoevent" and GAMEMODE.Vars.lastcam==11 then
 		local colormod = {
-			[ "$pp_colour_addr" ] = 0.02,
-			[ "$pp_colour_addg" ] = 0.02,
-			[ "$pp_colour_addb" ] = 0.02,
-			[ "$pp_colour_brightness" ] = 0.01,
-			[ "$pp_colour_contrast" ] = 2,
-			[ "$pp_colour_colour" ] = 0.6,
-			[ "$pp_colour_mulr" ] = 0.02,
-			[ "$pp_colour_mulg" ] = 0.02,
-			[ "$pp_colour_mulb" ] = 0.02
+			[ "$pp_colour_addr" ] = 0,
+			[ "$pp_colour_addg" ] = 0,
+			[ "$pp_colour_addb" ] = 0,
+			[ "$pp_colour_brightness" ] = 0,
+			[ "$pp_colour_contrast" ] = 0,
+			[ "$pp_colour_colour" ] = 0,
+			[ "$pp_colour_mulr" ] = 0,
+			[ "$pp_colour_mulg" ] = 0,
+			[ "$pp_colour_mulb" ] = 0
 		}
         DrawColorModify(colormod)
 	elseif client:Team()==2 and !client:Alive() then
@@ -825,7 +825,58 @@ hook.Add("RenderScreenspaceEffects", "fnafgm_NV", function()
 		}
         DrawColorModify(colormod)
     end
-end)
+	if GAMEMODE.Vars.Jumpscare then
+		DrawMaterialOverlay( GAMEMODE.Vars.Jumpscare, 0 )
+	end
+	if IsValid(AnimatronicsControllerGUI) then
+		DrawMaterialOverlay( GAMEMODE.Materials_animatronicsvision, 0 )
+	end
+	if IsValid(Monitor) then
+		DrawMaterialOverlay( GAMEMODE.Materials_camstatic, 0 )
+	end
+	if client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.IntroScreen then
+		DrawMaterialOverlay( GAMEMODE.Vars.IntroScreen, 0 )
+	end
+	if client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.EndScreen then
+		DrawMaterialOverlay( GAMEMODE.Vars.EndScreen, 0 )
+	end
+	if GAMEMODE.Vars.b87 then
+		DrawMaterialOverlay( GAMEMODE.Materials_goldenfreddy, 0 )
+	end
+end
+
+
+function GM:JumpscareOverlay(jumpscare)
+	
+	if file.Exists( "materials/"..jumpscare..".vmt", "GAME" ) then
+		
+		GAMEMODE.Vars.Jumpscare = jumpscare
+		
+		if timer.Exists( "fnafgmJumpscareReset" ) then
+			
+			timer.Adjust( "fnafgmJumpscareReset", GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
+				
+				GAMEMODE.Vars.Jumpscare=nil
+				
+				timer.Remove( "fnafgmJumpscareReset" )
+				
+			end)
+			
+		else
+			
+			timer.Create( "fnafgmJumpscareReset", GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
+				
+				GAMEMODE.Vars.Jumpscare=nil
+				
+				timer.Remove( "fnafgmJumpscareReset" )
+				
+			end)
+			
+		end
+		
+	end
+	
+end
 
 
 local undomodelblend = false
@@ -1037,19 +1088,19 @@ function GM:Stats()
 	
 	local steamid = LocalPlayer():SteamID64()
 	
-	if !file.IsDir( (GAMEMODE.ShortName or "fnafgm").."/stats", "DATA" ) then
-		file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/stats" )
+	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats", "DATA" ) then
+		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats" )
 	end
 	
-	local needstat = !file.Exists( (GAMEMODE.ShortName or "fnafgm").."/stats/" .. steamid .. ".txt", "DATA" )
+	local needstat = !file.Exists( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats/" .. steamid .. ".txt", "DATA" )
 	
 	if needstat then
 		
-		http.Post( "https://www.xperidia.com/UCP/stats.php", { steamid = steamid, zone = (GAMEMODE.ShortName or "fnafgm") },
+		http.Post( "https://www.xperidia.com/UCP/stats.php", { steamid = steamid, zone = (string.lower(GAMEMODE.ShortName) or "fnafgm") },
 		function( responseText, contentLength, responseHeaders, statusCode )
 			
 			if statusCode == 200 then
-				file.Write( (GAMEMODE.ShortName or "fnafgm").."/stats/" .. steamid .. ".txt", "" )
+				file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats/" .. steamid .. ".txt", "" )
 				GAMEMODE:Log(responseText)
 			else
 				GAMEMODE:Log("Error while registering the gamemode (ERROR "..statusCode..")")

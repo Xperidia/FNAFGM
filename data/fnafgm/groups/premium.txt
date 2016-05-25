@@ -1,1 +1,1 @@
-flashlight|run|jump|spray|fastrespawn|nokillextsr|act
+flashlight|run|jump|spray|fastrespawn|act

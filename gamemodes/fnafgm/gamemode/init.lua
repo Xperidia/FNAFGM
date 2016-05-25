@@ -137,9 +137,7 @@ function GM:PlayerSpawn( pl )
 		pl:SetJumpPower(200)
 	end
 	
-	if pl:Team()==2 then
-		pl:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_animatronicsvision )
-	elseif pl:Team()!=TEAM_UNASSIGNED then
+	if pl:Team()!=TEAM_UNASSIGNED then
 		pl:ConCommand( "pp_mat_overlay ''" )
 	end
 	
@@ -152,7 +150,6 @@ function GM:PlayerSpawn( pl )
 	end
 	
 	if GAMEMODE.Vars.b87 then
-		pl:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_goldenfreddy )
 		pl:SendLua([[LocalPlayer():EmitSound("fnafgm_scream2")]])
 		GAMEMODE.Vars.norespawn = true
 		local userid = pl:UserID()
@@ -193,7 +190,7 @@ function GM:PlayerSpawn( pl )
 			if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 			timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
 				if IsValid(pl) then
-					GAMEMODE:GoFNaFView(pl)
+					GAMEMODE:GoFNaFView(pl,true)
 					if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 					if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 				end
@@ -1104,7 +1101,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					GAMEMODE:GoFNaFView(v)
+					GAMEMODE:GoFNaFView(v,true)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1179,7 +1176,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					GAMEMODE:GoFNaFView(v)
+					GAMEMODE:GoFNaFView(v,true)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1221,7 +1218,7 @@ function GM:StartNight(ply)
 				fnafgmVarsUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					GAMEMODE:GoFNaFView(v)
+					GAMEMODE:GoFNaFView(v,true)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1280,7 +1277,7 @@ function GM:StartNight(ply)
 				fnafgmPowerUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					GAMEMODE:GoFNaFView(v)
+					GAMEMODE:GoFNaFView(v,true)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)
@@ -1321,7 +1318,7 @@ function GM:StartNight(ply)
 				fnafgmVarsUpdate()
 				
 				for k, v in pairs(team.GetPlayers(1)) do
-					GAMEMODE:GoFNaFView(v)
+					GAMEMODE:GoFNaFView(v,true)
 				end
 				
 				timer.Create( "fnafgmTimeThink", GAMEMODE.HourTime, 0, fnafgmTimeThink)

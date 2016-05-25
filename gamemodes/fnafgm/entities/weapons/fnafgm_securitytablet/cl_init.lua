@@ -57,8 +57,6 @@ function fnafgmSecurityTablet()
 		
 		local lastlstate = {false,GAMEMODE.Vars.lastcam}
 		
-		LocalPlayer():ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_camstatic )
-		
 		Monitor = vgui.Create( "DFrame" )
 		Monitor:ParentToHUD()
 		Monitor:SetPos( 0, 0 )
@@ -83,7 +81,6 @@ function fnafgmSecurityTablet()
 		Monitor.OnClose = function()
 			fnafgmSetView(0)
 			if lastlstate[1]==true then fnafgmCamLight( GAMEMODE.Vars.lastcam, false ) end
-			LocalPlayer():ConCommand( "pp_mat_overlay ''" )
 			LocalPlayer():StopSound( "fnafgm_campop" )
 			LocalPlayer():StopSound( "fnafgm_campop2" )
 			LocalPlayer():StopSound( "fnafgm_campop3" )

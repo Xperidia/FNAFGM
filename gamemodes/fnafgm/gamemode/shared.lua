@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.69
+GM.OfficialVersion 	= 1.70
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -717,9 +717,25 @@ function GM:Initialize()
 		if tonumber(value_new)>=1 then
 			GAMEMODE.Vars.SGvsA = true
 			GAMEMODE.Vars.modetext = " - PvP SGvsA"
+			if SERVER then
+				net.Start( "fnafgmNotif" )
+					net.WriteString( "The game is now in SGvsA mode!" )
+					net.WriteInt(4,3)
+					net.WriteFloat(5)
+					net.WriteBit(true)
+				net.Broadcast()
+			end
 		else
 			GAMEMODE.Vars.SGvsA = false
 			GAMEMODE.Vars.modetext = ""
+			if SERVER then
+				net.Start( "fnafgmNotif" )
+					net.WriteString( "The game is now in normal mode!" )
+					net.WriteInt(4,3)
+					net.WriteFloat(5)
+					net.WriteBit(true)
+				net.Broadcast()
+			end
 		end
 	end)
 	
@@ -914,8 +930,8 @@ function GM:SaveProgress()
 	
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
-		if !file.IsDir((GAMEMODE.ShortName or "fnafgm").."/progress", "DATA") then
-			file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/progress" )
+		if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress", "DATA") then
+			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress" )
 		end
 		
 		local tab = {}
@@ -926,7 +942,7 @@ function GM:SaveProgress()
 			tab.Night = GAMEMODE.Vars.night
 		end
 		
-		file.Write( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
 		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
@@ -934,7 +950,7 @@ function GM:SaveProgress()
 	
 	if CLIENT and !GAMEMODE.Vars.SGvsA and fnafgm_cl_saveonservers:GetBool() then
 		
-		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		
@@ -949,8 +965,8 @@ function GM:SaveProgress()
 				
 			end
 		
-		elseif !file.IsDir( (GAMEMODE.ShortName or "fnafgm").."/progress", "DATA" ) then
-			file.CreateDir( (GAMEMODE.ShortName or "fnafgm").."/progress" )
+		elseif !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress", "DATA" ) then
+			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress" )
 		end
 		
 		local tab = {}
@@ -961,7 +977,7 @@ function GM:SaveProgress()
 			tab.Night = GAMEMODE.Vars.night
 		end
 		
-		file.Write( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
 		
 		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
 		
@@ -974,7 +990,7 @@ function GM:LoadProgress()
 	
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
-		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		
@@ -1001,7 +1017,7 @@ function GM:LoadProgress()
 	
 	if CLIENT and !GAMEMODE.Vars.SGvsA then
 		
-		local filep = file.Read( (GAMEMODE.ShortName or "fnafgm").."/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
 		
 		if ( filep ) then
 		
@@ -1180,20 +1196,20 @@ function GM:FinishMove( ply, mv )
 end
 
 
-function GM:GoFNaFView(ply)
+function GM:GoFNaFView(ply,auto)
 	
 	GAMEMODE.Vars.fnafview = true
 	
 	if SERVER then 
 		if GAMEMODE.FNaFView[game.GetMap()] and ply:Team()==1 and ply:Alive() then
-			if ply:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
+			if !auto or ply:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
 			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
 			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 		end
 	end
 	
 	if CLIENT then
-		GAMEMODE:FNaFViewHUD()
+		if !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime+0.5<SysTime() then GAMEMODE:FNaFViewHUD() end
 	end
 	
 end
