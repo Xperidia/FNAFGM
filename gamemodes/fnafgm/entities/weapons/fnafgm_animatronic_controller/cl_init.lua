@@ -239,8 +239,8 @@ function fnafgmAnimatronicsController()
 				CAM2B.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(1)
 						GAMEMODE.Vars.lastcam = 1
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(1)
@@ -260,8 +260,8 @@ function fnafgmAnimatronicsController()
 				CAM2A.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(2)
 						GAMEMODE.Vars.lastcam = 2
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(2)
@@ -281,8 +281,8 @@ function fnafgmAnimatronicsController()
 				CAM3.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(3)
 						GAMEMODE.Vars.lastcam = 3
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(3)
@@ -302,8 +302,8 @@ function fnafgmAnimatronicsController()
 				CAM4A.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(4)
 						GAMEMODE.Vars.lastcam = 4
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(4)
@@ -323,8 +323,8 @@ function fnafgmAnimatronicsController()
 				CAM4B.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(5)
 						GAMEMODE.Vars.lastcam = 5
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(5)
@@ -344,8 +344,8 @@ function fnafgmAnimatronicsController()
 				CAM5.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(6)
 						GAMEMODE.Vars.lastcam = 6
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(6)
@@ -365,8 +365,8 @@ function fnafgmAnimatronicsController()
 				CAM1A.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(7)
 						GAMEMODE.Vars.lastcam = 7
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(7)
@@ -386,8 +386,8 @@ function fnafgmAnimatronicsController()
 				CAM7.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(8)
 						GAMEMODE.Vars.lastcam = 8
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(8)
@@ -407,8 +407,8 @@ function fnafgmAnimatronicsController()
 				CAM1C.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(9)
 						GAMEMODE.Vars.lastcam = 9
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						
@@ -428,8 +428,8 @@ function fnafgmAnimatronicsController()
 				CAM1B.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(10)
 						GAMEMODE.Vars.lastcam = 10
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(10)
@@ -449,8 +449,8 @@ function fnafgmAnimatronicsController()
 				CAM6.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(11)
 						GAMEMODE.Vars.lastcam = 11
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(11)
@@ -470,8 +470,8 @@ function fnafgmAnimatronicsController()
 				OFFICE.OnMousePressed = function( button, key )
 					if key==MOUSE_LEFT then
 						LocalPlayer():EmitSound("fnafgm_camselect")
-						fnafgmSetView(12)
 						GAMEMODE.Vars.lastcam = 12
+						fnafgmSetView(GAMEMODE.Vars.lastcam)
 						CamsNames:SetText( GAMEMODE.CamsNames["freddys_"..GAMEMODE.Vars.lastcam] or "" )
 					elseif key==MOUSE_RIGHT then
 						AnimatronicsControllerGUI:MoveMenu(12)

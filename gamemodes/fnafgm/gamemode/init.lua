@@ -221,13 +221,15 @@ function GM:PlayerShouldTakeDamage( ply, attacker )
 		return false
 	end
 	
-	if ( ( game.GetMap()=="freddysnoevent" ) and ply:Team()==1 and attacker:GetClass()=="func_door" and fnafgm_preventdoorkill:GetBool() ) then
-		local doorsafe = GAMEMODE:PlayerSelectSpawn( ply ):GetPos()
-		if IsValid(tp) then
-			doorsafe = tp:GetPos()
+	if ( ply:Team()==1 and attacker:GetClass()=="func_door" and fnafgm_preventdoorkill:GetBool() ) then
+		if GAMEMODE.FNaFView[game.GetMap()][1] then
+			ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] )
+			return false
+		else
+			local doorsafe = GAMEMODE:PlayerSelectSpawn( ply ):GetPos()
+			ply:SetPos( doorsafe )
+			return false
 		end
-		ply:SetPos( doorsafe )
-		return false
 	end
 	
 	-- Default, let the player be hurt
@@ -1817,94 +1819,6 @@ function fnafgmMapOverrides()
 			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyFreddy, GAMEMODE.APos.fnaf2noevents.SS)
 			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyBonnie, GAMEMODE.APos.fnaf2noevents.SS)
 			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.ToyChica, GAMEMODE.APos.fnaf2noevents.SS)
-			
-			GAMEMODE.Vars.mapoverrideok = true
-			
-		elseif (game.GetMap()=="fnaf_freddypizzaevents") then
-			
-			for k, v in pairs(ents.FindByName("st_teleport")) do
-				tp = v
-			end
-			
-			local BoxCorner = Vector(-390,1790,385)
-			local OppositeCorner = Vector(-420,1775,360)
-			for k, v in pairs(ents.FindInBox(BoxCorner,OppositeCorner)) do
-				btn = v
-			end
-			
-			local spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -600, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -550, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -500, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -450, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -400, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -350, 2060, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -600, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -550, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -500, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -450, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -400, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			spawn = ents.Create( "info_player_deathmatch" )
-			spawn:SetPos( Vector( -350, 2010, 0 ) )
-			spawn:SetAngles( Angle( 0, -90, 0 ) )
-			spawn:Spawn()
-			
-			for k, v in pairs(ents.FindByClass("point_camera")) do
-				local CAM = ents.Create( "fnafgm_camera" )
-				CAM:SetPos( v:GetPos() )
-				CAM:SetAngles( v:GetAngles() )
-				CAM:SetName( "fnafgm_"..v:GetName() )
-				if v:GetKeyValues().parentname!="" then 
-					local parent = ents.FindByName( v:GetKeyValues().parentname )[1]
-					if IsValid(parent) then
-						CAM:SetParent(parent)
-					end
-				end
-				CAM:Spawn()
-			end
 			
 			GAMEMODE.Vars.mapoverrideok = true
 			
@@ -3725,3 +3639,4 @@ concommand.Add( "fnafgm_debug_light", function( ply,cmd,args )
 	end
 	
 end)
+

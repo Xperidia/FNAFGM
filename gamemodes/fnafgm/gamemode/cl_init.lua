@@ -825,6 +825,9 @@ function GM:RenderScreenspaceEffects()
 		}
         DrawColorModify(colormod)
     end
+	if IsValid(FNaFView) and !IsValid(Monitor) then
+		DrawToyTown( 1, ScrH()/4 )
+	end
 	if GAMEMODE.Vars.Jumpscare then
 		DrawMaterialOverlay( GAMEMODE.Vars.Jumpscare, 0 )
 	end
@@ -846,7 +849,7 @@ function GM:RenderScreenspaceEffects()
 end
 
 
-function GM:JumpscareOverlay(jumpscare)
+function GM:JumpscareOverlay(jumpscare,dur)
 	
 	if file.Exists( "materials/"..jumpscare..".vmt", "GAME" ) then
 		
@@ -854,7 +857,7 @@ function GM:JumpscareOverlay(jumpscare)
 		
 		if timer.Exists( "fnafgmJumpscareReset" ) then
 			
-			timer.Adjust( "fnafgmJumpscareReset", GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
+			timer.Adjust( "fnafgmJumpscareReset", dur or GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
 				
 				GAMEMODE.Vars.Jumpscare=nil
 				
@@ -864,7 +867,7 @@ function GM:JumpscareOverlay(jumpscare)
 			
 		else
 			
-			timer.Create( "fnafgmJumpscareReset", GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
+			timer.Create( "fnafgmJumpscareReset", dur or GetConVar("fnafgm_deathscreendelay"):GetInt() or 1, 1, function()
 				
 				GAMEMODE.Vars.Jumpscare=nil
 				

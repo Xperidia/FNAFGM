@@ -338,11 +338,10 @@ function fnafgmSecret()
 				Zed:SetAllowLua(true)
 				Zed:OpenURL( "www.Xperidia.com/DAT_FACE.html" )
 				Zed:SetScrollbars(false)
-			elseif password=="666" then
+			elseif password=="42" then
 				password=""
-				fnafgmSecretPasswordlbl:SetText( "HALLOWEEN" )
-				fnafgmSecretPasswordlbl:SetTextColor( Color( 0, 255, 0, 255 ) )
-				GAMEMODE.Vars.Halloween=true
+				fnafgmSecretPasswordlbl:SetText( "YES" )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
 			else
 				password=""
 				fnafgmSecretPasswordlbl:SetText( "NOPE" )

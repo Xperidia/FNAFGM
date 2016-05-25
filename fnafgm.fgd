@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V5.1 BY XPERIDIA
+// FNAFGM FGD V5.2 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -90,6 +90,11 @@
 ]
 
 @PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"
+[
+	
+]
+
+@PointClass base(Targetname, Angles) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
 	
 ]
