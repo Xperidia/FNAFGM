@@ -202,12 +202,12 @@ GM.Strings = {
 		progressinfo = "Son kaydedilmiþ gece",
 		disablexpsc = "Xperidia'nýn Vitrinini kapatýn"
 	},
-	ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236
+ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236
 		sg = "Охранники",
 		animatronics = "Аниматроники",
 		animatronic = "Аниматроник",
-		--tonight = "На ночь",
-		--night = "Ночь",
+		tonight = "На ночь",
+		night = "Ночь",
 		startanimatronics = "Главное питание включено",
 		foxy = "Фокси",
 		freddy = "Фредди",
@@ -215,8 +215,8 @@ GM.Strings = {
 		bonnie = "Бонни",
 		goldenfreddy = "Золотой Фредди",
 		unassigned_SGvsA = "Выберите команду",
-		--powerleft = "Энергии осталось:",
-		--usage = "Используется:",
+		powerleft = "Осталось энергии:",
+		usage = "Используется:",
 		unassigned_powerdown = "Вы не можете присоединиться, если энергии нет!",
 		flashlight = "Фонарик",
 		monitor = "Монитор",
@@ -232,8 +232,8 @@ GM.Strings = {
 		infoat = "Информация/Разное",
 		lang = "Язык",
 		changemap = "Сменить Карту",
-		resetsave = "Сброс сохранения (токо Хост)",
-		debugmenu = "Меню Отладки (токо Дебаг доступ)",
+		resetsave = "Сброс сохранения (только Хост )",
+		debugmenu = "Меню Отладки (токо доступ отладчика)",
 		start = "Старт",
 		stop = "Стоп/Перезапуск",
 		reset = "Сброс",
@@ -245,6 +245,8 @@ GM.Strings = {
 		password = "Пароль",
 		saveserver = "Сохранять свой прогресс на серверах",
 		progressinfo = "Последния сохраненная ночь"
+		disablexpsc = "Отключить витрину Xperidia",
+		disablehalo = "Отключить ореолы (Повышает производительность)"
 	},
 	uk = { --Translation by http://steamcommunity.com/profiles/76561198135819236
 		sg = "Охоронці",
@@ -347,31 +349,31 @@ GM.Models_freddy = Model("models/splinks/fnaf/freddy/player_freddy.mdl")
 GM.Models_goldenfreddy = Model("models/splinks/fnaf/golden_freddy/player_golden_freddy.mdl")
 
 GM.CamsNames = {
-	freddysnoevent_1 = "West Hall Corner",
-	freddysnoevent_2 = "West Hall",
-	freddysnoevent_3 = "Supply Closet",
-	freddysnoevent_4 = "East Hall",
-	freddysnoevent_5 = "East Hall Corner",
-	freddysnoevent_6 = "Backstage",
-	freddysnoevent_7 = "Show Stage",
-	freddysnoevent_8 = "Restroom",
-	freddysnoevent_9 = "Pirate Cove",
-	freddysnoevent_10 = "Dining Area",
-	freddysnoevent_11 = "Kitchen",
-	freddysnoevent_12 = "Office",
-	fnaf2noevents_1 = "Party Room 1",
-	fnaf2noevents_2 = "Party Room 2",
-	fnaf2noevents_3 = "Party Room 3",
-	fnaf2noevents_4 = "Party Room 4",
-	fnaf2noevents_5 = "Right Air Vent",
-	fnaf2noevents_6 = "Left Air Vent",
-	fnaf2noevents_7 = "Main Hall",
-	fnaf2noevents_8 = "Parts/Service",
-	fnaf2noevents_9 = "Kid's Cove",
-	fnaf2noevents_10 = "Prize Corner",
-	fnaf2noevents_11 = "Game Area",
-	fnaf2noevents_12 = "Show Stage",
-	fnaf2noevents_13 = "Office"
+	freddysnoevent_1 = "Угол западного зала",
+	freddysnoevent_2 = "Западный зал",
+	freddysnoevent_3 = "Камера хранения",
+	freddysnoevent_4 = "Востояный зал",
+	freddysnoevent_5 = "Угол восточного зала",
+	freddysnoevent_6 = "За кулисами",
+	freddysnoevent_7 = "Сцена",
+	freddysnoevent_8 = "Уборная",
+	freddysnoevent_9 = "Пиратская Бухта",
+	freddysnoevent_10 = "Обеденная зона",
+	freddysnoevent_11 = "Кухня",
+	freddysnoevent_12 = "Офис",
+	fnaf2noevents_1 = "Комната для вечеринок 1",
+	fnaf2noevents_2 = "Комната для вечеринок 2",
+	fnaf2noevents_3 = "Комната для вечеринок 3",
+	fnaf2noevents_4 = "Комната для вечеринок 4",
+	fnaf2noevents_5 = "Правое вентиляционное отверстие",
+	fnaf2noevents_6 = "Левое вентиляционное отверстие",
+	fnaf2noevents_7 = "Главный зал",
+	fnaf2noevents_8 = "Запчасти/Сервис",
+	fnaf2noevents_9 = "Детская Бухта",
+	fnaf2noevents_10 = "Призовой уголок",
+	fnaf2noevents_11 = "Игровая зона",
+	fnaf2noevents_12 = "Сцена",
+	fnaf2noevents_13 = "Офис"
 }
 
 GM.MapList = {
@@ -404,17 +406,17 @@ GM.Animatronic.Puppet = 9
 GM.Animatronic.Springtrap = 10
 
 GM.AnimatronicName = {}
-GM.AnimatronicName[0] = "Freddy"
-GM.AnimatronicName[1] = "Bonnie"
-GM.AnimatronicName[2] = "Chica"
-GM.AnimatronicName[3] = "Foxy"
-GM.AnimatronicName[4] = "Golden Freddy"
-GM.AnimatronicName[5] = "Toy Freddy"
-GM.AnimatronicName[6] = "Toy Bonnie"
-GM.AnimatronicName[7] = "Toy Chica"
-GM.AnimatronicName[8] = "Mangle"
-GM.AnimatronicName[9] = "The Puppet"
-GM.AnimatronicName[10] = "Springtrap"
+GM.AnimatronicName[0] = "Фредди"
+GM.AnimatronicName[1] = "Бонни"
+GM.AnimatronicName[2] = "Чика"
+GM.AnimatronicName[3] = "Фокси"
+GM.AnimatronicName[4] = "Золотой фредди"
+GM.AnimatronicName[5] = "Игрушечный фредди"
+GM.AnimatronicName[6] = "Игрушечный Бонни"
+GM.AnimatronicName[7] = "Игрушечная Чика"
+GM.AnimatronicName[8] = "Мангл"
+GM.AnimatronicName[9] = "Марионетка"
+GM.AnimatronicName[10] = "Спрингтрап"
 
 GM.Animatronic_Models = {}
 GM.Animatronic_Models[GM.Animatronic.Freddy] = {}
@@ -613,35 +615,35 @@ GM.AnimatronicsAnim = {}
 GM.Vars = {}
 
 --[CVAR]--
-fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "The death screen delay. (Time of the jumpscare)" )
-fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "The death screen duration." )
-fnafgm_autorespawn = CreateConVar( "fnafgm_autorespawn", 0, FCVAR_REPLICATED, "Auto respawn after the death screen." )
-fnafgm_allowflashlight = CreateConVar( "fnafgm_allowflashlight", 0, FCVAR_REPLICATED, "Enables/Disables the player's flashlight. (Except for admins)" )
-fnafgm_respawnenabled = CreateConVar( "fnafgm_respawnenabled", 1, FCVAR_REPLICATED, "Enable/Disable the respawn. (Except for admins)" )
-fnafgm_deathscreenfade = CreateConVar( "fnafgm_deathscreenfade", 1, FCVAR_REPLICATED, "Enable/Disable the death screen fade." )
-fnafgm_deathscreenoverlay = CreateConVar( "fnafgm_deathscreenoverlay", 1, FCVAR_REPLICATED, "Enable/Disable the death screen overlay." )
-fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove", 0, FCVAR_REPLICATED, "Instant remove dead bodies." )
-fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Change the dead bodies." )
-fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Auto clean up when the server is empty." )
-fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
-fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
-fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
-fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween. 4 for Christmas" )
-fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
-fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Override the player model." )
-fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
-fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Override the bodygroups to use, if the model has any." )
-fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "The value is a Vector - so between 0-1 - not between 0-255." )
-fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "Time before respawn. (After the death screen)" )
-fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", 0, FCVAR_REPLICATED, "Enable the bypass funcs." )
-fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
-fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Start the night automatically." )
-fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
-fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
-fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
-fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
-fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and logs." )
-fnafgm_sgvsa = CreateConVar( "fnafgm_sgvsa", 0, FCVAR_REPLICATED, "Enable PvP SGvsA mode." )
+fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "Задержка экрана смерти. (Время показа скримера)" )
+fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "Продолжительность экрана смерти." )
+fnafgm_autorespawn = CreateConVar( "fnafgm_autorespawn", 0, FCVAR_REPLICATED, "Авто респаун после экрана смерти." )
+fnafgm_allowflashlight = CreateConVar( "fnafgm_allowflashlight", 0, FCVAR_REPLICATED, "Включение / выключение фонарика игрока. (За исключением администраторов)" )
+fnafgm_respawnenabled = CreateConVar( "fnafgm_respawnenabled", 1, FCVAR_REPLICATED, "Включение / отключение респауна. (За исключением администраторов)" )
+fnafgm_deathscreenfade = CreateConVar( "fnafgm_deathscreenfade", 1, FCVAR_REPLICATED, "Включение / выключение затухания экрана смерти." )
+fnafgm_deathscreenoverlay = CreateConVar( "fnafgm_deathscreenoverlay", 1, FCVAR_REPLICATED, "Включение / выключение наложения экрана смерти." )
+fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove", 0, FCVAR_REPLICATED, "Сразу удалять мёртвые тела." )
+fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Изменить мертвые тела." )
+fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Автоматически очистить, когда сервер пуст." )
+fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "Двери являются основной причиной смерти. Таким образом остановить эти убийства, поставив значение 1" )
+fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "Время будет бесконечным. (Не используйте это)" )
+fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "Ночи будут бесконечными." )
+fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 для первое апреля. 3 для Хэллоуина. 4 для Рождества" )
+fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Обязательное пребывание в комнате безопасности (в противном случае вы рискуете попасться на аниматроников)." )
+fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Переопределение модели игрока." )
+fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Переопределение кожи для использования, если модель имеет какие-либо." )
+fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Переопределение частей тел для использования, если модель имеет какие-либо." )
+fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "Значение представляет собой вектор - между 0-1 - не между 0-255." )
+fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "Время до респауна. (После экрана смерти)" )
+fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", 0, FCVAR_REPLICATED, "Включить функии пропуска (разрешения)." )
+fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Включить объявления между ночами и др." )
+fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 0, FCVAR_REPLICATED, "Начать ночь автоматически." )
+fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "Если игровой режим требует отключить отображение карты." )
+fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Отключить питание." )
+fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Принудительно сохранять и загружать для выделенных серверов." )
+fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Разрешить создателям игрового режима использовать функции пропуска (разрешений)." )
+fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Режим разработчика и журналы." )
+fnafgm_sgvsa = CreateConVar( "fnafgm_sgvsa", 0, FCVAR_REPLICATED, "Включить режим ПвП SGvsA (Охранники против аниматроников)" )
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
@@ -719,7 +721,7 @@ function GM:Initialize()
 			GAMEMODE.Vars.modetext = " - PvP SGvsA"
 			if SERVER then
 				net.Start( "fnafgmNotif" )
-					net.WriteString( "The game is now in SGvsA mode!" )
+					net.WriteString( "Игра сейчас в режиме охранники против аниматроников!" )
 					net.WriteInt(4,3)
 					net.WriteFloat(5)
 					net.WriteBit(true)
@@ -730,7 +732,7 @@ function GM:Initialize()
 			GAMEMODE.Vars.modetext = ""
 			if SERVER then
 				net.Start( "fnafgmNotif" )
-					net.WriteString( "The game is now in normal mode!" )
+					net.WriteString( "Игра сейчас в нормальном режиме!" )
 					net.WriteInt(4,3)
 					net.WriteFloat(5)
 					net.WriteBit(true)
@@ -1306,9 +1308,9 @@ function GM:Log(str,tn)
 	if game.IsDedicated() or GAMEMODE.Vars.DS then
 		local tmstmp = os.time()
 		local time = os.date( "L %d/%m/%Y - %H:%M:%S" , tmstmp )
-		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+		Msg( time..": ["..name.."] "..(str or "TЭто было сообщение журнала, но что-то пошло не так").."\n" )
 	elseif fnafgm_enabledevmode:GetBool() then
-		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+		Msg( "["..name.."] "..(str or "Это было сообщение журнала, но что-то пошло не так").."\n" )
 	end
 	
 end
@@ -1326,9 +1328,9 @@ function GM:RetrieveXperidiaAccountRank(ply)
 		
 		local steamid = ply:SteamID64()
 		
-		local XperidiaRanks = { "Premium", "Creator", "Administrator" }
+		local XperidiaRanks = { "Премиум", "Создатель", "Администратор" }
 		
-		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...")
+		GAMEMODE:Log("Получение ранга Xperidia для "..ply:GetName().."...")
 		
 		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
 		function( responseText, contentLength, responseHeaders, statusCode )
@@ -1341,13 +1343,13 @@ function GM:RetrieveXperidiaAccountRank(ply)
 				ply.XperidiaRankLastTime = SysTime()
 				
 				if XperidiaRanks[rank] then
-					GAMEMODE:Log("The Xperidia Rank for "..ply:GetName().." is "..XperidiaRanks[rank])
+					GAMEMODE:Log("Ранг Xperidia для "..ply:GetName().." — "..XperidiaRanks[rank])
 				else
-					GAMEMODE:Log(ply:GetName().." doesn't have any Xperidia Rank...")
+					GAMEMODE:Log(ply:GetName().." не имеет ранг Xperidia...")
 				end
 				
 			else
-				GAMEMODE:Log("Error while retriving Xperidia Rank for "..ply:GetName().." (ERROR "..statusCode..")")
+				GAMEMODE:Log("Ошибка воввремя получения ранга Xperidia для "..ply:GetName().." (ОШИБКА "..statusCode..")")
 			end
 			
 		end, 
