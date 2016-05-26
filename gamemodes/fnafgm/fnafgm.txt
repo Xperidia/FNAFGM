@@ -174,7 +174,7 @@
 			"text"		"Start the night automatically"
 			"help"		"Start the night automatically."
 			"type"		"CheckBox"
-			"default"	"0"
+			"default"	"1"
 		}
 		24
 		{
@@ -189,6 +189,22 @@
 			"name"		"fnafgm_disablepower"
 			"text"		"Disable the power"
 			"help"		"Disable the power."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
+		26
+		{
+			"name"		"fnafgm_enabledevmode"
+			"text"		"Enable dev mode (logs)"
+			"help"		"Dev mode and logs."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
+		27
+		{
+			"name"		"fnafgm_sgvsa"
+			"text"		"SGvsA"
+			"help"		"Enable PvP SGvsA mode."
 			"type"		"CheckBox"
 			"default"	"0"
 		}

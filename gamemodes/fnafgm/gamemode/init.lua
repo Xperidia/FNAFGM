@@ -54,6 +54,7 @@ util.AddNetworkString( "fnafgmSetAnimatronicPos" )
 util.AddNetworkString( "fnafgmAnimatronicTaunt" )
 util.AddNetworkString( "fnafgmAnimatronicTauntSnd" )
 util.AddNetworkString( "fnafgmCamLight" )
+util.AddNetworkString( "fnafgmStart" )
 
 
 concommand.Add("fnafgm_resetprogress", function( ply )
@@ -175,11 +176,28 @@ function GM:PlayerSpawn( pl )
 		end)
 	end
 	
-	if fnafgm_timethink_autostart:GetBool() and pl:Team()==1 then
-		timer.Create( "fnafgmStart", 0.002, 1, function()
+	if fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) then
+		
+		local delay = fnafgm_timethink_autostartdelay:GetFloat()
+		
+		net.Start( "fnafgmStart" )
+			net.WriteFloat( CurTime()+delay )
+		net.Broadcast()
+		
+		timer.Create( "fnafgmStart", delay, 1, function()
+			
 			GAMEMODE:StartNight(ply)
+			
 			timer.Remove( "fnafgmStart" )
+			
 		end)
+		
+	elseif timer.Exists( "fnafgmStart" ) then
+		
+		net.Start( "fnafgmStart" )
+			net.WriteFloat( CurTime()+timer.TimeLeft( "fnafgmStart" ) )
+		net.Broadcast()
+		
 	end
 	
 	local userid = pl:UserID()
@@ -3124,6 +3142,10 @@ function GM:Think()
 			
 		end
 		
+		if fnafgm_disablepower:GetBool() then
+			GAMEMODE.Vars.powerusage = 0
+		end
+		
 		if GAMEMODE.Vars.powerusage==0 or !GAMEMODE.Vars.powerchecktime then
 			
 			GAMEMODE.Vars.powerchecktime = CurTime()+1
@@ -3303,8 +3325,10 @@ end )
 
 
 function GM:PlayerCanHearPlayersVoice( pListener, pTalker )
-
-	if pListener:Team()==TEAM_SPECTATOR then
+	
+	if pListener:Team()==TEAM_UNASSIGNED then
+		return false, false
+	elseif pListener:Team()==TEAM_SPECTATOR then
 		return true, false
 	elseif pListener:Team()==2 and pTalker:Team()==2 then
 		return true, false

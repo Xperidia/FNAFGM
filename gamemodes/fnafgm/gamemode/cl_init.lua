@@ -337,6 +337,12 @@ net.Receive( "fnafgmAnimatronicsList", function( len )
 	
 end)
 
+net.Receive( "fnafgmStart", function( len )
+
+	GAMEMODE.Vars.WillStart = net.ReadFloat()
+	
+end)
+
 
 function GM:CallIntro()
 	if file.Exists( "materials/"..string.lower(GAMEMODE.ShortName).."/introscreen/"..game.GetMap().."_"..GetConVarString("gmod_language")..".vmt", "GAME" ) then
@@ -383,17 +389,25 @@ function GM:HUDPaint()
 	if (GAMEMODE.Vars.b87) then return end
 	
 	local H = 46
-	if GAMEMODE.Vars.iniok then
+	if client:Team()!=TEAM_UNASSIGNED then
+		
 		if GAMEMODE.Vars.nightpassed or GAMEMODE.Vars.gameend then
 			
 			draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMCH", ScrW() * 0.515, ScrH() * 0.410, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
 		elseif !GAMEMODE.Vars.startday then
 			
-			draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+			local time = math.Truncate( (GAMEMODE.Vars.WillStart or -1)-CurTime() )
+			
+			if time>0 then
+				draw.DrawText( (GAMEMODE.TranslatedStrings.nightwillstart or GAMEMODE.Strings.en.nightwillstart).." "..time.."s", "FNAFGMTIME", ScrW()/2, ScrH()*0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()/2, ScrH()*0.25, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+			else
+				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+			end
 			
 			if client:Team()==2 then
-				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
+				draw.DrawText(string.upper(tostring(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics)), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.4, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 			end
 		
 		elseif !GAMEMODE.Vars.tempostart then
@@ -546,14 +560,6 @@ function GM:HUDPaint()
 			
 			draw.DrawText(GAMEMODE.Vars.night..suff.." "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night), "FNAFGMATIME", ScrW() * 0.5, ScrH() * 0.50, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			
-		end
-		
-	elseif client:Team()!=TEAM_UNASSIGNED then
-		
-		draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
-		
-		if client:Team()==2 then
-			draw.DrawText(string.upper(GAMEMODE.TranslatedStrings.startanimatronics or GAMEMODE.Strings.en.startanimatronics), "FNAFGMNIGHT", ScrW() * 0.5, ScrH() * 0.48, Color(170, 0, 0, 255), TEXT_ALIGN_CENTER)
 		end
 		
 	end
@@ -1203,7 +1209,11 @@ function GM:AnimatronicTaunt(a)
 end
 
 net.Receive( "fnafgmAnimatronicTauntSnd", function( len )
-
+	
+	local ply = LocalPlayer()
+	
+	if ply:Team()==TEAM_CONNECTING or ply:Team()==TEAM_UNASSIGNED then return end
+	
 	local a = net.ReadInt( 5 )
 	
 	if GAMEMODE.Vars.Animatronics[a][1] then LocalPlayer():EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a])) end

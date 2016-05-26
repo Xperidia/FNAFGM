@@ -456,14 +456,18 @@ function ENT:Jumpscare()
 					
 				end
 				
-				GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
-				GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
-				fnafgmPowerUpdate()
-				if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
-				if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
-					GAMEMODE.Vars.addfoxyknockdoorpena = 6
-				elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
-					GAMEMODE.Vars.addfoxyknockdoorpena = 4
+				if !fnafgm_disablepower:GetBool() then
+					
+					GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
+					GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
+					fnafgmPowerUpdate()
+					if GAMEMODE.Vars.foxyknockdoorpena<=12 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
+					if GAMEMODE.Vars.addfoxyknockdoorpena==4 then
+						GAMEMODE.Vars.addfoxyknockdoorpena = 6
+					elseif GAMEMODE.Vars.addfoxyknockdoorpena==6 then
+						GAMEMODE.Vars.addfoxyknockdoorpena = 4
+					end
+					
 				end
 				
 			end

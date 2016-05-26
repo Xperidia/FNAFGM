@@ -14,6 +14,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 	
 	if name=="FoxyKnockDoor" then
 		
+		if fnafgm_disablepower:GetBool() then return end
+		
 		GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
 		GAMEMODE:Log("Foxy removed "..GAMEMODE.Vars.foxyknockdoorpena.."% of the power")
 		fnafgmPowerUpdate()
