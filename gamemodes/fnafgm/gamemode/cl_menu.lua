@@ -86,10 +86,20 @@ function fnafgmMenu()
 		local xpucp = vgui.Create( "DButton" )
 		xpucp:SetParent(fnafgmMenuF.links)
 		xpucp:SetText( "Xperidia Account" )
-		xpucp:SetPos( 90, 30 )
+		xpucp:SetPos( 20, 30 )
 		xpucp:SetSize( 125, 20 )
 		xpucp.DoClick = function()
 			gui.OpenURL( "https://www.xperidia.com/UCP/" )
+			fnafgmMenuF:Close()
+		end
+		
+		local xpsteam = vgui.Create( "DButton" )
+		xpsteam:SetParent(fnafgmMenuF.links)
+		xpsteam:SetText( "Xperidia Steam Group" )
+		xpsteam:SetPos( 160, 30 )
+		xpsteam:SetSize( 125, 20 )
+		xpsteam.DoClick = function()
+			gui.OpenURL( "http://go.xperidia.com/XP-SteamGroup" )
 			fnafgmMenuF:Close()
 		end
 		

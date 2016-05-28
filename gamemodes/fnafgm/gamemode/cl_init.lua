@@ -399,7 +399,7 @@ function GM:HUDPaint()
 			
 			local time = math.Truncate( (GAMEMODE.Vars.WillStart or -1)-CurTime() )
 			
-			if time>0 then
+			if time>=0 then
 				draw.DrawText( (GAMEMODE.TranslatedStrings.nightwillstart or GAMEMODE.Strings.en.nightwillstart).." "..time.."s", "FNAFGMTIME", ScrW()/2, ScrH()*0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()/2, ScrH()*0.25, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			else

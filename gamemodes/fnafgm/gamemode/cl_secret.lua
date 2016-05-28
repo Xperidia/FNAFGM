@@ -94,11 +94,19 @@ function fnafgmSecret()
 		end
 		fnafgmSecretD:MakePopup()
 		
+		fnafgmSecretPasswordback = vgui.Create( "DPanel" )
+		fnafgmSecretPasswordback:SetParent(fnafgmSecretD)
+		fnafgmSecretPasswordback:SetSize( 50, 16 )
+		fnafgmSecretPasswordback:SetPos( 27, 0 )
+		fnafgmSecretPasswordback.Paint = function( self, w, h )
+			draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 255 ) )
+		end
+		
 		fnafgmSecretPasswordlbl = vgui.Create( "DLabel" )
-		fnafgmSecretPasswordlbl:SetParent(fnafgmSecretD)
-		fnafgmSecretPasswordlbl:SetText( "PASSWORD" )
+		fnafgmSecretPasswordlbl:SetParent(fnafgmSecretPasswordback)
+		fnafgmSecretPasswordlbl:SetText( "" )
 		fnafgmSecretPasswordlbl:SetPos( 0, 0 )
-		fnafgmSecretPasswordlbl:SetSize(104,16)
+		fnafgmSecretPasswordlbl:SetSize(50,16)
 		fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmSecretPasswordlbl:SetContentAlignment(5)
 		
@@ -108,9 +116,11 @@ function fnafgmSecret()
 		fnafgmNUM1:SetText("1")
 		fnafgmNUM1:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM1.DoClick = function( button )
-			password=password.."1"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."1"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM1.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -127,9 +137,11 @@ function fnafgmSecret()
 		fnafgmNUM2:SetText("2")
 		fnafgmNUM2:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM2.DoClick = function( button )
-			password=password.."2"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."2"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM2.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -146,9 +158,11 @@ function fnafgmSecret()
 		fnafgmNUM3:SetText("3")
 		fnafgmNUM3:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM3.DoClick = function( button )
-			password=password.."3"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."3"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM3.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -165,9 +179,11 @@ function fnafgmSecret()
 		fnafgmNUM4:SetText("4")
 		fnafgmNUM4:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM4.DoClick = function( button )
-			password=password.."4"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."4"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM4.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -184,9 +200,11 @@ function fnafgmSecret()
 		fnafgmNUM5:SetText("5")
 		fnafgmNUM5:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM5.DoClick = function( button )
-			password=password.."5"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."5"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM5.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -203,9 +221,11 @@ function fnafgmSecret()
 		fnafgmNUM6:SetText("6")
 		fnafgmNUM6:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM6.DoClick = function( button )
-			password=password.."6"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."6"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM6.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -222,9 +242,11 @@ function fnafgmSecret()
 		fnafgmNUM7:SetText("7")
 		fnafgmNUM7:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM7.DoClick = function( button )
-			password=password.."7"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."7"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM7.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -241,9 +263,11 @@ function fnafgmSecret()
 		fnafgmNUM8:SetText("8")
 		fnafgmNUM8:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM8.DoClick = function( button )
-			password=password.."8"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."8"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM8.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -260,9 +284,11 @@ function fnafgmSecret()
 		fnafgmNUM9:SetText("9")
 		fnafgmNUM9:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM9.DoClick = function( button )
-			password=password.."9"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."9"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM9.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -296,9 +322,11 @@ function fnafgmSecret()
 		fnafgmNUM0:SetText("0")
 		fnafgmNUM0:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmNUM0.DoClick = function( button )
-			password=password.."0"
-			fnafgmSecretPasswordlbl:SetText( password )
-			fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			if #password<6 then
+				password=password.."0"
+				fnafgmSecretPasswordlbl:SetText( password )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+			end
 		end
 		fnafgmNUM0.Paint = function( self, w, h )
 			if self:IsHovered() then
@@ -316,6 +344,7 @@ function fnafgmSecret()
 		fnafgmNUMD:SetTextColor( Color( 0, 170, 0, 255 ) )
 		fnafgmNUMD.DoClick = function( button )
 			if password=="2015" then
+				surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
 				fnafgmNUM1:Remove()
 				fnafgmNUM2:Remove()
 				fnafgmNUM3:Remove()
@@ -327,6 +356,7 @@ function fnafgmSecret()
 				fnafgmNUM9:Remove()
 				fnafgmNUM0:Remove()
 				fnafgmSecretPasswordlbl:Remove()
+				fnafgmSecretPasswordback:Remove()
 				secrete_anim:Start(0.25)
 				fnafgmNUMD:Remove()
 				fnafgmNUMS:SetPos( 352, 0 )
@@ -338,11 +368,18 @@ function fnafgmSecret()
 				Zed:SetAllowLua(true)
 				Zed:OpenURL( "www.Xperidia.com/DAT_FACE.html" )
 				Zed:SetScrollbars(false)
-			elseif password=="42" then
+			--[[elseif password=="362346" then --FNAFGM
+				surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
 				password=""
-				fnafgmSecretPasswordlbl:SetText( "YES" )
-				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
+				fnafgmSecretPasswordlbl:SetText( "" )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 0, 170, 0, 255 ) )
+			elseif password=="76937" then --POWER
+				surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
+				password=""
+				fnafgmSecretPasswordlbl:SetText( "POWER" )
+				fnafgmSecretPasswordlbl:SetTextColor( Color( 0, 170, 0, 255 ) )]]
 			else
+				surface.PlaySound( "buttons/button10.wav" )
 				password=""
 				fnafgmSecretPasswordlbl:SetText( "NOPE" )
 				fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 0, 0, 255 ) )

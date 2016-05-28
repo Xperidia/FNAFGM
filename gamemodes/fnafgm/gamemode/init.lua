@@ -176,7 +176,7 @@ function GM:PlayerSpawn( pl )
 		end)
 	end
 	
-	if fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) then
+	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) then
 		
 		local delay = fnafgm_timethink_autostartdelay:GetFloat()
 		
@@ -1044,6 +1044,14 @@ function fnafgmUse(ply, ent, test, test2)
 	if test2 and ent and ent:GetClass()=="func_button" then
 		
 		ent:Fire("use")
+		return false
+		
+	end
+	
+	
+	if test2 and ent and ent:GetClass()=="fnafgm_keypad" then
+		
+		ent:Use( ply, ply, 1, 0 )
 		return false
 		
 	end

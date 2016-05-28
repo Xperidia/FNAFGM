@@ -43,7 +43,7 @@ function SWEP:PrimaryAttack()
 	if SERVER and (!GAMEMODE.Vars.poweroff or game.GetMap()=="fnaf2") then
 		
 		local tr = util.GetPlayerTrace( self.Owner )
-		tr.filter = function(ent) if ent:GetClass()=="func_button" then return true end end
+		tr.filter = function(ent) if ent:GetClass()=="func_button" or ent:GetClass()=="fnafgm_keypad" then return true end end
 		local trace = util.TraceLine( tr )
 		
 		if (!trace.Hit) then return end

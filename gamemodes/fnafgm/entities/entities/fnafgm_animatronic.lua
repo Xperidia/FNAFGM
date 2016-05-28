@@ -172,18 +172,24 @@ function ENT:Think()
 	local me = self:GetAType()
 	local apos = self:GetAPos()
 	
-	if apos!=nil and self.OldAPos != apos then
+	local nope = hook.Call("fnafgmAnimatronicMove",nil,self,me,apos) or false
+	
+	if !nope then
 		
-		self:SetColor( Color( 255, 255, 255, 0 ) )
-		
-		self.OldAPos = apos
-		
-		if GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
-			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
-			self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][2])
+		if apos!=nil and self.OldAPos != apos then
+			
+			self:SetColor( Color( 255, 255, 255, 0 ) )
+			
+			self.OldAPos = apos
+			
+			if GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
+				self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
+				self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][2])
+			end
+			
+			self:SetColor( Color( 255, 255, 255, 255 ) )
+			
 		end
-		
-		self:SetColor( Color( 255, 255, 255, 255 ) )
 		
 	end
 	
@@ -492,4 +498,3 @@ function ENT:Jumpscare()
 	end
 	
 end
-
