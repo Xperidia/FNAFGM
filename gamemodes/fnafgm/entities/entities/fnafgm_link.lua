@@ -78,8 +78,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 		
 	elseif name=="ChangeLastCam" then
 		
-		for k, v in pairs(team.GetPlayers(1)) do
-			if v:Alive() then
+		for k, v in pairs(player.GetAll()) do
+			if v:Team()!=TEAM_CONNECTING and v:Team()!=TEAM_UNASSIGNED and v:Alive() then
 				net.Start( "fnafgmCloseTablet" )
 				net.Send(v)
 				v:SendLua("GAMEMODE.Vars.lastcam="..tonumber(data))

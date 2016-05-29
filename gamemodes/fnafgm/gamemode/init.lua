@@ -3345,7 +3345,7 @@ function GM:PlayerCanHearPlayersVoice( pListener, pTalker )
 	elseif pListener:Team() == pTalker:Team() and !pListener:Alive() and !pTalker:Alive() then
 		return true, false
 	elseif pListener:Team()==2 and pTalker:Team()!=TEAM_SPECTATOR then
-		return true, true
+		return true, false
 	end
 
 	return false, false
@@ -3478,7 +3478,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 	
 	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] and IsValid(ent) then
 		
-		if GAMEMODE.Vars.Animatronics[a][3]==-1 or !GAMEMODE.Vars.startday then return end
+		if !GAMEMODE.Vars.startday then return end
+		
+		if IsValid(ply) and GAMEMODE.Vars.Animatronics[a][3]==-1 then return end
 		
 		if IsValid(ply) and ( GAMEMODE.Vars.Animatronics[a][2]==GAMEMODE.APos[game.GetMap()].Office ) then return end
 		
