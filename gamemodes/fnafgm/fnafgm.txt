@@ -195,8 +195,8 @@
 		26
 		{
 			"name"		"fnafgm_enabledevmode"
-			"text"		"Enable dev mode (logs)"
-			"help"		"Dev mode and logs."
+			"text"		"Enable dev mode (more logs)"
+			"help"		"Dev mode and more logs."
 			"type"		"CheckBox"
 			"default"	"0"
 		}
