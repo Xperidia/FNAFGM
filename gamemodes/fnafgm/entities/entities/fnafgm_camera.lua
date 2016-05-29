@@ -13,12 +13,12 @@ function ENT:Initialize()
 		if id then
 			self:SetCamID(id)
 			if GAMEMODE.CamsNames[game.GetMap().."_"..id] then
-				GAMEMODE:Log( "Camera init: "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." ("..id..")" )
+				GAMEMODE:Log( "Camera init: "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." ("..id..")", nil, true )
 			else
-				GAMEMODE:Log( "Camera init: "..id )
+				GAMEMODE:Log( "Camera init: "..id, nil, true )
 			end
 		else
-			GAMEMODE:Log( "Camera init: "..name.." (No ID)" )
+			GAMEMODE:Log( "Camera init: "..name.." (No ID)", nil, true )
 		end
 	end
 	

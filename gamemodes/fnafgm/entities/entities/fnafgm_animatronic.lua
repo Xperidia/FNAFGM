@@ -315,7 +315,7 @@ function ENT:Taunt(ply)
 		if IsValid(ply) then
 			GAMEMODE:Log(((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by "..ply:GetName())
 		else
-			GAMEMODE:Log(((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by console/script")
+			GAMEMODE:Log(((GAMEMODE.AnimatronicName[me].." ("..(me or 0)..")") or me or 0).." Taunt by console/script", nil, true)
 		end
 	
 	end

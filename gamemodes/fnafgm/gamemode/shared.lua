@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 2.01
+GM.OfficialVersion 	= 2.02
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -644,7 +644,7 @@ fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVA
 fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
 fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
 fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
-fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and logs." )
+fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and more logs." )
 fnafgm_sgvsa = CreateConVar( "fnafgm_sgvsa", 0, FCVAR_REPLICATED, "Enable PvP SGvsA mode." )
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
@@ -1278,16 +1278,18 @@ timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
 end)
 
 
-function GM:Log(str,tn)
+function GM:Log(str,tn,hardcore)
 	
 	local name = (GAMEMODE.ShortName or "FNAFGM")
 	if tn then name = "FNAFGM" end
+	
+	if hardcore and !fnafgm_enabledevmode:GetBool() then return end
 	
 	if game.IsDedicated() or GAMEMODE.Vars.DS then
 		local tmstmp = os.time()
 		local time = os.date( "L %d/%m/%Y - %H:%M:%S" , tmstmp )
 		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
-	elseif fnafgm_enabledevmode:GetBool() then
+	else
 		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
 	end
 	
@@ -1308,7 +1310,7 @@ function GM:RetrieveXperidiaAccountRank(ply)
 		
 		local XperidiaRanks = { "Premium", "Creator", "Administrator" }
 		
-		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...")
+		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...",nil,true)
 		
 		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
 		function( responseText, contentLength, responseHeaders, statusCode )
@@ -1325,7 +1327,7 @@ function GM:RetrieveXperidiaAccountRank(ply)
 				if XperidiaRanks[rank] then
 					GAMEMODE:Log("The Xperidia Rank for "..ply:GetName().." is "..XperidiaRanks[rank])
 				else
-					GAMEMODE:Log(ply:GetName().." doesn't have any Xperidia Rank...")
+					GAMEMODE:Log(ply:GetName().." doesn't have any Xperidia Rank...",nil,true)
 				end
 				
 			else

@@ -176,7 +176,7 @@ function GM:PlayerSpawn( pl )
 		end)
 	end
 	
-	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) then
+	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart then
 		
 		local delay = fnafgm_timethink_autostartdelay:GetFloat()
 		
@@ -187,8 +187,6 @@ function GM:PlayerSpawn( pl )
 		timer.Create( "fnafgmStart", delay, 1, function()
 			
 			GAMEMODE:StartNight(ply)
-			
-			timer.Remove( "fnafgmStart" )
 			
 		end)
 		
@@ -1063,7 +1061,18 @@ hook.Add( "PlayerUse", "fnafgmUse", fnafgmUse )
 
 function GM:StartNight(ply)
 	
+	timer.Remove( "fnafgmStart" )
+	
 	if GAMEMODE.Vars.startday then return end
+	
+	if #team.GetPlayers(1)==0 then 
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "There is no security guards!" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Broadcast()
+	return end
 	
 	local nope = hook.Call("fnafgmCustomStart", ply)
 	
@@ -2684,9 +2693,9 @@ function fnafgmSetView(ply,id)
 	if id==0 then
 		
 	elseif GAMEMODE.CamsNames[game.GetMap().."_"..id] then
-		GAMEMODE:Log( ply:GetName().." requested "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." camera ("..id..") | Granted? "..tostring(isok) )
+		GAMEMODE:Log( ply:GetName().." requested "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." camera ("..id..") | Granted? "..tostring(isok), nil, true )
 	else
-		GAMEMODE:Log( ply:GetName().." requested camera "..id.." | Granted? "..tostring(isok) )
+		GAMEMODE:Log( ply:GetName().." requested camera "..id.." | Granted? "..tostring(isok), nil, true )
 	end
 	
 end
@@ -3405,7 +3414,7 @@ function GM:CreateCamera(x,y,z,pitch,yaw,roll,ply)
 	if IsValid(ply) then
 		GAMEMODE:Log("fnafgm_Cam"..num.." created by "..ply:GetName())
 	else
-		GAMEMODE:Log("fnafgm_Cam"..num.." created by console/script")
+		GAMEMODE:Log("fnafgm_Cam"..num.." created by console/script", nil, true)
 	end
 end
 
@@ -3457,7 +3466,7 @@ function GM:CreateAnimatronic(a,apos,ply)
 	if IsValid(ply) then
 		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
 	else
-		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
+		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7),nil,true)
 	end
 	
 end
@@ -3564,7 +3573,7 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		if IsValid(ply) then
 			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by "..ply:GetName())
 		else
-			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script")
+			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script",nil,true)
 		end
 		
 	end
