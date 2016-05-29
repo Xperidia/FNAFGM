@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 2.00
+GM.OfficialVersion 	= 2.01
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -1312,6 +1312,8 @@ function GM:RetrieveXperidiaAccountRank(ply)
 		
 		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
 		function( responseText, contentLength, responseHeaders, statusCode )
+			
+			if !IsValid(ply) then return end
 			
 			if statusCode == 200 then
 				

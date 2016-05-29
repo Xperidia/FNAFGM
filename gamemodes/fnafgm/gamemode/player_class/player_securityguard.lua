@@ -59,7 +59,7 @@ function PLAYER:SetModel()
 		
 		local models = player_manager.AllValidModels()
 		
-		if self.Player:GetInfo( "cl_playermodel" )=="none" or !models[self.Player:GetInfo( "cl_playermodel" )] or ( ( self.Player:GetInfo( "cl_playermodel" )=="Splinks_Bonnie" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Chica" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Foxy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Freddy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Golden_Freddy" ) and (!fnafgmcheckcreator(self.Player) or !self.Player:IsAdmin() ) ) then
+		if self.Player:GetInfo( "cl_playermodel" )=="none" or !models[self.Player:GetInfo( "cl_playermodel" )] or ( ( self.Player:GetInfo( "cl_playermodel" )=="Splinks_Bonnie" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Chica" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Foxy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Freddy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Golden_Freddy" ) and (!GAMEMODE:CustomCheck(self.Player,"playermodel") ) ) then
 			
 			local playermodels = GAMEMODE.Models_defaultplayermodels
 			
