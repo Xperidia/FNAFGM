@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 1.74
+GM.OfficialVersion 	= 1.75
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -693,7 +693,9 @@ function GM:Initialize()
 	GAMEMODE.Vars.lastderivversion = 0
 	GAMEMODE.Vars.Animatronics = {}
 	
-	if !file.IsDir("fnafgm", "DATA") then
+	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ), "DATA" ) then
+		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) )
+	elseif !file.IsDir( "fnafgm", "DATA" ) then
 		file.CreateDir( "fnafgm" )
 	end
 	
@@ -716,32 +718,6 @@ function GM:Initialize()
 		GAMEMODE.Vars.SGvsA = true
 		GAMEMODE.Vars.modetext = " - PvP SGvsA"
 	end
-	
-	cvars.AddChangeCallback( "fnafgm_sgvsa", function( convar_name, value_old, value_new )
-		if tonumber(value_new)>=1 then
-			GAMEMODE.Vars.SGvsA = true
-			GAMEMODE.Vars.modetext = " - PvP SGvsA"
-			if SERVER then
-				net.Start( "fnafgmNotif" )
-					net.WriteString( "The game is now in SGvsA mode!" )
-					net.WriteInt(4,3)
-					net.WriteFloat(5)
-					net.WriteBit(true)
-				net.Broadcast()
-			end
-		else
-			GAMEMODE.Vars.SGvsA = false
-			GAMEMODE.Vars.modetext = ""
-			if SERVER then
-				net.Start( "fnafgmNotif" )
-					net.WriteString( "The game is now in normal mode!" )
-					net.WriteInt(4,3)
-					net.WriteFloat(5)
-					net.WriteBit(true)
-				net.Broadcast()
-			end
-		end
-	end)
 	
 	
 	if GetHostName()=="1987" then --Not a easter egg ^^
