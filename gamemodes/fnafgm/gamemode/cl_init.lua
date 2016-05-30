@@ -1013,22 +1013,21 @@ function GM:MapSelect(AvMaps)
 	for ID, Map in pairs( AllMaps ) do
 		num = num + 1
 	end
-	local calc = 256*3/num
-	if calc>256 then calc = 256 end
+	local calc = math.Clamp( 256*3/num, 100, 256 )
 	local size = calc
 	local x = 4
 	local mx = size
 	local y = size + 24
 	local n = 0
+	local nmax = math.Clamp( math.ceil(num/1.5), 3, 5)
 	
 	for ID, Map in SortedPairsByValue( AllMaps ) do
 		
 		n = n + 1
-		if n==3 then
-			n = 0
+		if n==nmax then
+			n = 1
 			y = y + size
 			x = 4 + size
-			if x>mx then mx = x end
 		else
 			x = x + size
 			if x>mx then mx = x end
