@@ -176,7 +176,7 @@ function GM:PlayerSpawn( pl )
 		end)
 	end
 	
-	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart then
+	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and GAMEMODE.MapList[game.GetMap()] then
 		
 		local delay = fnafgm_timethink_autostartdelay:GetFloat()
 		
@@ -3627,9 +3627,9 @@ function GM:CamLight(ply,id,rstate)
 		if id==0 then
 			
 		elseif GAMEMODE.CamsNames[game.GetMap().."_"..id] then
-			GAMEMODE:Log( ply:GetName().." toggle camera light of "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." ("..id..") | New state: "..Either( camstate, "on", "off" ) )
+			GAMEMODE:Log( ply:GetName().." toggle camera light of "..GAMEMODE.CamsNames[game.GetMap().."_"..id].." ("..id..") | New state: "..Either( camstate, "on", "off" ), nil, true )
 		else
-			GAMEMODE:Log( ply:GetName().." toggle camera light "..id.." | New state: "..Either( camstate, "on", "off" ) )
+			GAMEMODE:Log( ply:GetName().." toggle camera light "..id.." | New state: "..Either( camstate, "on", "off" ), nil, true )
 		end
 		
 	end

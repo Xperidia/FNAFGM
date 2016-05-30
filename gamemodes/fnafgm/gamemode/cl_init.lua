@@ -1009,21 +1009,43 @@ function GM:MapSelect(AvMaps)
 	MapSelectF:SetTitle( "Map select" )
 	
 	local AllMaps = GAMEMODE.MapList
-	local x = 4
-	local y = 156
+	local num = 0
 	for ID, Map in pairs( AllMaps ) do
+		num = num + 1
+	end
+	local calc = 256*3/num
+	if calc>256 then calc = 256 end
+	local size = calc
+	local x = 4
+	local mx = size
+	local y = size + 24
+	local n = 0
+	
+	for ID, Map in SortedPairsByValue( AllMaps ) do
+		
+		n = n + 1
+		if n==3 then
+			n = 0
+			y = y + size
+			x = 4 + size
+			if x>mx then mx = x end
+		else
+			x = x + size
+			if x>mx then mx = x end
+		end
 		
 		local MapI = vgui.Create( "DButton", MapSelectF )
-		MapI:SetPos( x, 24 )
-		MapI:SetSize( 128, 128 )
+		MapI:SetPos( x-size, y-size )
+		MapI:SetSize( size, size )
 		MapI:SetText( Map )
+		MapI:SetContentAlignment( 2 )
 		MapI:SetFont("FNAFGMID")
 		MapI:SetTextColor( Color(255, 255, 255, 0) )
 		
 		local png
 		local path = "maps/" .. ID .. ".png"
 		if file.Exists(path, "GAME") then
-			png = Material(path, "noclamp")
+			png = Material(path, "noclamp smooth")
 			MapI.OnCursorEntered = function()
 				MapI:SetTextColor( Color( 255, 255, 255, 255 ) )
 			end
@@ -1033,7 +1055,7 @@ function GM:MapSelect(AvMaps)
 		else
 			local path = "maps/thumb/" .. ID .. ".png"
 			if file.Exists(path, "GAME") then
-				png = Material(path, "noclamp")
+				png = Material(path, "noclamp smooth")
 				MapI.OnCursorEntered = function()
 					MapI:SetTextColor( Color( 255, 255, 255, 255 ) )
 				end
@@ -1041,7 +1063,7 @@ function GM:MapSelect(AvMaps)
 					MapI:SetTextColor( Color( 255, 255, 255, 0 ) )
 				end
 			else
-				png = Material("maps/thumb/noicon.png", "noclamp")
+				png = Material("maps/thumb/noicon.png", "noclamp smooth")
 				MapI:SetTextColor( Color(255, 255, 255) )
 			end
 		end
@@ -1050,14 +1072,14 @@ function GM:MapSelect(AvMaps)
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(85, 85, 85, 255)
-				surface.DrawTexturedRect(0, 0, 128, 128)
+				surface.DrawTexturedRect(0, 0, size, size)
 			end
 		elseif !AvMaps[ID] then
 			MapI:SetTextColor( Color(255, 0, 0) )
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(128, 64, 64, 255)
-				surface.DrawTexturedRect(0, 0, 128, 128)
+				surface.DrawTexturedRect(0, 0, size, size)
 			end
 			if GAMEMODE.MapListLinks[ID] then
 				function MapI.DoClick()
@@ -1068,18 +1090,16 @@ function GM:MapSelect(AvMaps)
 			MapI.Paint = function( self, w, h )
 				surface.SetMaterial(png)
 				surface.SetDrawColor(255, 255, 255, 255)
-				surface.DrawTexturedRect(0, 0, 128, 128)
+				surface.DrawTexturedRect(0, 0, size, size)
 			end
 			function MapI.DoClick()
 				fnafgmChangeMap(ID)
 			end
 		end
 		
-		x = x + 128
-		
 	end
 	
-	MapSelectF:SetSize( x+4, y )
+	MapSelectF:SetSize( mx+4, y+4 )
 	MapSelectF:SetDraggable( true )
 	MapSelectF:SetScreenLock(true)
 	MapSelectF:SetPaintShadow(true)
