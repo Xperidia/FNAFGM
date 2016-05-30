@@ -2470,7 +2470,7 @@ function fnafgmPlayerCanByPass(ply,what)
 	
 	if !IsValid(ply) then return end
 	
-	if fnafgm_enablebypass:GetBool() then
+	if fnafgm_enablebypass:GetBool() or game.IsDedicated() then
 		if ply:IsAdmin() then
 			return true
 		elseif ( GAMEMODE:CheckCreator(ply) or GAMEMODE:CheckDerivCreator(ply) ) and fnafgm_enablecreatorsbypass:GetBool() then
@@ -2943,7 +2943,7 @@ function GM:Think()
 		
 		GAMEMODE.Vars.powerusage = GAMEMODE.Power_Usage_Base
 		
-		if GAMEMODE.Vars.poweroff then
+		if GAMEMODE.Vars.poweroff or fnafgm_disablepower:GetBool() then
 			
 			GAMEMODE.Vars.powerusage = 0
 			
@@ -2986,19 +2986,6 @@ function GM:Think()
 				
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
 				
-			else
-				
-				for k, v in pairs(ents.FindByClass( "fnafgm_camera" )) do
-					
-					if v:GetLightState() then
-						
-						GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
-						break
-						
-					end
-					
-				end
-				
 			end
 			
 			
@@ -3009,10 +2996,6 @@ function GM:Think()
 			end
 			
 			
-		end
-		
-		if fnafgm_disablepower:GetBool() then
-			GAMEMODE.Vars.powerusage = 0
 		end
 		
 		if GAMEMODE.Vars.powerusage==0 then
@@ -3126,7 +3109,7 @@ function GM:Think()
 		
 		GAMEMODE.Vars.powerusage = 0
 		
-		if !GAMEMODE.Vars.poweroff then
+		if !GAMEMODE.Vars.poweroff and !fnafgm_disablepower:GetBool() then
 			
 			
 			if GAMEMODE.Vars.LightUse[1] or GAMEMODE.Vars.LightUse[2] or GAMEMODE.Vars.LightUse[3] then -- Lights use
@@ -3137,7 +3120,7 @@ function GM:Think()
 			
 			for k, v in pairs(ents.FindByClass( "fnafgm_camera" )) do
 				
-				if v:GetLightState() then
+				if v.GetLightState and v:GetLightState() then
 					
 					GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage+1
 					break
@@ -3157,10 +3140,6 @@ function GM:Think()
 			end
 			
 			
-		end
-		
-		if fnafgm_disablepower:GetBool() then
-			GAMEMODE.Vars.powerusage = 0
 		end
 		
 		if GAMEMODE.Vars.powerusage==0 or !GAMEMODE.Vars.powerchecktime then

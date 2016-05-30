@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 2.02
+GM.OfficialVersion 	= 2.03
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -77,7 +77,7 @@ GM.Sound_Animatronic[3] = { Sound("fnafgm/piratesong2.ogg") }
 GM.Sound_Animatronic[4] = { Sound("fnafgm/goldenfreddy.ogg") }
 
 GM.Sound_Calls = {
-	freddys = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
+	freddysnoevent = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
 }
 GM.Sound_maskon = Sound("fnafgm/maskon.ogg")
 GM.Sound_maskoff = Sound("fnafgm/maskoff.ogg")
@@ -1287,7 +1287,7 @@ function GM:Log(str,tn,hardcore)
 	
 	if game.IsDedicated() or GAMEMODE.Vars.DS then
 		local tmstmp = os.time()
-		local time = os.date( "L %d/%m/%Y - %H:%M:%S" , tmstmp )
+		local time = os.date( "L %m/%d/%Y - %H:%M:%S" , tmstmp )
 		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
 	else
 		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
