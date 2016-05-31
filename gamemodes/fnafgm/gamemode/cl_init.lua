@@ -1194,6 +1194,10 @@ net.Receive( "fnafgmNotif", function( len )
 	local dur = net.ReadFloat() or 5
 	local sound = net.ReadBit() or false
 	
+	if GAMEMODE.TranslatedStrings[str] or GAMEMODE.Strings.en[str] then
+		str = GAMEMODE.TranslatedStrings[str] or GAMEMODE.Strings.en[str]
+	end
+	
 	fnafgmNotif(str,ne,dur,sound)
 	
 end)

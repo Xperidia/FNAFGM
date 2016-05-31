@@ -285,19 +285,29 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		if !game.IsDedicated() and !GAMEMODE.Vars.DS then --This doesn't work https://github.com/Facepunch/garrysmod-issues/issues/1495
+		local resetprogress = vgui.Create( "DButton" )
+		resetprogress:SetParent(fnafgmMenuF.info)
+		resetprogress:SetText(tostring(GAMEMODE.TranslatedStrings.resetsave or GAMEMODE.Strings.en.resetsave))
+		resetprogress:SetPos( 10, 135 )
+		resetprogress:SetSize( 285, 20 )
+		resetprogress.DoClick = function()
+			GAMEMODE:SaveProgress(true)
+			fnafgmMenuF:Close()
+		end
+		
+		if !game.SinglePlayer() then
 			
-			local resetprogress = vgui.Create( "DButton" )
-			resetprogress:SetParent(fnafgmMenuF.info)
-			resetprogress:SetText(tostring(GAMEMODE.TranslatedStrings.resetsave or GAMEMODE.Strings.en.resetsave))
-			resetprogress:SetPos( 10, 135 )
-			resetprogress:SetSize( 285, 20 )
-			resetprogress:SetDisabled(GAMEMODE.Vars.SGvsA)
-			resetprogress.DoClick = function()
-				RunConsoleCommand( "fnafgm_resetprogress" )
+			local togglesgvsa = vgui.Create( "DButton" )
+			togglesgvsa:SetParent(fnafgmMenuF.info)
+			togglesgvsa:SetText(tostring(GAMEMODE.TranslatedStrings.togglesgvsa or GAMEMODE.Strings.en.togglesgvsa))
+			togglesgvsa:SetPos( 10, 110 )
+			togglesgvsa:SetSize( 285, 20 )
+			togglesgvsa:SetEnabled(LocalPlayer():IsAdmin())
+			togglesgvsa.DoClick = function()
+				RunConsoleCommand( "fnafgm_togglesgvsa" )
 				fnafgmMenuF:Close()
 			end
-		
+			
 		end
 		
 		

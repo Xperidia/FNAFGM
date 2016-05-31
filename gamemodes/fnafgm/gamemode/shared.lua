@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 2.03
+GM.OfficialVersion 	= 2.04
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -116,7 +116,7 @@ GM.Strings = {
 		infoat = "Informations/Misc",
 		lang = "Language",
 		changemap = "Change Map",
-		resetsave = "Reset save (Host only)",
+		resetsave = "Reset save",
 		debugmenu = "Debug Menu (Debug access only)",
 		start = "Start",
 		stop = "Stop/Restart",
@@ -131,7 +131,14 @@ GM.Strings = {
 		progressinfo = "Last saved night",
 		disablexpsc = "Disable Xperidia's Show Case",
 		disablehalo = "Disable halos (Improve performance)",
-		nightwillstart = "The night will start in"
+		nightwillstart = "The night will start in",
+		togglesgvsa = "Toggle SGvsA",
+		now_sgvsa = "The game is now in PvP SGvsA mode!",
+		now_normal = "The game is now in normal mode!",
+		nosp = "Not in singleplayer!",
+		nosg = "There is no security guards!",
+		gamebeenreset = "The game has been reset!",
+		notsgvsa = "You're not in SGvsA mode!"
 	},
 	fr = {
 		tonight = "Vers la nuit",
@@ -150,7 +157,7 @@ GM.Strings = {
 		infoat = "Informations/Divers",
 		lang = "Langage",
 		changemap = "Changer de Map",
-		resetsave = "Effacer la sauvegarde (Hôte uniquement)",
+		resetsave = "Effacer la sauvegarde",
 		debugmenu = "Menu Debug (Accès debug uniquement)",
 		start = "Démarrer",
 		stop = "Arrêter/Redémarrer",
@@ -165,7 +172,14 @@ GM.Strings = {
 		progressinfo = "Dernière nuit sauvegardée ",
 		disablexpsc = "Désactiver Xperidia's Show Case",
 		disablehalo = "Désactiver les halos (Améliore la performance)",
-		nightwillstart = "La nuit va démarrer dans"
+		nightwillstart = "La nuit va démarrer dans",
+		togglesgvsa = "Activer/Désactiver SGvsA",
+		now_sgvsa = "Le jeu est désormais en mode PvP SGvsA !",
+		now_normal = "Le jeu est désormais en mode normal !",
+		nosp = "Pas en solo !",
+		nosg = "Il n'y a pas de gardes de sécurité !",
+		gamebeenreset = "Le jeu a été réinitialisé !",
+		notsgvsa = "Le jeu n'est pas en mode SGvsA !"
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		sg = "Güvenlik Görevlileri",
@@ -192,7 +206,7 @@ GM.Strings = {
 		infoat = "Bilgiler/Çeþitli",
 		lang = "Dil",
 		changemap = "Harita deðiþtir",
-		resetsave = "Kaydý sýfýrla (Sadece Kurucu)",
+		resetsave = "Kaydý sýfýrla",
 		debugmenu = "Hata ayýklama Menüsü (sadece izinliler)",
 		start = "Baþla",
 		stop = "Durdur/Baþtan",
@@ -205,7 +219,7 @@ GM.Strings = {
 		progressinfo = "Son kaydedilmiþ gece",
 		disablexpsc = "Xperidia'nýn Vitrinini kapatýn"
 	},
-	ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236
+	ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236 and http://steamcommunity.com/profiles/76561198146926505
 		sg = "Охранники",
 		animatronics = "Аниматроники",
 		animatronic = "Аниматроник",
@@ -235,8 +249,8 @@ GM.Strings = {
 		infoat = "Информация/Разное",
 		lang = "Язык",
 		changemap = "Сменить Карту",
-		resetsave = "Сброс сохранения (токо Хост)",
-		debugmenu = "Меню Отладки (токо Дебаг доступ)",
+		resetsave = "Сброс сохранения",
+		debugmenu = "Меню Отладки (токо доступ отладчика)",
 		start = "Старт",
 		stop = "Стоп/Перезапуск",
 		reset = "Сброс",
@@ -247,7 +261,9 @@ GM.Strings = {
 		flashwindow = "Высвечивать окно уведомлениями (токо Windows)",
 		password = "Пароль",
 		saveserver = "Сохранять свой прогресс на серверах",
-		progressinfo = "Последния сохраненная ночь"
+		progressinfo = "Последния сохраненная ночь",
+		disablexpsc = "Отключить витрину Xperidia",
+		disablehalo = "Отключить ореолы (Повышает производительность)"
 	},
 	uk = { --Translation by http://steamcommunity.com/profiles/76561198135819236
 		sg = "Охоронці",
@@ -279,7 +295,7 @@ GM.Strings = {
 		infoat = "Інформація/Різне",
 		lang = "Мова",
 		changemap = "Змінити Карту",
-		resetsave = "Скидання збереження (тільки Хост)",
+		resetsave = "Скидання збереження",
 		debugmenu = "Меню Налагодження (тільки Дебаг доступ)",
 		start = "Старт",
 		stop = "Стоп/Перезапуск",
@@ -714,9 +730,55 @@ function GM:Initialize()
 	end
 	
 	
-	if fnafgm_sgvsa:GetBool() then
+	if fnafgm_sgvsa:GetBool() and !game.SinglePlayer() then
 		GAMEMODE.Vars.SGvsA = true
 		GAMEMODE.Vars.modetext = " - PvP SGvsA"
+	end
+	
+	if !game.SinglePlayer() then
+		
+		cvars.AddChangeCallback( "fnafgm_sgvsa", function( convar_name, value_old, value_new )
+			if tonumber(value_new)>=1 then
+				GAMEMODE.Vars.SGvsA = true
+				GAMEMODE.Vars.modetext = " - PvP SGvsA"
+				GAMEMODE:Log( "The game is now in PvP SGvsA mode!" )
+				if SERVER then
+					net.Start( "fnafgmNotif" )
+						net.WriteString( "now_sgvsa" )
+						net.WriteInt(4,3)
+						net.WriteFloat(5)
+						net.WriteBit(true)
+					net.Broadcast()
+					if !game.IsDedicated() then
+						for k, v in pairs(player.GetAll()) do
+							if v:IsListenServerHost() then
+								v:SendLua([[GAMEMODE.Vars.SGvsA = true GAMEMODE.Vars.modetext = " - PvP SGvsA"]])
+							end
+						end
+					end
+				end
+			else
+				GAMEMODE.Vars.SGvsA = false
+				GAMEMODE.Vars.modetext = ""
+				GAMEMODE:Log( "The game is now in normal mode!" )
+				if SERVER then
+					net.Start( "fnafgmNotif" )
+						net.WriteString( "now_normal" )
+						net.WriteInt(4,3)
+						net.WriteFloat(5)
+						net.WriteBit(true)
+					net.Broadcast()
+					if !game.IsDedicated() then
+						for k, v in pairs(player.GetAll()) do
+							if v:IsListenServerHost() then
+								v:SendLua([[GAMEMODE.Vars.SGvsA = false GAMEMODE.Vars.modetext = ""]])
+							end
+						end
+					end
+				end
+			end
+		end)
+		
 	end
 	
 	
@@ -906,7 +968,7 @@ function GM:Initialize()
 end
 
 
-function GM:SaveProgress()
+function GM:SaveProgress(erase)
 	
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
 		
@@ -916,7 +978,9 @@ function GM:SaveProgress()
 		
 		local tab = {}
 		
-		if GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
+		if erase then
+			tab.Night = 0
+		elseif GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
 			tab.Night = GAMEMODE.Vars.night
@@ -928,11 +992,11 @@ function GM:SaveProgress()
 		
 	end
 	
-	if CLIENT and !GAMEMODE.Vars.SGvsA and fnafgm_cl_saveonservers:GetBool() then
+	if CLIENT and !GAMEMODE.Vars.SGvsA and ( fnafgm_cl_saveonservers:GetBool() or erase ) then
 		
 		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
 		
-		if ( filep ) then
+		if ( filep and !erase ) then
 		
 			local tab = util.JSONToTable( filep )
 			if ( tab ) then
@@ -951,7 +1015,9 @@ function GM:SaveProgress()
 		
 		local tab = {}
 		
-		if GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
+		if erase then
+			tab.Night = 0
+		elseif GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
 			tab.Night = GAMEMODE.Vars.night

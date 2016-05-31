@@ -57,47 +57,6 @@ util.AddNetworkString( "fnafgmCamLight" )
 util.AddNetworkString( "fnafgmStart" )
 
 
-concommand.Add("fnafgm_resetprogress", function( ply )
-	GAMEMODE:ResetProgress(ply)
-end)
-function GM:ResetProgress(ply)
-	
-	if !ply:IsListenServerHost() and !GAMEMODE.Vars.SGvsA then
-		
-		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Not the host)")
-		
-		net.Start( "fnafgmNotif" )
-			net.WriteString( "Nope, you can't do that! (Not the host)" )
-			net.WriteInt(1,3)
-			net.WriteFloat(5)
-			net.WriteBit(true)
-		net.Send(ply)
-		
-		return
-	end
-	
-	if !file.IsDir("fnafgm/progress", "DATA") then
-		file.CreateDir( "fnafgm/progress" )
-	end
-	
-	local tab = {}
-	
-	tab.Night = 0
-	
-	file.Write( "fnafgm/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
-	
-	GAMEMODE:Log("Progress erased!")
-	
-	net.Start( "fnafgmNotif" )
-		net.WriteString( "Progress erased!" )
-		net.WriteInt(4,3)
-		net.WriteFloat(5)
-		net.WriteBit(true)
-	net.Send(ply)
-	
-end
-
-
 function GM:PlayerNoClip( pl, on )
 	
 	if ( pl:InVehicle() ) then return false end
@@ -366,10 +325,19 @@ function GM:PlayerRequestTeam( ply, teamid )
 			net.WriteBit(true)
 		net.Send(ply)
 		return
+	elseif ( teamid!=1 and game.SinglePlayer() ) then 
+		ply:ChatPrint( "Not in singleplayer!" )
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "nosp" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		return
 	elseif ( !GAMEMODE.Vars.SGvsA and teamid==2 and !fnafgmPlayerCanByPass(ply,"debug") ) then 
 		ply:ChatPrint( "You're not in SGvsA mode!" )
 		net.Start( "fnafgmNotif" )
-			net.WriteString( "You're not in SGvsA mode!" )
+			net.WriteString( "notsgvsa" )
 			net.WriteInt(1,3)
 			net.WriteFloat(5)
 			net.WriteBit(true)
@@ -1067,7 +1035,7 @@ function GM:StartNight(ply)
 	
 	if #team.GetPlayers(1)==0 then 
 		net.Start( "fnafgmNotif" )
-			net.WriteString( "There is no security guards!" )
+			net.WriteString( "nosg" )
 			net.WriteInt(1,3)
 			net.WriteFloat(5)
 			net.WriteBit(true)
@@ -2806,7 +2774,7 @@ concommand.Add("fnafgm_debug_reset", function(ply)
 		fnafgmMapOverrides()
 		fnafgmVarsUpdate()
 		net.Start( "fnafgmNotif" )
-			net.WriteString( "The game has been reset" )
+			net.WriteString( "gamebeenreset" )
 			net.WriteInt(4,3)
 			net.WriteFloat(5)
 			net.WriteBit(true)
@@ -3662,3 +3630,28 @@ concommand.Add( "fnafgm_debug_light", function( ply,cmd,args )
 	
 end)
 
+
+concommand.Add( "fnafgm_togglesgvsa", function( ply,str )
+	
+	if ( IsValid(ply) and ( ply:IsListenServerHost() or ply:IsAdmin() ) ) then
+		
+		fnafgm_sgvsa:SetBool(!fnafgm_sgvsa:GetBool())
+	
+	elseif IsValid(ply) then
+		
+		ply:PrintMessage(HUD_PRINTCONSOLE, "Nope, you can't do that! (Not admin/host)")
+		
+		net.Start( "fnafgmNotif" )
+			net.WriteString( "Nope, you can't do that! (Not admin/host)" )
+			net.WriteInt(1,3)
+			net.WriteFloat(5)
+			net.WriteBit(true)
+		net.Send(ply)
+		
+	else
+		
+		fnafgm_sgvsa:SetBool(!fnafgm_sgvsa:GetBool())
+		
+	end
+	
+end)
