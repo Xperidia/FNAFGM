@@ -27,6 +27,8 @@ surface.CreateFont( "ScoreboardDefaultTitle", {
 -- and then from that point on it pretty much looks after itself. It updates player info
 -- in the think function, and removes itself when the player leaves the server.
 --
+local cplayerslist = {}
+
 local PLAYER_LINE = {
 	Init = function( self )
 
@@ -105,7 +107,31 @@ local PLAYER_LINE = {
 		if istable(self.Player) and IsValid( self.Player:GetPlayerEnt() ) then
 			self:SetZPos( 9999 ) -- Causes a rebuild
 			self:Remove()
+			cplayerslist[self.Player.userid] = nil
 			return
+		end
+		
+		if istable(self.Player) then
+			
+			local nope = true
+			
+			for id, pl in pairs( player.GetAny() ) do
+				
+				if pl.userid==self.Player.userid then
+					nope = false
+				end
+
+			end
+			
+			if nope then
+				
+				self:SetZPos( 9999 ) -- Causes a rebuild
+				self:Remove()
+				cplayerslist[self.Player.userid] = nil
+				return
+				
+			end
+			
 		end
 		
 		if ( self.PName == nil || self.PName != self.Player:Nick() ) then
@@ -336,16 +362,18 @@ local SCORE_BOARD = {
 		
 		if player.GetAny then
 			
-			local connectingplyrs = player.GetAny()
 			for id, pl in pairs( player.GetAny() ) do
-
+				
 				if ( IsValid( pl:GetPlayerEnt() ) ) then continue end
 				if ( IsValid( pl.ScoreEntry ) ) then continue end
-
+				if cplayerslist[pl.userid] then continue end
+				
 				pl.ScoreEntry = vgui.CreateFromTable( PLAYER_LINE, pl.ScoreEntry )
 				pl.ScoreEntry:Setup( pl )
 
 				self.Scores:AddItem( pl.ScoreEntry )
+				
+				cplayerslist[pl.userid] = true
 
 			end
 			
