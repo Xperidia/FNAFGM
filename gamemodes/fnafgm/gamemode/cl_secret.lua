@@ -103,10 +103,10 @@ function fnafgmSecret()
 		end
 		
 		fnafgmSecretPasswordlbl = vgui.Create( "DLabel" )
-		fnafgmSecretPasswordlbl:SetParent(fnafgmSecretPasswordback)
+		fnafgmSecretPasswordlbl:SetParent(fnafgmSecretD)
 		fnafgmSecretPasswordlbl:SetText( "" )
-		fnafgmSecretPasswordlbl:SetPos( 0, 0 )
-		fnafgmSecretPasswordlbl:SetSize(50,16)
+		fnafgmSecretPasswordlbl:SetPos( 2, 0 )
+		fnafgmSecretPasswordlbl:SetSize(100,16)
 		fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 255, 255, 255 ) )
 		fnafgmSecretPasswordlbl:SetContentAlignment(5)
 		
@@ -368,6 +368,18 @@ function fnafgmSecret()
 				Zed:SetAllowLua(true)
 				Zed:OpenURL( "www.Xperidia.com/DAT_FACE.html" )
 				Zed:SetScrollbars(false)
+			elseif password=="847466" then --VISION
+				surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
+				password=""
+				if GAMEMODE.Vars.Cheat.VISION==nil then GAMEMODE.Vars.Cheat.VISION = false end
+				GAMEMODE.Vars.Cheat.VISION = !GAMEMODE.Vars.Cheat.VISION
+				if GAMEMODE.Vars.Cheat.VISION then
+					fnafgmSecretPasswordlbl:SetText( "VISION I" )
+					fnafgmSecretPasswordlbl:SetTextColor( Color( 0, 170, 0, 255 ) )
+				else
+					fnafgmSecretPasswordlbl:SetText( "VISION O" )
+					fnafgmSecretPasswordlbl:SetTextColor( Color( 255, 0, 0, 255 ) )
+				end
 			--[[elseif password=="362346" then --FNAFGM
 				surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
 				password=""

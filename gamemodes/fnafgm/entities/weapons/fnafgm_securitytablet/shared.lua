@@ -101,10 +101,10 @@ function SWEP:Think()
 	end]]
 	
 	if CLIENT then
-		if IsValid(Monitor) and laststate!=1 then
+		if IsValid(GAMEMODE.Vars.Monitor) and laststate!=1 then
 			self:SetHoldType("camera")
 			laststate = 1
-		elseif !IsValid(Monitor) and laststate!=0 then
+		elseif !IsValid(GAMEMODE.Vars.Monitor) and laststate!=0 then
 			self:SetHoldType("normal")
 			laststate = 0
 		end

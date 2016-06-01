@@ -157,7 +157,7 @@ function GM:FNaFViewHUD()
 				OpenT:SetText( "" )
 				OpenT.DoClick = function( button )
 					waitt = CurTime()+1
-					fnafgmSecurityTablet()
+					GAMEMODE:Monitor()
 					fnafgmShutLights()
 					OpenT:Hide()
 				end
@@ -165,7 +165,7 @@ function GM:FNaFViewHUD()
 					if !waitt then waitt=0 end
 					if waitt<CurTime() then
 						waitt = CurTime()+0.5
-						fnafgmSecurityTablet()
+						GAMEMODE:Monitor()
 						fnafgmShutLights()
 						OpenT:Hide()
 					end
@@ -198,7 +198,7 @@ function GM:FNaFViewHUD()
 				OpenT:SetText( "" )
 				OpenT.DoClick = function( button )
 					waitt = CurTime()+1
-					fnafgmSecurityTablet()
+					GAMEMODE:Monitor()
 					OpenT:Hide()
 					SafeE:Hide()
 				end
@@ -206,7 +206,7 @@ function GM:FNaFViewHUD()
 					if !waitt then waitt=0 end
 					if waitt<CurTime() then
 						waitt = CurTime()+0.5
-						fnafgmSecurityTablet()
+						GAMEMODE:Monitor()
 						OpenT:Hide()
 						SafeE:Hide()
 					end
@@ -300,14 +300,14 @@ function GM:FNaFViewHUD()
 				OpenT:SetText( "" )
 				OpenT.DoClick = function( button )
 					waitt = CurTime()+1
-					fnafgmSecurityTablet()
+					GAMEMODE:Monitor()
 					OpenT:Hide()
 				end
 				OpenT.OnCursorEntered = function()
 					if !waitt then waitt=0 end
 					if waitt<CurTime() then
 						waitt = CurTime()+0.5
-						fnafgmSecurityTablet()
+						GAMEMODE:Monitor()
 						OpenT:Hide()
 					end
 				end

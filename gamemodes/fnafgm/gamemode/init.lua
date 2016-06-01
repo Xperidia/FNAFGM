@@ -14,6 +14,7 @@ AddCSLuaFile( "cl_voice.lua" )
 AddCSLuaFile( "cl_fnafview.lua" )
 AddCSLuaFile( "cl_menu.lua" )
 AddCSLuaFile( "cl_secret.lua" )
+AddCSLuaFile( "cl_monitor_shared.lua" )
 
 include( 'shared.lua' )
 

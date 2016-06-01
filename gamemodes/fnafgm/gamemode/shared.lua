@@ -328,8 +328,8 @@ GM.Spawns_animatronics = { "info_player_counterterrorist", "fnafgm_teamanimatron
 
 GM.SecurityRoom = {
 	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
-	fnaf2noevents = { Vector(-138,-340,0), Vector(138,128,190) },
-	fnaf3 = { Vector(-174,-342,65), Vector(174,-178,190) },
+	fnaf2noevents = { Vector(-158,-350,0), Vector(159, -81, 192) },
+	fnaf3 = { Vector(-174,-342,64), Vector(174,-178,190) },
 	fnaf4house = { Vector(-756,-190,0), Vector(-514,125,128) },
 	fnaf4noclips = { Vector(-756,-190,0), Vector(-514,125,128) }
 }
@@ -708,6 +708,7 @@ function GM:Initialize()
 	GAMEMODE.Vars.lastversion = 0
 	GAMEMODE.Vars.lastderivversion = 0
 	GAMEMODE.Vars.Animatronics = {}
+	GAMEMODE.Vars.Cheat = {}
 	
 	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ), "DATA" ) then
 		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) )
@@ -1274,66 +1275,29 @@ timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
 			
 		end
 		
-		if CLIENT and IsValid(AnimatronicsControllerGUI) then
+		if CLIENT and GAMEMODE.Vars.Monitor and GAMEMODE.Vars.Monitor.Animatronics then
 			
-			if IsValid(AnimatronicsControllerGUI.Freddy) and IsValid(AnimatronicsControllerGUI.FreddyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]>0 then
-				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]
-				AnimatronicsControllerGUI.FreddyTxt:SetText( val.."s" )
-				AnimatronicsControllerGUI.Freddy:SetImageColor( Color( 85, 85, 85, 255 ) )
-			elseif IsValid(AnimatronicsControllerGUI.Freddy) and IsValid(AnimatronicsControllerGUI.FreddyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Freddy][3]==0 then
-				AnimatronicsControllerGUI.FreddyTxt:SetText( "" )
-				AnimatronicsControllerGUI.Freddy:SetImageColor( Color( 255, 255, 255, 255 ) )
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.Bonnie) and IsValid(AnimatronicsControllerGUI.BonnieTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]>0 then
-				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]
-				AnimatronicsControllerGUI.BonnieTxt:SetText( val.."s" )
-				AnimatronicsControllerGUI.Bonnie:SetImageColor( Color( 85, 85, 85, 255 ) )
-			elseif IsValid(AnimatronicsControllerGUI.Bonnie) and IsValid(AnimatronicsControllerGUI.BonnieTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Bonnie][3]==0 then
-				AnimatronicsControllerGUI.BonnieTxt:SetText( "" )
-				AnimatronicsControllerGUI.Bonnie:SetImageColor( Color( 255, 255, 255, 255 ) )
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.Chica) and IsValid(AnimatronicsControllerGUI.ChicaTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]>0 then
-				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]
-				AnimatronicsControllerGUI.ChicaTxt:SetText( val.."s" )
-				AnimatronicsControllerGUI.Chica:SetImageColor( Color( 85, 85, 85, 255 ) )
-			elseif IsValid(AnimatronicsControllerGUI.Chica) and IsValid(AnimatronicsControllerGUI.ChicaTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Chica][3]==0 then
-				AnimatronicsControllerGUI.ChicaTxt:SetText( "" )
-				AnimatronicsControllerGUI.Chica:SetImageColor( Color( 255, 255, 255, 255 ) )
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.Foxy) and IsValid(AnimatronicsControllerGUI.FoxyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]>0 then
-				local val = GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]
-				AnimatronicsControllerGUI.FoxyTxt:SetText( val.."s" )
-				AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 85, 85, 85, 255 ) )
-			elseif IsValid(AnimatronicsControllerGUI.Foxy) and IsValid(AnimatronicsControllerGUI.FoxyTxt) and GAMEMODE.Vars.Animatronics[GAMEMODE.Animatronic.Foxy][3]==0 then
-				AnimatronicsControllerGUI.FoxyTxt:SetText( "" )
-				AnimatronicsControllerGUI.Foxy:SetImageColor( Color( 255, 255, 255, 255 ) )
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.FreddyBtn) and GAMEMODE.Vars.Animatronics[0][4]>CurTime() then
-				AnimatronicsControllerGUI.FreddyBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[0][4]-CurTime(),0).."s")
-			elseif IsValid(AnimatronicsControllerGUI.FreddyBtn) then
-				AnimatronicsControllerGUI.FreddyBtn:SetText("TAUNT")
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.BonnieBtn) and GAMEMODE.Vars.Animatronics[1][4]>CurTime() then
-				AnimatronicsControllerGUI.BonnieBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[1][4]-CurTime(),0).."s")
-			elseif IsValid(AnimatronicsControllerGUI.BonnieBtn) then
-				AnimatronicsControllerGUI.BonnieBtn:SetText("TAUNT")
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.ChicaBtn) and GAMEMODE.Vars.Animatronics[2][4]>CurTime() then
-				AnimatronicsControllerGUI.ChicaBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[2][4]-CurTime(),0).."s")
-			elseif IsValid(AnimatronicsControllerGUI.ChicaBtn) then
-				AnimatronicsControllerGUI.ChicaBtn:SetText("TAUNT")
-			end
-			
-			if IsValid(AnimatronicsControllerGUI.FoxyBtn) and GAMEMODE.Vars.Animatronics[3][4]>CurTime() then
-				AnimatronicsControllerGUI.FoxyBtn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[3][4]-CurTime(),0).."s")
-			elseif IsValid(AnimatronicsControllerGUI.FoxyBtn) then
-				AnimatronicsControllerGUI.FoxyBtn:SetText("TAUNT")
+			for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
+				
+				if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3]>0 then
+					local val = GAMEMODE.Vars.Animatronics[k][3]
+					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText( val.."s" )
+					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 85, 85, 85, 255 ) )
+				elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3]==0 then
+					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText( "" )
+					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 255, 255, 255, 255 ) )
+				end
+				
+				if GAMEMODE.Sound_Animatronic[k] then
+					
+					if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) and GAMEMODE.Vars.Animatronics[k][4]>CurTime() then
+						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[k][4]-CurTime(),0).."s")
+					elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) then
+						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText("TAUNT")
+					end
+					
+				end
+				
 			end
 			
 			hook.Call("fnafgmCustomAnimatronicsCD")

@@ -196,6 +196,7 @@ include( 'cl_voice.lua' )
 include( 'cl_fnafview.lua' )
 include( 'cl_menu.lua' )
 include( 'cl_secret.lua' )
+include( 'cl_monitor_shared.lua' )
 
 
 function fnafgmWarn()
@@ -231,7 +232,7 @@ function GM:HUDDrawTargetID()
 	local text = "ERROR"
 	local font = "FNAFGMID"
 	
-	if !GAMEMODE.Vars.fnafviewactive and (trace.Entity:IsPlayer() and ( LocalPlayer():Team()==trace.Entity:Team() or LocalPlayer():Team()==2 or LocalPlayer():Team()==TEAM_SPECTATOR )) then
+	if !GAMEMODE.Vars.fnafviewactive and !IsValid(GAMEMODE.Vars.Monitor) and (trace.Entity:IsPlayer() and ( LocalPlayer():Team()==trace.Entity:Team() or LocalPlayer():Team()==2 or LocalPlayer():Team()==TEAM_SPECTATOR )) then
 		text = trace.Entity:Nick()
 	elseif debugmode then
 		text = trace.Entity:GetClass()
@@ -719,12 +720,12 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		local monitorspace = 0
 		
 		if GAMEMODE.Vars.updateavailable then
-			if IsValid(Monitor) then monitorspace = 30 end
+			if IsValid(GAMEMODE.Vars.Monitor) then monitorspace = 30 end
 			draw.DrawText("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
 		if derivupdateavailable then
-			if IsValid(Monitor) then monitorspace = 30 end
+			if IsValid(GAMEMODE.Vars.Monitor) then monitorspace = 30 end
 			draw.DrawText(tostring(GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 			updatearem = updatearem+30
 		end
@@ -805,7 +806,7 @@ end
 
 function GM:RenderScreenspaceEffects()
 	local client = LocalPlayer()
-	if client:Team()==1 and IsValid(Monitor) and game.GetMap()=="freddysnoevent" and GAMEMODE.Vars.lastcam==11 then
+	if client:Team()==1 and IsValid(GAMEMODE.Vars.Monitor) and game.GetMap()=="freddysnoevent" and GAMEMODE.Vars.lastcam==11 then
 		local colormod = {
 			[ "$pp_colour_addr" ] = 0,
 			[ "$pp_colour_addg" ] = 0,
@@ -832,17 +833,17 @@ function GM:RenderScreenspaceEffects()
 		}
         DrawColorModify(colormod)
     end
-	if IsValid(FNaFView) and !IsValid(Monitor) then
+	if IsValid(FNaFView) and !IsValid(GAMEMODE.Vars.Monitor) then
 		DrawToyTown( 1, ScrH()/4 )
 	end
 	if GAMEMODE.Vars.Jumpscare then
 		DrawMaterialOverlay( GAMEMODE.Vars.Jumpscare, 0 )
 	end
-	if IsValid(AnimatronicsControllerGUI) then
-		DrawMaterialOverlay( GAMEMODE.Materials_animatronicsvision, 0 )
-	end
-	if IsValid(Monitor) then
+	if client:Team()==1 and IsValid(GAMEMODE.Vars.Monitor) then
 		DrawMaterialOverlay( GAMEMODE.Materials_camstatic, 0 )
+	end
+	if client:Team()==2 and IsValid(GAMEMODE.Vars.Monitor) then
+		DrawMaterialOverlay( GAMEMODE.Materials_animatronicsvision, 0 )
 	end
 	if client:Team()==TEAM_UNASSIGNED and GAMEMODE.Vars.IntroScreen then
 		DrawMaterialOverlay( GAMEMODE.Vars.IntroScreen, 0 )
