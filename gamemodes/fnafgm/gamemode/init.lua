@@ -258,6 +258,12 @@ function GM:PlayerInitialSpawn( ply )
 		
 	end
 	
+	if !game.IsDedicated() then
+		if ply:IsListenServerHost() then
+			ply:SetNWBool( "IsListenServerHost", true )
+		end
+	end
+	
 end
 
 

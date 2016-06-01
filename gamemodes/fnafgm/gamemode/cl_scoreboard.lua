@@ -56,14 +56,12 @@ local PLAYER_LINE = {
 		self.Ping:SetTextColor( Color( 255, 255, 255 ) )
 		self.Ping:SetContentAlignment( 5 )
 
-		if SGvsA then
-			self.Kills = self:Add( "DLabel" )
-			self.Kills:Dock( RIGHT )
-			self.Kills:SetWidth( 50 )
-			self.Kills:SetFont( "FNAFGMID" )
-			self.Kills:SetTextColor( Color( 255, 255, 255 ) )
-			self.Kills:SetContentAlignment( 5 )
-		end
+		self.Kills = self:Add( "DLabel" )
+		self.Kills:Dock( RIGHT )
+		self.Kills:SetWidth( 50 )
+		self.Kills:SetFont( "FNAFGMID" )
+		self.Kills:SetTextColor( Color( 255, 255, 255 ) )
+		self.Kills:SetContentAlignment( 5 )
 
 		self:Dock( TOP )
 		self:DockPadding( 3, 3, 3, 3 )
@@ -76,8 +74,19 @@ local PLAYER_LINE = {
 
 		self.Player = pl
 
-		self.Avatar:SetPlayer( pl )
-
+		if !self.Player.Nick then
+			self.Player.Nick = function() return self.Player.name end
+			self.Player.Team = function() return TEAM_CONNECTING end
+			self.Player.EntIndex = function() return self.Player.userid end
+			self.Player.Ping = function() return "" end
+			self.Player.Frags = function() return "" end
+			local steamid = util.SteamIDTo64(self.Player.networkid)
+			self.Avatar:SetSteamID(steamid)
+			self.Player.ShowProfile = function() gui.OpenURL( "http://steamcommunity.com/profiles/"..steamid.."/" ) end
+		else
+			self.Avatar:SetPlayer( pl )
+		end
+		
 		self:Think( self )
 
 		--local friend = self.Player:GetFriendStatus()
@@ -87,7 +96,13 @@ local PLAYER_LINE = {
 
 	Think = function( self )
 
-		if ( !IsValid( self.Player ) ) then
+		if ( !IsValid( self.Player ) and !istable(self.Player) ) then
+			self:SetZPos( 9999 ) -- Causes a rebuild
+			self:Remove()
+			return
+		end
+		
+		if istable(self.Player) and IsValid( self.Player:GetPlayerEnt() ) then
 			self:SetZPos( 9999 ) -- Causes a rebuild
 			self:Remove()
 			return
@@ -100,17 +115,23 @@ local PLAYER_LINE = {
 		
 		self.Name:SetTextColor( team.GetColor( self.Player:Team() ) )
 		
-		if (SGvsA and ( self.NumKills == nil || self.NumKills != self.Player:Frags() ) ) then
+		if ( ( self.NumKills == nil || self.NumKills != self.Player:Frags() ) ) then
 			self.NumKills = self.Player:Frags()
 			self.Kills:SetText( self.NumKills )
 		end
 
-		if ( self.NumPing == nil || self.NumPing != self.Player:Ping() ) then
-			if !self.Player:IsBot() then
-				self.NumPing = self.Player:Ping()
+		if ( self.NumPing == nil || ( self.NumPing != self.Player:Ping() and self.NumPing != "BOT" and self.NumPing != "HOST" and self.NumPing != "..." ) ) then
+			if !IsValid(self.Player) then
+				self.NumPing = "..."
+				self.Ping:SetText( self.NumPing )
+			elseif self.Player:IsBot() then
+				self.NumPing = "BOT"
+				self.Ping:SetText( self.NumPing )
+			elseif self.Player:GetNWBool( "IsListenServerHost", false ) then
+				self.NumPing = "HOST"
 				self.Ping:SetText( self.NumPing )
 			else
-				self.NumPing = "BOT"
+				self.NumPing = self.Player:Ping()
 				self.Ping:SetText( self.NumPing )
 			end
 		end
@@ -118,7 +139,7 @@ local PLAYER_LINE = {
 		--
 		-- Change the icon of the mute button based on state
 		--
-		if ( self.Muted == nil || self.Muted != self.Player:IsMuted() ) then
+		if IsValid( self.Player ) and ( self.Muted == nil || self.Muted != self.Player:IsMuted() ) then
 
 			self.Muted = self.Player:IsMuted()
 			if ( self.Muted ) then
@@ -134,7 +155,12 @@ local PLAYER_LINE = {
 		--
 		-- Connecting players go at the very bottom
 		--
-		if ( self.Player:Team() == TEAM_CONNECTING or self.Player:Team() == TEAM_UNASSIGNED ) then
+		if ( self.Player:Team() == TEAM_CONNECTING ) then
+			self:SetZPos( 4000 + self.Player:EntIndex() )
+			return
+		end
+		
+		if ( self.Player:Team() == TEAM_UNASSIGNED ) then
 			self:SetZPos( 2000 + self.Player:EntIndex() )
 			return
 		end
@@ -155,7 +181,11 @@ local PLAYER_LINE = {
 
 	Paint = function( self, w, h )
 
-		if ( !IsValid( self.Player ) ) then
+		if ( !IsValid( self.Player ) and !istable(self.Player) ) then
+			return
+		end
+		
+		if istable(self.Player) and IsValid( self.Player:GetPlayerEnt() ) then
 			return
 		end
 
@@ -271,7 +301,14 @@ local SCORE_BOARD = {
 	Think = function( self, w, h )
 
 		self.Name:SetText( GetHostName() )
-		self.NumPlayers:SetText( #player.GetAll().."/"..game.MaxPlayers() )
+		local numplayers = #player.GetAll()
+		if player.GetAny then
+			local numplayersany = #player.GetAny()
+			if numplayers<numplayersany then
+				numplayers = numplayersany
+			end
+		end
+		self.NumPlayers:SetText( numplayers.."/"..game.MaxPlayers() )
 		self.Map:SetText(game.GetMap())
 		if GAMEMODE.MapList[game.GetMap()] then
 			self.Map:SetText(GAMEMODE.MapList[game.GetMap()])
@@ -295,6 +332,23 @@ local SCORE_BOARD = {
 
 			self.Scores:AddItem( pl.ScoreEntry )
 
+		end
+		
+		if player.GetAny then
+			
+			local connectingplyrs = player.GetAny()
+			for id, pl in pairs( player.GetAny() ) do
+
+				if ( IsValid( pl:GetPlayerEnt() ) ) then continue end
+				if ( IsValid( pl.ScoreEntry ) ) then continue end
+
+				pl.ScoreEntry = vgui.CreateFromTable( PLAYER_LINE, pl.ScoreEntry )
+				pl.ScoreEntry:Setup( pl )
+
+				self.Scores:AddItem( pl.ScoreEntry )
+
+			end
+			
 		end
 
 	end

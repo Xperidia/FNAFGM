@@ -8,7 +8,7 @@ GM.ShortName = "FNAFGM"
 GM.Author 	= "Xperidia"
 GM.Email 	= "contact@Xperidia.com"
 GM.Website 	= "go.Xperidia.com/FNAFGM"
-GM.OfficialVersion 	= 2.04
+GM.OfficialVersion 	= 2.05
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -1126,6 +1126,7 @@ function GM:CreateTeams()
 	team.SetUp(TEAM_SPECTATOR, tostring(GAMEMODE.TranslatedStrings.spectator or GAMEMODE.Strings.en.spectator), Color(128, 128, 128))
 	
 	team.SetUp(TEAM_UNASSIGNED, "Unassigned", Color(128, 128, 128), false)
+	team.SetUp(TEAM_CONNECTING, "Connecting", Color(128, 128, 128), false)
 	
 end
 
