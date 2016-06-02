@@ -76,7 +76,7 @@ function GM:Monitor(control)
 				surface.SetDrawColor( 255, 0, 0, 255 )
 				draw.NoTexture()
 				if GAMEMODE.FT==1 and math.fmod( math.Round( CurTime() ), 2 ) == 0 then
-					draw.Circle( 160, 160, 45, 64 )
+					draw.Circle( (160 * ( ScrH() / 480 ))/2, (160 * ( ScrH() / 480 ))/2, (45 * ( ScrH() / 480 ))/2, 64 )
 				end
 			end
 		end
@@ -130,19 +130,23 @@ function GM:Monitor(control)
 			
 		end
 		
+		local mapsize = math.Clamp( (512 * ( ScrH() / 480 ))/2, 128, 512 )
+		local mapdecal = (64 * ( ScrH() / 480 ))/2
+		
 		if control then
 			
 			GAMEMODE.Vars.Monitor.Animatronics = {}
 			
 			local positron = 0
+			local animsize = math.Clamp( (128 * ( ScrH() / 480 ))/2, 16, 128 )
 			
 			for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
 				
 				GAMEMODE.Vars.Monitor.Animatronics[k] = vgui.Create( "DImage" )
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetParent(GAMEMODE.Vars.Monitor)
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetImage( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/animatronicsico/"..k..".png" )
-				GAMEMODE.Vars.Monitor.Animatronics[k]:SetPos( 42+positron, 64 )
-				GAMEMODE.Vars.Monitor.Animatronics[k]:SetSize( 128, 128 )
+				GAMEMODE.Vars.Monitor.Animatronics[k]:SetPos( (42 * ( ScrH() / 480 ))/2+positron, mapdecal )
+				GAMEMODE.Vars.Monitor.Animatronics[k]:SetSize( animsize, animsize )
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 85, 85, 85, 255 ) )
 				GAMEMODE.Vars.Monitor.Animatronics[k].Paint = function( self, w, h )
 					self:PaintAt( 0, 0, self:GetWide(), self:GetTall() )
@@ -156,7 +160,7 @@ function GM:Monitor(control)
 				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetTextColor( Color( 255, 255, 255, 255 ) )
 				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetFont("FNAFGMTIME")
 				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetPos( 0, 0 )
-				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetSize( 128, 128 )
+				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetSize( animsize, animsize )
 				GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetContentAlignment( 2 )
 				
 				if GAMEMODE.Sound_Animatronic[k] then
@@ -164,7 +168,7 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn = vgui.Create( "DButton" )
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetParent(GAMEMODE.Vars.Monitor.Animatronics[k])
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetPos( 0, 0 )
-					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetSize( 128, 32 )
+					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetSize( animsize, (32 * ( ScrH() / 480 ))/2 )
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText("TAUNT")
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetFont("FNAFGMNIGHT")
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetTextColor( Color( 255, 255, 255, 255 ) )
@@ -179,7 +183,7 @@ function GM:Monitor(control)
 					
 				end
 				
-				positron = positron + 128
+				positron = positron + animsize
 				
 			end
 			
@@ -187,8 +191,8 @@ function GM:Monitor(control)
 		
 		GAMEMODE.Vars.Monitor.Map = vgui.Create( "DImage" )
 		GAMEMODE.Vars.Monitor.Map:SetParent(GAMEMODE.Vars.Monitor)
-		GAMEMODE.Vars.Monitor.Map:SetPos( ScrW()-64-512, ScrH()-64-512 )
-		GAMEMODE.Vars.Monitor.Map:SetSize( 512, 512 )
+		GAMEMODE.Vars.Monitor.Map:SetPos( ScrW()-mapdecal-mapsize, ScrH()-mapdecal-mapsize )
+		GAMEMODE.Vars.Monitor.Map:SetSize( mapsize, mapsize )
 		
 		if game.GetMap()=="freddysnoevent" and !control then
 			GAMEMODE.Vars.Monitor.Map:SetImage( GAMEMODE.Materials_mapfreddys )
@@ -200,15 +204,15 @@ function GM:Monitor(control)
 		
 		GAMEMODE.Vars.Monitor.Map2 = vgui.Create( "DImage" )
 		GAMEMODE.Vars.Monitor.Map2:SetParent(GAMEMODE.Vars.Monitor)
-		GAMEMODE.Vars.Monitor.Map2:SetPos( 64, ScrH()-64-512 )
-		GAMEMODE.Vars.Monitor.Map2:SetSize( 512, 512 )
+		GAMEMODE.Vars.Monitor.Map2:SetPos( mapdecal, ScrH()-mapdecal-mapsize )
+		GAMEMODE.Vars.Monitor.Map2:SetSize( mapsize, mapsize )
 		
 		GAMEMODE.Vars.Monitor.CamsNames = vgui.Create( "DLabel" )
 		GAMEMODE.Vars.Monitor.CamsNames:SetParent(GAMEMODE.Vars.Monitor)
 		GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.CamsNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "" )
 		GAMEMODE.Vars.Monitor.CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		GAMEMODE.Vars.Monitor.CamsNames:SetFont("FNAFGMTIME")
-		GAMEMODE.Vars.Monitor.CamsNames:SetPos( ScrW()-64-512, ScrH()-64-512-64 )
+		GAMEMODE.Vars.Monitor.CamsNames:SetPos( ScrW()-64-mapsize, ScrH()-mapdecal-mapsize-mapdecal )
 		GAMEMODE.Vars.Monitor.CamsNames:SetSize( 512, 64 )
 		
 		GAMEMODE.Vars.Monitor.Buttons = {}
@@ -216,12 +220,12 @@ function GM:Monitor(control)
 		function GAMEMODE.Vars.Monitor:CreateButton(camid,map,x,y,w,h,b)
 			
 			local addi = 0
-			if control or GAMEMODE.Vars.Cheat.VISION then addi = 16 end
+			if control or GAMEMODE.Vars.Cheat.VISION then addi = math.Clamp( (16 * ( ScrH() / 480 ))/2, 0, 16 ) end
 			
 			GAMEMODE.Vars.Monitor.Buttons[camid] = vgui.Create( "DButton" )
 			GAMEMODE.Vars.Monitor.Buttons[camid]:SetParent(map or GAMEMODE.Vars.Monitor.Map)
-			GAMEMODE.Vars.Monitor.Buttons[camid]:SetSize( w, h+addi )
-			GAMEMODE.Vars.Monitor.Buttons[camid]:SetPos( x, y )
+			GAMEMODE.Vars.Monitor.Buttons[camid]:SetSize( math.Clamp( (w * ( ScrH() / 480 ))/2, 0, w ), math.Clamp( (h * ( ScrH() / 480 ))/2, 0, h )+addi )
+			GAMEMODE.Vars.Monitor.Buttons[camid]:SetPos( math.Clamp( (x * ( ScrH() / 480 ))/2, 0, x ), math.Clamp( (y * ( ScrH() / 480 ))/2, 0, y ) )
 			GAMEMODE.Vars.Monitor.Buttons[camid]:SetText("")
 			GAMEMODE.Vars.Monitor.Buttons[camid].OnMousePressed = function( button, key )
 				if key==MOUSE_LEFT then
@@ -244,7 +248,8 @@ function GM:Monitor(control)
 			end
 			GAMEMODE.Vars.Monitor.Buttons[camid].Paint = function( self, w, h )
 				if GAMEMODE.Vars.lastcam==camid and ( GAMEMODE.FT!=1 or math.fmod( math.Round( CurTime()*2 ), 2 ) == 0 ) then
-					draw.RoundedBox( 0, b, b, w-b*2, h-b*2-addi, Color( 136, 168, 0, 128 ) )
+					local bt = math.Clamp( (b * ( ScrH() / 480 ))/2, 0, b )
+					draw.RoundedBox( 0, bt, bt, w-bt*2, h-bt*2-addi, Color( 136, 168, 0, 128 ) )
 				end
 				if control or GAMEMODE.Vars.Cheat.VISION then
 					local positron = 0
@@ -258,8 +263,8 @@ function GM:Monitor(control)
 							end
 							surface.SetMaterial(png)
 							surface.SetDrawColor(255, 255, 255, 255)
-							surface.DrawTexturedRect(positron, h-16, 16, 16)
-							positron = positron + 16
+							surface.DrawTexturedRect(positron, h-addi, addi, addi)
+							positron = positron + addi
 						end
 					end
 				end
@@ -275,10 +280,14 @@ function GM:Monitor(control)
 				
 				if !control then
 					
+					local closebtnsizew = (512 * ( ScrH() / 480 ))/2
+					local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+					local closebtnsizec = (128 * ( ScrH() / 480 ))/2
+					
 					CloseT = vgui.Create( "DButton" )
 					CloseT:SetParent(GAMEMODE.Vars.Monitor)
-					CloseT:SetSize( ScrW()/2-128, 80 )
-					CloseT:SetPos( 512-128, ScrH()-80-50 )
+					CloseT:SetSize( ScrW()/2-closebtnsizec, closebtnsizeh )
+					CloseT:SetPos( closebtnsizew-closebtnsizec, ScrH()-closebtnsizeh-50 )
 					CloseT:SetText("")
 					CloseT.DoClick = function( button )
 						if IsValid(FNaFView) then waitt = CurTime()+1 end
@@ -366,7 +375,7 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor.MapS:SetParent(GAMEMODE.Vars.Monitor.Map)
 					GAMEMODE.Vars.Monitor.MapS:SetImage( "fnafgm/maps/freddys2_s" )
 					GAMEMODE.Vars.Monitor.MapS:SetPos( 0, 0 )
-					GAMEMODE.Vars.Monitor.MapS:SetSize( 512, 512 )
+					GAMEMODE.Vars.Monitor.MapS:SetSize( mapsize, mapsize )
 					GAMEMODE.Vars.Monitor.MapS:SetImageColor( GAMEMODE.Colors_animatronics )
 					
 					GAMEMODE.Vars.Monitor.MapS_Anim = Derma_Anim( "maps_anim", GAMEMODE.Vars.Monitor.MapS, function( pnl, anim, delta, data )
@@ -468,10 +477,13 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor.CamsNames:SetText( "CAM"..val:GetValue() )
 				end
 				
+				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				
 				CloseT = vgui.Create( "DButton" )
 				CloseT:SetParent(GAMEMODE.Vars.Monitor)
-				CloseT:SetSize( 512, 80 )
-				CloseT:SetPos( ScrW()/2-256, ScrH()-80-50 )
+				CloseT:SetSize( closebtnsizew, closebtnsizeh )
+				CloseT:SetPos( ScrW()/2-closebtnsizew/2, ScrH()-closebtnsizeh-50 )
 				CloseT:SetText( "" )
 				CloseT:SetTextColor( Color( 255, 255, 255, 255 ) )
 				CloseT:SetFont("FNAFGMID")
@@ -527,10 +539,13 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor.CamsNames:SetText( "CAM"..val:GetValue() )
 				end
 				
+				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				
 				CloseT = vgui.Create( "DButton" )
 				CloseT:SetParent(GAMEMODE.Vars.Monitor)
-				CloseT:SetSize( 512, 80 )
-				CloseT:SetPos( ScrW()/2-256, ScrH()-80-50 )
+				CloseT:SetSize( closebtnsizew, closebtnsizeh )
+				CloseT:SetPos( ScrW()/2-closebtnsizew/2, ScrH()-closebtnsizeh-50 )
 				CloseT:SetText( "" )
 				CloseT:SetTextColor( Color( 255, 255, 255, 255 ) )
 				CloseT:SetFont("FNAFGMID")
