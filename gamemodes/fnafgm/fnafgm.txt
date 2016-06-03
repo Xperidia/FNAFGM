@@ -120,38 +120,6 @@
 			"type"		"CheckBox"
 			"default"	"1"
 		}
-		16
-		{
-			"name"		"fnafgm_playermodel"
-			"text"		"Override the player model"
-			"help"		"Override the player model."
-			"type"		"Text"
-			"default"	"none"
-		}
-		17
-		{
-			"name"		"fnafgm_playerskin"
-			"text"		"Override the skin to use"
-			"help"		"Override the skin to use, if the model has any."
-			"type"		"Text"
-			"default"	"0"
-		}
-		18
-		{
-			"name"		"fnafgm_playerbodygroups"
-			"text"		"Override the bodygroups to use"
-			"help"		"Override the bodygroups to use, if the model has any."
-			"type"		"Text"
-			"default"	"0"
-		}
-		19
-		{
-			"name"		"fnafgm_playercolor"
-			"text"		"Overrive the player color"
-			"help"		"The value is a Vector - so between 0-1 - not between 0-255."
-			"type"		"Text"
-			"default"	"0.24 0.34 0.41"
-		}
 		20
 		{
 			"name"		"fnafgm_respawndelay"

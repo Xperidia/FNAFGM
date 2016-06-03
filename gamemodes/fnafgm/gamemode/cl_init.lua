@@ -209,6 +209,14 @@ function fnafgmWarn()
 		
 	end
 	
+	if !GAMEMODE.Mounted and fnafgm_cl_warn:GetBool() then
+		
+		LocalPlayer():PrintMessage(HUD_PRINTTALK, tostring(GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font))
+		notification.AddLegacy(tostring(GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font), NOTIFY_ERROR, 10)
+		surface.PlaySound( "buttons/button10.wav" )
+		
+	end
+	
 end
 
 

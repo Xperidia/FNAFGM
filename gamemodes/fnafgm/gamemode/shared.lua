@@ -138,7 +138,8 @@ GM.Strings = {
 		nosp = "Not in singleplayer!",
 		nosg = "There is no security guards!",
 		gamebeenreset = "The game has been reset!",
-		notsgvsa = "You're not in SGvsA mode!"
+		notsgvsa = "You're not in SGvsA mode!",
+		warn_font = "The gamemode is not installed on your game! The fonts will be missing!"
 	},
 	fr = {
 		tonight = "Vers la nuit",
@@ -179,7 +180,8 @@ GM.Strings = {
 		nosp = "Pas en solo !",
 		nosg = "Il n'y a pas de gardes de sécurité !",
 		gamebeenreset = "Le jeu a été réinitialisé !",
-		notsgvsa = "Le jeu n'est pas en mode SGvsA !"
+		notsgvsa = "Le jeu n'est pas en mode SGvsA !",
+		warn_font = "Le gamemode n'est pas installé sur votre jeu! Les polices seront manquantes!"
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		sg = "Güvenlik Görevlileri",
@@ -710,6 +712,14 @@ function GM:Initialize()
 	GAMEMODE.Vars.Animatronics = {}
 	GAMEMODE.Vars.Cheat = {}
 	
+	for _, gamemodes in pairs(engine.GetGamemodes()) do
+		
+		if gamemodes.name == ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) then
+			GAMEMODE.Mounted = true
+		end
+		
+	end
+	
 	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ), "DATA" ) then
 		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) )
 	elseif !file.IsDir( "fnafgm", "DATA" ) then
@@ -1145,11 +1155,13 @@ function GM:CheckDerivCreator(pl) --To credit you when you are detected
 end
 
 
+local XperidiaCheck = {"flashlight", "run", "jump", "spray", "fastrespawn", "act", "playermodel"}
+
 function GM:CustomCheck(pl,what) --Custom groups funcs
 	
 	if GAMEMODE.ListGroup["group_"..pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_"..pl:GetUserGroup()], what) then
 		return true
-	elseif pl.XperidiaRank and pl.XperidiaRank>0 and GAMEMODE.ListGroup["group_premium"] and table.HasValue(GAMEMODE.ListGroup["group_premium"], what) then
+	elseif pl.XperidiaRank and pl.XperidiaRank>0 and table.HasValue(XperidiaCheck, what) then
 		return true
 	end
 	

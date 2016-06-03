@@ -2445,16 +2445,12 @@ function fnafgmPlayerCanByPass(ply,what)
 	
 	if !IsValid(ply) then return end
 	
-	if fnafgm_enablebypass:GetBool() or game.IsDedicated() then
-		if ply:IsAdmin() then
-			return true
-		elseif ( GAMEMODE:CheckCreator(ply) or GAMEMODE:CheckDerivCreator(ply) ) and fnafgm_enablecreatorsbypass:GetBool() then
-			return true
-		elseif GAMEMODE:CustomCheck(ply,what) then
-			return true
-		else
-			return false
-		end
+	if ( fnafgm_enablebypass:GetBool() or game.IsDedicated() ) and ply:IsAdmin() then
+		return true
+	elseif ( GAMEMODE:CheckCreator(ply) or GAMEMODE:CheckDerivCreator(ply) ) and fnafgm_enablecreatorsbypass:GetBool() then
+		return true
+	elseif GAMEMODE:CustomCheck(ply,what) then
+		return true
 	else
 		return false
 	end

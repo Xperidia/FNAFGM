@@ -1,1 +1,0 @@
-flashlight|run|jump|spray|fastrespawn|act

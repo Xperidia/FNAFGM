@@ -59,7 +59,7 @@ function PLAYER:SetModel()
 		
 		local models = player_manager.AllValidModels()
 		
-		if self.Player:GetInfo( "cl_playermodel" )=="none" or !models[self.Player:GetInfo( "cl_playermodel" )] or ( ( self.Player:GetInfo( "cl_playermodel" )=="Splinks_Bonnie" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Chica" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Foxy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Freddy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Golden_Freddy" ) and (!GAMEMODE:CustomCheck(self.Player,"playermodel") ) ) then
+		if ( game.IsDedicated() or GAMEMODE.Vars.DS ) and !GAMEMODE:CustomCheck(self.Player,"playermodel") then
 			
 			local playermodels = GAMEMODE.Models_defaultplayermodels
 			
@@ -68,6 +68,17 @@ function PLAYER:SetModel()
 			end
 			
 			self.Player:SetModel( player_manager.TranslatePlayerModel(table.Random(playermodels)) )
+			
+		elseif self.Player:GetInfo( "cl_playermodel" )=="none" or !models[self.Player:GetInfo( "cl_playermodel" )] or ( ( self.Player:GetInfo( "cl_playermodel" )=="Splinks_Bonnie" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Chica" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Foxy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Freddy" or self.Player:GetInfo( "cl_playermodel" )=="Splinks_Golden_Freddy" ) and (!GAMEMODE:CustomCheck(self.Player,"playermodel") ) ) then
+			
+			local playermodels = GAMEMODE.Models_defaultplayermodels
+			
+			if models["Guard_01"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=169011381 if available
+				playermodels = {"Guard_01", "Guard_02", "Guard_03", "Guard_04", "Guard_05", "Guard_06", "Guard_07", "Guard_08", "Guard_09"}
+			end
+			
+			self.Player:SetModel( player_manager.TranslatePlayerModel(table.Random(playermodels)) )
+			
 		end
 		
 		local skin = self.Player:GetInfoNum( "cl_playerskin", 0 )
