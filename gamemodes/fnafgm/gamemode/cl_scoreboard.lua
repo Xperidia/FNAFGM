@@ -41,6 +41,11 @@ local PLAYER_LINE = {
 		self.Avatar:SetSize( 32, 32 )
 		self.Avatar:SetMouseInputEnabled( false )
 		
+		self.FriendStatusI = vgui.Create( "DImage", self )
+		self.FriendStatusI:SetSize( 16, 16 )
+		self.FriendStatusI:SetPos( 28, 22 )
+		self.FriendStatusI:SetMouseInputEnabled( false )
+		
 		self.Name = self:Add( "DLabel" )
 		self.Name:Dock( FILL )
 		self.Name:SetFont( "ScoreboardDefault" )
@@ -90,9 +95,6 @@ local PLAYER_LINE = {
 		end
 		
 		self:Think( self )
-
-		--local friend = self.Player:GetFriendStatus()
-		--MsgN( pl, " Friend: ", friend )
 
 	end,
 
@@ -175,6 +177,24 @@ local PLAYER_LINE = {
 			end
 
 			self.Mute.DoClick = function() self.Player:SetMuted( !self.Muted ) end
+
+		end
+		
+		if IsValid( self.Player ) and ( self.FriendStatus == nil || self.FriendStatus != self.Player:GetFriendStatus() ) then
+			
+			self.FriendStatus = self.Player:GetFriendStatus()
+			if ( self.FriendStatus == "friend" ) then
+				self.FriendStatusI:SetImageColor( Color(255,255,255,255) )
+				self.FriendStatusI:SetImage( "icon16/status_offline.png" )
+			elseif ( self.FriendStatus == "blocked" ) then
+				self.FriendStatusI:SetImageColor( Color(255,255,255,255) )
+				self.FriendStatusI:SetImage( "icon16/cancel.png" )
+			elseif ( self.FriendStatus == "requested" ) then
+				self.FriendStatusI:SetImageColor( Color(255,255,255,255) )
+				self.FriendStatusI:SetImage( "icon16/add.png" )
+			else
+				self.FriendStatusI:SetImageColor( Color(255,255,255,0) )
+			end
 
 		end
 
