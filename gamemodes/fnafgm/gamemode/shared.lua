@@ -139,7 +139,8 @@ GM.Strings = {
 		nosg = "There is no security guards!",
 		gamebeenreset = "The game has been reset!",
 		notsgvsa = "You're not in SGvsA mode!",
-		warn_font = "The gamemode is not installed on your game! The fonts will be missing!"
+		warn_font = "The gamemode is not installed on your game! The fonts will be missing!",
+		selectplayermodelbtn = "Select a playermodel"
 	},
 	fr = {
 		tonight = "Vers la nuit",
@@ -181,7 +182,8 @@ GM.Strings = {
 		nosg = "Il n'y a pas de gardes de sécurité !",
 		gamebeenreset = "Le jeu a été réinitialisé !",
 		notsgvsa = "Le jeu n'est pas en mode SGvsA !",
-		warn_font = "Le gamemode n'est pas installé sur votre jeu! Les polices seront manquantes!"
+		warn_font = "Le gamemode n'est pas installé sur votre jeu! Les polices seront manquantes!",
+		selectplayermodelbtn = "Changer son playermodel"
 	},
 	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
 		sg = "Güvenlik Görevlileri",

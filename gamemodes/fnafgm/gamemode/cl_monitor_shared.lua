@@ -100,6 +100,13 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor:Close()
 				end
 				
+				if system.HasFocus()==false then
+					if IsValid(FNaFView) then waitt = CurTime()+1 end
+					GAMEMODE.Vars.Monitor:Close()
+					LocalPlayer():EmitSound("fnafgm_camdown")
+					if IsValid(OpenT) then OpenT:Show() end
+				end
+				
 				if input.IsKeyDown(KEY_LCONTROL) and lastlstate[1]!=true then 
 					
 					fnafgmCamLight( GAMEMODE.Vars.lastcam, true )

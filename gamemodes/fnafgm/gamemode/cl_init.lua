@@ -481,44 +481,51 @@ function GM:HUDPaint()
 			
 			elseif GAMEMODE.FT!=2 and ( client:Team()!=1 or ( !GAMEMODE.Vars.poweroff and client:Alive() ) or ( !game.SinglePlayer() and !client:Alive() and !GAMEMODE.Vars.poweroff ) ) then
 				
+				local time = GAMEMODE.Vars.time
+				local AMPM = GAMEMODE.Vars.AMPM
+				local night = GAMEMODE.Vars.night
+				local nighttxt = GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night
+				local power = GAMEMODE.Vars.power
+				local powerusage = GAMEMODE.Vars.powerusage
+				
 				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) then
-					GAMEMODE.Vars.powerusage=math.Rand( 1, 7 )
+					powerusage=math.random( 1, 6 )
 				end
 				
 				if (GAMEMODE.Vars.Halloween or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==3)) then
-					GAMEMODE.Vars.power=math.random( 1, 100 )
-					GAMEMODE.Vars.powerusage=math.Rand( 1, 100 )
-					GAMEMODE.Vars.time=math.random( 1, 12 )
-					GAMEMODE.Vars.night=666
+					power=math.random( 1, 100 )
+					powerusage=math.random( 1, 6 )
+					time=math.random( 1, 12 )
+					night=666
 					if math.random( 0, 10000 )<5000 then
-						GAMEMODE.Vars.AMPM="PM"
-						GAMEMODE.TranslatedStrings.night="Day"
+						AMPM="PM"
+						nighttxt="Day"
 					elseif math.random( 0, 10000 )>5000 then
-						GAMEMODE.Vars.AMPM="AM"
-						GAMEMODE.TranslatedStrings.night="Night"
+						AMPM="AM"
+						nighttxt="Night"
 					else
-						GAMEMODE.Vars.time=666
-						GAMEMODE.Vars.AMPM=""
-						GAMEMODE.TranslatedStrings.night=""
-						GAMEMODE.Vars.night="IT'S ME"
-						GAMEMODE.Vars.power=666
-						GAMEMODE.Vars.powerusage=666
+						time=666
+						AMPM=""
+						nighttxt=""
+						night="IT'S ME"
+						power=666
+						powerusage=666
 					end
 				end
 				
-				draw.DrawText(GAMEMODE.Vars.time.." "..GAMEMODE.Vars.AMPM, "FNAFGMTIME", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
-				draw.DrawText(tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." "..GAMEMODE.Vars.night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(time.." "..AMPM, "FNAFGMTIME", ScrW()-52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText(nighttxt.." "..night, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				
-				if GAMEMODE.Vars.power!=0 then draw.DrawText(tostring(GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft)..GAMEMODE.Vars.power.."%", "FNAFGMNIGHT", 64, ScrH()-H-64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
+				if power!=0 then draw.DrawText(tostring(GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft)..power.."%", "FNAFGMNIGHT", 64, ScrH()-H-64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
 				
-				if GAMEMODE.Vars.powerusage==0 or GAMEMODE.Vars.power==0 then
+				if powerusage==0 or power==0 then
 					
-				elseif GAMEMODE.Vars.powerusage>0 and GAMEMODE.Vars.powerusage<7 then
+				elseif powerusage>0 and powerusage<7 then
 					
 					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage), "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 					local usagetexture = {
-						texture = surface.GetTextureID( GAMEMODE.Materials_usage..GAMEMODE.Vars.powerusage ),
+						texture = surface.GetTextureID( GAMEMODE.Materials_usage..powerusage ),
 						color	= Color( 255, 255, 255, 255 ),
 						x 	= 180,
 						y 	= ScrH()-H-30,
@@ -528,13 +535,13 @@ function GM:HUDPaint()
 				
 					draw.TexturedQuad( usagetexture )
 					
-				elseif GAMEMODE.Vars.powerusage<0 then
+				elseif powerusage<0 then
 				
 					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." ?", "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 				else
 				
-					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." "..GAMEMODE.Vars.powerusage, "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+					draw.DrawText(tostring(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage).." "..powerusage, "FNAFGMNIGHT", 64, ScrH()-H-24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 					
 				end
 			
@@ -1252,3 +1259,11 @@ net.Receive( "fnafgmAnimatronicTauntSnd", function( len )
 	if GAMEMODE.Vars.Animatronics[a][1] then LocalPlayer():EmitSound("fnafgm_"..a.."_"..math.random(1,#GAMEMODE.Sound_Animatronic[a])) end
 	
 end)
+
+function GM:ContextMenuOpen()
+	return true
+end
+
+function GM:OnContextMenuOpen()
+	RunConsoleCommand( "playermodel_selector" )
+end

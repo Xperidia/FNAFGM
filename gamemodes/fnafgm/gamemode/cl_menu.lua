@@ -243,24 +243,17 @@ function fnafgmMenu()
 		cssinfo:SetDark( 1 )
 		cssinfo:SizeToContents()
 		
-		local mapinfo = vgui.Create( "DLabel" )
-		mapinfo:SetParent(fnafgmMenuF.info)
-		mapinfo:SetText( "Map: "..game.GetMap() )
-		mapinfo:SetPos( 15, 50 )
-		mapinfo:SetDark( 1 )
-		mapinfo:SizeToContents()
-		
 		local langinfo = vgui.Create( "DLabel" )
 		langinfo:SetParent(fnafgmMenuF.info)
 		langinfo:SetText( tostring(GAMEMODE.TranslatedStrings.lang or GAMEMODE.Strings.en.lang)..": "..GetConVarString("gmod_language") )
-		langinfo:SetPos( 15, 70 )
+		langinfo:SetPos( 15, 50 )
 		langinfo:SetDark( 1 )
 		langinfo:SizeToContents()
 		
 		local progressinfo = vgui.Create( "DLabel" )
 		progressinfo:SetParent(fnafgmMenuF.info)
 		progressinfo:SetText( tostring(GAMEMODE.TranslatedStrings.progressinfo or GAMEMODE.Strings.en.progressinfo)..": "..(nightp or "?") )
-		progressinfo:SetPos( 15, 90 )
+		progressinfo:SetPos( 15, 70 )
 		progressinfo:SetDark( 1 )
 		progressinfo:SizeToContents()
 		
@@ -295,6 +288,8 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
+		local add = 0
+		
 		if !game.SinglePlayer() then
 			
 			local togglesgvsa = vgui.Create( "DButton" )
@@ -305,6 +300,23 @@ function fnafgmMenu()
 			togglesgvsa:SetEnabled(LocalPlayer():IsAdmin())
 			togglesgvsa.DoClick = function()
 				RunConsoleCommand( "fnafgm_togglesgvsa" )
+				fnafgmMenuF:Close()
+			end
+			
+			add = 25
+			
+		end
+		
+		if ConVarExists( "sv_playermodel_selector_gamemodes" ) then
+			
+			local playermodelselection = vgui.Create( "DButton" )
+			playermodelselection:SetParent(fnafgmMenuF.info)
+			playermodelselection:SetText(tostring(GAMEMODE.TranslatedStrings.selectplayermodelbtn or GAMEMODE.Strings.en.selectplayermodelbtn))
+			playermodelselection:SetPos( 10, 110-add )
+			playermodelselection:SetSize( 285, 20 )
+			playermodelselection:SetEnabled( GetConVar( "sv_playermodel_selector_gamemodes" ):GetBool() or LocalPlayer():IsAdmin() or LocalPlayer():IsUserGroup( "premium" ) )
+			playermodelselection.DoClick = function()
+				RunConsoleCommand( "playermodel_selector" )
 				fnafgmMenuF:Close()
 			end
 			
