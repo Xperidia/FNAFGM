@@ -30,7 +30,7 @@
 			"text"		"Auto respawn"
 			"help"		"Auto respawn after the death screen."
 			"type"		"CheckBox"
-			"default"	"0"
+			"default"	"1"
 		}
 		4
 		{
