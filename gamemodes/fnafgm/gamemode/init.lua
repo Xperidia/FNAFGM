@@ -2479,7 +2479,7 @@ function fnafgmCheckForNewVersion(ply,util)
 	
 	if !GAMEMODE.CustomVersion then
 		
-		http.Fetch( "http://xperidia.com/fnafgmversion.txt",
+		http.Fetch( "https://xperidia.com/fnafgmversion.txt",
 		function( body, len, headers, code )
 			
 			GAMEMODE.Vars.lastversion = tonumber(string.Right(body, len-3)) or 0

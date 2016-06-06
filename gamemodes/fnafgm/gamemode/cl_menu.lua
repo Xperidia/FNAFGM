@@ -99,7 +99,7 @@ function fnafgmMenu()
 		xpsteam:SetPos( 160, 30 )
 		xpsteam:SetSize( 125, 20 )
 		xpsteam.DoClick = function()
-			gui.OpenURL( "http://go.xperidia.com/XP-SteamGroup" )
+			gui.OpenURL( "https://go.xperidia.com/XP-SteamGroup" )
 			fnafgmMenuF:Close()
 		end
 		
