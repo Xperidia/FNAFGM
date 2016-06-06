@@ -3293,21 +3293,11 @@ end )
 
 function GM:PlayerCanHearPlayersVoice( pListener, pTalker )
 	
-	if pListener:Team()==TEAM_UNASSIGNED then
+	if pListener:Team()==TEAM_UNASSIGNED or pTalker:Team()==TEAM_UNASSIGNED then
 		return false, false
-	elseif pListener:Team()==TEAM_SPECTATOR then
-		return true, false
-	elseif pListener:Team()==2 and pTalker:Team()==2 then
-		return true, false
-	elseif pListener:Team() == pTalker:Team() and pTalker:Alive() then
-		return true, false
-	elseif pListener:Team() == pTalker:Team() and !pListener:Alive() and !pTalker:Alive() then
-		return true, false
-	elseif pListener:Team()==2 and pTalker:Team()!=TEAM_SPECTATOR then
-		return true, false
 	end
 
-	return false, false
+	return true, false
 
 end
 

@@ -1,5 +1,5 @@
 AddCSLuaFile()
-DEFINE_BASECLASS( "player_default" )
+DEFINE_BASECLASS( "player_fnafgmsecurityguard" )
 
 local PLAYER = {}
 
@@ -44,4 +44,4 @@ end
 
 
 
-player_manager.RegisterClass( "player_fnafgm_animatronic_controller", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_fnafgm_animatronic_controller", PLAYER, "player_fnafgmsecurityguard" )
