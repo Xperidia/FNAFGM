@@ -411,9 +411,9 @@ function GM:HUDPaint()
 			if time>=0 then
 				if time<=0 then time=0 end
 				draw.DrawText( (GAMEMODE.TranslatedStrings.nightwillstart or GAMEMODE.Strings.en.nightwillstart).." "..time.."s", "FNAFGMTIME", ScrW()/2, ScrH()*0.2, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
-				draw.DrawText((GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()/2, ScrH()*0.25, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
+				draw.DrawText((GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..(GAMEMODE.Vars.night or 0)+1, "FNAFGMNIGHT", ScrW()/2, ScrH()*0.25, GAMEMODE.Colors_default, TEXT_ALIGN_CENTER)
 			else
-				draw.DrawText((GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..GAMEMODE.Vars.night+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
+				draw.DrawText((GAMEMODE.TranslatedStrings.tonight or GAMEMODE.Strings.en.tonight).." "..(GAMEMODE.Vars.night or 0)+1, "FNAFGMNIGHT", ScrW()-64, H+64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 			end
 			
 			if client:Team()==2 then
@@ -711,14 +711,6 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
 	
-	if game.GetMap()=="freddys" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf_freddypizzaevents" then
-		draw.DrawText("Sorry but this map is not supported anymore.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	elseif game.GetMap()=="fnaf4versus" then
-		draw.DrawText("Sorry but this map is not supported for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	elseif game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
-		draw.DrawText("Sorry but this map doesn't have events for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
-	end
-	
 	if !fnafgm_cl_hideversion:GetBool() then
 	
 		if GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2 then
@@ -748,6 +740,14 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 		draw.DrawText((GAMEMODE.ShortName or "?").." V"..(GAMEMODE.Version or "?")..(GAMEMODE.Vars.modetext or "")..(GAMEMODE.Vars.seasonaltext or ""), "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 		
 		
+	end
+	
+	if game.GetMap()=="freddys" or game.GetMap()=="fnaf2" or game.GetMap()=="fnaf_freddypizzaevents" then
+		draw.DrawText("Sorry but this map is not supported anymore.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif game.GetMap()=="fnaf4versus" then
+		draw.DrawText("Sorry but this map is not supported for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
+	elseif game.GetMap()=="fnaf2noevents" or game.GetMap()=="fnaf3" or game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" then
+		draw.DrawText("Sorry but this map doesn't have events for now.", "DermaLarge", ScrW() * 0.5, ScrH()-64, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER)
 	end
 	
 	if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent")~=nil and GetConVar("fnafgm_forceseasonalevent"):GetInt()==2)) and (game.GetMap()=="freddys" or game.GetMap()=="freddysnoevent") then
@@ -854,8 +854,15 @@ function GM:RenderScreenspaceEffects()
 	if GAMEMODE.Vars.Jumpscare then
 		DrawMaterialOverlay( GAMEMODE.Vars.Jumpscare, 0 )
 	end
+	if client:Team()==1 and IsValid(GAMEMODE.Vars.Monitor) and (GAMEMODE.Vars.VideoLoss or 0)==GAMEMODE.Vars.lastcam then
+		DrawMaterialOverlay( GAMEMODE.Materials_static, 0 )
+	end
 	if client:Team()==1 and IsValid(GAMEMODE.Vars.Monitor) then
 		DrawMaterialOverlay( GAMEMODE.Materials_camstatic, 0 )
+	end
+	if client:Team()==1 and IsValid(GAMEMODE.Vars.Monitor) and client:GetViewEntity().GetCamID and ( client:GetViewEntity():GetCamID()!=GAMEMODE.Vars.lastcam or (GAMEMODE.Vars.stempo or 0)>CurTime() ) then
+		DrawMaterialOverlay( GAMEMODE.Materials_switch, 0 )
+		if client:GetViewEntity():GetCamID()!=GAMEMODE.Vars.lastcam then GAMEMODE.Vars.stempo = CurTime()+0.1 end
 	end
 	if client:Team()==2 and IsValid(GAMEMODE.Vars.Monitor) then
 		DrawMaterialOverlay( GAMEMODE.Materials_animatronicsvision, 0 )
@@ -899,6 +906,37 @@ function GM:JumpscareOverlay(jumpscare,dur)
 			end)
 			
 		end
+		
+	end
+	
+end
+
+
+function GM:VideoLoss()
+	
+	GAMEMODE.Vars.VideoLoss = GAMEMODE.Vars.lastcam
+	
+	LocalPlayer():EmitSound("fnafgm_garble"..math.random(1, 3))
+	
+	if timer.Exists( "fnafgmVideoLoss" ) then
+		
+		timer.Adjust( "fnafgmVideoLoss", 5, 1, function()
+			
+			GAMEMODE.Vars.VideoLoss = nil
+			
+			timer.Remove( "fnafgmVideoLoss" )
+			
+		end)
+		
+	else
+		
+		timer.Create( "fnafgmVideoLoss", 5, 1, function()
+			
+			GAMEMODE.Vars.VideoLoss = nil
+			
+			timer.Remove( "fnafgmVideoLoss" )
+			
+		end)
 		
 	end
 	

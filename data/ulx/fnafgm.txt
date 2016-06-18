@@ -1,7 +1,0 @@
-;IF YOU WANT TO MAKE CHANGES TO THIS FILE, FIRST COPY IT TO GARRYSMOD/DATA/ULX.
-;The number by each cvar indicates the maximum value for the slider in XGUI.
-|Death screen, respawn delay and force a seasonal event
-fnafgm_deathscreendelay 2
-fnafgm_deathscreenduration 30
-fnafgm_respawndelay 60
-fnafgm_forceseasonalevent 4

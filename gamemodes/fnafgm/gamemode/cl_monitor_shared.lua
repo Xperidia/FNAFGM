@@ -268,7 +268,7 @@ function GM:Monitor(control)
 							elseif file.Exists( "materials/fnafgm/icon16/"..k..".png", "GAME" ) then
 								png = Material( "fnafgm/icon16/"..k..".png", "noclamp smooth" )
 							end
-							surface.SetMaterial(png)
+							if png!=nil then surface.SetMaterial(png) end
 							surface.SetDrawColor(255, 255, 255, 255)
 							surface.DrawTexturedRect(positron, h-addi, addi, addi)
 							positron = positron + addi
@@ -288,7 +288,7 @@ function GM:Monitor(control)
 				if !control then
 					
 					local closebtnsizew = (512 * ( ScrH() / 480 ))/2
-					local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+					local closebtnsizeh = (60 * ( ScrH() / 480 ))/2
 					local closebtnsizec = (128 * ( ScrH() / 480 ))/2
 					
 					CloseT = vgui.Create( "DButton" )
@@ -485,7 +485,7 @@ function GM:Monitor(control)
 				end
 				
 				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
-				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (60 * ( ScrH() / 480 ))/2
 				
 				CloseT = vgui.Create( "DButton" )
 				CloseT:SetParent(GAMEMODE.Vars.Monitor)
@@ -547,7 +547,7 @@ function GM:Monitor(control)
 				end
 				
 				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
-				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (60 * ( ScrH() / 480 ))/2
 				
 				CloseT = vgui.Create( "DButton" )
 				CloseT:SetParent(GAMEMODE.Vars.Monitor)

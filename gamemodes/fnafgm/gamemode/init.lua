@@ -2050,9 +2050,9 @@ function fnafgmVarsUpdate()
 		net.WriteBit( GAMEMODE.Vars.startday )
 		net.WriteBit( GAMEMODE.Vars.gameend )
 		net.WriteBit( GAMEMODE.Vars.iniok )
-		net.WriteInt( GAMEMODE.Vars.time, 5 )
-		net.WriteString( GAMEMODE.Vars.AMPM )
-		net.WriteInt( GAMEMODE.Vars.night, 32 )
+		net.WriteInt( GAMEMODE.Vars.time or 0, 5 )
+		net.WriteString( GAMEMODE.Vars.AMPM or "AM" )
+		net.WriteInt( GAMEMODE.Vars.night or 0, 32 )
 		net.WriteBit( GAMEMODE.Vars.nightpassed )
 		net.WriteBit( GAMEMODE.Vars.tempostart )
 		net.WriteBit( GAMEMODE.Vars.mute )
@@ -3502,6 +3502,12 @@ function GM:SetAnimatronicPos(ply,a,apos)
 			ent:ResetSequenceInfo()
 			ent:SetPlaybackRate(0)
 			
+		end
+		
+		for k, v in pairs(player.GetAll()) do
+			if v:Team()==1 and GAMEMODE.Vars.tabused[v] and (v.lastcam==apos or v.lastcam==GAMEMODE.Vars.Animatronics[a][2]) then
+				v:SendLua('GAMEMODE:VideoLoss()')
+			end
 		end
 		
 		GAMEMODE.Vars.Animatronics[a] = { ent, apos, cd, GAMEMODE.Vars.Animatronics[a][4] }

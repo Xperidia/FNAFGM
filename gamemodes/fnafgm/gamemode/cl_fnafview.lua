@@ -153,7 +153,7 @@ function GM:FNaFViewHUD()
 			if game.GetMap()=="freddysnoevent" then
 				
 				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
-				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (60 * ( ScrH() / 480 ))/2
 				local closebtnsizec = (128 * ( ScrH() / 480 ))/2
 				
 				OpenT = vgui.Create( "DButton" )
@@ -300,7 +300,7 @@ function GM:FNaFViewHUD()
 			else
 				
 				local closebtnsizew = (512 * ( ScrH() / 480 ))/2
-				local closebtnsizeh = (80 * ( ScrH() / 480 ))/2
+				local closebtnsizeh = (60 * ( ScrH() / 480 ))/2
 				
 				OpenT = vgui.Create( "DButton" )
 				OpenT:SetParent(FNaFView)

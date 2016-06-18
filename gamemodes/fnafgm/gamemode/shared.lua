@@ -75,6 +75,9 @@ GM.Sound_Animatronic[1] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), So
 GM.Sound_Animatronic[2] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
 GM.Sound_Animatronic[3] = { Sound("fnafgm/piratesong2.ogg") }
 GM.Sound_Animatronic[4] = { Sound("fnafgm/goldenfreddy.ogg") }
+GM.Sound_garble1 = Sound("fnafgm/garble1.ogg")
+GM.Sound_garble2 = Sound("fnafgm/garble2.ogg")
+GM.Sound_garble3 = Sound("fnafgm/garble3.ogg")
 
 GM.Sound_Calls = {
 	freddysnoevent = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
@@ -360,6 +363,7 @@ GM.Materials_battery = "fnafgm/battery/battery_"
 GM.Materials_animatronic = "fnafgm/weapons/freddy"
 GM.Materials_foxy = "fnafgm/weapons/foxy"
 GM.Materials_fnaf2deathcam = "fnafgm/overlays/fnaf2deathcam"
+GM.Materials_switch = "fnafgm/overlays/switch"
 
 GM.Models_dead = { Model("models/splinks/fnaf/bonnie/bonnie.mdl"), Model("models/splinks/fnaf/chica/chica.mdl"), Model("models/splinks/fnaf/freddy/freddy.mdl") }
 GM.Models_defaultplayermodels = {"barney", "male10", "male11", "male12", "male13", "male14", "male15", "male16", "male17", "male18"}
@@ -688,16 +692,16 @@ function GM:Initialize()
 	GAMEMODE.Vars.startday = false
 	GAMEMODE.Vars.gameend = false
 	GAMEMODE.Vars.iniok = false
-	GAMEMODE.Vars.time = GAMEMODE.TimeBase
-	GAMEMODE.Vars.AMPM = GAMEMODE.AMPM
-	GAMEMODE.Vars.night = GAMEMODE.NightBase
+	GAMEMODE.Vars.time = GAMEMODE.TimeBase or 12
+	GAMEMODE.Vars.AMPM = GAMEMODE.AMPM or "AM"
+	GAMEMODE.Vars.night = GAMEMODE.NightBase or 0
 	GAMEMODE.Vars.nightpassed = false
 	GAMEMODE.Vars.tempostart = false
 	GAMEMODE.Vars.mute = true
 	GAMEMODE.Vars.overfive = false
 	GAMEMODE.Vars.power = 0
-	GAMEMODE.Vars.powerusage = GAMEMODE.Power_Usage_Base
-	GAMEMODE.Vars.powertot = GAMEMODE.Power_Max
+	GAMEMODE.Vars.powerusage = GAMEMODE.Power_Usage_Base or 1
+	GAMEMODE.Vars.powertot = GAMEMODE.Power_Max or 100
 	GAMEMODE.Vars.poweroff = false
 	GAMEMODE.Vars.SGvsA = false
 	GAMEMODE.Vars.AprilFool = false
@@ -945,6 +949,27 @@ function GM:Initialize()
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_windowscare
+	} )
+	sound.Add( {
+		name = "fnafgm_garble1",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_garble1
+	} )
+	sound.Add( {
+		name = "fnafgm_garble2",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_garble2
+	} )
+	sound.Add( {
+		name = "fnafgm_garble3",
+		channel = CHAN_AUTO,
+		volume = 1.0,
+		level = 0,
+		sound = GAMEMODE.Sound_garble3
 	} )
 	
 	if SERVER then
