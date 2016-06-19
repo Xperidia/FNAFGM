@@ -2484,46 +2484,46 @@ function fnafgmCheckForNewVersion(ply,util)
 			
 			GAMEMODE.Vars.lastversion = tonumber(string.Right(body, len-3)) or 0
 			
-			if GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion == GAMEMODE.Vars.lastversion and code==200 then
+			if GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion == GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")")
 				elseif util==true then
-					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion,true)
+					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")",true)
 				end
 				GAMEMODE.Vars.updateavailable = false
 				
-			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion > GAMEMODE.Vars.lastversion and code==200 then
+			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion > GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")")
 				elseif util==true then
-					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion,true)
+					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")",true)
 				end
 				GAMEMODE.Vars.updateavailable = false
 				
-			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion < GAMEMODE.Vars.lastversion and code==200 then
+			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion < GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "[FNAFGM] An update is available! V"..GAMEMODE.Vars.lastversion) end
-				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastversion,true)
+				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastversion.." (HTTP "..code..")",true)
 				GAMEMODE.Vars.updateavailable = true
 				
-			elseif GAMEMODE.Vars.lastversion==0 and code==200 then
+			elseif GAMEMODE.Vars.lastversion==0 and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
-				ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad content or version 0)\n" )
+				ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad content or version 0) (HTTP "..code..")\n" )
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad content or version 0)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad content or version 0) (HTTP "..code..")")
 				else
-					GAMEMODE:Log("Failed to check the version (Bad content or version 0)",true)
+					GAMEMODE:Log("Failed to check the version (Bad content or version 0) (HTTP "..code..")",true)
 				end
 				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Error "..tostring(code or "?")..")")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Error "..(code or "?")..")")
 				else
-					GAMEMODE:Log("Failed to check the version (Error "..tostring(code or "?")..")",true)
+					GAMEMODE:Log("Failed to check the version (HTTP "..(code or "?")..")",true)
 				end
 				
 			end
@@ -2554,46 +2554,46 @@ function fnafgmCheckForNewVersion(ply,util)
 			
 			GAMEMODE.Vars.lastderivversion = tonumber(string.Right(body, len-3)) or 0
 			
-			if GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version == GAMEMODE.Vars.lastderivversion and code==200 then
+			if GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version == GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version.." (HTTP "..code..")")
 				elseif util==true then
-					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version)
+					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version.." (HTTP "..code..")")
 				end
 				GAMEMODE.Vars.derivupdateavailable = false
 				
-			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version > GAMEMODE.Vars.lastderivversion and code==200 then
+			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version > GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version)
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version.." (HTTP "..code..")")
 				elseif util==true then
-					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version)
+					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version.." (HTTP "..code..")")
 				end
 				GAMEMODE.Vars.derivupdateavailable = false
 				
-			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version < GAMEMODE.Vars.lastderivversion and code==200 then
+			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version < GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
 				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "["..GAMEMODE.ShortName.."] An update is available! V"..GAMEMODE.Vars.lastderivversion) end
-				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastderivversion)
+				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastderivversion.." (HTTP "..code..")")
 				GAMEMODE.Vars.derivupdateavailable = true
 				
-			elseif GAMEMODE.Vars.lastderivversion==0 and code==200 then
+			elseif GAMEMODE.Vars.lastderivversion==0 and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
 				
-				ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0)\n" )
+				ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0) (HTTP "..code..")\n" )
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0)")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0) (HTTP "..code..")")
 				else
-					GAMEMODE:Log("Failed to check the version (Bad content or version 0)")
+					GAMEMODE:Log("Failed to check the version (Bad content or version 0) (HTTP "..code..")")
 				end
 				
 			else
 				
 				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Error "..tostring(code or "?")..")")
+					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Error "..(code or "?")..")")
 				else
-					GAMEMODE:Log("Failed to check the version (Error "..tostring(code or "?")..")")
+					GAMEMODE:Log("Failed to check the version (HTTP "..(code or "?")..")")
 				end
 				
 			end

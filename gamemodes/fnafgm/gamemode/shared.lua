@@ -1401,7 +1401,7 @@ function GM:RetrieveXperidiaAccountRank(ply)
 				end
 				
 			else
-				GAMEMODE:Log("Error while retriving Xperidia Rank for "..ply:GetName().." (ERROR "..statusCode..")")
+				GAMEMODE:Log("Error while retriving Xperidia Rank for "..ply:GetName().." (HTTP "..(statusCode or "?")..")")
 			end
 			
 		end, 
