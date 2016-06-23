@@ -69,86 +69,91 @@ function GM:PlayerNoClip( pl, on )
 end
 
 
-function GM:PlayerSpawn( pl )
+function GM:PlayerSpawn( ply )
 	
-	if pl:GetViewEntity()!=pl then
-		pl:SetViewEntity(pl)
+	if ply:GetViewEntity()!=ply then
+		ply:SetViewEntity(ply)
 	end
 	
-	if pl:Team()==TEAM_UNASSIGNED or pl:Team()==TEAM_SPECTATOR then
-		pl:SetPos( pl:GetPos() + Vector( 0, 0, 32 ) )
+	if ply:Team()==TEAM_UNASSIGNED or ply:Team()==TEAM_SPECTATOR then
+		ply:SetPos( ply:GetPos() + Vector( 0, 0, 32 ) )
 	end
 	
 	fnafgmVarsUpdate()
 	
-	if pl:Team()==1 or pl:Team()==2 then
+	if ply:Team()==1 or ply:Team()==2 then
 		
-		player_manager.SetPlayerClass( pl, table.Random(team.GetClass(pl:Team())) )
+		player_manager.SetPlayerClass( ply, team.GetClass(ply:Team())[1] )
 		
 	end
 	
-	BaseClass.PlayerSpawn( self, pl )
+	BaseClass.PlayerSpawn( self, ply )
 	
 	
-	if fnafgmPlayerCanByPass(pl,"run") then 
-		pl:SetRunSpeed(400)
+	if fnafgmPlayerCanByPass(ply,"run") then 
+		ply:SetRunSpeed(400)
 	end
 	
-	if fnafgmPlayerCanByPass(pl,"jump") then 
-		pl:SetJumpPower(200)
+	if fnafgmPlayerCanByPass(ply,"jump") then 
+		ply:SetJumpPower(200)
 	end
 	
-	if pl:Team()!=TEAM_UNASSIGNED then
-		pl:ConCommand( "pp_mat_overlay ''" )
+	if ply:Team()!=TEAM_UNASSIGNED then
+		ply:ConCommand( "pp_mat_overlay ''" )
 	end
 	
-	if pl:Team()!=TEAM_UNASSIGNED then
+	if ply:Team()!=TEAM_UNASSIGNED then
 		if !GAMEMODE.MapList[game.GetMap()] then
-			GAMEMODE:MapSelect(pl)
+			GAMEMODE:MapSelect(ply)
 		else
-			pl:SendLua([[fnafgmWarn()]])
+			ply:SendLua([[fnafgmWarn()]])
 		end
 	end
 	
 	if GAMEMODE.Vars.b87 then
-		pl:SendLua([[LocalPlayer():EmitSound("fnafgm_scream2")]])
+		ply:SendLua([[LocalPlayer():EmitSound("fnafgm_scream2")]])
 		GAMEMODE.Vars.norespawn = true
-		local userid = pl:UserID()
+		local userid = ply:UserID()
 		timer.Create( "fnafgm87"..userid, 20, 1, function()
-			if IsValid(pl) and (!pl:IsListenServerHost() and !fnafgmPlayerCanByPass(ply,"debug")) then
-				pl:Kick( "'87" )
+			if IsValid(ply) and (!ply:IsListenServerHost() and !fnafgmPlayerCanByPass(ply,"debug")) then
+				ply:Kick( "'87" )
 			end
 			timer.Remove("fnafgm87"..userid)
 		end)
 	end
 	
-	if ( pl:Team()==1 or pl:Team()==2 ) then
-		pl:SetRenderMode(RENDERMODE_NORMAL)
-		pl:SetMoveType(MOVETYPE_WALK)
-	elseif ( pl:Team()==TEAM_SPECTATOR ) then
-		pl:SetMoveType(MOVETYPE_NOCLIP)
+	if ( ply:Team()==1 or ply:Team()==2 ) then
+		ply:SetRenderMode(RENDERMODE_NORMAL)
+		ply:SetMoveType(MOVETYPE_WALK)
+	elseif ( ply:Team()==TEAM_SPECTATOR ) then
+		ply:SetMoveType(MOVETYPE_NOCLIP)
 	end
 	
-	if ( game.SinglePlayer() and !GAMEMODE.Vars.nightpassed and !GAMEMODE.Vars.gameend and GAMEMODE.Vars.iniok and GAMEMODE.Vars.startday ) then
-		timer.Create( "fnafgmTempoRestart", 0.001, 1, function()
-			fnafgmRestartNight()
-			timer.Remove( "fnafgmTempoRestart" )
-		end)
-	end
-	
-	if !game.SinglePlayer() and fnafgm_timethink_autostart:GetBool() and pl:Team()==1 and !timer.Exists( "fnafgmStart" ) and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and GAMEMODE.MapList[game.GetMap()] then
+	if fnafgm_timethink_autostart:GetBool() and ply:Team()==1 and !timer.Exists( "fnafgmStart" ) and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and GAMEMODE.MapList[game.GetMap()] then
 		
-		local delay = fnafgm_timethink_autostartdelay:GetFloat()
-		
-		net.Start( "fnafgmStart" )
-			net.WriteFloat( CurTime()+delay )
-		net.Broadcast()
-		
-		timer.Create( "fnafgmStart", delay, 1, function()
+		if !game.SinglePlayer() then
 			
-			GAMEMODE:StartNight(ply)
+			local delay = fnafgm_timethink_autostartdelay:GetFloat()
 			
-		end)
+			net.Start( "fnafgmStart" )
+				net.WriteFloat( CurTime()+delay )
+			net.Broadcast()
+			
+			timer.Create( "fnafgmStart", delay, 1, function()
+				
+				GAMEMODE:StartNight(ply)
+				
+			end)
+			
+		else
+			
+			timer.Create( "fnafgmStart", 0.02, 1, function()
+				
+				GAMEMODE:StartNight(ply)
+				
+			end)
+			
+		end
 		
 	elseif timer.Exists( "fnafgmStart" ) then
 		
@@ -158,28 +163,28 @@ function GM:PlayerSpawn( pl )
 		
 	end
 	
-	local userid = pl:UserID()
+	local userid = ply:UserID()
 	
-	if !game.SinglePlayer() and GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and !GAMEMODE.Vars.nightpassed and !GAMEMODE.Vars.gameend and pl:Team()==1 then 
+	if GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and !GAMEMODE.Vars.nightpassed and !GAMEMODE.Vars.gameend and ply:Team()==1 then 
 		if GAMEMODE.FNaFView[game.GetMap()] then
-			if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
-			if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
+			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 			timer.Create( "fnafgmTempoFNaFView"..userid, 0.1, 1, function()
-				if IsValid(pl) then
-					GAMEMODE:GoFNaFView(pl,true)
-					if GAMEMODE.FNaFView[game.GetMap()][1] then pl:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
-					if GAMEMODE.FNaFView[game.GetMap()][2] then pl:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
+				if IsValid(ply) then
+					GAMEMODE:GoFNaFView(ply,true)
+					if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
+					if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
 				end
 				timer.Remove( "fnafgmTempoFNaFView"..userid )
 			end)
 		end
 	end
 	
-	if pl:Team()==2 then 
+	if ply:Team()==2 then 
 		timer.Create( "fnafgmTempoAC"..userid, 0.1, 1, function()
-			if IsValid(pl) and pl:Team()==2 then
+			if IsValid(ply) and ply:Team()==2 then
 				net.Start( "fnafgmAnimatronicsController" )
-				net.Send(pl)
+				net.Send(ply)
 			end
 			timer.Remove( "fnafgmTempoAC"..userid )
 		end)
@@ -502,11 +507,6 @@ function GM:PostPlayerDeath( ply )
 					ply:SetViewEntity( ents.FindByName( "DeathCam" )[1] )
 				end
 				
-				if game.SinglePlayer() then
-					timer.Remove("fnafgmTimeThink")
-					hook.Call("fnafgmGeneralDeath")
-				end
-				
 				if fnafgm_deathscreenoverlay:GetBool() then --Static screen
 					if ( game.SinglePlayer() ) then ply:ConCommand("stopsound") else ply:SendLua([[RunConsoleCommand("stopsound")]]) end --Stop sound
 					ply:ConCommand( "pp_mat_overlay "..GAMEMODE.Materials_static )
@@ -525,28 +525,31 @@ function GM:PostPlayerDeath( ply )
 						end
 						ply:ScreenFade(16, color_black, 0, 0 )
 						
-						if fnafgm_respawndelay:GetInt()==0 then
+						if !game.SinglePlayer() then
 							
-							if ((fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and !GAMEMODE.Vars.norespawn) then ply:Spawn() elseif fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn") ply:SendLua([[chat.PlaySound()]]) elseif !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.") ply:SendLua([[chat.PlaySound()]]) end
-						
-						else
-							
-							if (fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn) then ply:PrintMessage(HUD_PRINTCENTER, "You will respawn in "..fnafgm_respawndelay:GetInt().."s") ply:SendLua([[chat.PlaySound()]]) elseif !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.") ply:SendLua([[chat.PlaySound()]]) end
-							
-							timer.Create( "fnafgmRespawn"..userid, fnafgm_respawndelay:GetInt(), 1, function()
+							if fnafgm_respawndelay:GetInt()==0 then
 								
-								if (!GAMEMODE.Vars.nightpassed and IsValid(ply) and !ply:Alive()) then
+								if ((fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and !GAMEMODE.Vars.norespawn) then ply:Spawn() elseif fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn") ply:SendLua([[chat.PlaySound()]]) elseif !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.") ply:SendLua([[chat.PlaySound()]]) end
+							
+							else
 								
-									if ((fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and !GAMEMODE.Vars.norespawn) then ply:Spawn() elseif fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn") ply:SendLua([[chat.PlaySound()]]) end
+								if (fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn) then ply:PrintMessage(HUD_PRINTCENTER, "You will respawn in "..fnafgm_respawndelay:GetInt().."s") ply:SendLua([[chat.PlaySound()]]) elseif !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.") ply:SendLua([[chat.PlaySound()]]) end
+								
+								timer.Create( "fnafgmRespawn"..userid, fnafgm_respawndelay:GetInt(), 1, function()
 									
-								end
+									if (!GAMEMODE.Vars.nightpassed and IsValid(ply) and !ply:Alive()) then
+									
+										if ((fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and !GAMEMODE.Vars.norespawn) then ply:Spawn() elseif fnafgm_respawnenabled:GetBool() and !GAMEMODE.Vars.norespawn then ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn") ply:SendLua([[chat.PlaySound()]]) end
+										
+									end
+									
+									timer.Remove("fnafgmRespawn"..userid)
+									
+								end)
 								
-								timer.Remove("fnafgmRespawn"..userid)
-								
-							end)
+							end
 							
 						end
-						
 						
 					end
 					
@@ -3152,7 +3155,7 @@ function GM:Think()
 		
 	end
 	
-	if !game.SinglePlayer() and !GAMEMODE.Vars.checkRestartNight and GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active then
+	if !GAMEMODE.Vars.checkRestartNight and GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active then
 		
 		GAMEMODE.Vars.checkRestartNight=true
 		
@@ -3174,13 +3177,17 @@ function GM:Think()
 				
 			end
 			
-			net.Start( "fnafgmNotif" )
-				net.WriteString( "The "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
-				net.WriteInt(0,3)
-				net.WriteFloat(5)
-				net.WriteBit(true)
-			net.Broadcast()
-			GAMEMODE:Log("The security guards are dead, the night will be reset")
+			if !game.SinglePlayer() then
+				
+				net.Start( "fnafgmNotif" )
+					net.WriteString( "The "..tostring(GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night).." will be reset in "..fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt().."s..." )
+					net.WriteInt(0,3)
+					net.WriteFloat(5)
+					net.WriteBit(true)
+				net.Broadcast()
+				GAMEMODE:Log("The security guards are dead, the night will be reset")
+				
+			end
 			
 			hook.Call("fnafgmGeneralDeath")
 			
@@ -3189,7 +3196,11 @@ function GM:Think()
 			timer.Remove("fnafgmPowerOff2")
 			timer.Remove("fnafgmPowerOff3")
 			
-			timer.Create( "fnafgmPreRestartNight", fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt(), 1, function()
+			local delay = fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt()
+			
+			if game.SinglePlayer() then delay = fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+2 end
+			
+			timer.Create( "fnafgmPreRestartNight", delay, 1, function()
 				
 				for k, v in pairs(player.GetAll()) do
 					if (v:Team()==1 or v:Team()==2) and v:Alive() then
@@ -3204,7 +3215,7 @@ function GM:Think()
 				
 			end)
 			
-			timer.Create( "fnafgmRestartNight", fnafgm_deathscreendelay:GetInt()+fnafgm_deathscreenduration:GetInt()+fnafgm_respawndelay:GetInt()+0.1, 1, function()
+			timer.Create( "fnafgmRestartNight", delay+0.1, 1, function()
 				
 				fnafgmRestartNight()
 				
