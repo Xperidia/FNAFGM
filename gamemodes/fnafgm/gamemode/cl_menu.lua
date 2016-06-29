@@ -393,7 +393,7 @@ function fnafgmMenu()
 			xpsc:SetPos( 10, 480 )
 			xpsc:SetSize( 620, 128 )
 			xpsc:SetAllowLua(true)
-			xpsc:OpenURL( "Xperidia.com/GMOD/sc/?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
+			xpsc:OpenURL( "https://xperidia.com/Showcase/?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
 			xpsc:SetScrollbars(false)
 			
 			xpsc_anim = Derma_Anim( "xpsc_anim", fnafgmMenuF, function( pnl, anim, delta, data )
