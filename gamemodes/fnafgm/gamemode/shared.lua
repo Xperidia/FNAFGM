@@ -5,9 +5,8 @@ include( "player_class/player_animatronic_controller.lua" )
 
 GM.Name 	= "Five Nights at Freddy's"
 GM.ShortName = "FNAFGM"
-GM.Author 	= "Xperidia"
-GM.Email 	= "contact@Xperidia.com"
-GM.Website 	= "https://go.Xperidia.com/FNAFGM"
+GM.Author 	= "VictorienXP@Xperidia"
+GM.Website 	= "xperi.link/FNAFGM"
 GM.OfficialVersion 	= 2.08
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
