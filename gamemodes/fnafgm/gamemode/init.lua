@@ -3415,9 +3415,9 @@ function GM:CreateAnimatronic(a,apos,ply)
 	ent:Spawn()
 	
 	if IsValid(ply) then
-		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
+		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by "..ply:GetName().." in "..((GAMEMODE.TranslatedCamNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7))
 	else
-		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7),nil,true)
+		GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." created by console/script in "..((GAMEMODE.TranslatedCamNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7),nil,true)
 	end
 	
 end
@@ -3528,9 +3528,9 @@ function GM:SetAnimatronicPos(ply,a,apos)
 		net.Broadcast()
 		
 		if IsValid(ply) then
-			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by "..ply:GetName())
+			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.TranslatedCamNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by "..ply:GetName())
 		else
-			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.CamsNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script",nil,true)
+			GAMEMODE:Log("Animatronic "..((GAMEMODE.AnimatronicName[a].." ("..(a or 0)..")") or a or 0).." moved to "..((GAMEMODE.TranslatedCamNames[game.GetMap().."_"..apos].." ("..(apos or 7)..")") or apos or 7).." by console/script",nil,true)
 		end
 		
 	end

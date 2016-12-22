@@ -216,9 +216,9 @@ function GM:Monitor(control)
 		
 		GAMEMODE.Vars.Monitor.CamsNames = vgui.Create( "DLabel" )
 		GAMEMODE.Vars.Monitor.CamsNames:SetParent(GAMEMODE.Vars.Monitor)
-		GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.CamsNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "" )
+		GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.CamsNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "")
 		GAMEMODE.Vars.Monitor.CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
-		GAMEMODE.Vars.Monitor.CamsNames:SetFont("FNAFGMTIME")
+		GAMEMODE.Vars.Monitor.CamsNames:SetFont("FNAFGMCAMNAME")
 		GAMEMODE.Vars.Monitor.CamsNames:SetPos( ScrW()-64-mapsize, ScrH()-mapdecal-mapsize-mapdecal )
 		GAMEMODE.Vars.Monitor.CamsNames:SetSize( 512, 64 )
 		
@@ -239,7 +239,7 @@ function GM:Monitor(control)
 					LocalPlayer():EmitSound("fnafgm_camselect")
 					GAMEMODE.Vars.lastcam = camid
 					fnafgmSetView(GAMEMODE.Vars.lastcam)
-					GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.CamsNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "" )
+					GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.TranslatedCamNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "" )
 					if IsValid(GAMEMODE.Vars.Monitor.KitchenText) and IsValid(GAMEMODE.Vars.Monitor.KitchenText2) then
 						if camid!=11 then
 							GAMEMODE.Vars.Monitor.KitchenText:SetTextColor( Color( 255, 255, 255, 0 ) )
