@@ -216,7 +216,7 @@ function GM:Monitor(control)
 		
 		GAMEMODE.Vars.Monitor.CamsNames = vgui.Create( "DLabel" )
 		GAMEMODE.Vars.Monitor.CamsNames:SetParent(GAMEMODE.Vars.Monitor)
-		GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.CamsNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "")
+		GAMEMODE.Vars.Monitor.CamsNames:SetText( GAMEMODE.TranslatedCamNames[game.GetMap().."_"..GAMEMODE.Vars.lastcam] or "")
 		GAMEMODE.Vars.Monitor.CamsNames:SetTextColor( Color( 255, 255, 255, 255 ) )
 		GAMEMODE.Vars.Monitor.CamsNames:SetFont("FNAFGMCAMNAME")
 		GAMEMODE.Vars.Monitor.CamsNames:SetPos( ScrW()-64-mapsize, ScrH()-mapdecal-mapsize-mapdecal )

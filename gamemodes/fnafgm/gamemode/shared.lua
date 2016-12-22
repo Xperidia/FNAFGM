@@ -737,6 +737,7 @@ function GM:Initialize()
 	
 	cvars.AddChangeCallback( "gmod_language", function( convar_name, value_old, value_new )
 		GAMEMODE:LoadLanguage(value_new)
+		LocalPlayer():PrintMessage(HUD_PRINTTALK, "[FNAFGM] Please reload your game for have the right fonts for the selected language.")
 	end)
 	
 	GAMEMODE.Vars.startday = false
