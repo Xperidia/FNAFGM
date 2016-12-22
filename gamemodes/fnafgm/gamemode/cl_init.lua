@@ -194,7 +194,7 @@ surface.CreateFont("FNAFGMCHECK", {
 local curl = GetConVarString("gmod_language")
 surface.CreateFont("FNAFGMCAMNAME", {
 	font = sfont2,
-	size = tonumber(GM.CamsNames[curl].fontsize), 
+	size = GM.CamsNames[curl].fontsize, 
 	weight = 1000, 
 	blursize = 0, 
 	scanlines = 0, 
