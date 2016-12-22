@@ -402,7 +402,7 @@ GM.CamsNames = {
 		fnaf2noevents_13 = "Office"
 	},
 	fr = {
-		fontsize = 28,
+		fontsize = 24,
 		freddysnoevent_1 = "Coin du couloir gauche",
 		freddysnoevent_2 = "Couloir gauche",
 		freddysnoevent_3 = "Placard",
