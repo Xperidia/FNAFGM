@@ -795,8 +795,8 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 			table.insert( tab, Color( 85, 255, 255 ) )
 			table.insert( tab, "{Xperidia Admin} " )
 		elseif player:GetNWInt( "XperidiaRank", 0 )==2 then
-			table.insert( tab, Color( 170, 0, 170 ) )
-			table.insert( tab, "{Xperidia Creator} " )
+			table.insert( tab, Color( 85, 255, 255 ) )
+			table.insert( tab, "{Xperidia Staff} " )
 		elseif player:GetNWInt( "XperidiaRank", 0 )==1 then
 			table.insert( tab, Color( 255, 170, 0 ) )
 			table.insert( tab, "{Xperidia Premium} " )

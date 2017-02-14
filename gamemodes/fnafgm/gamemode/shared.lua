@@ -1386,9 +1386,9 @@ function GM:RetrieveXperidiaAccountRank(ply)
 	if !ply.XperidiaRankLastTime or ply.XperidiaRankLastTime+3600<SysTime() then
 		
 		local steamid = ply:SteamID64()
-		
-		local XperidiaRanks = { "Premium", "Creator", "Administrator" }
-		
+
+		local XperidiaRanks = { "Premium", "Staff", "Administrator" }
+
 		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...",nil,true)
 		
 		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
