@@ -142,7 +142,7 @@ GM.Strings = {
 		gamebeenreset = "The game has been reset!",
 		notsgvsa = "You're not in SGvsA mode!",
 		warn_font = "The gamemode is not installed on your game! The fonts will be missing!",
-		selectplayermodelbtn = "Select a playermodel"
+		selectplayermodelbtn = "Select a playermodel",
 	},
 	fr = {
 		tonight = "Vers la nuit",
@@ -327,18 +327,6 @@ GM.Strings = {
 	}
 }
 
-function GM:LoadLanguage(lang)
-	
-	if lang!="" and GAMEMODE.Strings[lang] then
-		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
-		GAMEMODE:Log("'"..lang.."' strings loaded!")
-	elseif lang!="" then
-		table.Empty(GAMEMODE.TranslatedStrings)
-		GAMEMODE:Log("'"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
-	end
-	
-end
-
 GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
 GM.Spawns_animatronics = { "info_player_counterterrorist", "fnafgm_teamanimatronics_start" }
 
@@ -382,33 +370,86 @@ GM.Models_foxy = Model("models/splinks/fnaf/foxy/player_foxy.mdl")
 GM.Models_freddy = Model("models/splinks/fnaf/freddy/player_freddy.mdl")
 GM.Models_goldenfreddy = Model("models/splinks/fnaf/golden_freddy/player_golden_freddy.mdl")
 
+GM.TranslatedCamNames = {}
+
 GM.CamsNames = {
-	freddysnoevent_1 = "West Hall Corner",
-	freddysnoevent_2 = "West Hall",
-	freddysnoevent_3 = "Supply Closet",
-	freddysnoevent_4 = "East Hall",
-	freddysnoevent_5 = "East Hall Corner",
-	freddysnoevent_6 = "Backstage",
-	freddysnoevent_7 = "Show Stage",
-	freddysnoevent_8 = "Restroom",
-	freddysnoevent_9 = "Pirate Cove",
-	freddysnoevent_10 = "Dining Area",
-	freddysnoevent_11 = "Kitchen",
-	freddysnoevent_12 = "Office",
-	fnaf2noevents_1 = "Party Room 1",
-	fnaf2noevents_2 = "Party Room 2",
-	fnaf2noevents_3 = "Party Room 3",
-	fnaf2noevents_4 = "Party Room 4",
-	fnaf2noevents_5 = "Right Air Vent",
-	fnaf2noevents_6 = "Left Air Vent",
-	fnaf2noevents_7 = "Main Hall",
-	fnaf2noevents_8 = "Parts/Service",
-	fnaf2noevents_9 = "Kid's Cove",
-	fnaf2noevents_10 = "Prize Corner",
-	fnaf2noevents_11 = "Game Area",
-	fnaf2noevents_12 = "Show Stage",
-	fnaf2noevents_13 = "Office"
+	en = {
+		fontsize = 38,
+		freddysnoevent_1 = "West Hall Corner",
+		freddysnoevent_2 = "West Hall",
+		freddysnoevent_3 = "Supply Closet",
+		freddysnoevent_4 = "East Hall",
+		freddysnoevent_5 = "East Hall Corner",
+		freddysnoevent_6 = "Backstage",
+		freddysnoevent_7 = "Show Stage",
+		freddysnoevent_8 = "Restroom",
+		freddysnoevent_9 = "Pirate Cove",
+		freddysnoevent_10 = "Dining Area",
+		freddysnoevent_11 = "Kitchen",
+		freddysnoevent_12 = "Office",
+		fnaf2noevents_1 = "Party Room 1",
+		fnaf2noevents_2 = "Party Room 2",
+		fnaf2noevents_3 = "Party Room 3",
+		fnaf2noevents_4 = "Party Room 4",
+		fnaf2noevents_5 = "Right Air Vent",
+		fnaf2noevents_6 = "Left Air Vent",
+		fnaf2noevents_7 = "Main Hall",
+		fnaf2noevents_8 = "Parts/Service",
+		fnaf2noevents_9 = "Kid's Cove",
+		fnaf2noevents_10 = "Prize Corner",
+		fnaf2noevents_11 = "Game Area",
+		fnaf2noevents_12 = "Show Stage",
+		fnaf2noevents_13 = "Office"
+	},
+	fr = {
+		fontsize = 24,
+		freddysnoevent_1 = "Coin du couloir gauche",
+		freddysnoevent_2 = "Couloir gauche",
+		freddysnoevent_3 = "Placard",
+		freddysnoevent_4 = "Couloir droit",
+		freddysnoevent_5 = "Coin du couloir droit",
+		freddysnoevent_6 = "Coulisses",
+		freddysnoevent_7 = "Scène",
+		freddysnoevent_8 = "Toilettes",
+		freddysnoevent_9 = "Crique du pirate",
+		freddysnoevent_10 = "Salle à manger",
+		freddysnoevent_11 = "Cuisine",
+		freddysnoevent_12 = "Bureau",
+		fnaf2noevents_1 = "Salle de fête 1",
+		fnaf2noevents_2 = "Salle de fête 2",
+		fnaf2noevents_3 = "Salle de fête 3",
+		fnaf2noevents_4 = "Salle de fête 4",
+		fnaf2noevents_5 = "Conduit d'aération droit",
+		fnaf2noevents_6 = "Conduit d'aération gauche",
+		fnaf2noevents_7 = "Hall principale",
+		fnaf2noevents_8 = "Pièces/Services",
+		fnaf2noevents_9 = "Crique des enfants",
+		fnaf2noevents_10 = "Coins des prix",
+		fnaf2noevents_11 = "Zone de jeu",
+		fnaf2noevents_12 = "Scène",
+		fnaf2noevents_13 = "Bureau"
+	}
 }
+
+function GM:LoadLanguage(lang)
+	
+	if lang!="" and GAMEMODE.Strings[lang] then
+		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
+		GAMEMODE:Log("'"..lang.."' strings loaded!")
+	elseif lang!="" then
+		table.Empty(GAMEMODE.TranslatedStrings)
+		GAMEMODE:Log("'"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
+	end
+
+	if lang!="" and GAMEMODE.CamsNames[lang] then
+		GAMEMODE.TranslatedCamNames = GAMEMODE.CamsNames[lang]
+		GAMEMODE:Log("'"..lang.."' strings (camnames) loaded!")
+	elseif lang!="" then
+		table.Empty(GAMEMODE.TranslatedCamNames)
+		GAMEMODE:Log("'"..lang.."' is not supported for camera names! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
+	end
+	
+end
 
 GM.MapList = {
 	freddysnoevent = "FNaF 1",
@@ -696,6 +737,7 @@ function GM:Initialize()
 	
 	cvars.AddChangeCallback( "gmod_language", function( convar_name, value_old, value_new )
 		GAMEMODE:LoadLanguage(value_new)
+		LocalPlayer():PrintMessage(HUD_PRINTTALK, "[FNAFGM] Please reload your game for have the right fonts for the selected language.")
 	end)
 	
 	GAMEMODE.Vars.startday = false
@@ -1200,7 +1242,7 @@ function GM:CustomCheck(pl,what) --Custom groups funcs
 	elseif pl.XperidiaRank and pl.XperidiaRank>0 and table.HasValue(XperidiaCheck, what) then
 		return true
 	end
-	
+
 	return false
 	
 end

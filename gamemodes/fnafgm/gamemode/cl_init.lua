@@ -48,7 +48,7 @@ end)
 
 surface.CreateFont("FNAFGMTIME", {
 	font = sfont2,
-	size = 38, 
+	size = 38,
 	weight = 1000, 
 	blursize = 0, 
 	scanlines = 0, 
@@ -187,6 +187,24 @@ surface.CreateFont("FNAFGMCHECK", {
 	symbol = false, 
 	rotary = false, 
 	shadow = false, 
+	additive = false, 
+	outline = false, 
+})
+
+local curl = GetConVarString("gmod_language")
+surface.CreateFont("FNAFGMCAMNAME", {
+	font = sfont2,
+	size = GM.CamsNames[curl].fontsize, 
+	weight = 1000, 
+	blursize = 0, 
+	scanlines = 0, 
+	antialias = false, 
+	underline = false, 
+	italic = false, 
+	strikeout = false, 
+	symbol = false, 
+	rotary = false, 
+	shadow = true, 
 	additive = false, 
 	outline = false, 
 })
