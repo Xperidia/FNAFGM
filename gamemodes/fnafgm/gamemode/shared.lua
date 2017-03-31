@@ -7,7 +7,7 @@ GM.Name 	= "Five Nights at Freddy's"
 GM.ShortName = "FNAFGM"
 GM.Author 	= "VictorienXP@Xperidia"
 GM.Website 	= "xperi.link/FNAFGM"
-GM.OfficialVersion 	= 2.09
+GM.OfficialVersion 	= 2.10
 GM.Version 	= GM.OfficialVersion
 GM.CustomVersion = false
 GM.TeamBased = true
@@ -1391,14 +1391,14 @@ function GM:RetrieveXperidiaAccountRank(ply)
 
 		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...",nil,true)
 		
-		http.Post( "https://www.xperidia.com/UCP/rank.php", { steamid = steamid },
+		http.Post( "https://xperidia.com/UCP/rank.php", { steamid = steamid },
 		function( responseText, contentLength, responseHeaders, statusCode )
 			
 			if !IsValid(ply) then return end
 			
 			if statusCode == 200 then
 				
-				local rank = tonumber(string.Right(responseText, contentLength-3))
+				local rank = tonumber(responseText)
 				ply.XperidiaRank = rank
 				ply:SetNWInt( "XperidiaRank", rank )
 				ply.XperidiaRankLastTime = SysTime()
