@@ -1363,15 +1363,9 @@ function GM:Log(str,tn,hardcore)
 	if tn then name = "FNAFGM" end
 	
 	if hardcore and !fnafgm_enabledevmode:GetBool() then return end
-	
-	if game.IsDedicated() or GAMEMODE.Vars.DS then
-		local tmstmp = os.time()
-		local time = os.date( "L %m/%d/%Y - %H:%M:%S" , tmstmp )
-		Msg( time..": ["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
-	else
-		Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
-	end
-	
+
+	Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+
 end
 
 
