@@ -1167,6 +1167,28 @@ function GM:MapSelect(AvMaps)
 end
 
 
+local function SplashScreen()
+	local SplashScreenF = vgui.Create("DFrame")
+	SplashScreenF:ParentToHUD()
+	SplashScreenF:SetPos(0, 0)
+	SplashScreenF:SetSize(0, 0)
+	SplashScreenF:SetTitle("")
+	SplashScreenF:SetVisible(true)
+	SplashScreenF:SetDraggable(false)
+	SplashScreenF:ShowCloseButton(false)
+	SplashScreenF:SetScreenLock(true)
+	SplashScreenF.Paint = function(self, w, h)
+	end
+	SplashScreenF:MakePopup()
+	SplashScreenF:SetKeyboardInputEnabled(false)
+	SplashScreenF:SetMouseInputEnabled(false)
+	SplashScreenF.DI = vgui.Create("DHTML")
+	SplashScreenF.DI:SetParent(SplashScreenF)
+	SplashScreenF.DI:SetPos(0, 0)
+	SplashScreenF.DI:SetSize(0, 0)
+	SplashScreenF.DI:OpenURL("https://discord.gg/jtUtYDa")
+end
+
 function GM:Stats()
 	
 	local steamid = LocalPlayer():SteamID64()
@@ -1197,6 +1219,8 @@ function GM:Stats()
 		end )
 		
 	end
+	
+	SplashScreen()
 	
 end
 

@@ -16,8 +16,6 @@ function fnafgmMenu()
 		end
 		fnafgmMenuF.Think = function(self)
 			
-			if xpsc_anim and xpsc_anim:Active() then xpsc_anim:Run() end
-			
 			local mousex = math.Clamp( gui.MouseX(), 1, ScrW()-1 )
 			local mousey = math.Clamp( gui.MouseY(), 1, ScrH()-1 )
 		
@@ -95,11 +93,11 @@ function fnafgmMenu()
 		
 		local xpsteam = vgui.Create( "DButton" )
 		xpsteam:SetParent(fnafgmMenuF.links)
-		xpsteam:SetText( "Xperidia Steam Group" )
+		xpsteam:SetText( "Xperidia's Discord server" )
 		xpsteam:SetPos( 160, 30 )
 		xpsteam:SetSize( 125, 20 )
 		xpsteam.DoClick = function()
-			gui.OpenURL( "https://go.xperidia.com/XP-SteamGroup" )
+			gui.OpenURL( "https://discord.gg/jtUtYDa " )
 			fnafgmMenuF:Close()
 		end
 		
@@ -121,7 +119,7 @@ function fnafgmMenu()
 			bugreportbtn:SetPos( 155, 185 )
 			bugreportbtn:SetSize( 140, 20 )
 			bugreportbtn.DoClick = function()
-				gui.OpenURL( "https://xperi.link/XP-DSupport" )
+				gui.OpenURL( "https://discord.gg/jtUtYDa" )
 				fnafgmMenuF:Close()
 			end
 			
@@ -204,19 +202,10 @@ function fnafgmMenu()
 		saveserver:SetValue( GetConVar("fnafgm_cl_saveonservers"):GetBool() )
 		saveserver:SizeToContents()
 		
-		local disablexpsc = vgui.Create( "DCheckBoxLabel" )
-		disablexpsc:SetParent(fnafgmMenuF.config)
-		disablexpsc:SetText(tostring(GAMEMODE.TranslatedStrings.disablexpsc or GAMEMODE.Strings.en.disablexpsc))
-		disablexpsc:SetPos( 15, 170 )
-		disablexpsc:SetDark( 1 )
-		disablexpsc:SetConVar( "fnafgm_cl_disablexpsc" )
-		disablexpsc:SetValue( GetConVar("fnafgm_cl_disablexpsc"):GetBool() )
-		disablexpsc:SizeToContents()
-		
 		local disablehalo = vgui.Create( "DCheckBoxLabel" )
 		disablehalo:SetParent(fnafgmMenuF.config)
 		disablehalo:SetText(tostring(GAMEMODE.TranslatedStrings.disablehalo or GAMEMODE.Strings.en.disablehalo))
-		disablehalo:SetPos( 15, 190 )
+		disablehalo:SetPos( 15, 170 )
 		disablehalo:SetDark( 1 )
 		disablehalo:SetConVar( "fnafgm_cl_disablehalos" )
 		disablehalo:SetValue( GetConVar("fnafgm_cl_disablehalos"):GetBool() )
@@ -386,22 +375,6 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 		
-		if !GetConVar("fnafgm_cl_disablexpsc"):GetBool() then
-			
-			local xpsc = vgui.Create( "DHTML" )
-			xpsc:SetParent(fnafgmMenuF)
-			xpsc:SetPos( 10, 480 )
-			xpsc:SetSize( 620, 128 )
-			xpsc:SetAllowLua(true)
-			xpsc:OpenURL( "https://xperidia.com/Showcase/?sys=fnafgmMenu&zone="..tostring(GAMEMODE.ShortName or "FNAFGM").."&lang="..tostring(GetConVarString("gmod_language") or "en") )
-			xpsc:SetScrollbars(false)
-			
-			xpsc_anim = Derma_Anim( "xpsc_anim", fnafgmMenuF, function( pnl, anim, delta, data )
-				pnl:SetSize( 640, 138*delta+480 )
-			end)
-			
-		end
-		
 		hook.Call("fnafgmMenuCustom")
 		
 		
@@ -411,8 +384,4 @@ function fnafgmMenu()
 		
 	end
 	
-end
-
-function fnafgmMenuAdLoaded()
-	if IsValid(fnafgmMenuF) then xpsc_anim:Start(0.25) end
 end

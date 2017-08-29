@@ -686,7 +686,6 @@ fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, 
 fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
 fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
 fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true, false )
-fnafgm_cl_disablexpsc = CreateClientConVar( "fnafgm_cl_disablexpsc", 0, true, false )
 fnafgm_cl_disablehalos = CreateClientConVar( "fnafgm_cl_disablehalos", 0, true, false )
 
 
