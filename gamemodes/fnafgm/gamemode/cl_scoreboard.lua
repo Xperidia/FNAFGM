@@ -225,13 +225,13 @@ local PLAYER_LINE = {
 
 	end,
 
-	Paint = function( self, w, h )
+	Paint = function(self, w, h)
 
-		if ( !IsValid( self.Player ) and !istable(self.Player) ) then
+		if !IsValid(self.Player) and !istable(self.Player) then
 			return
 		end
 		
-		if istable(self.Player) and IsValid( self.Player:GetPlayerEnt() ) then
+		if istable(self.Player) and IsValid(self.Player:GetPlayerEnt()) then
 			return
 		end
 
@@ -239,37 +239,30 @@ local PLAYER_LINE = {
 		-- We draw our background a different colour based on the status of the player
 		--
 
-		if ( self.Player:Team() == TEAM_CONNECTING or self.Player:Team() == TEAM_UNASSIGNED ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 92, 92, 92, 100 ) )
+		if self.Player:Team() == TEAM_CONNECTING or self.Player:Team() == TEAM_UNASSIGNED then
+			draw.RoundedBox(4, 0, 0, w, h, Color(92, 92, 92, 100))
 			return
 		end
 
-		if ( !self.Player:Alive() ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 128, 0, 0, 128 ) )
-			return
-		end
-		
-		if ( GAMEMODE:CheckCreator(self.Player) or self.Player:GetNWInt( "XperidiaRank", 0 )==3 ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 85, 255, 255, 255 ) )
-			return
-		end
-		
-		if ( GAMEMODE:CheckDerivCreator(self.Player) or self.Player:GetNWInt( "XperidiaRank", 0 )==2 ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 170, 0, 170, 255 ) )
+		if !self.Player:Alive() then
+			draw.RoundedBox(4, 0, 0, w, h, Color(128, 0, 0, 128))
 			return
 		end
 
-		if ( self.Player:IsAdmin() ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 170, 0, 0, 255 ) )
+		if self.Player:IsAdmin() then
+			draw.RoundedBox(4, 0, 0, w, h, Color(170, 0, 0, 255))
 			return
 		end
 		
-		if ( self.Player:GetUserGroup()=="premium" or self.Player:GetNWInt( "XperidiaRank", 0 )==1 ) then
-			draw.RoundedBox( 4, 0, 0, w, h, Color( 255, 170, 0, 255 ) )
+		local rankid = self.Player:GetNWInt("XperidiaRank", 0)
+		local rankcolor = self.Player:GetNWString("XperidiaRankColor", "200 200 200 255")
+		
+		if rankid > 0 then
+			draw.RoundedBox(4, 0, 0, w, h, string.ToColor(rankcolor))
 			return
 		end
 
-		draw.RoundedBox( 4, 0, 0, w, h, Color( 200, 200, 200, 255 ) )
+		draw.RoundedBox(4, 0, 0, w, h, Color(200, 200, 200, 255))
 
 	end
 }

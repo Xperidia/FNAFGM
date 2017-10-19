@@ -17,7 +17,6 @@ if engine.ActiveGamemode()=="fnafgm" then
 else
 	GM.Official = false
 end
-GM.CustomVersionChecker = ""
 GM.IsFNAFGMDerived = true
 
 GM.FT = 1
@@ -717,7 +716,7 @@ function GM:Initialize()
 	GAMEMODE.Vars.Christmas = false
 	GAMEMODE.Vars.b87 = false
 	GAMEMODE.Vars.seasonaltext = ""
-	GAMEMODE.Vars.modetext = ""
+	GAMEMODE.Vars.modetext = nil
 	GAMEMODE.Vars.fnafview = false
 	GAMEMODE.Vars.fnafviewactive = false
 	GAMEMODE.Vars.fnafgmWorkShop = false
@@ -784,7 +783,7 @@ function GM:Initialize()
 				end
 			else
 				GAMEMODE.Vars.SGvsA = false
-				GAMEMODE.Vars.modetext = ""
+				GAMEMODE.Vars.modetext = nil
 				GAMEMODE:Log( "The game is now in normal mode!" )
 				if SERVER then
 					net.Start( "fnafgmNotif" )
@@ -796,7 +795,7 @@ function GM:Initialize()
 					if !game.IsDedicated() then
 						for k, v in pairs(player.GetAll()) do
 							if v:IsListenServerHost() then
-								v:SendLua([[GAMEMODE.Vars.SGvsA = false GAMEMODE.Vars.modetext = ""]])
+								v:SendLua([[GAMEMODE.Vars.SGvsA = false GAMEMODE.Vars.modetext = nil]])
 							end
 						end
 					end
@@ -1003,9 +1002,11 @@ function GM:Initialize()
 			timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
 		end
 		
-		timer.Create( "fnafgmCheckForNewVersion", 21600, 0, fnafgmCheckForNewVersion)
-		
 		GAMEMODE:RefreshBypass()
+		
+		if GetConVar("sv_loadingurl"):GetString() == "" then --Use the Xperidia's loading screen if no other loading screen is defined... Because it shows more information than the current default of Garry's Mod...
+			RunConsoleCommand("sv_loadingurl", "https://xperidia.com/GMOD/loading/?auto")
+		end
 		
 	end
 	
@@ -1196,7 +1197,7 @@ function GM:CustomCheck(pl,what) --Custom groups funcs
 	
 	if GAMEMODE.ListGroup["group_"..pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_"..pl:GetUserGroup()], what) then
 		return true
-	elseif pl.XperidiaRank and pl.XperidiaRank>0 and table.HasValue(XperidiaCheck, what) then
+	elseif pl.XperidiaRank and pl.XperidiaRank.id > 0 and table.HasValue(XperidiaCheck, what) then
 		return true
 	end
 	
@@ -1365,54 +1366,4 @@ function GM:Log(str,tn,hardcore)
 
 	Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
 
-end
-
-
-function GM:RetrieveXperidiaAccountRank(ply)
-	
-	if !SERVER then return end
-	
-	if !IsValid(ply) then return end
-	
-	if ply:IsBot() then return end
-	
-	if !ply.XperidiaRankLastTime or ply.XperidiaRankLastTime+3600<SysTime() then
-		
-		local steamid = ply:SteamID64()
-
-		local XperidiaRanks = { "Premium", "Staff", "Administrator" }
-
-		GAMEMODE:Log("Retrieving the Xperidia Rank for "..ply:GetName().."...",nil,true)
-		
-		http.Post( "https://xperidia.com/UCP/rank.php", { steamid = steamid },
-		function( responseText, contentLength, responseHeaders, statusCode )
-			
-			if !IsValid(ply) then return end
-			
-			if statusCode == 200 then
-				
-				local rank = tonumber(responseText)
-				ply.XperidiaRank = rank
-				ply:SetNWInt( "XperidiaRank", rank )
-				ply.XperidiaRankLastTime = SysTime()
-				
-				if XperidiaRanks[rank] then
-					GAMEMODE:Log("The Xperidia Rank for "..ply:GetName().." is "..XperidiaRanks[rank])
-				else
-					GAMEMODE:Log(ply:GetName().." doesn't have any Xperidia Rank...",nil,true)
-				end
-				
-			else
-				GAMEMODE:Log("Error while retriving Xperidia Rank for "..ply:GetName().." (HTTP "..(statusCode or "?")..")")
-			end
-			
-		end, 
-		function( errorMessage )
-			
-			GAMEMODE:Log(errorMessage)
-			
-		end )
-		
-	end
-	
 end

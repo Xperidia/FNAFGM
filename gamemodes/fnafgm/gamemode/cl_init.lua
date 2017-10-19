@@ -681,32 +681,6 @@ hook.Add( "PreDrawHalos", "fnafgmHalos", function()
 end )
 
 
-net.Receive( "fnafgmCheckUpdate", function( len )
-
-	GAMEMODE.Vars.updateavailable = tobool(net.ReadBit())
-	GAMEMODE.Vars.lastversion = net.ReadString()
-	
-	if GAMEMODE.Vars.updateavailable then
-		notification.AddLegacy("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, NOTIFY_GENERIC, 10)
-		chat.PlaySound()
-	end
-	
-end)
-
-
-net.Receive( "fnafgmCheckUpdateD", function( len )
-
-	derivupdateavailable = tobool(net.ReadBit())
-	GAMEMODE.Vars.lastderivversion = net.ReadString()
-	
-	if derivupdateavailable then
-		notification.AddLegacy((GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, NOTIFY_GENERIC, 10)
-		chat.PlaySound()
-	end
-	
-end)
-
-
 hook.Add("HUDPaint", "fnafgmInfo", function() 
 	
 	if ( GetConVarNumber( "cl_drawhud" ) == 0 ) then return end
@@ -723,21 +697,7 @@ hook.Add("HUDPaint", "fnafgmInfo", function()
 			GAMEMODE.Vars.seasonaltext = ""
 		end
 		
-		local updatearem = 0
-		local monitorspace = 0
-		
-		if GAMEMODE.Vars.updateavailable then
-			if IsValid(GAMEMODE.Vars.Monitor) then monitorspace = 30 end
-			draw.DrawText("FNAFGM update available! V"..GAMEMODE.Vars.lastversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
-			updatearem = updatearem+30
-		end
-		if derivupdateavailable then
-			if IsValid(GAMEMODE.Vars.Monitor) then monitorspace = 30 end
-			draw.DrawText((GAMEMODE.ShortName or "?").." update available! V"..GAMEMODE.Vars.lastderivversion, "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
-			updatearem = updatearem+30
-		end
-		
-		draw.DrawText((GAMEMODE.ShortName or "?").." V"..(GAMEMODE.Version or "?")..(GAMEMODE.Vars.modetext or "")..(GAMEMODE.Vars.seasonaltext or ""), "Trebuchet24", ScrW() - 8 - monitorspace, ScrH() - 28 - updatearem - monitorspace, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
+		draw.DrawText((GAMEMODE.ShortName or "?").." V"..(GAMEMODE.Version or "?")..(GAMEMODE.Vars.modetext or " - Final version")..(GAMEMODE.Vars.seasonaltext or ""), "Trebuchet24", ScrW() - 8, ScrH() - 28, Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT)
 		
 		
 	end
@@ -775,35 +735,21 @@ function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
 		table.insert( tab, "(TEAM) " )
 	end
  
-	if IsValid( player ) then
-		if (player:IsAdmin() and GAMEMODE:CheckCreator(player)) then
-			table.insert( tab, Color( 85, 255, 255 ) )
-			table.insert( tab, "[Admin|FNAFGM Creator] " )
-		elseif (player:IsAdmin() and GAMEMODE:CheckDerivCreator(player)) then
-			table.insert( tab, Color( 170, 0, 170 ) )
-			table.insert( tab, "[Admin|"..GAMEMODE.ShortName.." Creator] " )
-		elseif player:IsAdmin() then
-			table.insert( tab, Color( 170, 0, 0 ) )
-			table.insert( tab, "[Admin] " )
-		elseif GAMEMODE:CheckCreator(player) then
-			table.insert( tab, Color( 85, 255, 255 ) )
-			table.insert( tab, "{FNAFGM Creator} " )
-		elseif GAMEMODE:CheckDerivCreator(player) then
-			table.insert( tab, Color( 170, 0, 170 ) )
-			table.insert( tab, "{"..GAMEMODE.ShortName.." Creator} " )
-		elseif player:GetNWInt( "XperidiaRank", 0 )==3 then
-			table.insert( tab, Color( 85, 255, 255 ) )
-			table.insert( tab, "{Xperidia Admin} " )
-		elseif player:GetNWInt( "XperidiaRank", 0 )==2 then
-			table.insert( tab, Color( 85, 255, 255 ) )
-			table.insert( tab, "{Xperidia Staff} " )
-		elseif player:GetNWInt( "XperidiaRank", 0 )==1 then
-			table.insert( tab, Color( 255, 170, 0 ) )
-			table.insert( tab, "{Xperidia Premium} " )
+	if IsValid(player) then
+		local rankid = player:GetNWInt("XperidiaRank", 0)
+		local rankname = player:GetNWString("XperidiaRankName", "<Unknown rank name>")
+		local rankcolor = player:GetNWString("XperidiaRankColor", "255 255 255 255")
+		if rankid > 0 then
+			table.insert(tab, string.ToColor(rankcolor))
+			table.insert(tab, "{Xperidia " .. rankname .. "} ")
 		end
-		table.insert( tab, player )
+		if player:GetUserGroup() != "user" then
+			table.insert(tab, Color(255, 255, 255))
+			table.insert(tab, "[" .. string.upper(string.sub(player:GetUserGroup(), 1, 1)) .. string.sub(player:GetUserGroup(), 2) .. "] ")
+		end
+		table.insert(tab, player)
 	else
-		table.insert( tab, "Console" )
+		table.insert(tab, "Console")
 	end
 	
 	table.insert( tab, GAMEMODE.Colors_defaultchat )
@@ -1164,64 +1110,6 @@ function GM:MapSelect(AvMaps)
 		draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 128 ) )
 	end
 
-end
-
-
-local function SplashScreen()
-	local SplashScreenF = vgui.Create("DFrame")
-	SplashScreenF:ParentToHUD()
-	SplashScreenF:SetPos(0, 0)
-	SplashScreenF:SetSize(0, 0)
-	SplashScreenF:SetTitle("")
-	SplashScreenF:SetVisible(true)
-	SplashScreenF:SetDraggable(false)
-	SplashScreenF:ShowCloseButton(false)
-	SplashScreenF:SetScreenLock(true)
-	SplashScreenF.Paint = function(self, w, h)
-	end
-	SplashScreenF:MakePopup()
-	SplashScreenF:SetKeyboardInputEnabled(false)
-	SplashScreenF:SetMouseInputEnabled(false)
-	SplashScreenF.DI = vgui.Create("DHTML")
-	SplashScreenF.DI:SetParent(SplashScreenF)
-	SplashScreenF.DI:SetPos(0, 0)
-	SplashScreenF.DI:SetSize(0, 0)
-	SplashScreenF.DI:OpenURL("https://discord.gg/jtUtYDa")
-end
-
-function GM:Stats()
-	
-	local steamid = LocalPlayer():SteamID64()
-	
-	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats", "DATA" ) then
-		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats" )
-	end
-	
-	local needstat = !file.Exists( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats/" .. steamid .. ".txt", "DATA" )
-	
-	if needstat then
-		
-		http.Post( "https://www.xperidia.com/UCP/stats.php", { steamid = steamid, zone = (string.lower(GAMEMODE.ShortName) or "fnafgm") },
-		function( responseText, contentLength, responseHeaders, statusCode )
-			
-			if statusCode == 200 then
-				file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/stats/" .. steamid .. ".txt", "" )
-				GAMEMODE:Log(responseText)
-			else
-				GAMEMODE:Log("Error while registering the gamemode (ERROR "..statusCode..")")
-			end
-			
-		end, 
-		function( errorMessage )
-			
-			GAMEMODE:Log(errorMessage)
-			
-		end )
-		
-	end
-	
-	SplashScreen()
-	
 end
 
 

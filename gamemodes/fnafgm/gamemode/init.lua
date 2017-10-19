@@ -46,8 +46,6 @@ util.AddNetworkString( "fnafgmCloseTablet" )
 util.AddNetworkString( "fnafgmCallIntro" )
 util.AddNetworkString( "fnafgmAnimatronicsController" )
 util.AddNetworkString( "fnafgmAnimatronicsList" )
-util.AddNetworkString( "fnafgmCheckUpdate" )
-util.AddNetworkString( "fnafgmCheckUpdateD" )
 util.AddNetworkString( "fnafgmPowerUpdate" )
 util.AddNetworkString( "fnafgmTabUsed" )
 util.AddNetworkString( "fnafgmfnafViewActive" )
@@ -219,6 +217,41 @@ function GM:PlayerShouldTakeDamage( ply, attacker )
 end
 
 
+function GM:RetrieveXperidiaAccountRank(ply)
+	if !IsValid(ply) then return end
+	if ply:IsBot() then return end
+	if !ply.XperidiaRankLastTime or ply.XperidiaRankLastTime + 3600 < SysTime() then
+		local steamid = ply:SteamID64()
+		GAMEMODE:Log("Retrieving the Xperidia Rank for " .. ply:GetName() .. "...", nil, true)
+		http.Post("https://api.xperidia.com/account/rank/v1", {steamid = steamid},
+		function(responseText, contentLength, responseHeaders, statusCode)
+			if !IsValid(ply) then return end
+			if statusCode == 200 then
+				local rank_info = util.JSONToTable(responseText)
+				if rank_info and rank_info.id then
+					ply.XperidiaRank = rank_info
+					ply:SetNWInt("XperidiaRank", rank_info.id)
+					ply:SetNWString("XperidiaRankName", rank_info.name)
+					if rank_info.color and #rank_info.color == 6 then ply:SetNWString("XperidiaRankColor", tonumber("0x" .. rank_info.color:sub(1,2)) .. " " .. tonumber("0x" .. rank_info.color:sub(3,4)) .. " " .. tonumber("0x" .. rank_info.color:sub(5,6)) .. " 255") end
+					ply.XperidiaRankLastTime = SysTime()
+					if rank_info.id != 0 and rank_info.name then
+						GAMEMODE:Log("The Xperidia Rank for " .. ply:GetName() .. " is " .. rank_info.name .. " (" .. rank_info.id .. ")")
+					elseif rank_info.id != 0 then
+						GAMEMODE:Log("The Xperidia Rank for " .. ply:GetName() .. " is " .. rank_info.id)
+					else
+						GAMEMODE:Log(ply:GetName() .. " doesn't have any Xperidia Rank...", nil, true)
+					end
+				end
+			else
+				GAMEMODE:Log("Error while retriving Xperidia Rank for " .. ply:GetName() .. " (HTTP " .. (statusCode or "?") .. ")")
+			end
+		end,
+		function(errorMessage)
+			GAMEMODE:Log(errorMessage)
+		end)
+	end
+end
+
 
 --[[---------------------------------------------------------
    Called once on the player's first spawn
@@ -226,8 +259,6 @@ end
 function GM:PlayerInitialSpawn( ply )
 	
 	GAMEMODE:RetrieveXperidiaAccountRank(ply)
-	
-	fnafgmCheckForNewVersion(ply,false)
 	
 	if !ply:IsBot() then
 		net.Start( "fnafgmCallIntro" )
@@ -247,8 +278,6 @@ function GM:PlayerInitialSpawn( ply )
 	end
 	
 	fnafgmMapOverrides()
-	fnafgmCheckUpdate()
-	if !GAMEMODE.Official then fnafgmCheckUpdateD() end
 	
 	GAMEMODE.Vars.active = true
 	
@@ -381,7 +410,6 @@ function GM:PlayerRequestTeam( ply, teamid )
 		-- Messages here should be outputted by this function
 	return end
 	
-	ply:SendLua("GAMEMODE:Stats()")
 	GAMEMODE:PlayerJoinTeam( ply, teamid )
 
 end
@@ -2459,179 +2487,14 @@ function fnafgmPlayerCanByPass(ply,what)
 	end
 end
 
-function fnafgmCheckUpdate()
-	
-	net.Start( "fnafgmCheckUpdate" )
-		net.WriteBit( GAMEMODE.Vars.updateavailable )
-		net.WriteString( GAMEMODE.Vars.lastversion )
-	net.Broadcast()
-	
-end
-
-function fnafgmCheckUpdateD()
-	
-	net.Start( "fnafgmCheckUpdateD" )
-		net.WriteBit( GAMEMODE.Vars.derivupdateavailable )
-		net.WriteString( GAMEMODE.Vars.lastderivversion )
-	net.Broadcast()
-	
-end
-
-
-function fnafgmCheckForNewVersion(ply,util)
-	
-	if !GAMEMODE.CustomVersion then
-		
-		http.Fetch( "https://xperidia.com/fnafgmversion.txt",
-		function( body, len, headers, code )
-			
-			GAMEMODE.Vars.lastversion = tonumber(string.Right(body, len-3)) or 0
-			
-			if GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion == GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")")
-				elseif util==true then
-					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastversion.." = V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")",true)
-				end
-				GAMEMODE.Vars.updateavailable = false
-				
-			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion > GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")")
-				elseif util==true then
-					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastversion.." < V"..GAMEMODE.OfficialVersion.." (HTTP "..code..")",true)
-				end
-				GAMEMODE.Vars.updateavailable = false
-				
-			elseif GAMEMODE.Vars.lastversion!=0 and GAMEMODE.OfficialVersion < GAMEMODE.Vars.lastversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "[FNAFGM] An update is available! V"..GAMEMODE.Vars.lastversion) end
-				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastversion.." (HTTP "..code..")",true)
-				GAMEMODE.Vars.updateavailable = true
-				
-			elseif GAMEMODE.Vars.lastversion==0 and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad content or version 0) (HTTP "..code..")\n" )
-				
-				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad content or version 0) (HTTP "..code..")")
-				else
-					GAMEMODE:Log("Failed to check the version (Bad content or version 0) (HTTP "..code..")",true)
-				end
-				
-			else
-				
-				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Error "..(code or "?")..")")
-				else
-					GAMEMODE:Log("Failed to check the version (HTTP "..(code or "?")..")",true)
-				end
-				
-			end
-			
-			fnafgmCheckUpdate()
-			
-		end,
-		function( error )
-			
-			ErrorNoHalt( "[FNAFGM] Failed to check the version (Bad address/No connection)\n" )
-			
-			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, "[FNAFGM] Failed to check the version (Bad address/No connection)")
-			else
-				GAMEMODE:Log("Failed to check the version (Bad address/No connection)",true)
-			end
-			
-		end
-	
-		);
-		
-	end
-	
-	if !GAMEMODE.Official and GAMEMODE.CustomVersionChecker!="" then
-		
-		http.Fetch( GAMEMODE.CustomVersionChecker,
-		function( body, len, headers, code )
-			
-			GAMEMODE.Vars.lastderivversion = tonumber(string.Right(body, len-3)) or 0
-			
-			if GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version == GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version.." (HTTP "..code..")")
-				elseif util==true then
-					GAMEMODE:Log("You're on the latest release! V"..GAMEMODE.Vars.lastderivversion.." = V"..GAMEMODE.Version.." (HTTP "..code..")")
-				end
-				GAMEMODE.Vars.derivupdateavailable = false
-				
-			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version > GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and util==true then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version.." (HTTP "..code..")")
-				elseif util==true then
-					GAMEMODE:Log("You're on a dev build! V"..GAMEMODE.Vars.lastderivversion.." < V"..GAMEMODE.Version.." (HTTP "..code..")")
-				end
-				GAMEMODE.Vars.derivupdateavailable = false
-				
-			elseif GAMEMODE.Vars.lastderivversion!=0 and GAMEMODE.Version < GAMEMODE.Vars.lastderivversion and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				if IsValid(ply) and !ply:IsListenServerHost() then ply:PrintMessage(HUD_PRINTTALK, "["..GAMEMODE.ShortName.."] An update is available! V"..GAMEMODE.Vars.lastderivversion) end
-				GAMEMODE:Log("An update is available! V"..GAMEMODE.Vars.lastderivversion.." (HTTP "..code..")")
-				GAMEMODE.Vars.derivupdateavailable = true
-				
-			elseif GAMEMODE.Vars.lastderivversion==0 and ( code==200 or code==301 or code==302 or code==303 or code==304 ) then
-				
-				ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0) (HTTP "..code..")\n" )
-				
-				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad content or version 0) (HTTP "..code..")")
-				else
-					GAMEMODE:Log("Failed to check the version (Bad content or version 0) (HTTP "..code..")")
-				end
-				
-			else
-				
-				if IsValid(ply) then
-					ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Error "..(code or "?")..")")
-				else
-					GAMEMODE:Log("Failed to check the version (HTTP "..(code or "?")..")")
-				end
-				
-			end
-			
-			fnafgmCheckUpdateD()
-			
-		end,
-		function( error )
-			
-			ErrorNoHalt( "["..GAMEMODE.ShortName.."] Failed to check the version (Bad address?)\n" )
-			
-			if IsValid(ply) then
-				ply:PrintMessage(HUD_PRINTCONSOLE, "["..GAMEMODE.ShortName.."] Failed to check the version (Bad address?)")
-			else
-				GAMEMODE:Log("Failed to check the version (Bad address?)")
-			end
-			
-		end
-	
-		);
-		
-	end
-	
-end
-
 
 concommand.Add("fnafgm_version", function(ply)
 	if IsValid(ply) then
 		ply:PrintMessage(HUD_PRINTCONSOLE, GAMEMODE.Name.." Gamemode V"..tostring(GAMEMODE.Version or "error").." by "..GAMEMODE.Author)
-		if !GAMEMODE.Official then ply:PrintMessage(HUD_PRINTCONSOLE, "Derived from Five Nights at Freddy's Gamemode V"..tostring(GAMEMODE.OfficialVersion or "error").." by Xperidia") end
-		fnafgmCheckForNewVersion(ply,true)
+		if !GAMEMODE.Official then ply:PrintMessage(HUD_PRINTCONSOLE, "Derived from Five Nights at Freddy's Gamemode V"..tostring(GAMEMODE.OfficialVersion or "error").." by VictorienXP@Xperidia") end
 	else
 		print(GAMEMODE.Name.." Gamemode V"..tostring(GAMEMODE.Version or "error").." by "..GAMEMODE.Author)
-		if !GAMEMODE.Official then print("Derived from Five Nights at Freddy's Gamemode V"..tostring(GAMEMODE.OfficialVersion or "error").." by Xperidia") end
-		fnafgmCheckForNewVersion(nil,true)
+		if !GAMEMODE.Official then print("Derived from Five Nights at Freddy's Gamemode V"..tostring(GAMEMODE.OfficialVersion or "error").." by VictorienXP@Xperidia") end
 	end
 end) 
 
@@ -3325,6 +3188,9 @@ function GM:ShutDown()
 		if v:GetViewEntity()!=v then
 			v:SetViewEntity(v)
 		end
+	end
+	if GetConVar("sv_loadingurl"):GetString() == "https://xperidia.com/GMOD/loading/?auto" then --Put back the default Garry's Mod loading screen...
+		RunConsoleCommand("sv_loadingurl", "")
 	end
 end
 
