@@ -990,12 +990,12 @@ function GM:Initialize()
 
 	if SERVER then
 
+		GAMEMODE.ListGroup = {}
 		GAMEMODE.Vars.mapoverrideok = false
 		GAMEMODE.Vars.norespawn = false
 		GAMEMODE.Vars.active = false
 		GAMEMODE.Vars.updateavailable = false
 		GAMEMODE.Vars.derivupdateavailable = false
-		GAMEMODE.ListGroup = {}
 		GAMEMODE.Vars.powerdrain = GAMEMODE.Power_Drain_Time
 		GAMEMODE.Vars.tabused = {}
 		GAMEMODE.Vars.powerchecktime = nil
@@ -1191,10 +1191,16 @@ end
 
 
 local XperidiaCheck = {"flashlight", "run", "jump", "spray", "fastrespawn", "act", "playermodel"}
+local ListGroupVarNotSet
 
 function GM:CustomCheck(pl, what) --Custom groups funcs
 
-	if GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()], what) then
+	if !GAMEMODE.ListGroup and !ListGroupVarNotSet then
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\n")
+		ListGroupVarNotSet = true
+	end
+
+	if GAMEMODE.ListGroup and GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()], what) then
 		return true
 	elseif pl.XperidiaRank and pl.XperidiaRank.id > 0 and table.HasValue(XperidiaCheck, what) then
 		return true
