@@ -1,71 +1,80 @@
-DEFINE_BASECLASS( "gamemode_base" )
+--[[---------------------------------------------------------
 
-include( "player_class/player_securityguard.lua" )
-include( "player_class/player_animatronic_controller.lua" )
+	Five Nights at Freddy's Gamemode for Garry's Mod
+			by VictorienXP@Xperidia (2015)
 
-GM.Name 	= "Five Nights at Freddy's"
-GM.ShortName = "FNAFGM"
-GM.Author 	= "VictorienXP@Xperidia"
-GM.Website 	= "xperi.link/FNAFGM"
-GM.OfficialVersion 	= 2.10
-GM.Version 	= GM.OfficialVersion
-GM.CustomVersion = false
-GM.TeamBased = true
-GM.AllowAutoTeam = true
-if engine.ActiveGamemode()=="fnafgm" then
-	GM.Official = true
+	"Five Nights at Freddy's" is a game by Scott Cawthon.
+
+-----------------------------------------------------------]]
+
+DEFINE_BASECLASS("gamemode_base")
+
+include("player_class/player_securityguard.lua")
+include("player_class/player_animatronic_controller.lua")
+
+GM.Name 			= "Five Nights at Freddy's"
+GM.ShortName 		= "FNAFGM"
+GM.Author 			= "VictorienXP@Xperidia"
+GM.Website 			= "xperi.link/FNAFGM"
+GM.OfficialVersion 	= 2.11					--This value shouldn't be touched in derived gamemodes.
+GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
+GM.CustomVersion 	= false					--tbh I think this is a deprecated variable.
+GM.TeamBased		= true
+GM.AllowAutoTeam	= true
+if engine.ActiveGamemode() == "fnafgm" then --This is to check if we're in the main FNAFGM or a derived gamemode.
+	GM.Official		= true
 else
-	GM.Official = false
+	GM.Official		= false
 end
-GM.IsFNAFGMDerived = true
+GM.IsFNAFGMDerived	= true
 
-GM.FT = 1
+GM.FT		= 1 --GM.FT is the variable for the FNAF style game and as you can see by default it's FNaF 1.
 
-if game.GetMap()=="fnaf2noevents" then
-	GM.FT = 2
-elseif game.GetMap()=="fnaf3" then
-	GM.FT = 3
-elseif game.GetMap()=="fnaf4house" or game.GetMap()=="fnaf4noclips" or game.GetMap()=="fnaf4versus" then
-	GM.FT = 4
+if game.GetMap() == "fnaf2noevents" then --The current version of the gamemode doesn't really support all these maps but it was considered and so the check is still here.
+	GM.FT	= 2
+elseif game.GetMap() == "fnaf3" then
+	GM.FT	= 3
+elseif game.GetMap() == "fnaf4house" or game.GetMap() == "fnaf4noclips" or game.GetMap() == "fnaf4versus" then
+	GM.FT	= 4
 end
 
---[[ Gamemode constants for derivations ]]--
-GM.TimeBase = 12
-GM.TimeEnd = 6
-GM.AMPM = "AM"
-GM.AMPM_End = "AM"
-GM.NightBase = 0
-GM.NightEnd = 5
-GM.HourTime = 86
-GM.Power_Max = 100
-GM.Power_Drain_Time = 9.6
-GM.Power_Usage_Base = 1
+--[[ Gamemode constants for derivations or any custom stuff ]]--
+GM.TimeEnd				= 6			--This is the time where the "night" should end.
+GM.TimeBase				= 12		--This is the time where the "night" starts.
+GM.AMPM					= "AM"		--This is the time where the "night" starts.
+GM.AMPM_End				= "AM"		--This is the time where the "night" should end.
+GM.NightBase			= 0			--This is where we should start counting the nights.
+GM.NightEnd				= 5			--This is where the base nights ends.
+GM.HourTime				= 86		--This is the time in seconds for each hour.
+GM.Power_Max			= 100		--This is with how much power any night starts.
+GM.Power_Drain_Time		= 9.6		--This is the base time on about how 1% of power decreases.
+GM.Power_Usage_Base		= 1			--This is the value for the base power consumption.
 
-GM.Colors_default = Color(255, 255, 255, 255)
-GM.Colors_defaultchat = Color(255, 255, 255)
-GM.Colors_surl = Color(255, 170, 0, 255)
-GM.Colors_sg = Color(255, 255, 100)
-GM.Colors_animatronics = Color(255, 0, 0)
+GM.Colors_default		= Color(255, 255, 255, 255)
+GM.Colors_defaultchat	= Color(255, 255, 255)
+GM.Colors_surl			= Color(255, 170, 0, 255)
+GM.Colors_sg			= Color(255, 255, 100)
+GM.Colors_animatronics	= Color(255, 0, 0)
 
-GM.Sound_startday = Sound("fnafgm/startday.ogg")
-GM.Sound_static = Sound("fnafgm/static.ogg")
-GM.Sound_endnight = Sound("fnafgm/clocks_chimes.ogg")
-GM.Sound_endnight2 = Sound("fnafgm/clocks_chimes2.ogg")
-GM.Sound_xscream = Sound("fnafgm/xscream.ogg")
-GM.Sound_xscream2 = Sound("fnafgm/xscream2.ogg")
-GM.Sound_foxystep = Sound("fnafgm/run.ogg")
-GM.Sound_foxyknock = Sound("fnafgm/knock.ogg")
-GM.Sound_securitycampop = Sound("fnafgm/monitoron.ogg")
-GM.Sound_securitycamdown = Sound("fnafgm/camdown.ogg")
-GM.Sound_securitycampop2 = Sound("fnafgm/monitoron2.ogg")
-GM.Sound_securitycamdown2 = Sound("fnafgm/monitoroff2.ogg")
-GM.Sound_securitycampop3 = Sound("fnafgm/monitoron3.ogg")
-GM.Sound_securitycamdown3 = Sound("fnafgm/monitoroff3.ogg")
-GM.Sound_camselect = Sound("fnafgm/camselect.ogg")
-GM.Sound_lighterror = Sound("fnafgm/lighterror.ogg")
+GM.Sound_startday			= Sound("fnafgm/startday.ogg")
+GM.Sound_static				= Sound("fnafgm/static.ogg")
+GM.Sound_endnight			= Sound("fnafgm/clocks_chimes.ogg")
+GM.Sound_endnight2			= Sound("fnafgm/clocks_chimes2.ogg")
+GM.Sound_xscream			= Sound("fnafgm/xscream.ogg")
+GM.Sound_xscream2			= Sound("fnafgm/xscream2.ogg")
+GM.Sound_foxystep			= Sound("fnafgm/run.ogg")
+GM.Sound_foxyknock			= Sound("fnafgm/knock.ogg")
+GM.Sound_securitycampop		= Sound("fnafgm/monitoron.ogg")
+GM.Sound_securitycamdown	= Sound("fnafgm/camdown.ogg")
+GM.Sound_securitycampop2	= Sound("fnafgm/monitoron2.ogg")
+GM.Sound_securitycamdown2	= Sound("fnafgm/monitoroff2.ogg")
+GM.Sound_securitycampop3	= Sound("fnafgm/monitoron3.ogg")
+GM.Sound_securitycamdown3	= Sound("fnafgm/monitoroff3.ogg")
+GM.Sound_camselect			= Sound("fnafgm/camselect.ogg")
+GM.Sound_lighterror			= Sound("fnafgm/lighterror.ogg")
 GM.Sound_end = {
-	freddysnoevent = Sound("fnafgm/end.ogg"),
-	fnaf2noevents = Sound("fnafgm/end2.ogg")
+	freddysnoevent			= Sound("fnafgm/end.ogg"),
+	fnaf2noevents			= Sound("fnafgm/end2.ogg")
 }
 GM.Sound_Animatronic = {}
 GM.Sound_Animatronic[0] = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
@@ -80,9 +89,9 @@ GM.Sound_garble3 = Sound("fnafgm/garble3.ogg")
 GM.Sound_Calls = {
 	freddysnoevent = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
 }
-GM.Sound_maskon = Sound("fnafgm/maskon.ogg")
-GM.Sound_maskoff = Sound("fnafgm/maskoff.ogg")
-GM.Sound_windowscare = Sound("fnafgm/windowscare.ogg")
+GM.Sound_maskon			= Sound("fnafgm/maskon.ogg")
+GM.Sound_maskoff		= Sound("fnafgm/maskoff.ogg")
+GM.Sound_windowscare	= Sound("fnafgm/windowscare.ogg")
 
 GM.TranslatedStrings = {}
 
@@ -327,15 +336,15 @@ GM.Strings = {
 }
 
 function GM:LoadLanguage(lang)
-	
-	if lang!="" and GAMEMODE.Strings[lang] then
+
+	if lang != "" and GAMEMODE.Strings[lang] then
 		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
-		GAMEMODE:Log("'"..lang.."' strings loaded!")
-	elseif lang!="" then
+		GAMEMODE:Log("'" .. lang .. "' strings loaded!")
+	elseif lang != "" then
 		table.Empty(GAMEMODE.TranslatedStrings)
-		GAMEMODE:Log("'"..lang.."' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
+		GAMEMODE:Log("'" .. lang .. "' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
 	end
-	
+
 end
 
 GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
@@ -355,9 +364,9 @@ GM.DeadBodiesTeleport = {
 }
 
 GM.FNaFView = {
-	freddysnoevent = { Vector( -80, -1224, 64 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
-	fnaf2noevents = { Vector( 0, -300, 0 ), Angle( 0, 90, 0 ), Angle( 0, 136, 0 ), Angle( 0, 44, 0 ) },
-	fnaf3 = { Vector( 14, -300, 64 ), Angle( 0, 90, 0 ), Angle( 0, 140, 0 ), Angle( 0, 80, 0 ) }
+	freddysnoevent = { Vector(-80, -1224, 64), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0) },
+	fnaf2noevents = { Vector(0, -300, 0), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0) },
+	fnaf3 = { Vector(14, -300, 64), Angle(0, 90, 0), Angle(0, 140, 0), Angle(0, 80, 0) }
 }
 
 GM.Materials_static = "fnafgm/overlays/static"
@@ -648,36 +657,36 @@ GM.AnimatronicsAnim = {}
 GM.Vars = {}
 
 --[CVAR]--
-fnafgm_deathscreendelay = CreateConVar( "fnafgm_deathscreendelay", 1, FCVAR_REPLICATED, "The death screen delay. (Time of the jumpscare)" )
-fnafgm_deathscreenduration = CreateConVar( "fnafgm_deathscreenduration", 10, FCVAR_REPLICATED, "The death screen duration." )
-fnafgm_autorespawn = CreateConVar( "fnafgm_autorespawn", 0, FCVAR_REPLICATED, "Auto respawn after the death screen." )
-fnafgm_allowflashlight = CreateConVar( "fnafgm_allowflashlight", 0, FCVAR_REPLICATED, "Enables/Disables the player's flashlight. (Except for admins)" )
-fnafgm_respawnenabled = CreateConVar( "fnafgm_respawnenabled", 1, FCVAR_REPLICATED, "Enable/Disable the respawn. (Except for admins)" )
-fnafgm_deathscreenfade = CreateConVar( "fnafgm_deathscreenfade", 1, FCVAR_REPLICATED, "Enable/Disable the death screen fade." )
-fnafgm_deathscreenoverlay = CreateConVar( "fnafgm_deathscreenoverlay", 1, FCVAR_REPLICATED, "Enable/Disable the death screen overlay." )
-fnafgm_ragdollinstantremove = CreateConVar( "fnafgm_ragdollinstantremove", 0, FCVAR_REPLICATED, "Instant remove dead bodies." )
-fnafgm_ragdolloverride = CreateConVar( "fnafgm_ragdolloverride", 1, FCVAR_REPLICATED, "Change the dead bodies." )
-fnafgm_autocleanupmap = CreateConVar( "fnafgm_autocleanupmap", 1, FCVAR_REPLICATED, "Auto clean up when the server is empty." )
-fnafgm_preventdoorkill = CreateConVar( "fnafgm_preventdoorkill", 1, FCVAR_REPLICATED, "The doors are the main cause of death. So stop these killers by putting a value of 1" )
-fnafgm_timethink_endlesstime = CreateConVar( "fnafgm_timethink_endlesstime", 0, FCVAR_REPLICATED, "The time will be endless. (Don't use this)" )
-fnafgm_timethink_infinitenights = CreateConVar( "fnafgm_timethink_infinitenights", 0, FCVAR_REPLICATED, "The nights will be endless." )
-fnafgm_forceseasonalevent = CreateConVar( "fnafgm_forceseasonalevent", 0, FCVAR_REPLICATED, "2 for April Fool. 3 for Halloween. 4 for Christmas" )
-fnafgm_killextsrplayers = CreateConVar( "fnafgm_killextsrplayers", 1, FCVAR_REPLICATED, "Stay in the security room otherwise you risk getting caught by the animatronics." )
-fnafgm_playermodel = CreateConVar( "fnafgm_playermodel", "none", FCVAR_REPLICATED, "Override the player model." )
-fnafgm_playerskin = CreateConVar( "fnafgm_playerskin", "0", FCVAR_REPLICATED, "Override the skin to use, if the model has any." )
-fnafgm_playerbodygroups = CreateConVar( "fnafgm_playerbodygroups", "0", FCVAR_REPLICATED, "Override the bodygroups to use, if the model has any." )
-fnafgm_playercolor = CreateConVar( "fnafgm_playercolor", "0.24 0.34 0.41", FCVAR_REPLICATED, "The value is a Vector - so between 0-1 - not between 0-255." )
-fnafgm_respawndelay = CreateConVar( "fnafgm_respawndelay", 0, FCVAR_REPLICATED, "Time before respawn. (After the death screen)" )
-fnafgm_enablebypass = CreateConVar( "fnafgm_enablebypass", 0, FCVAR_REPLICATED, "Enable the bypass funcs." )
-fnafgm_pinionsupport = CreateConVar( "fnafgm_pinionsupport", 0, FCVAR_REPLICATED, "Enable Pinion ads between nights and other." )
-fnafgm_timethink_autostart = CreateConVar( "fnafgm_timethink_autostart", 1, FCVAR_REPLICATED, "Start the night automatically." )
-fnafgm_timethink_autostartdelay = CreateConVar( "fnafgm_timethink_autostartdelay", 60, FCVAR_REPLICATED, "Auto start delay." )
-fnafgm_disablemapsmonitors = CreateConVar( "fnafgm_disablemapsmonitors", 1, FCVAR_REPLICATED, "If the gamemode should disable the map's monitors." )
-fnafgm_disablepower = CreateConVar( "fnafgm_disablepower", 0, FCVAR_REPLICATED, "Disable the power." )
-fnafgm_forcesavingloading = CreateConVar( "fnafgm_forcesavingloading", 0, FCVAR_REPLICATED, "Force save and load for dedicated servers." )
-fnafgm_enablecreatorsbypass = CreateConVar( "fnafgm_enablecreatorsbypass", 0, FCVAR_REPLICATED, "Allows the gamemode's creators to use bypass funcs." )
-fnafgm_enabledevmode = CreateConVar( "fnafgm_enabledevmode", 0, FCVAR_REPLICATED, "Dev mode and more logs." )
-fnafgm_sgvsa = CreateConVar( "fnafgm_sgvsa", 0, FCVAR_REPLICATED, "Enable PvP SGvsA mode." )
+fnafgm_deathscreendelay				= CreateConVar("fnafgm_deathscreendelay",			1,					FCVAR_REPLICATED,	"The death screen delay. (Time of the jumpscare)")
+fnafgm_deathscreenduration			= CreateConVar("fnafgm_deathscreenduration",		10,					FCVAR_REPLICATED,	"The death screen duration.")
+fnafgm_autorespawn					= CreateConVar("fnafgm_autorespawn",				0,					FCVAR_REPLICATED,	"Auto respawn after the death screen.")
+fnafgm_allowflashlight				= CreateConVar("fnafgm_allowflashlight",			0,					FCVAR_REPLICATED,	"Enables/Disables the player's flashlight. (Except for admins)")
+fnafgm_respawnenabled				= CreateConVar("fnafgm_respawnenabled",				1,					FCVAR_REPLICATED,	"Enable/Disable the respawn. (Except for admins)")
+fnafgm_deathscreenfade				= CreateConVar("fnafgm_deathscreenfade",			1,					FCVAR_REPLICATED,	"Enable/Disable the death screen fade.")
+fnafgm_deathscreenoverlay			= CreateConVar("fnafgm_deathscreenoverlay",			1,					FCVAR_REPLICATED,	"Enable/Disable the death screen overlay.")
+fnafgm_ragdollinstantremove			= CreateConVar("fnafgm_ragdollinstantremove",		0,					FCVAR_REPLICATED,	"Instant remove dead bodies.")
+fnafgm_ragdolloverride				= CreateConVar("fnafgm_ragdolloverride",			1,					FCVAR_REPLICATED,	"Change the dead bodies.")
+fnafgm_autocleanupmap				= CreateConVar("fnafgm_autocleanupmap",				1,					FCVAR_REPLICATED,	"Auto clean up when the server is empty.")
+fnafgm_preventdoorkill				= CreateConVar("fnafgm_preventdoorkill",			1,					FCVAR_REPLICATED,	"The doors are the main cause of death. So stop these killers by putting a value of 1")
+fnafgm_timethink_endlesstime		= CreateConVar("fnafgm_timethink_endlesstime",		0,					FCVAR_REPLICATED,	"The time will be endless. (Don't use this)")
+fnafgm_timethink_infinitenights		= CreateConVar("fnafgm_timethink_infinitenights",	0,					FCVAR_REPLICATED,	"The nights will be endless.")
+fnafgm_forceseasonalevent			= CreateConVar("fnafgm_forceseasonalevent",			0,					FCVAR_REPLICATED,	"2 for April Fool. 3 for Halloween. 4 for Christmas")
+fnafgm_killextsrplayers				= CreateConVar("fnafgm_killextsrplayers",			1,					FCVAR_REPLICATED,	"Stay in the security room otherwise you risk getting caught by the animatronics.")
+fnafgm_playermodel					= CreateConVar("fnafgm_playermodel",				"none",				FCVAR_REPLICATED,	"Override the player model.")
+fnafgm_playerskin					= CreateConVar("fnafgm_playerskin",					"0",				FCVAR_REPLICATED,	"Override the skin to use, if the model has any.")
+fnafgm_playerbodygroups				= CreateConVar("fnafgm_playerbodygroups",			"0",				FCVAR_REPLICATED,	"Override the bodygroups to use, if the model has any.")
+fnafgm_playercolor					= CreateConVar("fnafgm_playercolor",				"0.24 0.34 0.41",	FCVAR_REPLICATED,	"The value is a Vector - so between 0-1 - not between 0-255.")
+fnafgm_respawndelay					= CreateConVar("fnafgm_respawndelay",				0,					FCVAR_REPLICATED,	"Time before respawn. (After the death screen)")
+fnafgm_enablebypass					= CreateConVar("fnafgm_enablebypass",				0,					FCVAR_REPLICATED,	"Enable the bypass funcs.")
+fnafgm_pinionsupport				= CreateConVar("fnafgm_pinionsupport",				0,					FCVAR_REPLICATED,	"Enable Pinion ads between nights and other.")
+fnafgm_timethink_autostart			= CreateConVar("fnafgm_timethink_autostart",		1,					FCVAR_REPLICATED,	"Start the night automatically.")
+fnafgm_timethink_autostartdelay		= CreateConVar("fnafgm_timethink_autostartdelay",	60,					FCVAR_REPLICATED,	"Auto start delay.")
+fnafgm_disablemapsmonitors			= CreateConVar("fnafgm_disablemapsmonitors",		1,					FCVAR_REPLICATED,	"If the gamemode should disable the map's monitors.")
+fnafgm_disablepower					= CreateConVar("fnafgm_disablepower",				0,					FCVAR_REPLICATED,	"Disable the power.")
+fnafgm_forcesavingloading			= CreateConVar("fnafgm_forcesavingloading",			0,					FCVAR_REPLICATED,	"Force save and load for dedicated servers.")
+fnafgm_enablecreatorsbypass			= CreateConVar("fnafgm_enablecreatorsbypass",		0,					FCVAR_REPLICATED,	"Allows the gamemode's creators to use bypass funcs.")
+fnafgm_enabledevmode				= CreateConVar("fnafgm_enabledevmode",				0,					FCVAR_REPLICATED,	"Dev mode and more logs.")
+fnafgm_sgvsa						= CreateConVar("fnafgm_sgvsa",						0,					FCVAR_REPLICATED,	"Enable PvP SGvsA mode.")
 
 fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
 fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
@@ -691,11 +700,11 @@ fnafgm_cl_disablehalos = CreateClientConVar( "fnafgm_cl_disablehalos", 0, true, 
 function GM:Initialize()
 
 	GAMEMODE:LoadLanguage(GetConVarString("gmod_language"))
-	
-	cvars.AddChangeCallback( "gmod_language", function( convar_name, value_old, value_new )
+
+	cvars.AddChangeCallback("gmod_language", function(convar_name, value_old, value_new)
 		GAMEMODE:LoadLanguage(value_new)
 	end)
-	
+
 	GAMEMODE.Vars.startday = false
 	GAMEMODE.Vars.gameend = false
 	GAMEMODE.Vars.iniok = false
@@ -724,51 +733,51 @@ function GM:Initialize()
 	GAMEMODE.Vars.lastderivversion = 0
 	GAMEMODE.Vars.Animatronics = {}
 	GAMEMODE.Vars.Cheat = {}
-	
+
 	for _, gamemodes in pairs(engine.GetGamemodes()) do
-		
+
 		if gamemodes.name == ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) then
 			GAMEMODE.Mounted = true
 		end
-		
+
 	end
-	
-	if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ), "DATA" ) then
-		file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) )
-	elseif !file.IsDir( "fnafgm", "DATA" ) then
-		file.CreateDir( "fnafgm" )
+
+	if !file.IsDir(string.lower(GAMEMODE.ShortName) or "fnafgm", "DATA") then
+		file.CreateDir(string.lower(GAMEMODE.ShortName) or "fnafgm")
+	elseif !file.IsDir("fnafgm", "DATA") then
+		file.CreateDir("fnafgm")
 	end
-	
-	
+
+
 	local Timestamp = os.time()
-	if (os.date( "%d/%m" , Timestamp )=="01/04") then --SeasonalEvents
+	if (os.date("%d/%m", Timestamp) == "01/04") then --SeasonalEvents
 		GAMEMODE.Vars.AprilFool = true
 		GAMEMODE.Vars.seasonaltext = " - April Fool"
-	elseif (os.date( "%d/%m" , Timestamp )=="31/10") then
+	elseif (os.date("%d/%m", Timestamp) == "31/10") then
 		GAMEMODE.Vars.Halloween = true
 		GAMEMODE.Vars.seasonaltext = " - Halloween"
-	elseif (os.date( "%d/%m" , Timestamp )=="24/12") or (os.date( "%d/%m" , Timestamp )=="25/12") then
+	elseif (os.date("%d/%m", Timestamp) == "24/12") or (os.date("%d/%m", Timestamp) == "25/12") then
 		GAMEMODE.Vars.Christmas = true
 		GAMEMODE.Vars.seasonaltext = " - Christmas"
 		GAMEMODE.Power_Max = 125
 	end
-	
-	
+
+
 	if fnafgm_sgvsa:GetBool() and !game.SinglePlayer() then
 		GAMEMODE.Vars.SGvsA = true
 		GAMEMODE.Vars.modetext = " - PvP SGvsA"
 	end
-	
+
 	if !game.SinglePlayer() then
-		
-		cvars.AddChangeCallback( "fnafgm_sgvsa", function( convar_name, value_old, value_new )
-			if tonumber(value_new)>=1 then
+
+		cvars.AddChangeCallback("fnafgm_sgvsa", function(convar_name, value_old, value_new)
+			if tonumber(value_new) >= 1 then
 				GAMEMODE.Vars.SGvsA = true
 				GAMEMODE.Vars.modetext = " - PvP SGvsA"
-				GAMEMODE:Log( "The game is now in PvP SGvsA mode!" )
+				GAMEMODE:Log("The game is now in PvP SGvsA mode!")
 				if SERVER then
-					net.Start( "fnafgmNotif" )
-						net.WriteString( "now_sgvsa" )
+					net.Start("fnafgmNotif")
+						net.WriteString("now_sgvsa")
 						net.WriteInt(4,3)
 						net.WriteFloat(5)
 						net.WriteBit(true)
@@ -784,10 +793,10 @@ function GM:Initialize()
 			else
 				GAMEMODE.Vars.SGvsA = false
 				GAMEMODE.Vars.modetext = nil
-				GAMEMODE:Log( "The game is now in normal mode!" )
+				GAMEMODE:Log("The game is now in normal mode!")
 				if SERVER then
-					net.Start( "fnafgmNotif" )
-						net.WriteString( "now_normal" )
+					net.Start("fnafgmNotif")
+						net.WriteString("now_normal")
 						net.WriteInt(4,3)
 						net.WriteFloat(5)
 						net.WriteBit(true)
@@ -802,31 +811,31 @@ function GM:Initialize()
 				end
 			end
 		end)
-		
+
 	end
-	
-	
-	if GetHostName()=="1987" then --Not a easter egg ^^
+
+
+	if GetHostName() == "1987" then --Not a easter egg ^^
 		GAMEMODE.Vars.AprilFool = false
 		GAMEMODE.Vars.Halloween = false
 		GAMEMODE.Vars.SGvsA = false
 		GAMEMODE.Vars.b87 = true
 		GAMEMODE.Vars.modetext = " - '87"
 	end
-	
-	
+
+
 	for _, addon in pairs(engine.GetAddons()) do
-		
+
 		if addon.wsid == "408243366" and addon.mounted then
 			GAMEMODE.Vars.fnafgmWorkShop = true
 		end
-		
+
 	end
-	
+
 	for key, val in pairs(GAMEMODE.Sound_Animatronic) do
 		for k, v in pairs(GAMEMODE.Sound_Animatronic[key]) do
 			sound.Add( {
-				name = "fnafgm_"..key.."_"..k,
+				name = "fnafgm_" .. key .. "_" .. k,
 				channel = CHAN_STATIC,
 				volume = 1.0,
 				level = 0,
@@ -834,17 +843,17 @@ function GM:Initialize()
 			} )
 		end
 	end
-	
+
 	for k, v in pairs(GAMEMODE.Sound_end) do
 		sound.Add( {
-			name = "fnafgm_end_"..k,
+			name = "fnafgm_end_" .. k,
 			channel = CHAN_STATIC,
 			volume = 1.0,
 			level = 0,
 			sound = v
 		} )
 	end
-	
+
 	sound.Add( {
 		name = "fnafgm_campop",
 		channel = CHAN_AUTO,
@@ -978,9 +987,9 @@ function GM:Initialize()
 		level = 0,
 		sound = GAMEMODE.Sound_garble3
 	} )
-	
+
 	if SERVER then
-		
+
 		GAMEMODE.Vars.mapoverrideok = false
 		GAMEMODE.Vars.norespawn = false
 		GAMEMODE.Vars.active = false
@@ -997,189 +1006,179 @@ function GM:Initialize()
 		GAMEMODE.Vars.foxyknockdoorpena = 2
 		GAMEMODE.Vars.addfoxyknockdoorpena = 4
 		GAMEMODE.Vars.checkRestartNight = false
-		
+
 		if !game.SinglePlayer() then
-			timer.Create( "fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
+			timer.Create("fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
 		end
-		
+
 		GAMEMODE:RefreshBypass()
-		
+
 		if GetConVar("sv_loadingurl"):GetString() == "" then --Use the Xperidia's loading screen if no other loading screen is defined... Because it shows more information than the current default of Garry's Mod...
 			RunConsoleCommand("sv_loadingurl", "https://xperidia.com/GMOD/loading/?auto")
 		end
-		
+
 	end
-	
+
 	timer.Create( "fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
-	
+
 end
 
 
 function GM:SaveProgress(erase)
-	
+
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
-		
-		if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress", "DATA") then
-			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress" )
+
+		if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress", "DATA") then
+			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress" )
 		end
-		
+
 		local tab = {}
-		
+
 		if erase then
 			tab.Night = 0
-		elseif GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
+		elseif GAMEMODE.Vars.night >= GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
 			tab.Night = GAMEMODE.Vars.night
 		end
-		
-		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
-		
-		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
-		
+
+		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+
+		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
+
 	end
-	
+
 	if CLIENT and !GAMEMODE.Vars.SGvsA and ( fnafgm_cl_saveonservers:GetBool() or erase ) then
-		
-		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
-		
-		if ( filep and !erase ) then
-		
-			local tab = util.JSONToTable( filep )
-			if ( tab ) then
-				
-				if ( tab.Night ) then
-					if tab.Night>GAMEMODE.Vars.night then
-						return
-					end
-				end
-				
+
+		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt" )
+
+		if filep and !erase then
+
+			local tab = util.JSONToTable(filep)
+			if tab and  tab.Night and tab.Night > GAMEMODE.Vars.night then
+				return
 			end
-		
-		elseif !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress", "DATA" ) then
-			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress" )
+
+		elseif !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress", "DATA" ) then
+			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress" )
 		end
-		
+
 		local tab = {}
-		
+
 		if erase then
 			tab.Night = 0
-		elseif GAMEMODE.Vars.night>=GAMEMODE.NightEnd then
+		elseif GAMEMODE.Vars.night >= GAMEMODE.NightEnd then
 			tab.Night = GAMEMODE.NightEnd
 		else
 			tab.Night = GAMEMODE.Vars.night
 		end
-		
-		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
-		
-		GAMEMODE:Log("Progression saved! ("..tab.Night..")")
-		
+
+		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+
+		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
+
 	end
-	
+
 end
 
 
 function GM:LoadProgress()
-	
+
 	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
-		
-		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
-		
-		if ( filep ) then
-		
+
+		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt" )
+
+		if filep then
+
 			local tab = util.JSONToTable( filep )
-			if ( tab ) then
-				
-				if ( tab.Night ) then
-					if tab.Night>=GAMEMODE.NightEnd then
+			if tab then
+
+				if tab.Night then
+					if tab.Night >= GAMEMODE.NightEnd then
 						GAMEMODE.Vars.night = GAMEMODE.NightEnd
 					else
 						GAMEMODE.Vars.night = tab.Night
 					end
 				end
-				
-				GAMEMODE:Log("Progression loaded! ("..GAMEMODE.Vars.night..")")
-				
+
+				GAMEMODE:Log("Progression loaded! (" .. GAMEMODE.Vars.night .. ")")
+
 				return
-				
+
 			end
-			
+
 		end
-		
+
 	end
-	
+
 	if CLIENT and !GAMEMODE.Vars.SGvsA then
-		
-		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ).."/progress/" .. game.GetMap() .. ".txt" )
-		
-		if ( filep ) then
-		
-			local tab = util.JSONToTable( filep )
-			if ( tab ) then
-				
-				if ( tab.Night ) then
-					if tab.Night>=GAMEMODE.NightEnd then
-						nightp = GAMEMODE.NightEnd+1
-					else
-						nightp = tab.Night+1
-					end
+
+		local filep = file.Read( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt" )
+
+		if filep then
+
+			local tab = util.JSONToTable(filep)
+			if tab and tab.Night then
+				if tab.Night >= GAMEMODE.NightEnd then
+					nightp = GAMEMODE.NightEnd + 1
+				else
+					nightp = tab.Night + 1
 				end
-				
 			end
-			
+
 		end
-		
+
 	end
-	
+
 end
 
 
 function GM:RefreshBypass()
-	
+
 	if SERVER then
 		GAMEMODE:Log("Checking bypasses...")
 		local files, dir = file.Find("fnafgm/groups/" .. "*", "DATA")
 		table.Empty(GAMEMODE.ListGroup)
 		for k, v in pairs(files) do
-			GAMEMODE.ListGroup["group_"..string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/"..v, "DATA") )
+			GAMEMODE.ListGroup["group_" .. string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/" .. v, "DATA") )
 		end
-		if table.Count(GAMEMODE.ListGroup)==0 then
+		if table.Count(GAMEMODE.ListGroup) == 0 then
 			GAMEMODE:Log("No bypasses detected!")
 		else
 			PrintTable(GAMEMODE.ListGroup)
 			GAMEMODE:Log("Bypasses checked!")
 		end
 	end
-	
+
 end
 
 
 function GM:CreateTeams()
-	
-	team.SetUp( 1, tostring(GAMEMODE.TranslatedStrings.sg or GAMEMODE.Strings.en.sg), GAMEMODE.Colors_sg )
-	team.SetClass(1, { "player_fnafgmsecurityguard" } )
-	if game.GetMap()=="freddysnoevent" or game.GetMap()=="fnaf2noevents" then
-		team.SetSpawnPoint( 1, { "info_player_terrorist" } )
-	elseif game.GetMap()=="fnaf_freddypizzaevents" then
-		team.SetSpawnPoint( 1, { "info_player_deathmatch" } )
+
+	team.SetUp(1, tostring(GAMEMODE.TranslatedStrings.sg or GAMEMODE.Strings.en.sg), GAMEMODE.Colors_sg)
+	team.SetClass(1, {"player_fnafgmsecurityguard"})
+	if game.GetMap() == "freddysnoevent" or game.GetMap() == "fnaf2noevents" then
+		team.SetSpawnPoint(1, {"info_player_terrorist"})
+	elseif game.GetMap() == "fnaf_freddypizzaevents" then
+		team.SetSpawnPoint(1, {"info_player_deathmatch"})
 	else
-		team.SetSpawnPoint( 1, GAMEMODE.Spawns_sg )
+		team.SetSpawnPoint(1, GAMEMODE.Spawns_sg)
 	end
-	
-	team.SetUp( 2, tostring(GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics), GAMEMODE.Colors_animatronics )
-	team.SetClass(2, { "player_fnafgm_animatronic_controller" } )
+
+	team.SetUp(2, tostring(GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics), GAMEMODE.Colors_animatronics)
+	team.SetClass(2, {"player_fnafgm_animatronic_controller"})
 	team.SetSpawnPoint( 2, GAMEMODE.Spawns_animatronics )
-	
+
 	team.SetUp(TEAM_SPECTATOR, tostring(GAMEMODE.TranslatedStrings.spectator or GAMEMODE.Strings.en.spectator), Color(128, 128, 128))
-	
+
 	team.SetUp(TEAM_UNASSIGNED, "Unassigned", Color(128, 128, 128), false)
 	team.SetUp(TEAM_CONNECTING, "Connecting", Color(128, 128, 128), false)
-	
+
 end
 
 
 function GM:CheckCreator(pl) --To easly debug others servers and credit
-	if pl:SteamID()=="STEAM_0:1:18280147" then
+	if pl:SteamID() == "STEAM_0:1:18280147" then
 		return true
 	end
 	return false
@@ -1193,73 +1192,73 @@ end
 
 local XperidiaCheck = {"flashlight", "run", "jump", "spray", "fastrespawn", "act", "playermodel"}
 
-function GM:CustomCheck(pl,what) --Custom groups funcs
-	
-	if GAMEMODE.ListGroup["group_"..pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_"..pl:GetUserGroup()], what) then
+function GM:CustomCheck(pl, what) --Custom groups funcs
+
+	if GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()] and table.HasValue(GAMEMODE.ListGroup["group_" .. pl:GetUserGroup()], what) then
 		return true
 	elseif pl.XperidiaRank and pl.XperidiaRank.id > 0 and table.HasValue(XperidiaCheck, what) then
 		return true
 	end
-	
+
 	return false
-	
+
 end
 
 
 function GM:CheckPlayerSecurityRoom(ply)
-	
-	if (GAMEMODE.SecurityRoom[game.GetMap()]) then
-		
-		local ret = ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][1], GAMEMODE.SecurityRoom[game.GetMap()][2] )
-		
+
+	if GAMEMODE.SecurityRoom[game.GetMap()] then
+
+		local ret = ply:GetPos():WithinAABox(GAMEMODE.SecurityRoom[game.GetMap()][1], GAMEMODE.SecurityRoom[game.GetMap()][2])
+
 		if ret then
-			
+
 			return true
-			
+
 		end
-		
+
 		if GAMEMODE.SecurityRoom[game.GetMap()][3] then
-			
-			local ret = ply:GetPos():WithinAABox( GAMEMODE.SecurityRoom[game.GetMap()][3], GAMEMODE.SecurityRoom[game.GetMap()][4] )
-			
+
+			local ret = ply:GetPos():WithinAABox(GAMEMODE.SecurityRoom[game.GetMap()][3], GAMEMODE.SecurityRoom[game.GetMap()][4])
+
 			if ret then
-				
+
 				return true
-				
+
 			end
-			
+
 		end
-		
+
 		return false
-		
+
 	else
-		
+
 		return nil
-		
+
 	end
-	
+
 end
 
 
-function GM:GrabEarAnimation( ply )
-	
-	if ply:Team()==2 then return end
-	
+function GM:GrabEarAnimation(ply)
+
+	if ply:Team() == 2 then return end
+
 	ply.ChatGestureWeight = ply.ChatGestureWeight or 0
 
-	if ( ply:IsPlayingTaunt() ) then return end
+	if ply:IsPlayingTaunt() then return end
 
-	if ( ply:IsTyping() ) then
-		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 1, FrameTime() * 5.0 )
+	if ply:IsTyping() then
+		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 1, FrameTime() * 5)
 	else
-		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 0, FrameTime() * 5.0 )
+		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 0, FrameTime() * 5)
 	end
 
-	if ( ply.ChatGestureWeight > 0 ) then
-	
-		ply:AnimRestartGesture( GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true )
-		ply:AnimSetGestureWeight( GESTURE_SLOT_VCD, ply.ChatGestureWeight )
-	
+	if ply.ChatGestureWeight > 0 then
+
+		ply:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
+		ply:AnimSetGestureWeight(GESTURE_SLOT_VCD, ply.ChatGestureWeight)
+
 	end
 
 end
@@ -1268,102 +1267,102 @@ end
 function GM:Move( ply, mv )
 
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
-	
+
 	if SERVER and ply.fnafviewactive then return true end
-	
+
 	if ( drive.Move( ply, mv ) ) then return true end
-	
+
 	if ( player_manager.RunClass( ply, "Move", mv ) ) then return true end
-	
+
 	return false
 
 end
 
 
 function GM:FinishMove( ply, mv )
-	
+
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
-	
+
 	if SERVER and ply.fnafviewactive then return true end
-	
+
 	if ( drive.FinishMove( ply, mv ) ) then return true end
 	if ( player_manager.RunClass( ply, "FinishMove", mv ) ) then return true end
-	
+
 end
 
 
 function GM:GoFNaFView(ply,auto)
-	
+
 	GAMEMODE.Vars.fnafview = true
-	
-	if SERVER then 
-		if GAMEMODE.FNaFView[game.GetMap()] and ply:Team()==1 and ply:Alive() then
-			if !auto or ply:GetInfoNum("fnafgm_cl_autofnafview", 1)==1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
-			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos( GAMEMODE.FNaFView[game.GetMap()][1] ) end
-			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles( GAMEMODE.FNaFView[game.GetMap()][2] ) end
+
+	if SERVER then
+		if GAMEMODE.FNaFView[game.GetMap()] and ply:Team() == 1 and ply:Alive() then
+			if !auto or ply:GetInfoNum("fnafgm_cl_autofnafview", 1) == 1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
+			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos(GAMEMODE.FNaFView[game.GetMap()][1]) end
+			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles(GAMEMODE.FNaFView[game.GetMap()][2]) end
 		end
 	end
-	
+
 	if CLIENT then
-		if !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime+0.5<SysTime() then GAMEMODE:FNaFViewHUD() end
+		if !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime() then GAMEMODE:FNaFViewHUD() end
 	end
-	
+
 end
 
 
-timer.Create( "fnafgmAnimatronicsCD", 1, 0, function()
-	
+timer.Create("fnafgmAnimatronicsCD", 1, 0, function()
+
 	if tobool(GAMEMODE.Vars.startday) then
-		
-		for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
-			
-			if GAMEMODE.Vars.Animatronics[k][3] and GAMEMODE.Vars.Animatronics[k][3]>0 then
+
+		for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+
+			if GAMEMODE.Vars.Animatronics[k][3] and GAMEMODE.Vars.Animatronics[k][3] > 0 then
 				GAMEMODE.Vars.Animatronics[k][3] = GAMEMODE.Vars.Animatronics[k][3] - 1
 			end
-			
+
 		end
-		
+
 		if CLIENT and GAMEMODE.Vars.Monitor and GAMEMODE.Vars.Monitor.Animatronics then
-			
-			for k, v in pairs ( GAMEMODE.Vars.Animatronics ) do
-				
-				if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3]>0 then
+
+			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+
+				if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3] > 0 then
 					local val = GAMEMODE.Vars.Animatronics[k][3]
-					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText( val.."s" )
+					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText(val .. "s")
 					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 85, 85, 85, 255 ) )
-				elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3]==0 then
-					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText( "" )
+				elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3] == 0 then
+					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText("")
 					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 255, 255, 255, 255 ) )
 				end
-				
+
 				if GAMEMODE.Sound_Animatronic[k] then
-					
-					if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) and GAMEMODE.Vars.Animatronics[k][4]>CurTime() then
-						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[k][4]-CurTime(),0).."s")
+
+					if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) and GAMEMODE.Vars.Animatronics[k][4] > CurTime() then
+						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[k][4] - CurTime(), 0) .. "s")
 					elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) then
 						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText("TAUNT")
 					end
-					
+
 				end
-				
+
 			end
-			
+
 			hook.Call("fnafgmCustomAnimatronicsCD")
-			
+
 		end
-		
+
 	end
-	
+
 end)
 
 
-function GM:Log(str,tn,hardcore)
-	
+function GM:Log(str, tn, hardcore) --Log something to the console with GAMEMODE:Log(String<actual message to log>, nil, Bool<if this log is or can be repetitive, it will be hidden if dev mode isn't enabled>)
+
 	local name = (GAMEMODE.ShortName or "FNAFGM")
 	if tn then name = "FNAFGM" end
-	
+
 	if hardcore and !fnafgm_enabledevmode:GetBool() then return end
 
-	Msg( "["..name.."] "..(str or "This was a log message, but something went wrong").."\n" )
+	Msg("[" .. name .. "] " .. (str or "This was a log message, but something went wrong") .. "\n")
 
 end
