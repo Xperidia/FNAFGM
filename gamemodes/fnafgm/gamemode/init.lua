@@ -1444,7 +1444,12 @@ end
 function GM:SetNightTemplate(power)
 
 	if !GAMEMODE.Vars.night then
-		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.Vars.night\" wasn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\nTry contacting VictorienXP on Discord at https://discord.gg/tUa4pat\n")
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.Vars.night\" wasn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\nGet support on Xperidia's Discord server: https://discord.gg/tUa4pat\n")
+		if !GAMEMODE.Vars.tabused then GAMEMODE.Vars.tabused = {} end
+		if !GAMEMODE.Vars.LightUse then GAMEMODE.Vars.LightUse = {} end
+		if !GAMEMODE.Vars.DoorClosed then GAMEMODE.Vars.DoorClosed = {} end
+		if !GAMEMODE.Vars.usingsafedoor then GAMEMODE.Vars.usingsafedoor = {} end
+
 	end
 
 	GAMEMODE.Vars.startday = true
@@ -2150,6 +2155,7 @@ function fnafgmVarsUpdate()
 		net.WriteBit(GAMEMODE.Vars.tempostart)
 		net.WriteBit(GAMEMODE.Vars.mute)
 		net.WriteBit(GAMEMODE.Vars.overfive)
+		net.WriteBit(GAMEMODE.Vars.gamemode_init_done)
 	net.Broadcast()
 
 end
@@ -3103,10 +3109,10 @@ end
 function fnafgmPowerUpdate()
 
 	net.Start("fnafgmPowerUpdate")
-		net.WriteInt(GAMEMODE.Vars.power, 20)
-		net.WriteInt(GAMEMODE.Vars.powerusage, 6)
+		net.WriteInt(GAMEMODE.Vars.power or 0, 20)
+		net.WriteInt(GAMEMODE.Vars.powerusage or 0, 6)
 		net.WriteBit(GAMEMODE.Vars.poweroff)
-		net.WriteInt(GAMEMODE.Vars.powertot, 16)
+		net.WriteInt(GAMEMODE.Vars.powertot or GAMEMODE.Power_Max or 100, 16)
 	net.Broadcast()
 
 end

@@ -238,10 +238,16 @@ function fnafgmWarn()
 
 	end
 
-	if !GAMEMODE.Mounted and fnafgm_cl_warn:GetBool() then
+	if !GAMEMODE.Vars.gamemode_init_done or !GAMEMODE.Vars.gamemode_init_done_s then
 
-		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font)
-		notification.AddLegacy(GAMEMODE.TranslatedStrings.warn_font or GAMEMODE.Strings.en.warn_font, NOTIFY_ERROR, 10)
+		LocalPlayer():PrintMessage(HUD_PRINTTALK, [[
+Alert!
+The gamemode initialization failed! (GM:Initialize())
+Because of this the gamemode might not work properly!
+This issue is certainly caused by another addon. Please check all your installed addons.
+Get support on Xperidia's Discord server: https://discord.gg/tUa4pat
+]])
+		notification.AddLegacy("The gamemode initialization failed!", NOTIFY_ERROR, 10)
 		surface.PlaySound("buttons/button10.wav")
 
 	end
@@ -341,6 +347,7 @@ net.Receive("fnafgmVarsUpdate", function(len)
 	GAMEMODE.Vars.tempostart = tobool(net.ReadBit())
 	GAMEMODE.Vars.mute = tobool(net.ReadBit())
 	GAMEMODE.Vars.overfive = tobool(net.ReadBit())
+	GAMEMODE.Vars.gamemode_init_done_s = tobool(net.ReadBit())
 
 end)
 

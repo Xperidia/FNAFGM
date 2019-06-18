@@ -49,11 +49,12 @@ function ENT:Initialize()
 	if SERVER then
 
 		local cd = 0
+		local night = GAMEMODE.Vars.night or 0
 
-		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night + 1] then
-			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night + 1]
-		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night] then
-			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][GAMEMODE.Vars.night]
+		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1] then
+			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1]
+		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night] then
+			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][night]
 		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][0] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][0]
 		else
@@ -85,6 +86,9 @@ function ENT:Initialize()
 
 		end
 
+		if !GAMEMODE.Vars.Animatronics then
+			GAMEMODE.Vars.Animatronics = {}
+		end
 		GAMEMODE.Vars.Animatronics[me] = { self, apos, cd, 0 }
 
 		net.Start("fnafgmAnimatronicsList")
@@ -324,19 +328,20 @@ end
 function ENT:GoJumpscare()
 
 	local me = self:GetAType()
+	local night = GAMEMODE.Vars.night or 0
 
 	local timet = 2.5
-	if GAMEMODE.Vars.night == 1 then
+	if night == 1 then
 		timet = 5.5
-	elseif GAMEMODE.Vars.night == 2 then
+	elseif night == 2 then
 		timet = 5
-	elseif GAMEMODE.Vars.night == 3 then
+	elseif night == 3 then
 		timet = 4.5
-	elseif GAMEMODE.Vars.night == 4 then
+	elseif night == 4 then
 		timet = 4
-	elseif GAMEMODE.Vars.night == 5 then
+	elseif night == 5 then
 		timet = 3.5
-	elseif GAMEMODE.Vars.night == 6 then
+	elseif night == 6 then
 		timet = 3
 	end
 
@@ -463,10 +468,13 @@ function ENT:Jumpscare()
 
 				if !fnafgm_disablepower:GetBool() then
 
-					GAMEMODE.Vars.power = GAMEMODE.Vars.power - GAMEMODE.Vars.foxyknockdoorpena
-					GAMEMODE:Log("Foxy removed " .. GAMEMODE.Vars.foxyknockdoorpena .. "% of the power")
+					local foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena or 2
+					local addfoxyknockdoorpena = GAMEMODE.Vars.addfoxyknockdoorpena or 4
+
+					GAMEMODE.Vars.power = GAMEMODE.Vars.power - foxyknockdoorpena
+					GAMEMODE:Log("Foxy removed " .. foxyknockdoorpena .. "% of the power")
 					fnafgmPowerUpdate()
-					if GAMEMODE.Vars.foxyknockdoorpena <= 10 then GAMEMODE.Vars.foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena + GAMEMODE.Vars.addfoxyknockdoorpena end
+					if foxyknockdoorpena <= 10 then GAMEMODE.Vars.foxyknockdoorpena = foxyknockdoorpena + addfoxyknockdoorpena end
 
 				end
 

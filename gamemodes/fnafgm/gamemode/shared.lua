@@ -16,7 +16,7 @@ GM.Name 			= "Five Nights at Freddy's"
 GM.ShortName 		= "FNAFGM"
 GM.Author 			= "VictorienXP@Xperidia"
 GM.Website 			= "xperi.link/FNAFGM"
-GM.OfficialVersion 	= 2.111					--This value shouldn't be touched in derived gamemodes.
+GM.OfficialVersion 	= 2.12					--This value shouldn't be touched in derived gamemodes.
 GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
 GM.CustomVersion 	= false					--tbh I think this is a deprecated variable.
 GM.TeamBased		= true
@@ -723,18 +723,8 @@ function GM:Initialize()
 	GAMEMODE.Vars.fnafview = false
 	GAMEMODE.Vars.fnafviewactive = false
 	GAMEMODE.Vars.fnafgmWorkShop = false
-	GAMEMODE.Vars.lastversion = 0
-	GAMEMODE.Vars.lastderivversion = 0
 	GAMEMODE.Vars.Animatronics = {}
 	GAMEMODE.Vars.Cheat = {}
-
-	for _, gamemodes in pairs(engine.GetGamemodes()) do
-
-		if gamemodes.name == (string.lower(GAMEMODE.ShortName) or "fnafgm") then
-			GAMEMODE.Mounted = true
-		end
-
-	end
 
 	if !file.IsDir(string.lower(GAMEMODE.ShortName) or "fnafgm", "DATA") then
 		file.CreateDir(string.lower(GAMEMODE.ShortName) or "fnafgm")
@@ -1021,6 +1011,8 @@ function GM:Initialize()
 
 	timer.Create("fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
 
+	GAMEMODE.Vars.gamemode_init_done = true
+
 end
 
 
@@ -1196,7 +1188,7 @@ local ListGroupVarNotSet
 function GM:CustomCheck(pl, what) --Custom groups funcs
 
 	if !GAMEMODE.ListGroup and !ListGroupVarNotSet then
-		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\nTry contacting VictorienXP on Discord at https://discord.gg/tUa4pat\n")
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\nGet support on Xperidia's Discord server: https://discord.gg/tUa4pat\n")
 		ListGroupVarNotSet = true
 	end
 
