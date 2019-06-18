@@ -688,13 +688,13 @@ fnafgm_enablecreatorsbypass			= CreateConVar("fnafgm_enablecreatorsbypass",		0,	
 fnafgm_enabledevmode				= CreateConVar("fnafgm_enabledevmode",				0,					FCVAR_REPLICATED,	"Dev mode and more logs.")
 fnafgm_sgvsa						= CreateConVar("fnafgm_sgvsa",						0,					FCVAR_REPLICATED,	"Enable PvP SGvsA mode.")
 
-fnafgm_cl_hideversion = CreateClientConVar( "fnafgm_cl_hideversion", 0, true, false )
-fnafgm_cl_warn = CreateClientConVar( "fnafgm_cl_warn", 1, true, false )
-fnafgm_cl_autofnafview = CreateClientConVar( "fnafgm_cl_autofnafview", 1, true, true )
-fnafgm_cl_chatsound = CreateClientConVar( "fnafgm_cl_chatsound", 1, true, false )
-fnafgm_cl_flashwindow = CreateClientConVar( "fnafgm_cl_flashwindow", 1, true, false )
-fnafgm_cl_saveonservers = CreateClientConVar( "fnafgm_cl_saveonservers", 1, true, false )
-fnafgm_cl_disablehalos = CreateClientConVar( "fnafgm_cl_disablehalos", 0, true, false )
+fnafgm_cl_hideversion = CreateClientConVar("fnafgm_cl_hideversion", 0, true, false)
+fnafgm_cl_warn = CreateClientConVar("fnafgm_cl_warn", 1, true, false)
+fnafgm_cl_autofnafview = CreateClientConVar("fnafgm_cl_autofnafview", 1, true, true)
+fnafgm_cl_chatsound = CreateClientConVar("fnafgm_cl_chatsound", 1, true, false)
+fnafgm_cl_flashwindow = CreateClientConVar("fnafgm_cl_flashwindow", 1, true, false)
+fnafgm_cl_saveonservers = CreateClientConVar("fnafgm_cl_saveonservers", 1, true, false)
+fnafgm_cl_disablehalos = CreateClientConVar("fnafgm_cl_disablehalos", 0, true, false)
 
 
 function GM:Initialize()
@@ -736,7 +736,7 @@ function GM:Initialize()
 
 	for _, gamemodes in pairs(engine.GetGamemodes()) do
 
-		if gamemodes.name == ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) then
+		if gamemodes.name == (string.lower(GAMEMODE.ShortName) or "fnafgm") then
 			GAMEMODE.Mounted = true
 		end
 
@@ -1019,17 +1019,17 @@ function GM:Initialize()
 
 	end
 
-	timer.Create( "fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
+	timer.Create("fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
 
 end
 
 
 function GM:SaveProgress(erase)
 
-	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
+	if SERVER and (!GAMEMODE.Vars.SGvsA and (!game.IsDedicated() or fnafgm_forcesavingloading:GetBool())) then
 
-		if !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress", "DATA") then
-			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress" )
+		if !file.IsDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA" ) then
+			file.CreateDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress" )
 		end
 
 		local tab = {}
@@ -1042,15 +1042,15 @@ function GM:SaveProgress(erase)
 			tab.Night = GAMEMODE.Vars.night
 		end
 
-		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab) )
 
 		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
 
 	end
 
-	if CLIENT and !GAMEMODE.Vars.SGvsA and ( fnafgm_cl_saveonservers:GetBool() or erase ) then
+	if CLIENT and !GAMEMODE.Vars.SGvsA and (fnafgm_cl_saveonservers:GetBool() or erase) then
 
-		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt" )
+		local filep = file.Read( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt" )
 
 		if filep and !erase then
 

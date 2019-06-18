@@ -1547,7 +1547,7 @@ function fnafgmResetGame()
 	GAMEMODE.Vars.gameend = false
 	GAMEMODE.Vars.checkRestartNight = false
 	GAMEMODE.Vars.mute = true
-	timer.Remove( "fnafgmEndCall" )
+	timer.Remove("fnafgmEndCall")
 	timer.Remove("fnafgmTimeThink")
 	timer.Remove("fnafgmPreRestartNight")
 	timer.Remove("fnafgmRestartNight")
@@ -2368,7 +2368,7 @@ function fnafgmTimeThink()
 end
 
 
-function GM:FinishMove( ply, mv )
+function GM:FinishMove(ply, mv)
 
 	local userid = ply:UserID()
 
