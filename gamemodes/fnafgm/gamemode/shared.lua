@@ -1270,29 +1270,29 @@ function GM:GrabEarAnimation(ply)
 end
 
 
-function GM:Move( ply, mv )
+function GM:Move(ply, mv)
 
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 
 	if SERVER and ply.fnafviewactive then return true end
 
-	if ( drive.Move( ply, mv ) ) then return true end
+	if drive.Move(ply, mv) then return true end
 
-	if ( player_manager.RunClass( ply, "Move", mv ) ) then return true end
+	if player_manager.RunClass(ply, "Move", mv) then return true end
 
 	return false
 
 end
 
 
-function GM:FinishMove( ply, mv )
+function GM:FinishMove(ply, mv)
 
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
 
 	if SERVER and ply.fnafviewactive then return true end
 
-	if ( drive.FinishMove( ply, mv ) ) then return true end
-	if ( player_manager.RunClass( ply, "FinishMove", mv ) ) then return true end
+	if drive.FinishMove(ply, mv) then return true end
+	if player_manager.RunClass(ply, "FinishMove", mv) then return true end
 
 end
 
