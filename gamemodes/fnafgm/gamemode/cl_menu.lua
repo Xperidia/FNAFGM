@@ -124,11 +124,11 @@ function fnafgmMenu()
 
 			bugreportbtn = vgui.Create("DButton")
 			bugreportbtn:SetParent(fnafgmMenuF.links)
-			bugreportbtn:SetText("Support")
+			bugreportbtn:SetText("Get support")
 			bugreportbtn:SetPos(155, 185)
 			bugreportbtn:SetSize(140, 20)
 			bugreportbtn.DoClick = function()
-				gui.OpenURL("https://discord.gg/jtUtYDa")
+				gui.OpenURL("https://discord.gg/tUa4pat")
 				fnafgmMenuF:Close()
 			end
 

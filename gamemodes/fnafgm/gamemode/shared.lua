@@ -16,7 +16,7 @@ GM.Name 			= "Five Nights at Freddy's"
 GM.ShortName 		= "FNAFGM"
 GM.Author 			= "VictorienXP@Xperidia"
 GM.Website 			= "xperi.link/FNAFGM"
-GM.OfficialVersion 	= 2.11					--This value shouldn't be touched in derived gamemodes.
+GM.OfficialVersion 	= 2.111					--This value shouldn't be touched in derived gamemodes.
 GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
 GM.CustomVersion 	= false					--tbh I think this is a deprecated variable.
 GM.TeamBased		= true
@@ -699,12 +699,6 @@ fnafgm_cl_disablehalos = CreateClientConVar("fnafgm_cl_disablehalos", 0, true, f
 
 function GM:Initialize()
 
-	GAMEMODE:LoadLanguage(GetConVarString("gmod_language"))
-
-	cvars.AddChangeCallback("gmod_language", function(convar_name, value_old, value_new)
-		GAMEMODE:LoadLanguage(value_new)
-	end)
-
 	GAMEMODE.Vars.startday = false
 	GAMEMODE.Vars.gameend = false
 	GAMEMODE.Vars.iniok = false
@@ -988,6 +982,12 @@ function GM:Initialize()
 		sound = GAMEMODE.Sound_garble3
 	} )
 
+	GAMEMODE:LoadLanguage(GetConVar("gmod_language"):GetString())
+
+	cvars.AddChangeCallback("gmod_language", function(convar_name, value_old, value_new)
+		GAMEMODE:LoadLanguage(value_new)
+	end)
+
 	if SERVER then
 
 		GAMEMODE.ListGroup = {}
@@ -1196,7 +1196,7 @@ local ListGroupVarNotSet
 function GM:CustomCheck(pl, what) --Custom groups funcs
 
 	if !GAMEMODE.ListGroup and !ListGroupVarNotSet then
-		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\n")
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\nTry contacting VictorienXP on Discord at https://discord.gg/tUa4pat\n")
 		ListGroupVarNotSet = true
 	end
 

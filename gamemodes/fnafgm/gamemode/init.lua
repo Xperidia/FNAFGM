@@ -1443,9 +1443,13 @@ end
 
 function GM:SetNightTemplate(power)
 
+	if !GAMEMODE.Vars.night then
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.Vars.night\" wasn't set!\nThere might be a critical initialization issue!\nPlease check earlier error logs for more info about the real origin of this issue.\nTry contacting VictorienXP on Discord at https://discord.gg/tUa4pat\n")
+	end
+
 	GAMEMODE.Vars.startday = true
 	GAMEMODE.Vars.tempostart = true
-	GAMEMODE.Vars.night = GAMEMODE.Vars.night + 1
+	GAMEMODE.Vars.night = (GAMEMODE.Vars.night or 0) + 1
 	GAMEMODE.Vars.AMPM = GAMEMODE.AMPM
 	GAMEMODE.Vars.time = GAMEMODE.TimeBase
 	if power then GAMEMODE.Vars.power = GAMEMODE.Power_Max end
