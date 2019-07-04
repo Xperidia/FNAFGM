@@ -1188,7 +1188,7 @@ local ListGroupVarNotSet
 function GM:CustomCheck(pl, what) --Custom groups funcs
 
 	if !GAMEMODE.ListGroup and !ListGroupVarNotSet then
-		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\nGet support on Xperidia's Discord server: https://discord.gg/tUa4pat\n")
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\n")
 		ListGroupVarNotSet = true
 	end
 

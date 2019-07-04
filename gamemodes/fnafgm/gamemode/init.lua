@@ -1444,7 +1444,7 @@ end
 function GM:SetNightTemplate(power)
 
 	if !GAMEMODE.Vars.night then
-		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.Vars.night\" wasn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\nGet support on Xperidia's Discord server: https://discord.gg/tUa4pat\n")
+		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.Vars.night\" wasn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\n")
 		if !GAMEMODE.Vars.tabused then GAMEMODE.Vars.tabused = {} end
 		if !GAMEMODE.Vars.LightUse then GAMEMODE.Vars.LightUse = {} end
 		if !GAMEMODE.Vars.DoorClosed then GAMEMODE.Vars.DoorClosed = {} end

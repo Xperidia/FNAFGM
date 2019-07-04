@@ -245,7 +245,6 @@ Alert!
 The gamemode initialization failed! (GM:Initialize())
 Because of this the gamemode might not work properly!
 This issue is certainly caused by another addon. Please check all your installed addons.
-Get support on Xperidia's Discord server: https://discord.gg/tUa4pat
 ]])
 		notification.AddLegacy("The gamemode initialization failed!", NOTIFY_ERROR, 10)
 		surface.PlaySound("buttons/button10.wav")
