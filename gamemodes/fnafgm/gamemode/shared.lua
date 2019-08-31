@@ -1051,8 +1051,8 @@ function GM:SaveProgress(erase)
 				return
 			end
 
-		elseif !file.IsDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress", "DATA" ) then
-			file.CreateDir( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress" )
+		elseif !file.IsDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA" ) then
+			file.CreateDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress" )
 		end
 
 		local tab = {}
@@ -1065,7 +1065,7 @@ function GM:SaveProgress(erase)
 			tab.Night = GAMEMODE.Vars.night
 		end
 
-		file.Write( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON( tab ) )
+		file.Write( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab) )
 
 		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
 
