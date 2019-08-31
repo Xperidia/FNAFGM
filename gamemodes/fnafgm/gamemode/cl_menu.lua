@@ -90,26 +90,6 @@ function fnafgmMenu()
 			fnafgmMenuF:Close()
 		end
 
-		local xpucp = vgui.Create("DButton")
-		xpucp:SetParent(fnafgmMenuF.links)
-		xpucp:SetText("Xperidia Account")
-		xpucp:SetPos(20, 30)
-		xpucp:SetSize(125, 20)
-		xpucp.DoClick = function()
-			gui.OpenURL("https://www.xperidia.com/UCP/")
-			fnafgmMenuF:Close()
-		end
-
-		local xpsteam = vgui.Create("DButton")
-		xpsteam:SetParent(fnafgmMenuF.links)
-		xpsteam:SetText("Xperidia's Discord server")
-		xpsteam:SetPos(160, 30)
-		xpsteam:SetSize(125, 20)
-		xpsteam.DoClick = function()
-			gui.OpenURL("https://discord.gg/jtUtYDa")
-			fnafgmMenuF:Close()
-		end
-
 		if engine.ActiveGamemode() == "fnafgm" then
 
 			questionbtn = vgui.Create("DButton")
@@ -118,7 +98,7 @@ function fnafgmMenu()
 			questionbtn:SetPos(10, 185)
 			questionbtn:SetSize(140, 20)
 			questionbtn.DoClick = function()
-				gui.OpenURL("http://steamcommunity.com/workshop/filedetails/discussion/408243366/494632338490289695/")
+				gui.OpenURL("https://steamcommunity.com/workshop/filedetails/discussion/408243366/494632338490289695/")
 				fnafgmMenuF:Close()
 			end
 
