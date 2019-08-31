@@ -195,7 +195,7 @@ GM.Strings = {
 		warn_font = "Le gamemode n'est pas installé sur votre jeu! Les polices seront manquantes!",
 		selectplayermodelbtn = "Changer son playermodel"
 	},
-	tr = { --Translation by http://steamcommunity.com/profiles/76561198118981905/
+	tr = { --Translation by https://steamcommunity.com/profiles/76561198118981905/
 		sg = "Güvenlik Görevlileri",
 		animatronics = "Animasyoncular",
 		animatronic = "Animasyoncu",
@@ -233,7 +233,7 @@ GM.Strings = {
 		progressinfo = "Son kaydedilmiþ gece",
 		disablexpsc = "Xperidia'nýn Vitrinini kapatýn"
 	},
-	ru = { --Translation by http://steamcommunity.com/profiles/76561198135819236 and http://steamcommunity.com/profiles/76561198146926505
+	ru = { --Translation by https://steamcommunity.com/profiles/76561198135819236 and https://steamcommunity.com/profiles/76561198146926505
 		sg = "Охранники",
 		animatronics = "Аниматроники",
 		animatronic = "Аниматроник",
@@ -289,7 +289,7 @@ GM.Strings = {
 		warn_font = "Игровой режим не установлен в твоей игре! Шрифты будут отсутствовать!",
 		selectplayermodelbtn = "Выбери модель игрока"
 	},
-	uk = { --Translation by http://steamcommunity.com/profiles/76561198135819236
+	uk = { --Translation by https://steamcommunity.com/profiles/76561198135819236
 		sg = "Охоронці",
 		animatronics = "Аніматроніки",
 		animatronic = "Аніматронік",
@@ -342,7 +342,7 @@ function GM:LoadLanguage(lang)
 		GAMEMODE:Log("'" .. lang .. "' strings loaded!")
 	elseif lang != "" then
 		table.Empty(GAMEMODE.TranslatedStrings)
-		GAMEMODE:Log("'" .. lang .. "' is not supported! Default strings loaded! If you want to do a translation, please go here: http://steamcommunity.com/workshop/filedetails/discussion/408243366/523897653295354408/")
+		GAMEMODE:Log("'" .. lang .. "' is not supported! Default strings loaded!")
 	end
 
 end
@@ -427,11 +427,10 @@ GM.MapList = {
 }
 
 GM.MapListLinks = {
-	freddysnoevent = "http://steamcommunity.com/sharedfiles/filedetails/?id=311282498",
-	fnaf2noevents = "http://steamcommunity.com/sharedfiles/filedetails/?id=342417402",
-	fnaf3 = "http://steamcommunity.com/sharedfiles/filedetails/?id=409285826",
-	fnaf4house = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146"
-	--fnaf4versus = "http://steamcommunity.com/sharedfiles/filedetails/?id=493003146"
+	freddysnoevent = "https://steamcommunity.com/sharedfiles/filedetails/?id=311282498",
+	fnaf2noevents = "https://steamcommunity.com/sharedfiles/filedetails/?id=342417402",
+	fnaf3 = "https://steamcommunity.com/sharedfiles/filedetails/?id=409285826",
+	fnaf4house = "https://steamcommunity.com/sharedfiles/filedetails/?id=493003146"
 }
 
 GM.Animatronic = {}
