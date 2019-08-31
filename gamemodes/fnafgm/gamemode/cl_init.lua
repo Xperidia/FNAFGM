@@ -44,7 +44,7 @@ end
 for _, addon in pairs(engine.GetAddons()) do
 
 	if addon.wsid == "104575630" and addon.mounted then
-		CreateClientConVar( "ragdollmover_rotatebutton", 109, false, false ) // Ragdoll Mover "fix" http://steamcommunity.com/sharedfiles/filedetails/?id=104575630
+		CreateClientConVar("ragdollmover_rotatebutton", 109, false, false) -- Ragdoll Mover "fix" https://steamcommunity.com/sharedfiles/filedetails/?id=104575630
 	end
 
 end
