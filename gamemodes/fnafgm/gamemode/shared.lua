@@ -15,7 +15,7 @@ include("player_class/player_animatronic_controller.lua")
 GM.Name 			= "Five Nights at Freddy's"
 GM.ShortName 		= "FNAFGM"
 GM.Author 			= "VictorienXP@Xperidia"
-GM.Website 			= "xperi.link/FNAFGM"
+GM.Website 			= "steamcommunity.com/sharedfiles/filedetails/?id=408243366"
 GM.OfficialVersion 	= 2.12					--This value shouldn't be touched in derived gamemodes.
 GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
 GM.CustomVersion 	= false					--tbh I think this is a deprecated variable.
