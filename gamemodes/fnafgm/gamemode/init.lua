@@ -3199,8 +3199,9 @@ function GM:ShutDown()
 			v:SetViewEntity(v)
 		end
 	end
-	if GetConVar("sv_loadingurl"):GetString() == "https://xperidia.com/GMOD/loading/?auto" then --Put back the default Garry's Mod loading screen...
-		RunConsoleCommand("sv_loadingurl", "")
+	if	GetConVar("sv_loadingurl"):GetString() == "https://assets.xperidia.com/garrysmod/loading.html#auto"
+	or	GetConVar("sv_loadingurl"):GetString() == "https://xperidia.com/GMOD/loading/?auto" then
+		RunConsoleCommand("sv_loadingurl", "") --Put back the default Garry's Mod loading screen...
 	end
 end
 

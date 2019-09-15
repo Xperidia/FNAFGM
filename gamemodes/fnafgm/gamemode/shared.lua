@@ -1003,7 +1003,7 @@ function GM:Initialize()
 		GAMEMODE:RefreshBypass()
 
 		if GetConVar("sv_loadingurl"):GetString() == "" then --Use the Xperidia's loading screen if no other loading screen is defined... Because it shows more information than the current default of Garry's Mod...
-			RunConsoleCommand("sv_loadingurl", "https://xperidia.com/GMOD/loading/?auto")
+			RunConsoleCommand("sv_loadingurl", "https://assets.xperidia.com/garrysmod/loading.html#auto")
 		end
 
 	end
