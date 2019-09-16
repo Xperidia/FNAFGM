@@ -5,7 +5,7 @@
 	"maps"		"^freddys|^fnaf"
 	"menusystem"	"1"
 	"workshopid"	"408243366"
-	
+
 	"settings"
 	{
 		1
