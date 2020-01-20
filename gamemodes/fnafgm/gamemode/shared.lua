@@ -686,6 +686,7 @@ fnafgm_forcesavingloading			= CreateConVar("fnafgm_forcesavingloading",			0,				
 fnafgm_enablecreatorsbypass			= CreateConVar("fnafgm_enablecreatorsbypass",		0,					FCVAR_REPLICATED,	"Allows the gamemode's creators to use bypass funcs.")
 fnafgm_enabledevmode				= CreateConVar("fnafgm_enabledevmode",				0,					FCVAR_REPLICATED,	"Dev mode and more logs.")
 fnafgm_sgvsa						= CreateConVar("fnafgm_sgvsa",						0,					FCVAR_REPLICATED,	"Enable PvP SGvsA mode.")
+fnafgm_autorestartmap				= CreateConVar("fnafgm_autorestartmap",				1,					FCVAR_REPLICATED,	"Auto restart the map when it's been active for too long.")
 
 fnafgm_cl_hideversion = CreateClientConVar("fnafgm_cl_hideversion", 0, true, false)
 fnafgm_cl_warn = CreateClientConVar("fnafgm_cl_warn", 1, true, false)

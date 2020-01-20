@@ -1476,10 +1476,12 @@ function fnafgmAutoCleanUp()
 
 		if !online then
 			GAMEMODE:Log("Auto clean up")
-			GAMEMODE.Vars.active = false
-			fnafgmResetGame()
-			fnafgmMapOverrides()
-			GAMEMODE:LoadProgress()
+			if !GAMEMODE:RestartMapIfWeShould() then
+				GAMEMODE.Vars.active = false
+				fnafgmResetGame()
+				fnafgmMapOverrides()
+				GAMEMODE:LoadProgress()
+			end
 		end
 
 	end
@@ -3090,7 +3092,9 @@ function GM:Think()
 
 			timer.Create("fnafgmRestartNight", delay + 0.1, 1, function()
 
-				fnafgmRestartNight()
+				if !GAMEMODE:RestartMapIfWeShould() then
+					fnafgmRestartNight()
+				end
 
 				timer.Remove("fnafgmRestartNight")
 
@@ -3542,3 +3546,11 @@ concommand.Add("fnafgm_togglesgvsa", function(ply, str)
 	end
 
 end)
+
+function GM:RestartMapIfWeShould()
+	if fnafgm_autorestartmap:GetBool() and CurTime() > 21600 then
+		GAMEMODE:Log("The map has been active for too long. Reloading...")
+		RunConsoleCommand("changelevel", game.GetMap())
+		return true
+	end
+end
