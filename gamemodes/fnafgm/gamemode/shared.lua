@@ -677,7 +677,6 @@ fnafgm_playerbodygroups				= CreateConVar("fnafgm_playerbodygroups",			"0",				F
 fnafgm_playercolor					= CreateConVar("fnafgm_playercolor",				"0.24 0.34 0.41",	FCVAR_REPLICATED,	"The value is a Vector - so between 0-1 - not between 0-255.")
 fnafgm_respawndelay					= CreateConVar("fnafgm_respawndelay",				0,					FCVAR_REPLICATED,	"Time before respawn. (After the death screen)")
 fnafgm_enablebypass					= CreateConVar("fnafgm_enablebypass",				0,					FCVAR_REPLICATED,	"Enable the bypass funcs.")
-fnafgm_pinionsupport				= CreateConVar("fnafgm_pinionsupport",				0,					FCVAR_REPLICATED,	"Enable Pinion ads between nights and other.")
 fnafgm_timethink_autostart			= CreateConVar("fnafgm_timethink_autostart",		1,					FCVAR_REPLICATED,	"Start the night automatically.")
 fnafgm_timethink_autostartdelay		= CreateConVar("fnafgm_timethink_autostartdelay",	60,					FCVAR_REPLICATED,	"Auto start delay.")
 fnafgm_disablemapsmonitors			= CreateConVar("fnafgm_disablemapsmonitors",		1,					FCVAR_REPLICATED,	"If the gamemode should disable the map's monitors.")

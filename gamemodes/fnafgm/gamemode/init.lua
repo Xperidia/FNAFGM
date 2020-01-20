@@ -527,8 +527,6 @@ function GM:PostPlayerDeath(ply)
 
 			if (!GAMEMODE.Vars.nightpassed and IsValid(ply) and !ply:Alive() and ply:Team() == 1) then
 
-				if ((fnafgm_pinionsupport:GetBool()) and (!fnafgm_respawnenabled:GetBool() or GAMEMODE.Vars.norespawn)) then Pinion:ShowMOTD(ply) end
-
 				if game.GetMap() == "freddysnoevent" and ents.FindByName("fnafgm_Cam6")[1] then
 					ply:SetViewEntity(ents.FindByName("fnafgm_Cam6")[1])
 				elseif game.GetMap() == "fnaf2noevents" and ents.FindByName("DeathCam")[1] then
@@ -1523,7 +1521,6 @@ function fnafgmRestartNight()
 				v:Spawn()
 				v:SetViewEntity(v)
 			end
-			if (fnafgm_pinionsupport:GetBool()) then Pinion:ShowMOTD(v) end
 		end
 
 		GAMEMODE.Vars.norespawn = false
@@ -2262,8 +2259,6 @@ function fnafgmTimeThink()
 
 					end
 
-					if fnafgm_pinionsupport:GetBool() then Pinion:ShowMOTD(v) end
-
 				end
 
 				timer.Create("fnafgmAfterCheck", 19.287, 1, function()
@@ -2290,8 +2285,6 @@ function fnafgmTimeThink()
 						v:Spawn()
 
 					end
-
-					if (fnafgm_pinionsupport:GetBool()) then Pinion:ShowMOTD(v) end
 
 				end
 
@@ -2360,8 +2353,6 @@ function fnafgmTimeThink()
 				if v:Team() == 1 or v:Team() == 2 then
 					v:Spawn()
 				end
-
-				if (fnafgm_pinionsupport:GetBool()) then Pinion:ShowMOTD(v) end
 
 			end
 
@@ -2439,10 +2430,9 @@ concommand.Add("fnafgm_debug_info", function(ply)
 		fnafgm_timethink_endlesstime, fnafgm_timethink_infinitenights,
 		fnafgm_forceseasonalevent, fnafgm_killextsrplayers, fnafgm_playermodel,
 		fnafgm_playerskin, fnafgm_playerbodygroups, fnafgm_playercolor,
-		fnafgm_respawndelay, fnafgm_enablebypass, fnafgm_pinionsupport,
-		fnafgm_timethink_autostart, fnafgm_timethink_autostartdelay,
-		fnafgm_disablemapsmonitors, fnafgm_disablepower, fnafgm_forcesavingloading,
-		fnafgm_enablecreatorsbypass, fnafgm_enabledevmode, fnafgm_sgvsa}
+		fnafgm_respawndelay, fnafgm_enablebypass, fnafgm_timethink_autostart,
+		fnafgm_timethink_autostartdelay, fnafgm_disablemapsmonitors, fnafgm_disablepower,
+		fnafgm_forcesavingloading, fnafgm_enablecreatorsbypass, fnafgm_enabledevmode, fnafgm_sgvsa}
 
 	appendtxt(GAMEMODE.Name .. " Gamemode V" .. tostring(GAMEMODE.Version or "error") .. " by " .. GAMEMODE.Author)
 	if !GAMEMODE.Official then appendtxt("Derived from Five Nights at Freddy's Gamemode V" .. tostring(GAMEMODE.OfficialVersion or "error") .. " by Xperidia") end
