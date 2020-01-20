@@ -18,7 +18,6 @@ GM.Author 			= "VictorienXP@Xperidia"
 GM.Website 			= "steamcommunity.com/sharedfiles/filedetails/?id=408243366"
 GM.OfficialVersion 	= 2.12					--This value shouldn't be touched in derived gamemodes.
 GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
-GM.CustomVersion 	= false					--tbh I think this is a deprecated variable.
 GM.TeamBased		= true
 GM.AllowAutoTeam	= true
 if engine.ActiveGamemode() == "fnafgm" then --This is to check if we're in the main FNAFGM or a derived gamemode.
