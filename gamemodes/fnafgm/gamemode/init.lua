@@ -2432,7 +2432,8 @@ concommand.Add("fnafgm_debug_info", function(ply)
 		fnafgm_playerskin, fnafgm_playerbodygroups, fnafgm_playercolor,
 		fnafgm_respawndelay, fnafgm_enablebypass, fnafgm_timethink_autostart,
 		fnafgm_timethink_autostartdelay, fnafgm_disablemapsmonitors, fnafgm_disablepower,
-		fnafgm_forcesavingloading, fnafgm_enablecreatorsbypass, fnafgm_enabledevmode, fnafgm_sgvsa}
+		fnafgm_forcesavingloading, fnafgm_enablecreatorsbypass, fnafgm_enabledevmode,
+		fnafgm_sgvsa, fnafgm_autorestartmap}
 
 	appendtxt(GAMEMODE.Name .. " Gamemode V" .. tostring(GAMEMODE.Version or "error") .. " by " .. GAMEMODE.Author)
 	if !GAMEMODE.Official then appendtxt("Derived from Five Nights at Freddy's Gamemode V" .. tostring(GAMEMODE.OfficialVersion or "error") .. " by Xperidia") end
