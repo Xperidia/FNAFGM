@@ -1,6 +1,6 @@
 "fnafgm"
 {
-	"base"		"base"
+	"base"		"sandbox"
 	"title"		"Five Nights at Freddy's"
 	"maps"		"^freddys|^fnaf"
 	"menusystem"	"1"
@@ -165,6 +165,22 @@
 			"name"		"fnafgm_enabledevmode"
 			"text"		"Enable dev mode (more logs)"
 			"help"		"Dev mode and more logs."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
+		27
+		{
+			"name"		"fnafgm_sandbox_enable"
+			"text"		"Enable Sandbox"
+			"help"		"You can enable access to Sandbox features in FNAFGM."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
+		28
+		{
+			"name"		"fnafgm_sandbox_load_spawn_menu"
+			"text"		"Load the Sandbox spawn menu"
+			"help"		"Set to always load the Sandbox spawn menu."
 			"type"		"CheckBox"
 			"default"	"0"
 		}

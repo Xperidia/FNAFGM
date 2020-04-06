@@ -1,13 +1,15 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VictorienXP@Xperidia (2015-2020)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
 -----------------------------------------------------------]]
 
 DEFINE_BASECLASS("gamemode_base")
+local SandboxClass = baseclass.Get("gamemode_sandbox")
+DeriveGamemode("sandbox")
 
 include("player_class/player_securityguard.lua")
 include("player_class/player_animatronic_controller.lua")
@@ -685,6 +687,8 @@ fnafgm_enablecreatorsbypass			= CreateConVar("fnafgm_enablecreatorsbypass",		0,	
 fnafgm_enabledevmode				= CreateConVar("fnafgm_enabledevmode",				0,					FCVAR_REPLICATED,	"Dev mode and more logs.")
 fnafgm_sgvsa						= CreateConVar("fnafgm_sgvsa",						0,					FCVAR_REPLICATED,	"Enable PvP SGvsA mode.")
 fnafgm_autorestartmap				= CreateConVar("fnafgm_autorestartmap",				1,					FCVAR_REPLICATED,	"Auto restart the map when it's been active for too long.")
+fnafgm_sandbox_enable				= CreateConVar("fnafgm_sandbox_enable",				0,					FCVAR_REPLICATED,	"Enable Sandbox. This will change the behavior of a lot of stuff in the gamemode.")
+fnafgm_sandbox_load_spawn_menu		= CreateConVar("fnafgm_sandbox_load_spawn_menu",	0,					FCVAR_REPLICATED,	"Always load the Sandbox spawn menu.")
 
 fnafgm_cl_hideversion = CreateClientConVar("fnafgm_cl_hideversion", 0, true, false)
 fnafgm_cl_warn = CreateClientConVar("fnafgm_cl_warn", 1, true, false)

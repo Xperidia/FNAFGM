@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VictorienXP@Xperidia (2015-2020)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -10,6 +10,8 @@
 include('shared.lua')
 
 DEFINE_BASECLASS("gamemode_base")
+local SandboxClass = baseclass.Get("gamemode_sandbox")
+DeriveGamemode("sandbox")
 
 if !sfont and GM.FT == 2 then
 
@@ -1250,10 +1252,22 @@ net.Receive("fnafgmAnimatronicTauntSnd", function(len)
 
 end)
 
+function GM:SpawnMenuEnabled()
+	return fnafgm_sandbox_load_spawn_menu:GetBool() or fnafgm_sandbox_enable:GetBool()
+end
+
+function GM:SpawnMenuOpen()
+	return fnafgm_sandbox_enable:GetBool()
+end
+
 function GM:ContextMenuOpen()
 	return true
 end
 
 function GM:OnContextMenuOpen()
-	RunConsoleCommand("playermodel_selector")
+	if fnafgm_sandbox_enable:GetBool() then
+		SandboxClass.OnContextMenuOpen(self)
+	else
+		RunConsoleCommand("playermodel_selector")
+	end
 end

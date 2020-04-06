@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VictorienXP@Xperidia (2015-2020)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -29,6 +29,8 @@ end
 -- end
 
 DEFINE_BASECLASS("gamemode_base")
+local SandboxClass = baseclass.Get("gamemode_sandbox")
+DeriveGamemode("sandbox")
 
 
 util.AddNetworkString("fnafgmVarsUpdate")
@@ -86,7 +88,16 @@ function GM:PlayerSpawn(ply)
 
 	end
 
-	BaseClass.PlayerSpawn(self, ply)
+
+	if fnafgm_sandbox_enable:GetBool() and ply:Team() == 1 then
+		SandboxClass.PlayerSpawn(self, ply)
+		ply:Give("fnafgm_securitytablet")
+	elseif fnafgm_sandbox_enable:GetBool() and ply:Team() == 2 then
+		SandboxClass.PlayerSpawn(self, ply)
+		ply:Give("fnafgm_animatronic_controller")
+	else
+		BaseClass.PlayerSpawn(self, ply)
+	end
 
 	if fnafgmPlayerCanByPass(ply,"run") then
 		ply:SetRunSpeed(400)
@@ -127,7 +138,7 @@ function GM:PlayerSpawn(ply)
 		ply:SetMoveType(MOVETYPE_NOCLIP)
 	end
 
-	if fnafgm_timethink_autostart:GetBool() and ply:Team() == 1 and !timer.Exists("fnafgmStart") and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and GAMEMODE.MapList[game.GetMap()] then
+	if fnafgm_timethink_autostart:GetBool() and !fnafgm_sandbox_enable:GetBool() and ply:Team() == 1 and !timer.Exists("fnafgmStart") and !GAMEMODE.Vars.startday and !GAMEMODE.Vars.tempostart and GAMEMODE.MapList[game.GetMap()] then
 
 		if !game.SinglePlayer() then
 
@@ -2748,6 +2759,12 @@ function GM:PlayerSwitchFlashlight(ply, on)
 
 	end
 
+	if fnafgm_sandbox_enable:GetBool() then
+
+		return true
+
+	end
+
 	return false
 
 end
@@ -3137,7 +3154,7 @@ end)
 
 function GM:PlayerShouldTaunt(ply, actid)
 
-	if fnafgmPlayerCanByPass(ply, "act") then
+	if fnafgmPlayerCanByPass(ply, "act") or fnafgm_sandbox_enable:GetBool() then
 		return true
 	end
 
