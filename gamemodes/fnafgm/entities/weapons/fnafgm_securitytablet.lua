@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VictorienXP@Xperidia (2015-2020)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -13,6 +13,7 @@ SWEP.PrintName				= GAMEMODE.Strings.en.monitor
 SWEP.Author					= "Xperidia"
 SWEP.Instructions			= GAMEMODE.Strings.en.monitor_inst
 SWEP.Purpose				= GAMEMODE.Strings.en.monitor_purp
+SWEP.Category				= "FNAFGM"
 
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
@@ -37,6 +38,8 @@ SWEP.BounceWeaponIcon		= false
 
 SWEP.ViewModel				= "models/weapons/c_arms.mdl"
 SWEP.WorldModel				= ""
+
+SWEP.Spawnable = true
 
 if CLIENT then
 	SWEP.WepSelectIcon		= surface.GetTextureID("fnafgm/weapons/securitytablet")

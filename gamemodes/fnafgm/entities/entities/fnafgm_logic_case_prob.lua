@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VictorienXP@Xperidia (2015-2020)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -13,6 +13,9 @@ ENT.Base		= "base_entity"
 ENT.Type		= "point"
 ENT.PrintName	= "FNAFGM Logic Case Prob"
 ENT.Author		= "Xperidia"
+ENT.DisableDuplicator = true
+ENT.DoNotDuplicate = true
+ENT.PhysgunDisabled = true
 
 function ENT:AcceptInput(name, activator, caller, data)
 
