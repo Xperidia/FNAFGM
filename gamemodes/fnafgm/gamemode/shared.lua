@@ -1366,3 +1366,12 @@ function GM:Log(str, tn, hardcore) --Log something to the console with GAMEMODE:
 	Msg("[" .. name .. "] " .. (str or "This was a log message, but something went wrong") .. "\n")
 
 end
+
+function GM:ErrorLog(str, tn)
+
+	local name = (GAMEMODE.ShortName or "FNAFGM")
+	if tn then name = "FNAFGM" end
+
+	ErrorNoHalt("[" .. name .. "] " .. (str or "This was an error message, but something went wrong") .. "\n")
+
+end
