@@ -689,6 +689,7 @@ fnafgm_sgvsa						= CreateConVar("fnafgm_sgvsa",						0,					FCVAR_REPLICATED,	"
 fnafgm_autorestartmap				= CreateConVar("fnafgm_autorestartmap",				1,					FCVAR_REPLICATED,	"Auto restart the map when it's been active for too long.")
 fnafgm_sandbox_enable				= CreateConVar("fnafgm_sandbox_enable",				0,					FCVAR_REPLICATED,	"Enable Sandbox. This will change the behavior of a lot of stuff in the gamemode.")
 fnafgm_sandbox_load_spawn_menu		= CreateConVar("fnafgm_sandbox_load_spawn_menu",	0,					FCVAR_REPLICATED,	"Always load the Sandbox spawn menu.")
+fnafgm_smart_power_management		= CreateConVar("fnafgm_smart_power_management",		1,					FCVAR_REPLICATED,	"Smart power management will shut off lights on various occasions.")
 
 fnafgm_cl_hideversion = CreateClientConVar("fnafgm_cl_hideversion", 0, true, false)
 fnafgm_cl_warn = CreateClientConVar("fnafgm_cl_warn", 1, true, false)

@@ -2613,6 +2613,7 @@ end)
 function fnafgmShutLights()
 
 	if game.GetMap() == "fnaf2noevents" then return end
+	if !fnafgm_smart_power_management:GetBool() then return end
 
 	if light1 and IsValid(light1) and GAMEMODE.Vars.LightUse[1] then
 		light1:Fire("use")

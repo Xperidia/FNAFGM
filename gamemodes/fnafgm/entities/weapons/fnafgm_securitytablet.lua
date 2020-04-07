@@ -86,7 +86,9 @@ function SWEP:SecondaryAttack()
 		net.Start("fnafgmSecurityTablet")
 		net.Send(self.Owner)
 
-		fnafgmShutLights()
+		if fnafgm_smart_power_management:GetBool() then
+			fnafgmShutLights()
+		end
 
 	end
 

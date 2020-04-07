@@ -184,5 +184,13 @@
 			"type"		"CheckBox"
 			"default"	"0"
 		}
+		29
+		{
+			"name"		"fnafgm_smart_power_management"
+			"text"		"Enable smart power management"
+			"help"		"Smart power management will shut off lights on various occasions."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
 	}
 }
