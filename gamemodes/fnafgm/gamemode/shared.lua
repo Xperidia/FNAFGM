@@ -1298,16 +1298,20 @@ function GM:GoFNaFView(ply,auto)
 
 	GAMEMODE.Vars.fnafview = true
 
-	if SERVER then
-		if GAMEMODE.FNaFView[game.GetMap()] and ply:Team() == 1 and ply:Alive() then
-			if !auto or ply:GetInfoNum("fnafgm_cl_autofnafview", 1) == 1 then ply:SendLua([[GAMEMODE:GoFNaFView()]]) end
-			if GAMEMODE.FNaFView[game.GetMap()][1] then ply:SetPos(GAMEMODE.FNaFView[game.GetMap()][1]) end
-			if GAMEMODE.FNaFView[game.GetMap()][2] then ply:SetEyeAngles(GAMEMODE.FNaFView[game.GetMap()][2]) end
+	if SERVER and GAMEMODE.FNaFView[game.GetMap()] and ply:Team() == 1 and ply:Alive() then
+		if !auto or (ply:GetInfoNum("fnafgm_cl_autofnafview", 1) == 1 and !fnafgm_sandbox_enable:GetBool()) then
+			ply:SendLua([[GAMEMODE:GoFNaFView()]])
+		end
+		if GAMEMODE.FNaFView[game.GetMap()][1] then
+			ply:SetPos(GAMEMODE.FNaFView[game.GetMap()][1])
+		end
+		if GAMEMODE.FNaFView[game.GetMap()][2] then
+			ply:SetEyeAngles(GAMEMODE.FNaFView[game.GetMap()][2])
 		end
 	end
 
-	if CLIENT then
-		if !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime() then GAMEMODE:FNaFViewHUD() end
+	if CLIENT and !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime() then
+		GAMEMODE:FNaFViewHUD()
 	end
 
 end
