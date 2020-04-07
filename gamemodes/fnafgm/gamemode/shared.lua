@@ -757,7 +757,10 @@ function GM:Initialize()
 	if !game.SinglePlayer() then
 
 		cvars.AddChangeCallback("fnafgm_sgvsa", function(convar_name, value_old, value_new)
-			if tonumber(value_new) >= 1 then
+			local value = tonumber(value_new)
+			if !value then
+				GAMEMODE:ErrorLog("fnafgm_sgvsa " .. " is not a number!", true)
+			elseif value >= 1 then
 				GAMEMODE.Vars.SGvsA = true
 				GAMEMODE.Vars.modetext = " - PvP SGvsA"
 				GAMEMODE:Log("The game is now in PvP SGvsA mode!")
