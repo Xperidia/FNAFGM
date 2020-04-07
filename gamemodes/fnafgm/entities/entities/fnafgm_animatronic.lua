@@ -21,7 +21,11 @@ function ENT:Initialize()
 	local me = self:GetAType()
 	local apos = self:GetAPos()
 
-	if GAMEMODE.Animatronic_Models[me] and GAMEMODE.Animatronic_Models[me][game.GetMap()] then self:SetModel(GAMEMODE.Animatronic_Models[me][game.GetMap()]) end
+	if GAMEMODE.Animatronic_Models and GAMEMODE.Animatronic_Models[me] and GAMEMODE.Animatronic_Models[me][game.GetMap()] then
+		self:SetModel(GAMEMODE.Animatronic_Models[me][game.GetMap()])
+	else
+		GAMEMODE:ErrorLog("Couln't get model for animatronic " .. me)
+	end
 
 	self.OldAPos = apos
 
@@ -33,7 +37,7 @@ function ENT:Initialize()
 
 	self:SetHealth(2147483647)
 
-	if apos != nil and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
+	if apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
 
 		local camera = ents.FindByName("fnafgm_Cam" .. apos)[1]
 
@@ -43,7 +47,7 @@ function ENT:Initialize()
 
 		end
 
-	elseif apos != nil and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
+	elseif apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
 
 		self:SetEyeTarget(GAMEMODE.ASSEye[game.GetMap()])
 
@@ -192,7 +196,7 @@ function ENT:Think()
 
 		self.OldAPos = apos
 
-		if GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
+		if GAMEMODE.AnimatronicAPos and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] then
 			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
 			self:SetAngles(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][2])
 		end
@@ -258,7 +262,7 @@ function ENT:Think()
 
 	end
 
-	if apos != nil and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
+	if apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
 
 		for _, ply in pairs(player.GetAll()) do
 
@@ -273,7 +277,7 @@ function ENT:Think()
 
 	end
 
-	if SERVER and GAMEMODE.Vars.startday then
+	if SERVER and GAMEMODE.Vars and GAMEMODE.Vars.startday then
 
 		for k, v in pairs (ents.FindInSphere (self:GetPos(), 24)) do
 
