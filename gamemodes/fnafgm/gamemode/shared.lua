@@ -1310,7 +1310,7 @@ function GM:GoFNaFView(ply,auto)
 		end
 	end
 
-	if CLIENT and !GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime() then
+	if CLIENT and (!GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime()) then
 		GAMEMODE:FNaFViewHUD()
 	end
 
