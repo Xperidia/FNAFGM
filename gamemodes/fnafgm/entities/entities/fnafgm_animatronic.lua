@@ -43,7 +43,7 @@ function ENT:Initialize()
 
 		if IsValid(camera) then
 
-			self:SetEyeTarget( camera:EyePos() )
+			self:SetEyeTarget(camera:EyePos())
 
 		end
 
@@ -279,7 +279,7 @@ function ENT:Think()
 
 	if SERVER and GAMEMODE.Vars and GAMEMODE.Vars.startday then
 
-		for k, v in pairs (ents.FindInSphere (self:GetPos(), 24)) do
+		for k, v in pairs(ents.FindInSphere(self:GetPos(), 24)) do
 
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team() == 1 then
 
