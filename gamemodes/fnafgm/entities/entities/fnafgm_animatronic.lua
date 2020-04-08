@@ -511,3 +511,15 @@ end
 function ENT:OnInjured(info)
 	info:SetDamage(0)
 end
+
+function ENT:CanTool(ply, trace, mode)
+
+	return !GAMEMODE.IsFNAFGMDerived
+
+end
+
+function ENT:CanProperty(ply, property)
+
+	return !GAMEMODE.IsFNAFGMDerived
+
+end
