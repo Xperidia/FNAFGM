@@ -18,7 +18,7 @@ GM.Name 			= "Five Nights at Freddy's"
 GM.ShortName 		= "FNAFGM"
 GM.Author 			= "VictorienXP@Xperidia"
 GM.Website 			= "steamcommunity.com/sharedfiles/filedetails/?id=408243366"
-GM.OfficialVersion 	= 2.16					--This value shouldn't be touched in derived gamemodes.
+GM.OfficialVersion 	= 2.17					--This value shouldn't be touched in derived gamemodes.
 GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes can have their own version.
 GM.TeamBased		= true
 GM.AllowAutoTeam	= true
