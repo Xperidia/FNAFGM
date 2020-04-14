@@ -3563,3 +3563,107 @@ function GM:RestartMapIfWeShould()
 		return true
 	end
 end
+
+function GM:PlayerSpawnObject(ply)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerSpawnObject(self, ply)
+
+end
+
+function GM:CanPlayerUnfreeze(ply, entity, physobject)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.CanPlayerUnfreeze(self, ply, entity, physobject)
+
+end
+
+function GM:PlayerSpawnVehicle(ply, model, vname, vtable)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerSpawnVehicle(self, ply, model, vname, vtable)
+
+end
+
+function GM:PlayerSpawnSWEP(ply, wname, wtable)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerSpawnSWEP(self, ply, wname, wtable)
+
+end
+
+function GM:PlayerGiveSWEP(ply, wname, wtable)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerGiveSWEP(self, ply, wname, wtable)
+
+end
+
+function GM:PlayerSpawnSENT(ply, name)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerSpawnSENT(self, ply, name)
+
+end
+
+function GM:PlayerSpawnNPC(ply, npc_type, equipment)
+
+	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
+
+		return false
+
+	end
+
+	return SandboxClass.PlayerSpawnNPC(self, ply, npc_type, equipment)
+
+end
+
+function GM:PlayerButtonDown(ply, btn)
+
+	if fnafgm_sandbox_enable:GetBool() or ply:IsSuperAdmin() then
+
+		SandboxClass.PlayerButtonDown(self, ply, btn)
+
+	end
+
+end
+
+function GM:PlayerButtonUp(ply, btn)
+
+	if fnafgm_sandbox_enable:GetBool() or ply:IsSuperAdmin() then
+
+		SandboxClass.PlayerButtonUp(self, ply, btn)
+
+	end
+
+end
