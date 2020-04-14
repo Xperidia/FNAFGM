@@ -1433,3 +1433,14 @@ function GM:CanDrive(pl, ent)
 	return SandboxClass.CanDrive(self, pl, ent)
 
 end
+
+function GM:PhysgunPickup(ply, ent)
+
+	local EntClass = ent:GetClass()
+
+	if EntClass == "func_door" then return false end
+	if EntClass == "func_button" then return false end
+
+	return SandboxClass.PhysgunPickup(self, ply, ent)
+
+end
