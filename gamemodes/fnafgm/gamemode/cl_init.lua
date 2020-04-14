@@ -257,13 +257,29 @@ end
 
 
 function GM:DrawDeathNotice(x, y)
-
+	if fnafgm_sandbox_enable:GetBool() then
+		BaseClass.DrawDeathNotice(self, x, y)
+	end
 end
 
 
-function GM:HUDWeaponPickedUp() return false end
-function GM:HUDItemPickedUp() return false end
-function GM:HUDAmmoPickedUp() return false end
+function GM:HUDWeaponPickedUp(wep)
+	if fnafgm_sandbox_enable:GetBool() then
+		BaseClass.HUDWeaponPickedUp(self, wep)
+	end
+end
+
+function GM:HUDItemPickedUp(itemname)
+	if fnafgm_sandbox_enable:GetBool() then
+		BaseClass.HUDItemPickedUp(self, itemname)
+	end
+end
+
+function GM:HUDAmmoPickedUp(itemname, amount)
+	if fnafgm_sandbox_enable:GetBool() then
+		BaseClass.HUDAmmoPickedUp(self, itemname, amount)
+	end
+end
 
 
 function GM:HUDDrawTargetID()
@@ -311,7 +327,7 @@ function GM:HUDDrawTargetID()
 end
 
 
-fnafgmHUDhide = {
+local fnafgmHUDhide = {
 	CHudHealth			= true,
 	CHudBattery			= true,
 	CHudDamageIndicator	= true,
@@ -319,11 +335,10 @@ fnafgmHUDhide = {
 	CHudZoom			= true
 }
 
-hook.Add("HUDShouldDraw", "HideHUD", function(name)
-	if fnafgmHUDhide[name] then
-		return false
-	elseif name == "CHudCrosshair" and GetConVarNumber("cl_drawhud") == 0 then
-		return false
+function GM:HUDShouldDraw(name)
+
+	if fnafgm_sandbox_enable:GetBool() then
+		return SandboxClass.HUDShouldDraw(self, name)
 	elseif name == "CHudCrosshair" and LocalPlayer():Team() == TEAM_UNASSIGNED then
 		return false
 	elseif name == "CHudCrosshair" and GAMEMODE.Vars.fnafviewactive then
@@ -332,8 +347,13 @@ hook.Add("HUDShouldDraw", "HideHUD", function(name)
 		return false
 	elseif name == "CHudCrosshair" and (GAMEMODE.Vars.tempostart or GAMEMODE.Vars.gameend or GAMEMODE.Vars.nightpassed) then
 		return false
+	elseif fnafgmHUDhide[name] then
+		return false
 	end
-end)
+
+	return BaseClass.HUDShouldDraw(self, name)
+
+end
 
 
 net.Receive("fnafgmVarsUpdate", function(len)
@@ -434,6 +454,10 @@ function GM:HUDPaint()
 	if GetConVarNumber("cl_drawhud") == 0 then return end
 
 	hook.Run("HUDDrawTargetID")
+	if fnafgm_sandbox_enable:GetBool() then
+		hook.Run("HUDDrawPickupHistory")
+		hook.Run("DrawDeathNotice", 0.85, 0.04)
+	end
 
 	local client = LocalPlayer()
 
@@ -529,6 +553,10 @@ function GM:HUDPaint()
 				local nighttxt = GAMEMODE.TranslatedStrings.night or GAMEMODE.Strings.en.night
 				local power = GAMEMODE.Vars.power
 				local powerusage = GAMEMODE.Vars.powerusage
+				local powerhs = ScrH() - H
+				if fnafgm_sandbox_enable:GetBool() then
+					powerhs = ScrH() / 2 - H / 2
+				end
 
 				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent") ~= nil and GetConVar("fnafgm_forceseasonalevent"):GetInt() == 2)) then
 					powerusage = math.random(1, 6)
@@ -558,19 +586,19 @@ function GM:HUDPaint()
 				draw.DrawText(time .. " " .. AMPM, "FNAFGMTIME", ScrW() - 52, H, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 				draw.DrawText(nighttxt .. " " .. night, "FNAFGMNIGHT", ScrW() - 64, H + 64, GAMEMODE.Colors_default, TEXT_ALIGN_RIGHT)
 
-				if power != 0 then draw.DrawText((GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft) .. power .. "%", "FNAFGMNIGHT", 64, ScrH() - H - 64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
+				if power != 0 then draw.DrawText((GAMEMODE.TranslatedStrings.powerleft or GAMEMODE.Strings.en.powerleft) .. power .. "%", "FNAFGMNIGHT", 64, powerhs - 64, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT) end
 
 				if powerusage == 0 or power == 0 then
 
 				elseif powerusage > 0 and powerusage < 7 then
 
-					draw.DrawText(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage, "FNAFGMNIGHT", 64, ScrH() - H - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+					draw.DrawText(GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage, "FNAFGMNIGHT", 64, powerhs - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
 					local usagetexture = {
 						texture	= surface.GetTextureID(GAMEMODE.Materials_usage .. powerusage),
 						color	= Color(255, 255, 255, 255),
 						x 		= 180,
-						y 		= ScrH() - H-30,
+						y 		= powerhs - 30,
 						w 		= 128,
 						h 		= 64
 					}
@@ -579,11 +607,11 @@ function GM:HUDPaint()
 
 				elseif powerusage < 0 then
 
-					draw.DrawText((GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage) .. " ?", "FNAFGMNIGHT", 64, ScrH() - H - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+					draw.DrawText((GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage) .. " ?", "FNAFGMNIGHT", 64, powerhs - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
 				else
 
-					draw.DrawText((GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage) .. " " .. powerusage, "FNAFGMNIGHT", 64, ScrH() - H - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
+					draw.DrawText((GAMEMODE.TranslatedStrings.usage or GAMEMODE.Strings.en.usage) .. " " .. powerusage, "FNAFGMNIGHT", 64, powerhs - 24, GAMEMODE.Colors_default, TEXT_ALIGN_LEFT)
 
 				end
 

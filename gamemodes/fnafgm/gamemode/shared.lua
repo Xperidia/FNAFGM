@@ -346,6 +346,10 @@ function GM:LoadLanguage(lang)
 		GAMEMODE:Log("'" .. lang .. "' is not supported! Default strings loaded!")
 	end
 
+	if CLIENT then
+		language.Add("fnafgm_animatronic", tostring(GAMEMODE.TranslatedStrings.animatronic or GAMEMODE.Strings.en.animatronic))
+	end
+
 end
 
 GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
