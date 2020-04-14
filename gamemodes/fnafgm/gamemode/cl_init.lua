@@ -337,7 +337,9 @@ local fnafgmHUDhide = {
 
 function GM:HUDShouldDraw(name)
 
-	if fnafgm_sandbox_enable:GetBool() then
+	if name == "CHudDamageIndicator" then
+		return false
+	elseif fnafgm_sandbox_enable:GetBool() then
 		return SandboxClass.HUDShouldDraw(self, name)
 	elseif name == "CHudCrosshair" and LocalPlayer():Team() == TEAM_UNASSIGNED then
 		return false
