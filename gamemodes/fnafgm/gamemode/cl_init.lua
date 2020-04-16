@@ -556,8 +556,10 @@ function GM:HUDPaint()
 				local power = GAMEMODE.Vars.power
 				local powerusage = GAMEMODE.Vars.powerusage
 				local powerhs = ScrH() - H
-				if fnafgm_sandbox_enable:GetBool() then
-					powerhs = ScrH() / 2 - H / 2
+				if fnafgm_sandbox_enable:GetBool() and GetConVar("gmod_suit"):GetBool() then
+					powerhs = ScrH() * .82 - H
+				elseif fnafgm_sandbox_enable:GetBool() then
+					powerhs = ScrH() * .92 - H
 				end
 
 				if (GAMEMODE.Vars.AprilFool or (GetConVar("fnafgm_forceseasonalevent") ~= nil and GetConVar("fnafgm_forceseasonalevent"):GetInt() == 2)) then
