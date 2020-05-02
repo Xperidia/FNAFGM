@@ -252,7 +252,7 @@ function fnafgmMenu()
 		secretb:SetPos(10, 160)
 		secretb:SetSize(285, 20)
 		secretb.DoClick = function()
-			fnafgmSecret()
+			GAMEMODE:KeyPad()
 			fnafgmMenuF:Close()
 		end
 

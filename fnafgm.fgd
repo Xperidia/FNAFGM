@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V5.2 BY XPERIDIA
+// FNAFGM FGD V6.0 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@
 	// Inputs
 	input PickRandom(void) : "Fires a random OnCase output with at least one connection."
 	input Move(string) : "Move an entity to another entity."
-	
+
 	// Outputs
 	output OnCase01(void) : "Fired when the input value equals the Case01 value."
 	output OnCase02(void) : "Fired when the input value equals the Case02 value."
@@ -91,10 +91,12 @@
 
 @PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"
 [
-	
+
 ]
 
 @PointClass base(Targetname, Angles) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
-	
+	Password(string) : "Sets the password for the KeyPad (Only numbers and 6 digits maximum)"
+	output OnPressed(void) : "Fired when the button is pressed."
+	output OnCorrectPassword(void) : "Fired when the correct code has been input."
 ]

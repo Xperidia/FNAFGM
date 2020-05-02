@@ -27,10 +27,53 @@ end
 
 function ENT:Use(activator, caller, useType, value)
 
-	if IsValid(activator) and activator:IsPlayer() then
-		activator:SendLua([[fnafgmSecret()]])
-	elseif IsValid(caller) and caller:IsPlayer() then
-		caller:SendLua([[fnafgmSecret()]])
+	self:TriggerOutput("OnPressed", activator or caller)
+
+	local ply
+	if (IsValid(activator) and activator:IsPlayer()) then
+		ply = activator
+	elseif (IsValid(caller) and caller:IsPlayer()) then
+		ply = caller
+	end
+
+	if ply then
+		net.Start("fnafgm_keypad")
+			net.WriteEntity(self)
+		net.Send(ply)
+	end
+
+end
+
+function ENT:PasswordInput(password, ply)
+
+	if password == self:GetPassword() then
+		self:TriggerOutput("OnCorrectPassword", ply)
+	end
+
+end
+
+function ENT:KeyValue(k, v)
+
+	if string.Left(k, 2) == "On" then
+
+		self:StoreOutput(k, v)
+
+	elseif k == "Password" then
+
+		self:SetPassword(v)
+
+	end
+
+end
+
+function ENT:SetupDataTables()
+
+	self:NetworkVar("String", 0, "Password", {KeyName = "Password"})
+
+	if SERVER then
+
+		self:SetPassword("0451")
+
 	end
 
 end

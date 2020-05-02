@@ -224,7 +224,7 @@ include('cl_scoreboard.lua')
 include('cl_voice.lua')
 include('cl_fnafview.lua')
 include('cl_menu.lua')
-include('cl_secret.lua')
+include('cl_keypad.lua')
 include('cl_monitor_shared.lua')
 
 
