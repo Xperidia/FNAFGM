@@ -48,6 +48,8 @@ function ENT:PasswordInput(password, ply)
 
 	if password == self:GetPassword() then
 		self:TriggerOutput("OnCorrectPassword", ply)
+	else
+		self:TriggerOutput("OnBadPassword", ply)
 	end
 
 end

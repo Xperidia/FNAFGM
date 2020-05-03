@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V6.0 BY XPERIDIA
+// FNAFGM FGD V6.1 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -98,4 +98,5 @@
 	Password(string) : "Sets the password for the KeyPad"
 	output OnPressed(void) : "Fired when the button is pressed."
 	output OnCorrectPassword(void) : "Fired when the correct code has been input."
+	output OnBadPassword(void) : "Fired when a wrong code has been input."
 ]

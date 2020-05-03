@@ -195,12 +195,14 @@ function GM:KeyPad(ent)
 		self.KeyPadFrame.okbtn.DoClick = function(button)
 
 			local res = nil
+			local pass = password
+			password = ""
 
 			if IsValid(ent) and ent:GetClass() == "fnafgm_keypad"
-			and password == ent:GetPassword()
+			and pass == ent:GetPassword()
 			then
 				net.Start("fnafgm_password_input")
-					net.WriteString(password)
+					net.WriteString(pass)
 					net.WriteEntity(ent)
 				net.SendToServer()
 				GAMEMODE.KeyPadFrame.Passlbl:SetText("OK")
@@ -210,13 +212,12 @@ function GM:KeyPad(ent)
 			end
 
 			for k, v in pairs(passwords) do
-				if password == k then
+				if pass == k then
 					res = v.func()
 					break
 				end
 			end
 
-			password = ""
 
 			if res == true then
 				GAMEMODE.KeyPadFrame.Passlbl:SetTextColor(Color(0, 170, 0, 255))
@@ -226,6 +227,12 @@ function GM:KeyPad(ent)
 				surface.PlaySound("buttons/button10.wav")
 				GAMEMODE.KeyPadFrame.Passlbl:SetText("X")
 				GAMEMODE.KeyPadFrame.Passlbl:SetTextColor(Color(255, 0, 0, 255))
+				if IsValid(ent) and ent:GetClass() == "fnafgm_keypad" then
+					net.Start("fnafgm_password_input")
+						net.WriteString(pass)
+						net.WriteEntity(ent)
+					net.SendToServer()
+				end
 				return
 			end
 
