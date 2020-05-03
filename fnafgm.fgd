@@ -95,7 +95,7 @@
 
 @PointClass base(Targetname, Angles) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
-	Password(string) : "Sets the password for the KeyPad"
+	Password(string) : "Numerical password (6 digits max)"
 	output OnPressed(void) : "Fired when the button is pressed."
 	output OnCorrectPassword(void) : "Fired when the correct code has been input."
 	output OnBadPassword(void) : "Fired when a wrong code has been input."
