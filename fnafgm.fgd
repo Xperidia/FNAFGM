@@ -91,12 +91,11 @@
 
 @PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"
 [
-
 ]
 
 @PointClass base(Targetname, Angles) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
-	Password(string) : "Sets the password for the KeyPad (Only numbers and 6 digits maximum)"
+	Password(string) : "Sets the password for the KeyPad"
 	output OnPressed(void) : "Fired when the button is pressed."
 	output OnCorrectPassword(void) : "Fired when the correct code has been input."
 ]
