@@ -50,7 +50,7 @@ function ENT:PasswordInput(password, ply)
 		self:TriggerOutput("OnCorrectPassword", ply)
 		self:SetSkin(1)
 		timer.Create("fnafgm_keypad_skin_reset_" .. self:EntIndex(), 1.6, 1, function() self:SetSkin(0) end)
-		self:EmitSound("ui/buttonclickrelease.wav", 120)
+		self:EmitSound("buttons/button9.wav", 120)
 	else
 		self:TriggerOutput("OnBadPassword", ply)
 		self:SetSkin(2)
