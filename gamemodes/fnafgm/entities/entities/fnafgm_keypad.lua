@@ -48,8 +48,14 @@ function ENT:PasswordInput(password, ply)
 
 	if password == self:GetPassword() then
 		self:TriggerOutput("OnCorrectPassword", ply)
+		self:SetSkin(1)
+		timer.Create("fnafgm_keypad_skin_reset_" .. self:EntIndex(), 1.6, 1, function() self:SetSkin(0) end)
+		self:EmitSound("ui/buttonclickrelease.wav", 120)
 	else
 		self:TriggerOutput("OnBadPassword", ply)
+		self:SetSkin(2)
+		timer.Create("fnafgm_keypad_skin_reset_" .. self:EntIndex(), 1.6, 1, function() self:SetSkin(0) end)
+		self:EmitSound("buttons/button10.wav", 120)
 	end
 
 end
