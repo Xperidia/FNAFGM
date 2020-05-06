@@ -17,9 +17,13 @@ ENT.DisableDuplicator = true
 ENT.DoNotDuplicate = true
 ENT.PhysgunDisabled = true
 
+local ent_model = Model("models/props_lab/keypad.mdl")
+local ok_sound = Sound("buttons/button9.wav")
+local error_sound = Sound("buttons/button10.wav")
+
 function ENT:Initialize()
 
-	self:SetModel("models/props_lab/keypad.mdl")
+	self:SetModel(ent_model)
 
 	self:SetSolid(SOLID_BBOX)
 
@@ -50,12 +54,12 @@ function ENT:PasswordInput(password, ply)
 		self:TriggerOutput("OnCorrectPassword", ply)
 		self:SetSkin(1)
 		timer.Create("fnafgm_keypad_skin_reset_" .. self:EntIndex(), 1.6, 1, function() self:SetSkin(0) end)
-		self:EmitSound("buttons/button9.wav", 120)
+		self:EmitSound(ok_sound, 120)
 	else
 		self:TriggerOutput("OnBadPassword", ply)
 		self:SetSkin(2)
 		timer.Create("fnafgm_keypad_skin_reset_" .. self:EntIndex(), 1.6, 1, function() self:SetSkin(0) end)
-		self:EmitSound("buttons/button10.wav", 120)
+		self:EmitSound(error_sound, 120)
 	end
 
 end
