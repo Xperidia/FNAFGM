@@ -101,19 +101,13 @@ function ENT:SetupDataTables()
 end
 
 function ENT:Draw()
-
 	self:DrawModel()
-
 end
 
 function ENT:CanTool(ply, trace, mode)
-
-	return !GAMEMODE.IsFNAFGMDerived
-
+	return not GAMEMODE.IsFNAFGMDerived
 end
 
 function ENT:CanProperty(ply, property)
-
-	return !GAMEMODE.IsFNAFGMDerived
-
+	return not GAMEMODE.IsFNAFGMDerived
 end
