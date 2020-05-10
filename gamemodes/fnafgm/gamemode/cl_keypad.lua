@@ -237,17 +237,21 @@ function GM:KeyPad(ent)
 				return
 			end
 
-			for _, key in pairs(nkeys.sel) do
-				if keyCode == key then
-					selectedbtn._KeyDown = true
-					return
+			if IsValid(selectedbtn) then
+				for _, key in pairs(nkeys.sel) do
+					if keyCode == key then
+						selectedbtn._KeyDown = true
+						return
+					end
 				end
 			end
 
-			for _, key in pairs(nkeys.OK) do
-				if keyCode == key then
-					self.okbtn._KeyDown = true
-					return
+			if IsValid(self.okbtn) then
+				for _, key in pairs(nkeys.OK) do
+					if keyCode == key then
+						self.okbtn._KeyDown = true
+						return
+					end
 				end
 			end
 
@@ -263,11 +267,13 @@ function GM:KeyPad(ent)
 				end
 			end
 
-			for k, v in pairs(directions) do
-				for _, key in pairs(nkeys[v]) do
-					if keyCode == key then
-						selectedbtn:GoToDirection(k)
-						return
+			if IsValid(selectedbtn) then
+				for k, v in pairs(directions) do
+					for _, key in pairs(nkeys[v]) do
+						if keyCode == key then
+							selectedbtn:GoToDirection(k)
+							return
+						end
 					end
 				end
 			end
@@ -287,19 +293,23 @@ function GM:KeyPad(ent)
 				return
 			end
 
-			for _, key in pairs(nkeys.sel) do
-				if keyCode == key then
-					selectedbtn._KeyDown = false
-					selectedbtn.DoClick()
-					return
+			if IsValid(selectedbtn) then
+				for _, key in pairs(nkeys.sel) do
+					if keyCode == key then
+						selectedbtn._KeyDown = false
+						selectedbtn.DoClick()
+						return
+					end
 				end
 			end
 
-			for _, key in pairs(nkeys.OK) do
-				if keyCode == key then
-					self.okbtn._KeyDown = false
-					self.okbtn.DoClick()
-					return
+			if IsValid(self.okbtn) then
+				for _, key in pairs(nkeys.OK) do
+					if keyCode == key then
+						self.okbtn._KeyDown = false
+						self.okbtn.DoClick()
+						return
+					end
 				end
 			end
 
