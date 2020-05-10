@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V6.2 BY XPERIDIA
+// FNAFGM FGD V6.3 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -93,7 +93,7 @@
 [
 ]
 
-@PointClass base(Targetname, Angles) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
+@PointClass base(Targetname, Angles, EnableDisable) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
 	Password(string) : "Numerical password (8 digits max)"
 	output OnPressed(void) : "Fired when the button is pressed."
