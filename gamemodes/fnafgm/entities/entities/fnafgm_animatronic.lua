@@ -21,7 +21,8 @@ function ENT:Initialize()
 	local me = self:GetAType()
 	local apos = self:GetAPos()
 
-	if GAMEMODE.Animatronic_Models and GAMEMODE.Animatronic_Models[me] and GAMEMODE.Animatronic_Models[me][game.GetMap()] then
+	if GAMEMODE.Animatronic_Models and GAMEMODE.Animatronic_Models[me]
+	and GAMEMODE.Animatronic_Models[me][game.GetMap()] then
 		self:SetModel(GAMEMODE.Animatronic_Models[me][game.GetMap()])
 	else
 		GAMEMODE:ErrorLog("Couln't get model for animatronic " .. me)
@@ -37,7 +38,8 @@ function ENT:Initialize()
 
 	self:SetHealth(2147483647)
 
-	if apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos != GAMEMODE.APos[game.GetMap()].Office and apos != GAMEMODE.APos[game.GetMap()].SS then
+	if apos ~= nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()]
+	and apos ~= GAMEMODE.APos[game.GetMap()].Office and apos ~= GAMEMODE.APos[game.GetMap()].SS then
 
 		local camera = ents.FindByName("fnafgm_Cam" .. apos)[1]
 
@@ -47,7 +49,8 @@ function ENT:Initialize()
 
 		end
 
-	elseif apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
+	elseif apos ~= nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()]
+	and apos == GAMEMODE.APos[game.GetMap()].SS and GAMEMODE.ASSEye[game.GetMap()] then
 
 		self:SetEyeTarget(GAMEMODE.ASSEye[game.GetMap()])
 
@@ -55,21 +58,26 @@ function ENT:Initialize()
 
 	if SERVER then
 
+		self:SetBloodColor(BLOOD_COLOR_MECH)
+
 		local cd = 0
 		local night = GAMEMODE.Vars.night or 0
 
-		if !GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1] then
+		if not GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me]
+		and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1]
-		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night] then
+		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()]
+		and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][night]
-		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][0] then
+		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()]
+		and GAMEMODE.AnimatronicsCD[me][game.GetMap()][0] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][0]
 		else
 			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic " .. ((GAMEMODE.AnimatronicName[me] .. " (" .. (me or 0) .. ")") or me or 0) .. "!")
 		end
 
 		if GAMEMODE.AnimatronicsSkins[me] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] then
-			self:SetSkin( GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] )
+			self:SetSkin(GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos])
 		end
 
 		if GAMEMODE.AnimatronicsFlex[me] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] then
@@ -93,7 +101,7 @@ function ENT:Initialize()
 
 		end
 
-		if !GAMEMODE.Vars.Animatronics then
+		if not GAMEMODE.Vars.Animatronics then
 			GAMEMODE.Vars.Animatronics = {}
 		end
 		GAMEMODE.Vars.Animatronics[me] = { self, apos, cd, 0 }
@@ -137,7 +145,7 @@ function ENT:RunBehaviour()
 
 		local nope = hook.Call("fnafgmCustomFoxy", nil, self) or false
 
-		if !nope then
+		if not nope then
 
 			if self:GetAType() == GAMEMODE.Animatronic.Foxy then
 
@@ -148,7 +156,7 @@ function ENT:RunBehaviour()
 					self:SetCycle(0)
 					self:SetPlaybackRate(1)
 					for k, v in pairs(player.GetAll()) do
-						if v:Team() != TEAM_CONNECTING and v:Team() != TEAM_UNASSIGNED then
+						if v:Team() ~= TEAM_CONNECTING and v:Team() ~= TEAM_UNASSIGNED then
 							v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxystep")]])
 						end
 					end
@@ -157,7 +165,7 @@ function ENT:RunBehaviour()
 					self:Jumpscare()
 				end
 
-				if !self.FoxyWillMove and !self.FoxyMove then
+				if not self.FoxyWillMove and not self.FoxyMove then
 					self:SetSequence(self:LookupSequence("Idle_Unarmed"))
 					self:ResetSequenceInfo()
 					self:SetCycle(0)
@@ -190,7 +198,7 @@ function ENT:Think()
 
 	local nope = hook.Call("fnafgmAnimatronicMove", nil, self, me, apos) or false
 
-	if !nope and apos != nil and self.OldAPos != apos then
+	if not nope and apos ~= nil and self.OldAPos ~= apos then
 
 		self:SetColor(Color(255, 255, 255, 0))
 
@@ -209,40 +217,40 @@ function ENT:Think()
 
 		local nope = hook.Call("fnafgmWindowScare", nil, self, me, apos) or false
 
-		if !nope then
+		if not nope then
 
 			if game.GetMap() == "freddysnoevent" then
 
 				if me == GAMEMODE.Animatronic.Freddy then
 
-					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and !self.wsip then
+					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and not self.wsip then
 						self:EmitSound("fnafgm_windowscare")
 						self.wsip = true
-					elseif apos == GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[2] and self.wsip then
+					elseif apos == GAMEMODE.APos.freddysnoevent.Office and not GAMEMODE.Vars.LightUse[2] and self.wsip then
 						self.wsip = false
-					elseif apos != GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+					elseif apos ~= GAMEMODE.APos.freddysnoevent.Office and self.wsip then
 						self.wsip = false
 					end
 
 				elseif me == GAMEMODE.Animatronic.Bonnie then
 
-					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[1] and !self.wsip then
+					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[1] and not self.wsip then
 						self:EmitSound("fnafgm_windowscare")
 						self.wsip = true
-					elseif apos == GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[1] and self.wsip then
+					elseif apos == GAMEMODE.APos.freddysnoevent.Office and not GAMEMODE.Vars.LightUse[1] and self.wsip then
 						self.wsip = false
-					elseif apos != GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+					elseif apos ~= GAMEMODE.APos.freddysnoevent.Office and self.wsip then
 						self.wsip = false
 					end
 
 				elseif me == GAMEMODE.Animatronic.Chica then
 
-					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and !self.wsip then
+					if apos == GAMEMODE.APos.freddysnoevent.Office and GAMEMODE.Vars.LightUse[2] and not self.wsip then
 						self:EmitSound("fnafgm_windowscare")
 						self.wsip = true
-					elseif apos == GAMEMODE.APos.freddysnoevent.Office and !GAMEMODE.Vars.LightUse[2] and self.wsip then
+					elseif apos == GAMEMODE.APos.freddysnoevent.Office and not GAMEMODE.Vars.LightUse[2] and self.wsip then
 						self.wsip = false
-					elseif apos != GAMEMODE.APos.freddysnoevent.Office and self.wsip then
+					elseif apos ~= GAMEMODE.APos.freddysnoevent.Office and self.wsip then
 						self.wsip = false
 					end
 
@@ -256,13 +264,15 @@ function ENT:Think()
 
 		local nope = hook.Call("fnafgmFixPos", nil, self, me, apos) or false
 
-		if !nope and me != GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me] and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos] and (!GAMEMODE.Vars.poweroff and me != GAMEMODE.Animatronic.Freddy) then
+		if not nope and me ~= GAMEMODE.Animatronic.Foxy and GAMEMODE.AnimatronicAPos[me]
+		and GAMEMODE.AnimatronicAPos[me][game.GetMap()] and GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos]
+		and (not GAMEMODE.Vars.poweroff and me ~= GAMEMODE.Animatronic.Freddy) then
 			self:SetPos(GAMEMODE.AnimatronicAPos[me][game.GetMap()][apos][1])
 		end
 
 	end
 
-	if apos != nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
+	if apos ~= nil and GAMEMODE.APos and GAMEMODE.APos[game.GetMap()] and apos == GAMEMODE.APos[game.GetMap()].Office then
 
 		for _, ply in pairs(player.GetAll()) do
 
@@ -285,12 +295,12 @@ function ENT:Think()
 
 				local attacker = self
 
-				if !IsValid(attacker) then attacker = self end
+				if not IsValid(attacker) then attacker = self end
 
 				v:SendLua('GAMEMODE:JumpscareOverlay("' .. (string.lower(GAMEMODE.ShortName) or "fnafgm") .. '/screamers/' .. game.GetMap() .. "_" .. me .. '")')
 
 				v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
-				v:TakeDamage(100, attacker, self)
+				v:TakeDamage(2147483647, attacker, self)
 
 			end
 
@@ -302,11 +312,11 @@ end
 
 function ENT:Taunt(ply)
 
-	if !GAMEMODE.Vars.startday then return end
+	if not GAMEMODE.Vars.startday then return end
 
 	local me = self:GetAType()
 
-	if !GAMEMODE.Vars.Animatronics[me][4] then
+	if not GAMEMODE.Vars.Animatronics[me][4] then
 		GAMEMODE.Vars.Animatronics[me][4] = 0
 	end
 
@@ -354,7 +364,7 @@ function ENT:GoJumpscare()
 
 	local nope = hook.Call("fnafgmCustomGoJumpscare", nil, me, self, timet) or false
 
-	if !nope then
+	if not nope then
 
 		if me == GAMEMODE.Animatronic.Foxy then
 			self.FoxyWillMove = true
@@ -372,7 +382,7 @@ function ENT:GoJumpscare()
 
 			if sgdead then timer.Remove("fnafgmJumpscare" .. me) return end
 
-			if GAMEMODE.Vars.startday and me != GAMEMODE.Animatronic.Foxy then
+			if GAMEMODE.Vars.startday and me ~= GAMEMODE.Animatronic.Foxy then
 				self:Jumpscare()
 			elseif GAMEMODE.Vars.startday then
 				self:SetPos(Vector(-365, -358, 64))
@@ -396,9 +406,9 @@ function ENT:Jumpscare()
 
 		local nope = hook.Call("fnafgmCustomJumpscare", nil, me, self) or false
 
-		if !nope then
+		if not nope then
 
-			if me == GAMEMODE.Animatronic.Freddy and !GAMEMODE.Vars.DoorClosed[2] then
+			if me == GAMEMODE.Animatronic.Freddy and not GAMEMODE.Vars.DoorClosed[2] then
 
 				for k, v in pairs(player.GetAll()) do
 
@@ -406,7 +416,7 @@ function ENT:Jumpscare()
 
 						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_0")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
-						v:TakeDamage(100, self)
+						v:TakeDamage(2147483647, self)
 
 					end
 
@@ -414,7 +424,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 
-			elseif me == GAMEMODE.Animatronic.Bonnie and !GAMEMODE.Vars.DoorClosed[1] then
+			elseif me == GAMEMODE.Animatronic.Bonnie and not GAMEMODE.Vars.DoorClosed[1] then
 
 				for k, v in pairs(player.GetAll()) do
 
@@ -422,7 +432,7 @@ function ENT:Jumpscare()
 
 						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_1")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
-						v:TakeDamage(100, self)
+						v:TakeDamage(2147483647, self)
 
 					end
 
@@ -430,7 +440,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 
-			elseif me == GAMEMODE.Animatronic.Chica and !GAMEMODE.Vars.DoorClosed[2] then
+			elseif me == GAMEMODE.Animatronic.Chica and not GAMEMODE.Vars.DoorClosed[2] then
 
 				for k, v in pairs(player.GetAll()) do
 
@@ -438,7 +448,7 @@ function ENT:Jumpscare()
 
 						v:SendLua('GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_2")')
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
-						v:TakeDamage(100, self)
+						v:TakeDamage(2147483647, self)
 
 					end
 
@@ -453,7 +463,7 @@ function ENT:Jumpscare()
 					if v:Team() == 1 and v:Alive() and v.IsOnSecurityRoom then
 
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
-						v:TakeDamage(100, self)
+						v:TakeDamage(2147483647, self)
 
 					end
 
@@ -465,7 +475,7 @@ function ENT:Jumpscare()
 
 				for k, v in pairs(player.GetAll()) do
 
-					if v:Team() != TEAM_CONNECTING and v:Team() != TEAM_UNASSIGNED then
+					if v:Team() ~= TEAM_CONNECTING and v:Team() ~= TEAM_UNASSIGNED then
 
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxyknock")]])
 
@@ -473,7 +483,7 @@ function ENT:Jumpscare()
 
 				end
 
-				if !fnafgm_disablepower:GetBool() then
+				if not fnafgm_disablepower:GetBool() then
 
 					local foxyknockdoorpena = GAMEMODE.Vars.foxyknockdoorpena or 2
 					local addfoxyknockdoorpena = GAMEMODE.Vars.addfoxyknockdoorpena or 4
@@ -499,7 +509,7 @@ function ENT:Jumpscare()
 					timer.Remove("fnafgmFoxyReset")
 				end)
 			else
-				GAMEMODE:SetAnimatronicPos(nil,me,GAMEMODE.APos[game.GetMap()].SS)
+				GAMEMODE:SetAnimatronicPos(nil, me, GAMEMODE.APos[game.GetMap()].SS)
 			end
 
 		end
@@ -513,13 +523,9 @@ function ENT:OnInjured(info)
 end
 
 function ENT:CanTool(ply, trace, mode)
-
-	return !GAMEMODE.IsFNAFGMDerived
-
+	return not GAMEMODE.IsFNAFGMDerived
 end
 
 function ENT:CanProperty(ply, property)
-
-	return !GAMEMODE.IsFNAFGMDerived
-
+	return not GAMEMODE.IsFNAFGMDerived
 end
