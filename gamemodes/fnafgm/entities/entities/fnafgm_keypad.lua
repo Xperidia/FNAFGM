@@ -34,9 +34,9 @@ function ENT:Use(activator, caller, useType, value)
 	self:TriggerOutput("OnPressed", activator or caller)
 
 	local ply
-	if (IsValid(activator) and activator:IsPlayer()) then
+	if IsValid(activator) and activator:IsPlayer() then
 		ply = activator
-	elseif (IsValid(caller) and caller:IsPlayer()) then
+	elseif IsValid(caller) and caller:IsPlayer() then
 		ply = caller
 	end
 
