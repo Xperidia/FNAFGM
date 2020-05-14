@@ -1410,7 +1410,7 @@ function GM:CanTool(ply, trace, mode)
 
 end
 
-function GM:CanProperty(pl, property, ent)
+function GM:CanProperty(ply, property, ent)
 
 	local classname = ent:GetClass()
 
@@ -1423,18 +1423,18 @@ function GM:CanProperty(pl, property, ent)
 
 	end
 
-	return SandboxClass.CanProperty(self, pl, property, ent)
+	return SandboxClass.CanProperty(self, ply, property, ent)
 
 end
 
-function GM:CanDrive(pl, ent)
+function GM:CanDrive(ply, ent)
 
 	local classname = ent:GetClass()
 
 	if classname == "func_door" then return false end
 	if classname == "func_button" then return false end
 
-	return SandboxClass.CanDrive(self, pl, ent)
+	return SandboxClass.CanDrive(self, ply, ent)
 
 end
 
