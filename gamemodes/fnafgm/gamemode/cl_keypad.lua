@@ -37,7 +37,7 @@ local passwords = {
 			Zed:SetPos(0, 0)
 			Zed:SetSize(384, 384)
 			Zed:SetAllowLua(true)
-			Zed:OpenURL("www.Xperidia.com/DAT_FACE.html")
+			Zed:OpenURL("https://assets.xperidia.com/fnafgm/dat_face.html")
 			Zed:SetScrollbars(false)
 
 			surface.PlaySound("ambient/water/drip" .. math.random(1, 4) .. ".wav")
@@ -328,7 +328,6 @@ function GM:KeyPad(ent)
 			self.selectedbtn = new
 			new.selected = true
 		end
-		fnafgmSecretD = self.KeyPadFrame
 
 		self.KeyPadFrame.btn = {}
 
