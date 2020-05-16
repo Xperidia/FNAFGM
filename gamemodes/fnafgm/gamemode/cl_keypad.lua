@@ -85,6 +85,46 @@ local passwords = {
 		end
 	},
 
+	["746427"] = {
+		func = function()
+
+			if GAMEMODE.KeyPadFrame.btn then
+				for k, v in pairs(GAMEMODE.KeyPadFrame.btn) do
+					if IsValid(v) then
+						v:Remove()
+					end
+				end
+			end
+
+			local x, y = 442, 384
+
+			GAMEMODE.KeyPadFrame.Passlbl:Remove()
+			GAMEMODE.KeyPadFrame.back:Remove()
+
+			GAMEMODE.KeyPadFrame.okbtn:Remove()
+
+			GAMEMODE.KeyPadFrame:SetSize(x, y)
+			GAMEMODE.KeyPadFrame:SetPos(ScrW() / 2 - x / 2, ScrH() / 2 - y / 2)
+
+			GAMEMODE.KeyPadFrame._do_not_paint = true
+
+			GAMEMODE.KeyPadFrame.closebtn:SetPos(x - 32, 0)
+			GAMEMODE.KeyPadFrame.closebtn:SetZPos(1000)
+
+			local Zed = vgui.Create("DHTML", GAMEMODE.KeyPadFrame)
+			Zed:SetPos(0, 0)
+			Zed:SetSize(x, y)
+			Zed:SetAllowLua(true)
+			Zed:OpenURL("https://assets.xperidia.com/fnafgm/pingas.html")
+			Zed:SetScrollbars(false)
+
+			surface.PlaySound("ambient/water/drip" .. math.random(1, 4) .. ".wav")
+
+			return ""
+
+		end
+	},
+
 }
 
 local nkeys =	{
