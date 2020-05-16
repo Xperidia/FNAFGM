@@ -206,7 +206,9 @@ function GM:KeyPad(ent)
 		self.KeyPadFrame:ShowCloseButton(false)
 		self.KeyPadFrame:SetScreenLock(true)
 		self.KeyPadFrame.Paint = function(self, w, h)
-			draw.RoundedBox(4, 0, 0, w, h, Color(64, 64, 64, 255))
+			if not self._do_not_paint then
+				draw.RoundedBox(4, 0, 0, w, h, Color(64, 64, 64, 255))
+			end
 		end
 		self.KeyPadFrame.Think = function(self)
 
