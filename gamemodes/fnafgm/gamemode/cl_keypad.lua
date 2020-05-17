@@ -77,6 +77,7 @@ local passwords = {
 	},
 
 	["1987"] = {
+		low_priority = true,
 		func = function()
 			if not fnafgm_sandbox_enable:GetBool() then
 				GAMEMODE.Vars.b87 = true
