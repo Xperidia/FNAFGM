@@ -445,6 +445,7 @@ function GM:KeyPad(ent)
 			local pass = password
 			password = ""
 			local valid_keypad_ent = IsValid(ent) and ent:GetClass() == "fnafgm_keypad"
+			local t_pass = passwords[pass]
 
 			if valid_keypad_ent and pass == ent:GetPassword() then
 
@@ -466,24 +467,21 @@ function GM:KeyPad(ent)
 
 			end
 
-			for k, v in pairs(passwords) do
-				if pass == k then
-					if v.func then
-						res = v.func()
-					elseif v.name then
-						GAMEMODE.Vars.Cheat[v.name] = not GAMEMODE.Vars.Cheat[v.name]
-						if GAMEMODE.Vars.Cheat[v.name] then
-							GAMEMODE.KeyPadFrame.Passlbl:SetText(v.name .. " I")
-							res = true
-						else
-							GAMEMODE.KeyPadFrame.Passlbl:SetText(v.name .. " O")
-							res = false
-						end
-					elseif v.msg then
-						GAMEMODE.KeyPadFrame.Passlbl:SetText(v.msg)
-						res = "v.msg"
+			if t_pass then
+				if t_pass.func then
+					res = t_pass.func()
+				elseif t_pass.name then
+					GAMEMODE.Vars.Cheat[t_pass.name] = not GAMEMODE.Vars.Cheat[t_pass.name]
+					if GAMEMODE.Vars.Cheat[t_pass.name] then
+						GAMEMODE.KeyPadFrame.Passlbl:SetText(t_pass.name .. " I")
+						res = true
+					else
+						GAMEMODE.KeyPadFrame.Passlbl:SetText(t_pass.name .. " O")
+						res = false
 					end
-					break
+				elseif t_pass.msg then
+					GAMEMODE.KeyPadFrame.Passlbl:SetText(t_pass.msg)
+					res = t_pass.msg
 				end
 			end
 
