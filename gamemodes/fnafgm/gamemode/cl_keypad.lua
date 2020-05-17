@@ -52,6 +52,7 @@ local passwords = {
 	},
 
 	["666"] = {
+		low_priority = true,
 		func = function()
 			RunConsoleCommand("kill")
 			GAMEMODE.KeyPadFrame:Close()
