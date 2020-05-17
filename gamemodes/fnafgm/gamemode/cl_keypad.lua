@@ -456,7 +456,11 @@ function GM:KeyPad(ent)
 				GAMEMODE.KeyPadFrame.Passlbl:SetText("OK")
 				GAMEMODE.KeyPadFrame.Passlbl:SetTextColor(Color(0, 170, 0, 255))
 
-				GAMEMODE.KeyPadFrame:Close()
+				if passwords[pass].func then
+					passwords[pass].func()
+				else
+					GAMEMODE.KeyPadFrame:Close()
+				end
 
 				return
 
