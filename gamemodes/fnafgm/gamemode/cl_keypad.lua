@@ -457,8 +457,8 @@ function GM:KeyPad(ent)
 				GAMEMODE.KeyPadFrame.Passlbl:SetText("OK")
 				GAMEMODE.KeyPadFrame.Passlbl:SetTextColor(Color(0, 170, 0, 255))
 
-				if passwords[pass].func then
-					passwords[pass].func()
+				if t_pass and t_pass.func and not t_pass.low_priority then
+					t_pass.func()
 				else
 					GAMEMODE.KeyPadFrame:Close()
 				end
