@@ -102,13 +102,9 @@ function ENT:AcceptInput(name, activator, caller, data)
 end
 
 function ENT:CanTool(ply, trace, mode)
-
 	return not GAMEMODE.IsFNAFGMDerived
-
 end
 
 function ENT:CanProperty(ply, property)
-
 	return not GAMEMODE.IsFNAFGMDerived
-
 end
