@@ -101,6 +101,16 @@ function ENT:AcceptInput(name, activator, caller, data)
 
 end
 
+function ENT:KeyValue(k, v)
+
+	if string.Left(k, 2) == "On" then
+
+		self:StoreOutput(k, v)
+
+	end
+
+end
+
 function ENT:CanTool(ply, trace, mode)
 	return not GAMEMODE.IsFNAFGMDerived
 end
