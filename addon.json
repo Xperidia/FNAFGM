@@ -11,6 +11,7 @@
 		"desktop.ini",
 		"Thumbs.db",
 		"README.md",
-		"CODEOWNERS"
+		"CODEOWNERS",
+		"gamemodes/*/content/*"
 	]
 }
