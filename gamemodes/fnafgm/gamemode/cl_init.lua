@@ -235,7 +235,7 @@ function fnafgmWarn()
 	or game.GetMap() == "fnaf4versus") and fnafgm_cl_warn:GetBool() then
 
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css)
-		notification.AddLegacy(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css, NOTIFY_ERROR, 10)
+		notification.AddLegacy(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css, NOTIFY_ERROR, 15)
 		surface.PlaySound("buttons/button10.wav")
 
 	end
@@ -246,9 +246,12 @@ function fnafgmWarn()
 Alert!
 The gamemode initialization failed! (GM:Initialize())
 Because of this the gamemode might not work properly!
-This issue is certainly caused by another addon. Please check all your installed addons.
+This issue is certainly caused by another addon.
+Please check all your installed addons.
 ]])
-		notification.AddLegacy("The gamemode initialization failed!", NOTIFY_ERROR, 10)
+		notification.AddLegacy("Please check all your installed addons!", NOTIFY_GENERIC, 15)
+		notification.AddLegacy("This issue is certainly caused by another addon.", NOTIFY_GENERIC, 15)
+		notification.AddLegacy("The gamemode initialization failed!", NOTIFY_ERROR, 15)
 		surface.PlaySound("buttons/button10.wav")
 
 	end
