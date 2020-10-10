@@ -8,7 +8,7 @@
 
 The gamemode's goal is to improve the gaming experience on the FNaF map!
 
-## ![Installation instructions](https://assets.xperidia.com/fnafgm/workshop/TitleInstall.png)
+## Installation instructions
 
 * Subscribe to [the gamemode](https://steamcommunity.com/sharedfiles/filedetails/?id=408243366) to download it.
 * Subscribe to [Freddy Fazbear's Pizza (No events)](https://steamcommunity.com/sharedfiles/filedetails/?id=311282498).
@@ -17,7 +17,7 @@ The gamemode's goal is to improve the gaming experience on the FNaF map!
 * [Five Nights at Freddy's Animatronics](https://steamcommunity.com/sharedfiles/filedetails/?id=363563548) for the animatronics models.
 * I recommend you to subscribe to all the addons in [this collection](https://steamcommunity.com/sharedfiles/filedetails/?id=444234589).
 
-## ![How to play](https://assets.xperidia.com/fnafgm/workshop/TitleHow.png)
+## How to play
 
 * Select the gamemode\
 ![](https://assets.xperidia.com/fnafgm/workshop/GamemodeSelection.png)
@@ -25,18 +25,18 @@ The gamemode's goal is to improve the gaming experience on the FNaF map!
 ![](https://assets.xperidia.com/fnafgm/workshop/MapSelect.png)
 * Enjoy!
 
-## ![How to play PvP SGvsA](https://assets.xperidia.com/fnafgm/workshop/TitleHowSGvsA.png)
+## How to play PvP SGvsA
 
 * `fnafgm_sgvsa 1` or press F1 and click on "Toggle SGvsA"\
 ![](https://assets.xperidia.com/fnafgm/workshop/ToggleSGvsA.png)
 * [How to play as animatronic](https://youtu.be/N8Uc08KtJ2E)
 
-## ![Addons required](https://assets.xperidia.com/fnafgm/workshop/TitleAddonsRequired.png)
+## Addons required
 
 * [Freddy Fazbear's Pizza (No events)](https://steamcommunity.com/sharedfiles/filedetails/?id=311282498).
 * [Five Nights at Freddy's Animatronics](https://steamcommunity.com/sharedfiles/filedetails/?id=363563548) for the animatronics models.
 
-## ![Optional addons](https://assets.xperidia.com/fnafgm/workshop/TitleAddonsOptional.png)
+## Optional addons
 
 * [Security Guard Playermodels](https://steamcommunity.com/sharedfiles/filedetails/?id=169011381) for the playermodels fallback.
 
