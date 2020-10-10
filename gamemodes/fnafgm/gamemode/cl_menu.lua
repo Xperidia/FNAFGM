@@ -98,7 +98,7 @@ function fnafgmMenu()
 			questionbtn:SetPos(10, 185)
 			questionbtn:SetSize(140, 20)
 			questionbtn.DoClick = function()
-				gui.OpenURL("https://steamcommunity.com/workshop/filedetails/discussion/408243366/494632338490289695/")
+				gui.OpenURL("https://github.com/Xperidia/FNAFGM/wiki/FAQ")
 				fnafgmMenuF:Close()
 			end
 
