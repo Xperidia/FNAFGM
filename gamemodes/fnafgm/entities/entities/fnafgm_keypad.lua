@@ -67,7 +67,9 @@ function ENT:PasswordInput(password, ply)
 		return
 	end
 
-	if password == self:GetPassword() then
+	local ErrorLevel = self:GetInternalVariable("ErrorLevel")
+
+	if password == self:GetPassword() and (not ErrorLevel or (ErrorLevel and tonumber(ErrorLevel) == 0)) then
 
 		self:TriggerOutput("OnCorrectPassword", ply)
 
