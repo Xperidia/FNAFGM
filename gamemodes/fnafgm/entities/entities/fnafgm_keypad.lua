@@ -67,9 +67,7 @@ function ENT:PasswordInput(password, ply)
 		return
 	end
 
-	local ErrorLevel = self:GetInternalVariable("ErrorLevel")
-
-	if password == self:GetPassword() and (not ErrorLevel or (ErrorLevel and tonumber(ErrorLevel) == 0)) then
+	if password == self:GetPassword() and not self._errored then
 
 		self:TriggerOutput("OnCorrectPassword", ply)
 
@@ -117,6 +115,18 @@ function ENT:AcceptInput(name, activator, caller, data)
 
 		return true
 
+	elseif name == "EnableError" then
+
+		self._errored = true
+
+		return true
+
+	elseif name == "DisableError" then
+
+		self._errored = false
+
+		return true
+
 	end
 
 	return false
@@ -135,7 +145,11 @@ function ENT:KeyValue(k, v)
 
 	elseif k == "StartDisabled" then
 
-		self._disabled = true
+		self._disabled = tobool(v)
+
+	elseif k == "StartErrored" then
+
+		self._errored = tobool(v)
 
 	end
 
