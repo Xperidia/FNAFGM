@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------
 //
-// FNAFGM FGD V6.5 BY XPERIDIA
+// FNAFGM FGD V6.6 BY XPERIDIA
 //
 //-------------------------------------------------------------------------
 
@@ -98,7 +98,16 @@
 @PointClass base(Targetname, Angles, EnableDisable) studio("models/props_lab/keypad.mdl") = fnafgm_keypad : "FNAFGM KeyPad"
 [
 	Password(string) : "Numerical password (8 digits max)"
-	ErrorLevel(integer) : "Keypad will error if not zero"
+	StartErrored(choices) : "Start Errored" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input EnableError(void) : "Make the keypad always error."
+	input DisableError(void) : "Make the keypad normal."
+	// Outputs
 	output OnPressed(void) : "Fired when the button is pressed."
 	output OnCorrectPassword(void) : "Fired when the correct code has been input."
 	output OnBadPassword(void) : "Fired when a wrong code has been input."
