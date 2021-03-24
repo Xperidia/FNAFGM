@@ -3,6 +3,7 @@
 	"base"		"sandbox"
 	"title"		"Five Nights at Freddy's"
 	"maps"		"^freddys|^fnaf"
+	"category"	"pve"
 	"menusystem"	"1"
 	"workshopid"	"408243366"
 
