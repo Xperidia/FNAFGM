@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -33,24 +33,16 @@ PLAYER.UseVMHands			= false		-- Uses viewmodel hands
 -- Creates a Taunt Camera
 --
 PLAYER.TauntCam = TauntCamera()
-
 --
 -- Set up the network table accessors
 --
 function PLAYER:SetupDataTables()
-
 	BaseClass.SetupDataTables(self)
-
 end
-
 
 function PLAYER:Loadout()
-
 	self.Player:RemoveAllAmmo()
 	self.Player:Give("fnafgm_animatronic_controller")
-
 end
-
-
 
 player_manager.RegisterClass("player_fnafgm_animatronic_controller", PLAYER, "player_fnafgmsecurityguard")

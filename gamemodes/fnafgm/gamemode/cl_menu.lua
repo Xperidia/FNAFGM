@@ -1,17 +1,14 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
 -----------------------------------------------------------]]
 
 function fnafgmMenu()
-
-	if !IsValid(fnafgmMenuF) and !engine.IsPlayingDemo() then
-
-
+	if not IsValid(fnafgmMenuF) and not engine.IsPlayingDemo() then
 		fnafgmMenuF = vgui.Create("DFrame")
 		fnafgmMenuF:SetPos(ScrW() / 2 - 320, ScrH() / 2 - 240)
 		fnafgmMenuF:SetSize(640, 480)
@@ -24,39 +21,29 @@ function fnafgmMenu()
 			draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 128))
 		end
 		fnafgmMenuF.Think = function(self)
-
 			local mousex = math.Clamp(gui.MouseX(), 1, ScrW() - 1)
 			local mousey = math.Clamp(gui.MouseY(), 1, ScrH() - 1)
-
 			if self.Dragging then
-
 				local x = mousex - self.Dragging[1]
 				local y = mousey - self.Dragging[2]
-
 				-- Lock to screen bounds if screenlock is enabled
 				if self:GetScreenLock() then
-
 					x = math.Clamp(x, 0, ScrW() - self:GetWide())
 					y = math.Clamp(y, 0, ScrH() - self:GetTall())
-
 				end
 
 				self:SetPos(x, y)
-
 			end
 
-			if self.Hovered && mousey < (self.y + 24) then
+			if self.Hovered and mousey < (self.y + 24) then
 				self:SetCursor("sizeall")
 				return
 			end
 
 			self:SetCursor("arrow")
-
-			if self.y < 0 then
-				self:SetPos(self.x, 0)
-			end
-
+			if self.y < 0 then self:SetPos(self.x, 0) end
 		end
+
 		fnafgmMenuF:MakePopup()
 		fnafgmMenuF:SetKeyboardInputEnabled(false)
 
@@ -66,14 +53,12 @@ function fnafgmMenu()
 		fnafgmMenuF.links:SetParent(fnafgmMenuF)
 		fnafgmMenuF.links:SetPos(10, 30)
 		fnafgmMenuF.links:SetSize(305, 215)
-
 		local linkslbl = vgui.Create("DLabel")
 		linkslbl:SetParent(fnafgmMenuF.links)
 		linkslbl:SetText(GAMEMODE.TranslatedStrings.links or GAMEMODE.Strings.en.links)
 		linkslbl:SetPos(10, 5)
 		linkslbl:SetDark(1)
 		linkslbl:SizeToContents()
-
 		local websitebtn = vgui.Create("DButton")
 		websitebtn:SetParent(fnafgmMenuF.links)
 		websitebtn:SetText(GAMEMODE.ShortName .. " Workshop page")
@@ -91,7 +76,6 @@ function fnafgmMenu()
 		end
 
 		if engine.ActiveGamemode() == "fnafgm" then
-
 			questionbtn = vgui.Create("DButton")
 			questionbtn:SetParent(fnafgmMenuF.links)
 			questionbtn:SetText(GAMEMODE.TranslatedStrings.faqbtn or GAMEMODE.Strings.en.faqbtn)
@@ -111,10 +95,7 @@ function fnafgmMenu()
 				gui.OpenURL("https://github.com/Xperidia/FNAFGM")
 				fnafgmMenuF:Close()
 			end
-
 		end
-
-
 
 		fnafgmMenuF.config = vgui.Create("DPanel")
 		fnafgmMenuF.config:SetParent(fnafgmMenuF)
@@ -173,7 +154,7 @@ function fnafgmMenu()
 		chatsound:SetValue(GetConVar("fnafgm_cl_chatsound"):GetBool())
 		chatsound:SizeToContents()
 
-		local flashwindow = vgui.Create( "DCheckBoxLabel" )
+		local flashwindow = vgui.Create("DCheckBoxLabel")
 		flashwindow:SetParent(fnafgmMenuF.config)
 		flashwindow:SetText(GAMEMODE.TranslatedStrings.flashwindow or GAMEMODE.Strings.en.flashwindow)
 		flashwindow:SetPos(15, 130)
@@ -199,8 +180,6 @@ function fnafgmMenu()
 		disablehalo:SetConVar("fnafgm_cl_disablehalos")
 		disablehalo:SetValue(GetConVar("fnafgm_cl_disablehalos"):GetBool())
 		disablehalo:SizeToContents()
-
-
 
 		fnafgmMenuF.info = vgui.Create("DPanel")
 		fnafgmMenuF.info:SetParent(fnafgmMenuF)
@@ -267,9 +246,7 @@ function fnafgmMenu()
 		end
 
 		local add = 0
-
-		if !game.SinglePlayer() then
-
+		if not game.SinglePlayer() then
 			local togglesgvsa = vgui.Create("DButton")
 			togglesgvsa:SetParent(fnafgmMenuF.info)
 			togglesgvsa:SetText(GAMEMODE.TranslatedStrings.togglesgvsa or GAMEMODE.Strings.en.togglesgvsa)
@@ -282,11 +259,9 @@ function fnafgmMenu()
 			end
 
 			add = 25
-
 		end
 
 		if ConVarExists("sv_playermodel_selector_gamemodes") then
-
 			local playermodelselection = vgui.Create("DButton")
 			playermodelselection:SetParent(fnafgmMenuF.info)
 			playermodelselection:SetText(GAMEMODE.TranslatedStrings.selectplayermodelbtn or GAMEMODE.Strings.en.selectplayermodelbtn)
@@ -297,10 +272,7 @@ function fnafgmMenu()
 				RunConsoleCommand("playermodel_selector")
 				fnafgmMenuF:Close()
 			end
-
 		end
-
-
 
 		fnafgmMenuF.debugmenu = vgui.Create("DPanel")
 		fnafgmMenuF.debugmenu:SetParent(fnafgmMenuF)
@@ -365,12 +337,7 @@ function fnafgmMenu()
 		end
 
 		hook.Call("fnafgmMenuCustom")
-
-
 	elseif IsValid(fnafgmMenuF) then
-
 		fnafgmMenuF:Close()
-
 	end
-
 end

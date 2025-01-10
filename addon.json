@@ -12,7 +12,7 @@
 		"Thumbs.db",
 		"README.md",
 		"CODEOWNERS",
-		"glualint.json",
+		".glualint.json",
 		"gamemodes/*/content/*"
 	]
 }

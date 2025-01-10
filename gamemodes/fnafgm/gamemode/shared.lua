@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015-2020)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -23,20 +23,20 @@ GM.Version 			= GM.OfficialVersion	--This can be overrided so derived gamemodes 
 GM.TeamBased		= true
 GM.AllowAutoTeam	= true
 if engine.ActiveGamemode() == "fnafgm" then --This is to check if we're in the main FNAFGM or a derived gamemode.
-	GM.Official		= true
+	GM.Official = true
 else
-	GM.Official		= false
+	GM.Official = false
 end
-GM.IsFNAFGMDerived	= true
+GM.IsFNAFGMDerived = true
 
-GM.FT		= 1 --GM.FT is the variable for the FNAF style game and as you can see by default it's FNaF 1.
+GM.FT = 1 --GM.FT is the variable for the FNAF style game and as you can see by default it's FNaF 1.
 
 if game.GetMap() == "fnaf2noevents" then --The current version of the gamemode doesn't really support all these maps but it was considered and so the check is still here.
-	GM.FT	= 2
+	GM.FT = 2
 elseif game.GetMap() == "fnaf3" then
-	GM.FT	= 3
+	GM.FT = 3
 elseif game.GetMap() == "fnaf4house" or game.GetMap() == "fnaf4noclips" or game.GetMap() == "fnaf4versus" then
-	GM.FT	= 4
+	GM.FT = 4
 end
 
 --[[ Gamemode constants for derivations or any custom stuff ]]--
@@ -78,17 +78,16 @@ GM.Sound_end = {
 	fnaf2noevents			= Sound("fnafgm/end2.ogg")
 }
 GM.Sound_Animatronic = {}
-GM.Sound_Animatronic[0] = { Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg") }
-GM.Sound_Animatronic[1] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
-GM.Sound_Animatronic[2] = { Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg") }
-GM.Sound_Animatronic[3] = { Sound("fnafgm/piratesong2.ogg") }
-GM.Sound_Animatronic[4] = { Sound("fnafgm/goldenfreddy.ogg") }
+GM.Sound_Animatronic[0] = {Sound("fnafgm/freddy1.ogg"), Sound("fnafgm/freddy2.ogg"), Sound("fnafgm/freddy3.ogg")}
+GM.Sound_Animatronic[1] = {Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg")}
+GM.Sound_Animatronic[2] = {Sound("fnafgm/cb1.ogg"), Sound("fnafgm/cb2.ogg"), Sound("fnafgm/cb3.ogg"), Sound("fnafgm/cb4.ogg")}
+GM.Sound_Animatronic[3] = {Sound("fnafgm/piratesong2.ogg")}
+GM.Sound_Animatronic[4] = {Sound("fnafgm/goldenfreddy.ogg")}
 GM.Sound_garble1 = Sound("fnafgm/garble1.ogg")
 GM.Sound_garble2 = Sound("fnafgm/garble2.ogg")
 GM.Sound_garble3 = Sound("fnafgm/garble3.ogg")
-
 GM.Sound_Calls = {
-	freddysnoevent = { "fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg" }
+	freddysnoevent = {"fnafgm/voiceover1.ogg", "fnafgm/voiceover2.ogg", "fnafgm/voiceover3.ogg", "fnafgm/voiceover4.ogg", "fnafgm/voiceover5.ogg"}
 }
 GM.Sound_maskon			= Sound("fnafgm/maskon.ogg")
 GM.Sound_maskoff		= Sound("fnafgm/maskoff.ogg")
@@ -337,11 +336,10 @@ GM.Strings = {
 }
 
 function GM:LoadLanguage(lang)
-
-	if lang != "" and GAMEMODE.Strings[lang] then
+	if lang ~= "" and GAMEMODE.Strings[lang] then
 		GAMEMODE.TranslatedStrings = GAMEMODE.Strings[lang]
 		GAMEMODE:Log("'" .. lang .. "' strings loaded!")
-	elseif lang != "" then
+	elseif lang ~= "" then
 		table.Empty(GAMEMODE.TranslatedStrings)
 		GAMEMODE:Log("'" .. lang .. "' is not supported! Default strings loaded!")
 	end
@@ -349,29 +347,28 @@ function GM:LoadLanguage(lang)
 	if CLIENT then
 		language.Add("fnafgm_animatronic", tostring(GAMEMODE.TranslatedStrings.animatronic or GAMEMODE.Strings.en.animatronic))
 	end
-
 end
 
-GM.Spawns_sg = { "info_player_start", "info_player_terrorist" }
-GM.Spawns_animatronics = { "info_player_counterterrorist", "fnafgm_teamanimatronics_start" }
+GM.Spawns_sg = {"info_player_start", "info_player_terrorist"}
+GM.Spawns_animatronics = {"info_player_counterterrorist", "fnafgm_teamanimatronics_start"}
 
 GM.SecurityRoom = {
-	freddysnoevent = { Vector(-160,-1275,60), Vector(0,-1058,170) },
-	fnaf2noevents = { Vector(-158,-350,0), Vector(159, -81, 192) },
-	fnaf3 = { Vector(-174,-342,64), Vector(174,-178,190) },
-	fnaf4house = { Vector(-756,-190,0), Vector(-514,125,128) },
-	fnaf4noclips = { Vector(-756,-190,0), Vector(-514,125,128) }
+	freddysnoevent = {Vector(-160, -1275, 60), Vector(0, -1058, 170)},
+	fnaf2noevents = {Vector(-158, -350, 0), Vector(159, -81, 192)},
+	fnaf3 = {Vector(-174, -342, 64), Vector(174, -178, 190)},
+	fnaf4house = {Vector(-756, -190, 0), Vector(-514, 125, 128)},
+	fnaf4noclips = {Vector(-756, -190, 0), Vector(-514, 125, 128)}
 }
 
 GM.DeadBodiesTeleport = {
-	freddysnoevent = { Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92) },
-	fnaf2noevents = { Vector(-412, 1431, 92), Vector(-290, 1482, 92), Vector(-223, 1436, 92), Vector(-328, 1414, 92) }
+	freddysnoevent = {Vector(-508, -25, 92), Vector(-580, -124, 92), Vector(-500, -120, 92), Vector(-508, -192, 92)},
+	fnaf2noevents = {Vector(-412, 1431, 92), Vector(-290, 1482, 92), Vector(-223, 1436, 92), Vector(-328, 1414, 92)}
 }
 
 GM.FNaFView = {
-	freddysnoevent = { Vector(-80, -1224, 64), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0) },
-	fnaf2noevents = { Vector(0, -300, 0), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0) },
-	fnaf3 = { Vector(14, -300, 64), Angle(0, 90, 0), Angle(0, 140, 0), Angle(0, 80, 0) }
+	freddysnoevent = {Vector(-80, -1224, 64), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0)},
+	fnaf2noevents = {Vector(0, -300, 0), Angle(0, 90, 0), Angle(0, 136, 0), Angle(0, 44, 0)},
+	fnaf3 = {Vector(14, -300, 64), Angle(0, 90, 0), Angle(0, 140, 0), Angle(0, 80, 0)}
 }
 
 GM.Materials_static = "fnafgm/overlays/static"
@@ -387,7 +384,7 @@ GM.Materials_foxy = "fnafgm/weapons/foxy"
 GM.Materials_fnaf2deathcam = "fnafgm/overlays/fnaf2deathcam"
 GM.Materials_switch = "fnafgm/overlays/switch"
 
-GM.Models_dead = { Model("models/splinks/fnaf/bonnie/bonnie.mdl"), Model("models/splinks/fnaf/chica/chica.mdl"), Model("models/splinks/fnaf/freddy/freddy.mdl") }
+GM.Models_dead = {Model("models/splinks/fnaf/bonnie/bonnie.mdl"), Model("models/splinks/fnaf/chica/chica.mdl"), Model("models/splinks/fnaf/freddy/freddy.mdl")}
 GM.Models_defaultplayermodels = {"barney", "male10", "male11", "male12", "male13", "male14", "male15", "male16", "male17", "male18"}
 GM.Models_bonnie = Model("models/splinks/fnaf/bonnie/player_bonnie.mdl")
 GM.Models_chica = Model("models/splinks/fnaf/chica/player_chica.mdl")
@@ -427,8 +424,7 @@ GM.MapList = {
 	freddysnoevent = "FNaF 1",
 	fnaf2noevents = "FNaF 2",
 	fnaf3 = "FNaF 3",
-	fnaf4house = "FNaF 4"
-	--fnaf4versus = "FNaF 4 PvP"
+	fnaf4house = "FNaF 4",
 }
 
 GM.MapListLinks = {
@@ -523,58 +519,56 @@ GM.AnimatronicAPos[GM.Animatronic.Puppet] = {}
 GM.AnimatronicAPos[GM.Animatronic.Springtrap] = {}
 
 GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EH] = { Vector(65,-740,65), Angle(0,265,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EHC] = { Vector(41,-1244,65), Angle(0,120,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(14,174,100), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Restroom] = { Vector(609,-174,65), Angle(0,136,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(98,-266,65), Angle(0,134,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = { Vector(270,-1004,64), Angle(0,90,0) }
-GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(43,-1171,65), Angle(0,180,0) }
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EH] = {Vector(65, -740, 65), Angle(0, 265, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.EHC] = {Vector(41, -1244, 65), Angle(0, 120, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.SS] = {Vector(14, 174, 100), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Restroom] = {Vector(609, -174, 65), Angle(0, 136, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.DA] = {Vector(98, -266, 65), Angle(0, 134, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = {Vector(270, -1004, 64), Angle(0, 90, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Freddy].freddysnoevent[GM.APos.freddysnoevent.Office] = {Vector(43, -1171, 65), Angle(0, 180, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WHC] = { Vector(-218,-1294,65), Angle(0,91,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WH] = { Vector(-222,-554,65), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SC] = { Vector(-376,-734,65), Angle(0,0,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Backstage] = { Vector(-432,-94,65), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(-104,192,94), Angle(0,292,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(-158,-110,65), Angle(0,79,0) }
-GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-206,-1172,65), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WHC] = {Vector(-218, -1294, 65), Angle(0, 91, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.WH] = {Vector(-222, -554, 65), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SC] = {Vector(-376, -734, 65), Angle(0, 0, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Backstage] = {Vector(-432, -94, 65), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.SS] = {Vector(-104, 192, 94), Angle(0, 292, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.DA] = {Vector(-158, -110, 65), Angle(0, 79, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Bonnie].freddysnoevent[GM.APos.freddysnoevent.Office] = {Vector(-206, -1172, 65), Angle(0, 0, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EH] = { Vector(62,-894,70), Angle(0,260,0) }
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EHC] = { Vector(64,-1290,70), Angle(0,111,0) }
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.SS] = { Vector(106,198,96), Angle(0,258,0) }
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Restroom] = { Vector(513,-284,70), Angle(0,87,0) }
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.DA] = { Vector(-30,-274,65), Angle(0,116,0) }
-GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(32,-1080,70), Angle(0,211,0) }
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EH] = {Vector(62, -894, 70), Angle(0, 260, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.EHC] = {Vector(64, -1290, 70), Angle(0, 111, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.SS] = {Vector(106, 198, 96), Angle(0, 258, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Restroom] = {Vector(513, -284, 70), Angle(0, 87, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.DA] = {Vector(-30, -274, 65), Angle(0, 116, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Chica].freddysnoevent[GM.APos.freddysnoevent.Office] = {Vector(32, -1080, 70), Angle(0, 211, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.PC] = { Vector(-475,-358,90), Angle(0,0,0) }
-GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.Office] = { Vector(-475,-358,90), Angle(0,0,0) }
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.PC] = {Vector(-475, -358, 90), Angle(0, 0, 0)}
+GM.AnimatronicAPos[GM.Animatronic.Foxy].freddysnoevent[GM.APos.freddysnoevent.Office] = {Vector(-475, -358, 90), Angle(0, 0, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent = {}
-GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = { Vector(305,-899,108), Angle(0,0,0) }
-
+GM.AnimatronicAPos[GM.Animatronic.GoldenFreddy].freddysnoevent[GM.APos.freddysnoevent.Kitchen] = {Vector(305, -899, 108), Angle(0, 0, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents = {}
-GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.GA] = { Vector(768,847,1), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.SS] = { Vector(1196,1535,32), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.Office] = { Vector(38,15,0), Angle(0,263,0) }
+GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.GA] = {Vector(768, 847, 1), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.SS] = {Vector(1196, 1535, 32), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyFreddy].fnaf2noevents[GM.APos.fnaf2noevents.Office] = {Vector(38, 15, 0), Angle(0, 263, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents = {}
-GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.PR3] = { Vector(-334.211,937.728,0), Angle(0,321.5,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.PR4] = { Vector(298,856,0), Angle(0,205,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.SS] = { Vector(1140,1536,32), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.Office] = { Vector(332,-226,2), Angle(0,180,0) }
+GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.PR3] = {Vector(-334.211, 937.728, 0), Angle(0, 321.5, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.PR4] = {Vector(298, 856, 0), Angle(0, 205, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.SS] = {Vector(1140, 1536, 32), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyBonnie].fnaf2noevents[GM.APos.fnaf2noevents.Office] = {Vector(332, -226, 2), Angle(0, 180, 0)}
 
 GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents = {}
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.PR1] = { Vector(-440,210,0), Angle(0,355,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.PR4] = { Vector(496,962,0), Angle(0,200,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.LAV] = { Vector(-346,-226,0), Angle(0,10,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.MH] = { Vector(232,1204,0), Angle(0,0,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.SS] = { Vector(1256,1536,32), Angle(0,270,0) }
-GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.Office] = { Vector(0,162,0), Angle(0,270,0) }
-
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.PR1] = {Vector(-440, 210, 0), Angle(0, 355, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.PR4] = {Vector(496, 962, 0), Angle(0, 200, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.LAV] = {Vector(-346, -226, 0), Angle(0, 10, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.MH] = {Vector(232, 1204, 0), Angle(0, 0, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.SS] = {Vector(1256, 1536, 32), Angle(0, 270, 0)}
+GM.AnimatronicAPos[GM.Animatronic.ToyChica].fnaf2noevents[GM.APos.fnaf2noevents.Office] = {Vector(0, 162, 0), Angle(0, 270, 0)}
 
 GM.AnimatronicsCD = {}
 GM.AnimatronicsCD[GM.Animatronic.Freddy] = {}
@@ -653,13 +647,9 @@ GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[5] = 170
 GM.AnimatronicsMaxCD[GM.Animatronic.Foxy].freddysnoevent[6] = 170
 
 GM.AnimatronicsSkins = {}
-
 GM.AnimatronicsFlex = {}
-
 GM.AnimatronicsAnim = {}
-
 GM.Vars = {}
-
 --[CVAR]--
 fnafgm_deathscreendelay				= CreateConVar("fnafgm_deathscreendelay",			1,					FCVAR_REPLICATED,	"The death screen delay. (Time of the jumpscare)")
 fnafgm_deathscreenduration			= CreateConVar("fnafgm_deathscreenduration",		10,					FCVAR_REPLICATED,	"The death screen duration.")
@@ -703,9 +693,7 @@ fnafgm_cl_flashwindow = CreateClientConVar("fnafgm_cl_flashwindow", 1, true, fal
 fnafgm_cl_saveonservers = CreateClientConVar("fnafgm_cl_saveonservers", 1, true, false)
 fnafgm_cl_disablehalos = CreateClientConVar("fnafgm_cl_disablehalos", 0, true, false)
 
-
 function GM:Initialize()
-
 	GAMEMODE.Vars.startday = false
 	GAMEMODE.Vars.gameend = false
 	GAMEMODE.Vars.iniok = false
@@ -733,18 +721,17 @@ function GM:Initialize()
 	GAMEMODE.Vars.Animatronics = {}
 	GAMEMODE.Vars.Cheat = {}
 
-	if !file.IsDir(string.lower(GAMEMODE.ShortName) or "fnafgm", "DATA") then
+	if not file.IsDir(string.lower(GAMEMODE.ShortName) or "fnafgm", "DATA") then
 		file.CreateDir(string.lower(GAMEMODE.ShortName) or "fnafgm")
-	elseif !file.IsDir("fnafgm", "DATA") then
+	elseif not file.IsDir("fnafgm", "DATA") then
 		file.CreateDir("fnafgm")
 	end
 
-
 	local Timestamp = os.time()
-	if (os.date("%d/%m", Timestamp) == "01/04") then --SeasonalEvents
+	if os.date("%d/%m", Timestamp) == "01/04" then --SeasonalEvents
 		GAMEMODE.Vars.AprilFool = true
 		GAMEMODE.Vars.seasonaltext = " - April Fool"
-	elseif (os.date("%d/%m", Timestamp) == "31/10") then
+	elseif os.date("%d/%m", Timestamp) == "31/10" then
 		GAMEMODE.Vars.Halloween = true
 		GAMEMODE.Vars.seasonaltext = " - Halloween"
 	elseif (os.date("%d/%m", Timestamp) == "24/12") or (os.date("%d/%m", Timestamp) == "25/12") then
@@ -753,17 +740,15 @@ function GM:Initialize()
 		GAMEMODE.Power_Max = 125
 	end
 
-
-	if fnafgm_sgvsa:GetBool() and !game.SinglePlayer() then
+	if fnafgm_sgvsa:GetBool() and not game.SinglePlayer() then
 		GAMEMODE.Vars.SGvsA = true
 		GAMEMODE.Vars.modetext = " - PvP SGvsA"
 	end
 
-	if !game.SinglePlayer() then
-
+	if not game.SinglePlayer() then
 		cvars.AddChangeCallback("fnafgm_sgvsa", function(convar_name, value_old, value_new)
 			local value = tonumber(value_new)
-			if !value then
+			if not value then
 				GAMEMODE:ErrorLog("fnafgm_sgvsa " .. " is not a number!", true)
 			elseif value >= 1 then
 				GAMEMODE.Vars.SGvsA = true
@@ -771,12 +756,12 @@ function GM:Initialize()
 				GAMEMODE:Log("The game is now in PvP SGvsA mode!")
 				if SERVER then
 					net.Start("fnafgmNotif")
-						net.WriteString("now_sgvsa")
-						net.WriteInt(4,3)
-						net.WriteFloat(5)
-						net.WriteBit(true)
+					net.WriteString("now_sgvsa")
+					net.WriteInt(4, 3)
+					net.WriteFloat(5)
+					net.WriteBit(true)
 					net.Broadcast()
-					if !game.IsDedicated() then
+					if not game.IsDedicated() then
 						for k, v in pairs(player.GetAll()) do
 							if v:IsListenServerHost() then
 								v:SendLua([[GAMEMODE.Vars.SGvsA = true GAMEMODE.Vars.modetext = " - PvP SGvsA"]])
@@ -790,12 +775,12 @@ function GM:Initialize()
 				GAMEMODE:Log("The game is now in normal mode!")
 				if SERVER then
 					net.Start("fnafgmNotif")
-						net.WriteString("now_normal")
-						net.WriteInt(4,3)
-						net.WriteFloat(5)
-						net.WriteBit(true)
+					net.WriteString("now_normal")
+					net.WriteInt(4, 3)
+					net.WriteFloat(5)
+					net.WriteBit(true)
 					net.Broadcast()
-					if !game.IsDedicated() then
+					if not game.IsDedicated() then
 						for k, v in pairs(player.GetAll()) do
 							if v:IsListenServerHost() then
 								v:SendLua([[GAMEMODE.Vars.SGvsA = false GAMEMODE.Vars.modetext = nil]])
@@ -805,9 +790,7 @@ function GM:Initialize()
 				end
 			end
 		end)
-
 	end
-
 
 	if GetHostName() == "1987" then --Not a easter egg ^^
 		GAMEMODE.Vars.AprilFool = false
@@ -817,179 +800,174 @@ function GM:Initialize()
 		GAMEMODE.Vars.modetext = " - '87"
 	end
 
-
 	for _, addon in pairs(engine.GetAddons()) do
-
 		if addon.wsid == "408243366" and addon.mounted then
 			GAMEMODE.Vars.fnafgmWorkShop = true
 		end
-
 	end
 
 	for key, val in pairs(GAMEMODE.Sound_Animatronic) do
 		for k, v in pairs(GAMEMODE.Sound_Animatronic[key]) do
-			sound.Add( {
+			sound.Add({
 				name = "fnafgm_" .. key .. "_" .. k,
 				channel = CHAN_STATIC,
 				volume = 1.0,
 				level = 0,
 				sound = v
-			} )
+			})
 		end
 	end
 
 	for k, v in pairs(GAMEMODE.Sound_end) do
-		sound.Add( {
+		sound.Add({
 			name = "fnafgm_end_" .. k,
 			channel = CHAN_STATIC,
 			volume = 1.0,
 			level = 0,
 			sound = v
-		} )
+		})
 	end
 
-	sound.Add( {
+	sound.Add({
 		name = "fnafgm_campop",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycampop
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_campop2",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycampop2
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_campop3",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycampop3
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_camdown",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycamdown
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_camdown2",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycamdown2
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_camdown3",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_securitycamdown3
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_camselect",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_camselect
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_maskon",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_maskon
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_maskoff",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_maskoff
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_scream",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_xscream
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_scream2",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_xscream2
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_foxyknock",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_foxyknock
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_foxystep",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_foxystep
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_lighterror",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_lighterror
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_startday",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_startday
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_windowscare",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_windowscare
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_garble1",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_garble1
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_garble2",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_garble2
-	} )
-	sound.Add( {
+	})
+	sound.Add({
 		name = "fnafgm_garble3",
 		channel = CHAN_AUTO,
 		volume = 1.0,
 		level = 0,
 		sound = GAMEMODE.Sound_garble3
-	} )
+	})
 
 	GAMEMODE:LoadLanguage(GetConVar("gmod_language"):GetString())
-
 	cvars.AddChangeCallback("gmod_language", function(convar_name, value_old, value_new)
 		GAMEMODE:LoadLanguage(value_new)
 	end)
 
 	if SERVER then
-
 		GAMEMODE.ListGroup = {}
 		GAMEMODE.Vars.mapoverrideok = false
 		GAMEMODE.Vars.norespawn = false
@@ -1006,36 +984,26 @@ function GM:Initialize()
 		GAMEMODE.Vars.foxyknockdoorpena = 2
 		GAMEMODE.Vars.addfoxyknockdoorpena = 4
 		GAMEMODE.Vars.checkRestartNight = false
-
-		if !game.SinglePlayer() then
+		if not game.SinglePlayer() then
 			timer.Create("fnafgmAutoCleanUp", 5, 0, fnafgmAutoCleanUp)
 		end
-
 		GAMEMODE:RefreshBypass()
-
 		if GetConVar("sv_loadingurl"):GetString() == "" then --Use the Xperidia's loading screen if no other loading screen is defined... Because it shows more information than the current default of Garry's Mod...
 			RunConsoleCommand("sv_loadingurl", "https://assets.xperidia.com/garrysmod/loading.html#auto")
 		end
-
 	end
 
 	timer.Create("fnafgmLoadProgress", 2, 1, GAMEMODE.LoadProgress)
-
 	GAMEMODE.Vars.gamemode_init_done = true
-
 end
-
 
 function GM:SaveProgress(erase)
-
-	if SERVER and (!GAMEMODE.Vars.SGvsA and (!game.IsDedicated() or fnafgm_forcesavingloading:GetBool())) then
-
-		if !file.IsDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA" ) then
-			file.CreateDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress" )
+	if SERVER and (not GAMEMODE.Vars.SGvsA and (not game.IsDedicated() or fnafgm_forcesavingloading:GetBool())) then
+		if not file.IsDir((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA") then
+			file.CreateDir((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress")
 		end
 
 		local tab = {}
-
 		if erase then
 			tab.Night = 0
 		elseif GAMEMODE.Vars.night >= GAMEMODE.NightEnd then
@@ -1044,29 +1012,20 @@ function GM:SaveProgress(erase)
 			tab.Night = GAMEMODE.Vars.night
 		end
 
-		file.Write( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab) )
-
+		file.Write((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab))
 		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
-
 	end
 
-	if CLIENT and !GAMEMODE.Vars.SGvsA and (fnafgm_cl_saveonservers:GetBool() or erase) then
-
-		local filep = file.Read( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt" )
-
-		if filep and !erase then
-
+	if CLIENT and not GAMEMODE.Vars.SGvsA and (fnafgm_cl_saveonservers:GetBool() or erase) then
+		local filep = file.Read((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt")
+		if filep and not erase then
 			local tab = util.JSONToTable(filep)
-			if tab and  tab.Night and tab.Night > GAMEMODE.Vars.night then
-				return
-			end
-
-		elseif !file.IsDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA" ) then
-			file.CreateDir( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress" )
+			if tab and tab.Night and tab.Night > GAMEMODE.Vars.night then return end
+		elseif not file.IsDir((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress", "DATA") then
+			file.CreateDir((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress")
 		end
 
 		local tab = {}
-
 		if erase then
 			tab.Night = 0
 		elseif GAMEMODE.Vars.night >= GAMEMODE.NightEnd then
@@ -1075,26 +1034,17 @@ function GM:SaveProgress(erase)
 			tab.Night = GAMEMODE.Vars.night
 		end
 
-		file.Write( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab) )
-
+		file.Write((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt", util.TableToJSON(tab))
 		GAMEMODE:Log("Progression saved! (" .. tab.Night .. ")")
-
 	end
-
 end
 
-
 function GM:LoadProgress()
-
-	if SERVER and ( !GAMEMODE.Vars.SGvsA  and ( !game.IsDedicated() or fnafgm_forcesavingloading:GetBool() ) ) then
-
-		local filep = file.Read( ( string.lower(GAMEMODE.ShortName) or "fnafgm" ) .. "/progress/" .. game.GetMap() .. ".txt" )
-
+	if SERVER and (not GAMEMODE.Vars.SGvsA and (not game.IsDedicated() or fnafgm_forcesavingloading:GetBool())) then
+		local filep = file.Read((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt")
 		if filep then
-
-			local tab = util.JSONToTable( filep )
+			local tab = util.JSONToTable(filep)
 			if tab then
-
 				if tab.Night then
 					if tab.Night >= GAMEMODE.NightEnd then
 						GAMEMODE.Vars.night = GAMEMODE.NightEnd
@@ -1104,21 +1054,14 @@ function GM:LoadProgress()
 				end
 
 				GAMEMODE:Log("Progression loaded! (" .. GAMEMODE.Vars.night .. ")")
-
 				return
-
 			end
-
 		end
-
 	end
 
-	if CLIENT and !GAMEMODE.Vars.SGvsA then
-
-		local filep = file.Read( (string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt" )
-
+	if CLIENT and not GAMEMODE.Vars.SGvsA then
+		local filep = file.Read((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/progress/" .. game.GetMap() .. ".txt")
 		if filep then
-
 			local tab = util.JSONToTable(filep)
 			if tab and tab.Night then
 				if tab.Night >= GAMEMODE.NightEnd then
@@ -1127,22 +1070,17 @@ function GM:LoadProgress()
 					nightp = tab.Night + 1
 				end
 			end
-
 		end
-
 	end
-
 end
 
-
 function GM:RefreshBypass()
-
 	if SERVER then
 		GAMEMODE:Log("Checking bypasses...")
 		local files, dir = file.Find("fnafgm/groups/" .. "*", "DATA")
 		table.Empty(GAMEMODE.ListGroup)
 		for k, v in pairs(files) do
-			GAMEMODE.ListGroup["group_" .. string.StripExtension(v)] = string.Explode( "|", file.Read("fnafgm/groups/" .. v, "DATA") )
+			GAMEMODE.ListGroup["group_" .. string.StripExtension(v)] = string.Explode("|", file.Read("fnafgm/groups/" .. v, "DATA"))
 		end
 		if table.Count(GAMEMODE.ListGroup) == 0 then
 			GAMEMODE:Log("No bypasses detected!")
@@ -1151,12 +1089,9 @@ function GM:RefreshBypass()
 			GAMEMODE:Log("Bypasses checked!")
 		end
 	end
-
 end
 
-
 function GM:CreateTeams()
-
 	team.SetUp(1, tostring(GAMEMODE.TranslatedStrings.sg or GAMEMODE.Strings.en.sg), GAMEMODE.Colors_sg)
 	team.SetClass(1, {"player_fnafgmsecurityguard"})
 	if game.GetMap() == "freddysnoevent" or game.GetMap() == "fnaf2noevents" then
@@ -1169,35 +1104,25 @@ function GM:CreateTeams()
 
 	team.SetUp(2, tostring(GAMEMODE.TranslatedStrings.animatronics or GAMEMODE.Strings.en.animatronics), GAMEMODE.Colors_animatronics)
 	team.SetClass(2, {"player_fnafgm_animatronic_controller"})
-	team.SetSpawnPoint( 2, GAMEMODE.Spawns_animatronics )
-
+	team.SetSpawnPoint(2, GAMEMODE.Spawns_animatronics)
 	team.SetUp(TEAM_SPECTATOR, tostring(GAMEMODE.TranslatedStrings.spectator or GAMEMODE.Strings.en.spectator), Color(128, 128, 128))
-
 	team.SetUp(TEAM_UNASSIGNED, "Unassigned", Color(128, 128, 128), false)
 	team.SetUp(TEAM_CONNECTING, "Connecting", Color(128, 128, 128), false)
-
 end
-
 
 function GM:CheckCreator(pl) --To easly debug others servers and credit
-	if pl:SteamID() == "STEAM_0:1:18280147" then
-		return true
-	end
+	if pl:SteamID() == "STEAM_0:1:18280147" then return true end
 	return false
 end
-
 
 function GM:CheckDerivCreator(pl) --To credit you when you are detected
 	return false
 end
 
-
 local XperidiaCheck = {"flashlight", "run", "jump", "spray", "fastrespawn", "act", "playermodel"}
 local ListGroupVarNotSet
-
 function GM:CustomCheck(pl, what) --Custom groups funcs
-
-	if !GAMEMODE.ListGroup and !ListGroupVarNotSet then
+	if not GAMEMODE.ListGroup and not ListGroupVarNotSet then
 		ErrorNoHalt("[FNAFGM] Alert! \"GAMEMODE.ListGroup\" isn't set!\nThere might be a critical initialization issue!\nThis issue is certainly caused by another addon. Please check all your installed addons.\n")
 		ListGroupVarNotSet = true
 	end
@@ -1207,104 +1132,58 @@ function GM:CustomCheck(pl, what) --Custom groups funcs
 	elseif pl.XperidiaRank and pl.XperidiaRank.id > 0 and table.HasValue(XperidiaCheck, what) then
 		return true
 	end
-
 	return false
-
 end
-
 
 function GM:CheckPlayerSecurityRoom(ply)
-
 	if GAMEMODE.SecurityRoom[game.GetMap()] then
-
 		local ret = ply:GetPos():WithinAABox(GAMEMODE.SecurityRoom[game.GetMap()][1], GAMEMODE.SecurityRoom[game.GetMap()][2])
-
-		if ret then
-
-			return true
-
-		end
-
+		if ret then return true end
 		if GAMEMODE.SecurityRoom[game.GetMap()][3] then
-
 			local ret = ply:GetPos():WithinAABox(GAMEMODE.SecurityRoom[game.GetMap()][3], GAMEMODE.SecurityRoom[game.GetMap()][4])
-
-			if ret then
-
-				return true
-
-			end
-
+			if ret then return true end
 		end
-
 		return false
-
 	else
-
 		return nil
-
 	end
-
 end
 
-
 function GM:GrabEarAnimation(ply)
-
 	if ply:Team() == 2 then return end
-
 	ply.ChatGestureWeight = ply.ChatGestureWeight or 0
-
 	if ply:IsPlayingTaunt() then return end
-
 	if ply:IsTyping() then
-		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 1, FrameTime() * 5)
+		ply.ChatGestureWeight = math.Approach(ply.ChatGestureWeight, 1, FrameTime() * 5)
 	else
-		ply.ChatGestureWeight = math.Approach( ply.ChatGestureWeight, 0, FrameTime() * 5)
+		ply.ChatGestureWeight = math.Approach(ply.ChatGestureWeight, 0, FrameTime() * 5)
 	end
 
 	if ply.ChatGestureWeight > 0 then
-
 		ply:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
 		ply:AnimSetGestureWeight(GESTURE_SLOT_VCD, ply.ChatGestureWeight)
-
 	end
-
 end
-
 
 function GM:Move(ply, mv)
-
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
-
 	if SERVER and ply.fnafviewactive then return true end
-
 	if drive.Move(ply, mv) then return true end
-
 	if player_manager.RunClass(ply, "Move", mv) then return true end
-
 	return false
-
 end
-
 
 function GM:FinishMove(ply, mv)
-
 	if CLIENT and GAMEMODE.Vars.fnafviewactive then return true end
-
 	if SERVER and ply.fnafviewactive then return true end
-
 	if drive.FinishMove(ply, mv) then return true end
 	if player_manager.RunClass(ply, "FinishMove", mv) then return true end
-
 end
 
-
-function GM:GoFNaFView(ply,auto)
-
+function GM:GoFNaFView(ply, auto)
 	GAMEMODE.Vars.fnafview = true
-
 	if SERVER and GAMEMODE.FNaFView[game.GetMap()] and ply:Team() == 1 and ply:Alive() then
-		if !auto or (ply:GetInfoNum("fnafgm_cl_autofnafview", 1) == 1 and !fnafgm_sandbox_enable:GetBool()) then
+		if not auto or (ply:GetInfoNum("fnafgm_cl_autofnafview", 1) == 1 and not fnafgm_sandbox_enable:GetBool()) then
 			ply:SendLua([[GAMEMODE:GoFNaFView()]])
 		end
 		if GAMEMODE.FNaFView[game.GetMap()][1] then
@@ -1315,77 +1194,55 @@ function GM:GoFNaFView(ply,auto)
 		end
 	end
 
-	if CLIENT and (!GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime()) then
+	if CLIENT and (not GAMEMODE.Vars.FNaFViewLastTime or GAMEMODE.Vars.FNaFViewLastTime + 0.5 < SysTime()) then
 		GAMEMODE:FNaFViewHUD()
 	end
-
 end
 
-
 timer.Create("fnafgmAnimatronicsCD", 1, 0, function()
-
 	if tobool(GAMEMODE.Vars.startday) then
-
 		for k, v in pairs(GAMEMODE.Vars.Animatronics) do
-
 			if GAMEMODE.Vars.Animatronics[k][3] and GAMEMODE.Vars.Animatronics[k][3] > 0 then
 				GAMEMODE.Vars.Animatronics[k][3] = GAMEMODE.Vars.Animatronics[k][3] - 1
 			end
-
 		end
 
 		if CLIENT and GAMEMODE.Vars.Monitor and GAMEMODE.Vars.Monitor.Animatronics then
-
 			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
-
 				if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3] > 0 then
 					local val = GAMEMODE.Vars.Animatronics[k][3]
 					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText(val .. "s")
-					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 85, 85, 85, 255 ) )
+					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor(Color(85, 85, 85, 255))
 				elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k]) and IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Txt) and GAMEMODE.Vars.Animatronics[k][3] == 0 then
 					GAMEMODE.Vars.Monitor.Animatronics[k].Txt:SetText("")
-					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor( Color( 255, 255, 255, 255 ) )
+					GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor(Color(255, 255, 255, 255))
 				end
 
 				if GAMEMODE.Sound_Animatronic[k] then
-
 					if IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) and GAMEMODE.Vars.Animatronics[k][4] > CurTime() then
 						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText(math.Truncate(GAMEMODE.Vars.Animatronics[k][4] - CurTime(), 0) .. "s")
 					elseif IsValid(GAMEMODE.Vars.Monitor.Animatronics[k].Btn) then
 						GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetText("TAUNT")
 					end
-
 				end
-
 			end
 
 			hook.Call("fnafgmCustomAnimatronicsCD")
-
 		end
-
 	end
-
 end)
 
-
 function GM:Log(str, tn, hardcore) --Log something to the console with GAMEMODE:Log(String<actual message to log>, nil, Bool<if this log is or can be repetitive, it will be hidden if dev mode isn't enabled>)
-
-	local name = (GAMEMODE.ShortName or "FNAFGM")
+	local name = GAMEMODE.ShortName or "FNAFGM"
 	if tn then name = "FNAFGM" end
-
-	if hardcore and !fnafgm_enabledevmode:GetBool() then return end
-
+	if hardcore and not fnafgm_enabledevmode:GetBool() then return end
 	Msg("[" .. name .. "] " .. (str or "This was a log message, but something went wrong") .. "\n")
-
 end
 
 function GM:ErrorLog(str, tn)
-
-	local name = (GAMEMODE.ShortName or "FNAFGM")
+	local name = GAMEMODE.ShortName or "FNAFGM"
 	if tn then name = "FNAFGM" end
-
 	ErrorNoHalt("[" .. name .. "] " .. (str or "This was an error message, but something went wrong") .. "\n")
-
 end
 
 local ent_class_blacklist = {
@@ -1397,57 +1254,33 @@ local ent_class_blacklist = {
 }
 
 function GM:CanTool(ply, trace, mode)
-
 	local ent = trace.Entity
-
 	if IsValid(ent) and ent_class_blacklist[ent:GetClass()] then
-
 		return false
-
 	end
-
-	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
-
+	if not fnafgm_sandbox_enable:GetBool() and not ply:IsSuperAdmin() then
 		return false
-
 	end
-
 	return SandboxClass.CanTool(self, ply, trace, mode)
-
 end
 
 function GM:CanProperty(ply, property, ent)
-
 	local classname = ent:GetClass()
-
 	if ent_class_blacklist[classname] then return false end
-
-	if !fnafgm_sandbox_enable:GetBool() and !ply:IsSuperAdmin() then
-
+	if not fnafgm_sandbox_enable:GetBool() and not ply:IsSuperAdmin() then
 		return false
-
 	end
-
 	return SandboxClass.CanProperty(self, ply, property, ent)
-
 end
 
 function GM:CanDrive(ply, ent)
-
 	local classname = ent:GetClass()
-
 	if ent_class_blacklist[classname] then return false end
-
 	return SandboxClass.CanDrive(self, ply, ent)
-
 end
 
 function GM:PhysgunPickup(ply, ent)
-
 	local classname = ent:GetClass()
-
 	if ent_class_blacklist[classname] then return false end
-
 	return SandboxClass.PhysgunPickup(self, ply, ent)
-
 end

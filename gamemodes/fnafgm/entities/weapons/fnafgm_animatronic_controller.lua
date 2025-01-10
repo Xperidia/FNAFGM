@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015-2020)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -40,10 +40,7 @@ SWEP.WorldModel				= ""
 SWEP.Spawnable = true
 SWEP.AdminOnly = true
 
-if CLIENT then
-	SWEP.WepSelectIcon = surface.GetTextureID(GAMEMODE.Materials_animatronic)
-end
-
+if CLIENT then SWEP.WepSelectIcon = surface.GetTextureID(GAMEMODE.Materials_animatronic) end
 function SWEP:Initialize()
 	self:SetWeaponHoldType("normal")
 end
@@ -53,12 +50,8 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-
 	if table.Count(ents.FindByClass("fnafgm_camera")) == 0 then return end
-
-	if SERVER then
-		net.Start("fnafgmAnimatronicsController")
-		net.Send(self.Owner)
-	end
-
+	if CLIENT then return end
+	net.Start("fnafgmAnimatronicsController")
+	net.Send(self:GetOwner())
 end

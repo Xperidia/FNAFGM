@@ -1,23 +1,23 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
 -----------------------------------------------------------]]
 
 function GM:FNaFViewHUD()
-
-	if !GAMEMODE.Vars.fnafviewactive and !engine.IsPlayingDemo() then
-
+	if not GAMEMODE.Vars.fnafviewactive and not engine.IsPlayingDemo() then
 		GAMEMODE.Vars.fnafviewactive = true
 
 		net.Start("fnafgmfnafViewActive")
-			net.WriteBit(true)
+		net.WriteBit(true)
 		net.SendToServer()
 
-		if GAMEMODE.FNaFView[game.GetMap()][2] then LocalPlayer():SetEyeAngles(GAMEMODE.FNaFView[game.GetMap()][2]) end
+		if GAMEMODE.FNaFView[game.GetMap()][2] then
+			LocalPlayer():SetEyeAngles(GAMEMODE.FNaFView[game.GetMap()][2])
+		end
 
 		FNaFView = vgui.Create("DFrame")
 		FNaFView:ParentToHUD()
@@ -35,9 +35,7 @@ function GM:FNaFViewHUD()
 		FNaFView:SetMouseInputEnabled(false)
 		FNaFView:MakePopup()
 		FNaFView:SetKeyboardInputEnabled(false)
-		FNaFView.Paint = function(self, w, h)
-
-		end
+		FNaFView.Paint = function(self, w, h) end
 		FNaFView.OnClose = function()
 			if GAMEMODE.Vars.usingsafezone then
 				GAMEMODE.Vars.usingsafezone = false
@@ -45,35 +43,25 @@ function GM:FNaFViewHUD()
 			end
 			GAMEMODE.Vars.fnafviewactive = false
 			net.Start("fnafgmfnafViewActive")
-				net.WriteBit(false)
+			net.WriteBit(false)
 			net.SendToServer()
 			GAMEMODE.Vars.FNaFViewLastTime = SysTime()
 		end
 		FNaFView.Think = function()
-
 			if IsValid(MUTE) and GAMEMODE.Vars.mute then
 				MUTE:Remove()
 				MUTEb:Remove()
 			end
 
-			if !LocalPlayer():Alive() or (GAMEMODE.Vars.power == 0 and GAMEMODE.FT != 2) then
+			if not LocalPlayer():Alive() or (GAMEMODE.Vars.power == 0 and GAMEMODE.FT ~= 2) then
 				OpenT:Remove()
-				if IsValid(lightroom) then
-					lightroom:Remove()
-				end
+				if IsValid(lightroom) then lightroom:Remove() end
 			end
 
-			if !LocalPlayer():Alive() and IsValid(FNaFView) then
-				FNaFView:Close()
-			end
-
-			if !GAMEMODE.Vars.startday then
-				FNaFView:Close()
-			end
-
+			if not LocalPlayer():Alive() and IsValid(FNaFView) then FNaFView:Close() end
+			if not GAMEMODE.Vars.startday then FNaFView:Close() end
 			local fps = 1 / FrameTime()
 			local speed = 2
-
 			if fps >= 75 then
 				speed = 2
 			elseif fps >= 30 then
@@ -85,15 +73,12 @@ function GM:FNaFViewHUD()
 			if LocalPlayer():Alive() and IsValid(LeftZone) and (vgui.GetHoveredPanel() == LeftZone or LocalPlayer():KeyDown(IN_MOVELEFT)) and GAMEMODE.FNaFView[game.GetMap()][3] and LocalPlayer():EyeAngles()[2] <= GAMEMODE.FNaFView[game.GetMap()][3][2] then
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles() + Angle(0, speed, 0))
 			end
-
 			if LocalPlayer():Alive() and IsValid(RightZone) and (vgui.GetHoveredPanel() == RightZone or LocalPlayer():KeyDown(IN_MOVERIGHT)) and GAMEMODE.FNaFView[game.GetMap()][4] and LocalPlayer():EyeAngles()[2] >= GAMEMODE.FNaFView[game.GetMap()][4][2] then
 				LocalPlayer():SetEyeAngles(LocalPlayer():EyeAngles() + Angle(0, -speed, 0))
 			end
-
 			if (FNaFView.m_fCreateTime + 0.5) < SysTime() and LocalPlayer():KeyDown(IN_RELOAD) then
 				FNaFView:Close()
 			end
-
 		end
 		FNaFView.OnMousePressed = function(p, code)
 			hook.Run("GUIMousePressed", code, gui.ScreenToVector(gui.MousePos()))
@@ -120,26 +105,19 @@ function GM:FNaFViewHUD()
 		ExitZone:SetFont("FNAFGMNIGHT")
 		ExitZone:SetPos(0, 0)
 		ExitZone:SetSize(ScrW(), 40)
-		ExitZone.DoClick = function(button)
-			FNaFView:Close()
-		end
-		ExitZone.Paint = function(self, w, h)
-
-		end
+		ExitZone.DoClick = function(button) FNaFView:Close() end
+		ExitZone.Paint = function(self, w, h) end
 		ExitZone.OnCursorEntered = function()
 			ExitZone:SetText(tostring(GAMEMODE.TranslatedStrings.exitfnafview or GAMEMODE.Strings.en.exitfnafview))
 		end
-		ExitZone.OnCursorExited = function()
-			ExitZone:SetText("")
-		end
+		ExitZone.OnCursorExited = function() ExitZone:SetText("") end
 
-		if !GAMEMODE.Vars.mute then
+		if not GAMEMODE.Vars.mute then
 			MUTE = vgui.Create("DImage")
 			MUTE:SetParent(FNaFView)
 			MUTE:SetImage("fnafgm/mute")
 			MUTE:SetSize(128, 32)
 			MUTE:SetPos(64, 64)
-
 			MUTEb = vgui.Create("DButton")
 			MUTEb:SetParent(MUTE)
 			MUTEb:SetSize(121, 31)
@@ -150,25 +128,19 @@ function GM:FNaFViewHUD()
 				MUTE:Remove()
 				MUTEb:Remove()
 			end
-			MUTEb.Paint = function(self, w, h)
-
-			end
+			MUTEb.Paint = function(self, w, h) end
 		end
 
 		local nope = hook.Call("fnafgmFNaFViewCustom") or false
-
-		if !nope then
-
+		if not nope then
 			if game.GetMap() == "freddysnoevent" then
-
 				local closebtnsizew = (512 * (ScrH() / 480)) / 2
 				local closebtnsizeh = (60 * (ScrH() / 480)) / 2
 				local closebtnsizec = (128 * (ScrH() / 480)) / 2
-
 				OpenT = vgui.Create("DButton")
 				OpenT:SetParent(FNaFView)
 				OpenT:SetSize(ScrW() / 2 - closebtnsizec, closebtnsizeh)
-				OpenT:SetPos(closebtnsizew-closebtnsizec, ScrH() - closebtnsizeh - 50)
+				OpenT:SetPos(closebtnsizew - closebtnsizec, ScrH() - closebtnsizeh - 50)
 				OpenT:SetText("")
 				OpenT.DoClick = function(button)
 					waitt = CurTime() + 1
@@ -177,7 +149,7 @@ function GM:FNaFViewHUD()
 					OpenT:Hide()
 				end
 				OpenT.OnCursorEntered = function()
-					if !waitt then waitt = 0 end
+					if not waitt then waitt = 0 end
 					if waitt < CurTime() then
 						waitt = CurTime() + 0.5
 						GAMEMODE:Monitor()
@@ -188,10 +160,7 @@ function GM:FNaFViewHUD()
 				OpenT.Paint = function(self, w, h)
 					GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255))
 				end
-
-
 			elseif game.GetMap() == "fnaf2noevents" then
-
 				OpenT = vgui.Create("DButton")
 				OpenT:SetParent(FNaFView)
 				OpenT:SetSize(ScrW() / 2 - 128, 64)
@@ -204,7 +173,7 @@ function GM:FNaFViewHUD()
 					SafeE:Hide()
 				end
 				OpenT.OnCursorEntered = function()
-					if !waitt then waitt = 0 end
+					if not waitt then waitt = 0 end
 					if waitt < CurTime() then
 						waitt = CurTime() + 0.5
 						GAMEMODE:Monitor()
@@ -221,10 +190,10 @@ function GM:FNaFViewHUD()
 				SafeE:SetSize(ScrW() / 2 - 128, 64)
 				SafeE:SetPos(ScrW() / 2 - ScrW() / 2 + 128 - 32, ScrH() - 130)
 				SafeE:SetText("")
-				SafeE:SetTextColor(Color( 255, 255, 255, 255))
+				SafeE:SetTextColor(Color(255, 255, 255, 255))
 				SafeE:SetFont("FNAFGMNIGHT")
 				SafeE.DoClick = function(button)
-					if !waits then waits = 0 end
+					if not waits then waits = 0 end
 					if waits < CurTime() then
 						waits = CurTime() + 1
 						if GAMEMODE.Vars.usingsafezone then
@@ -232,7 +201,7 @@ function GM:FNaFViewHUD()
 							LocalPlayer():StopSound("fnafgm_maskon")
 							LocalPlayer():EmitSound("fnafgm_maskoff")
 							GAMEMODE.Vars.usingsafezone = false
-						elseif !GAMEMODE.Vars.usingsafezone then
+						elseif not GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
 							LocalPlayer():StopSound("fnafgm_maskoff")
 							LocalPlayer():EmitSound("fnafgm_maskon")
@@ -242,7 +211,7 @@ function GM:FNaFViewHUD()
 					end
 				end
 				SafeE.OnCursorEntered = function()
-					if !waits then waits = 0 end
+					if not waits then waits = 0 end
 					if waits < CurTime() then
 						waits = CurTime() + 0.5
 						if GAMEMODE.Vars.usingsafezone then
@@ -250,7 +219,7 @@ function GM:FNaFViewHUD()
 							LocalPlayer():StopSound("fnafgm_maskon")
 							LocalPlayer():EmitSound("fnafgm_maskoff")
 							GAMEMODE.Vars.usingsafezone = false
-						elseif !GAMEMODE.Vars.usingsafezone then
+						elseif not GAMEMODE.Vars.usingsafezone then
 							OpenT:Hide()
 							LocalPlayer():StopSound("fnafgm_maskoff")
 							LocalPlayer():EmitSound("fnafgm_maskon")
@@ -262,13 +231,9 @@ function GM:FNaFViewHUD()
 				SafeE.Paint = function(self, w, h)
 					GAMEMODE:DrawFnafButton(w, h, Color(255, 85, 85))
 				end
-
-
 			else
-
 				local closebtnsizew = (512 * (ScrH() / 480)) / 2
 				local closebtnsizeh = (60 * (ScrH() / 480)) / 2
-
 				OpenT = vgui.Create("DButton")
 				OpenT:SetParent(FNaFView)
 				OpenT:SetSize(closebtnsizew, closebtnsizeh)
@@ -280,7 +245,7 @@ function GM:FNaFViewHUD()
 					OpenT:Hide()
 				end
 				OpenT.OnCursorEntered = function()
-					if !waitt then waitt = 0 end
+					if not waitt then waitt = 0 end
 					if waitt < CurTime() then
 						waitt = CurTime() + 0.5
 						GAMEMODE:Monitor()
@@ -290,11 +255,7 @@ function GM:FNaFViewHUD()
 				OpenT.Paint = function(self, w, h)
 					GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255))
 				end
-
 			end
-
 		end
-
 	end
-
 end

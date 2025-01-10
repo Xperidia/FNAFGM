@@ -1,7 +1,7 @@
 --[[---------------------------------------------------------
 
 	Five Nights at Freddy's Gamemode for Garry's Mod
-			by VictorienXP@Xperidia (2015)
+			by VickyFrenzy@Xperidia (2015-2025)
 
 	"Five Nights at Freddy's" is a game by Scott Cawthon.
 
@@ -11,11 +11,9 @@ AddCSLuaFile()
 DEFINE_BASECLASS("player_default")
 
 if CLIENT then
-
-	CreateConVar("cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255")
-	CreateConVar("cl_playerskin", "0", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The skin to use, if the model has any")
-	CreateConVar("cl_playerbodygroups", "0", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The bodygroups to use, if the model has any")
-
+	CreateConVar("cl_playercolor", "0.24 0.34 0.41", {FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD}, "The value is a Vector - so between 0-1 - not between 0-255")
+	CreateConVar("cl_playerskin", "0", {FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD}, "The skin to use, if the model has any")
+	CreateConVar("cl_playerbodygroups", "0", {FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD}, "The bodygroups to use, if the model has any")
 end
 
 local PLAYER = {}
@@ -46,90 +44,62 @@ PLAYER.TauntCam = TauntCamera()
 -- Set up the network table accessors
 --
 function PLAYER:SetupDataTables()
-
 	BaseClass.SetupDataTables(self)
-
 end
 
-
 function PLAYER:Loadout()
-
 	self.Player:RemoveAllAmmo()
 	self.Player:Give("fnafgm_securitytablet")
-
 end
 
 local forbidden_pm = {"Splinks_Bonnie", "Splinks_Chica", "Splinks_Foxy", "Splinks_Freddy", "Splinks_Golden_Freddy"}
-
 function PLAYER:SetModel()
-
 	BaseClass.SetModel(self)
-
 	if GetConVarString("fnafgm_playermodel") == "none" then
-
 		local models = player_manager.AllValidModels()
-
-		if (game.IsDedicated() or GAMEMODE.Vars.DS) and !GAMEMODE:CustomCheck(self.Player,"playermodel") then
-
+		if (game.IsDedicated() or GAMEMODE.Vars.DS) and not GAMEMODE:CustomCheck(self.Player, "playermodel") then
 			local playermodels = GAMEMODE.Models_defaultplayermodels
-
 			if models["Guard_01"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=169011381 if available
 				playermodels = {"Guard_01", "Guard_02", "Guard_03", "Guard_04", "Guard_05", "Guard_06", "Guard_07", "Guard_08", "Guard_09"}
 			end
 
 			self.Player:SetModel(player_manager.TranslatePlayerModel(table.Random(playermodels)))
-
-		elseif self.Player:GetInfo("cl_playermodel") == "none" or !models[self.Player:GetInfo("cl_playermodel")]
-		or (forbidden_pm[self.Player:GetInfo("cl_playermodel")] and !GAMEMODE:CustomCheck(self.Player, "playermodel")) then
-
+		elseif self.Player:GetInfo("cl_playermodel") == "none" or not models[self.Player:GetInfo("cl_playermodel")] or (forbidden_pm[self.Player:GetInfo("cl_playermodel")] and not GAMEMODE:CustomCheck(self.Player, "playermodel")) then
 			local playermodels = GAMEMODE.Models_defaultplayermodels
-
 			if models["Guard_01"] then -- Use http://steamcommunity.com/sharedfiles/filedetails/?id=169011381 if available
 				playermodels = {"Guard_01", "Guard_02", "Guard_03", "Guard_04", "Guard_05", "Guard_06", "Guard_07", "Guard_08", "Guard_09"}
 			end
 
 			self.Player:SetModel(player_manager.TranslatePlayerModel(table.Random(playermodels)))
-
 		end
 
 		local skin = self.Player:GetInfoNum("cl_playerskin", 0)
 		self.Player:SetSkin(skin)
-
 		local groups = self.Player:GetInfo("cl_playerbodygroups")
 		if groups == nil then groups = "" end
 		local groups = string.Explode(" ", groups)
 		for k = 0, self.Player:GetNumBodyGroups() - 1 do
 			self.Player:SetBodygroup(k, tonumber(groups[k + 1]) or 0)
 		end
-
 	else
-
 		local playermodels = {}
-
 		playermodels = string.Explode("|", GetConVarString("fnafgm_playermodel"))
-
 		self.Player:SetModel(player_manager.TranslatePlayerModel(table.Random(playermodels)))
-
 		self.Player:SetSkin(GetConVarString("fnafgm_playerskin"))
-
 		local groups = self.Player:GetInfo(GetConVarString("fnafgm_playerbodygroups"))
 		if groups == nil then groups = "" end
 		local groups = string.Explode(" ", groups)
 		for k = 0, self.Player:GetNumBodyGroups() - 1 do
 			self.Player:SetBodygroup(k, tonumber(groups[k + 1]) or 0)
 		end
-
 	end
-
 end
 
 --
 -- Called when the player spawns
 --
 function PLAYER:Spawn()
-
-	BaseClass.Spawn( self )
-
+	BaseClass.Spawn(self)
 	if GetConVarString("fnafgm_playercolor") == "0.24 0.34 0.41" then
 		local col = self.Player:GetInfo("cl_playercolor")
 		self.Player:SetPlayerColor(Vector(col))
@@ -137,50 +107,38 @@ function PLAYER:Spawn()
 		self.Player:SetPlayerColor(Vector(GetConVarString("fnafgm_playercolor")))
 	end
 	self.Player:SetModelScale(1, 0)
-
-
 end
 
 --
 -- Return true to draw local (thirdperson) camera - false to prevent - nothing to use default behaviour
 --
 function PLAYER:ShouldDrawLocal()
-
 	if self.TauntCam:ShouldDrawLocalPlayer(self.Player, self.Player:IsPlayingTaunt()) then return true end
-
 end
 
 --
 -- Allow player class to create move
 --
 function PLAYER:CreateMove(cmd)
-
 	if self.TauntCam:CreateMove(cmd, self.Player, self.Player:IsPlayingTaunt()) then return true end
-
 end
 
 --
 -- Allow changing the player's view
 --
 function PLAYER:CalcView(view)
-
 	if self.TauntCam:CalcView(view, self.Player, self.Player:IsPlayingTaunt()) then return true end
-
 	-- Your stuff here
-
 end
 
 function PLAYER:GetHandsModel()
-
 	-- return { model = "models/weapons/c_arms_cstrike.mdl", skin = 1, body = "0100000" }
-
 	if GetConVarString("fnafgm_playermodel") == "none" then
 		local cl_playermodel = self.Player:GetInfo("cl_playermodel")
 		return player_manager.TranslatePlayerHands(cl_playermodel)
 	else
 		return player_manager.TranslatePlayerHands(GetConVarString("fnafgm_playermodel"))
 	end
-
 end
 
 player_manager.RegisterClass("player_fnafgmsecurityguard", PLAYER, "player_default")
