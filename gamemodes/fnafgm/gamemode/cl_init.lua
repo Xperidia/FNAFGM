@@ -269,7 +269,7 @@ function GM:HUDDrawTargetID()
 	end
 
 	surface.SetFont(font)
-	local w, h = surface.GetTextSize(text)
+	local w, _ = surface.GetTextSize(text)
 	local MouseX, MouseY = gui.MousePos()
 
 	if MouseX == 0 and MouseY == 0 then
@@ -567,7 +567,7 @@ hook.Add("PreDrawHalos", "fnafgmHalos", function()
 	if game.GetMap() == "fnap_scc" and client:Team() == 1 and not GAMEMODE.Vars.startday and not GAMEMODE.Vars.nightpassed and not GAMEMODE.Vars.gameend then
 		local BoxCorner = Vector(-313, -408, 0)
 		local OppositeCorner = Vector(-374, -371, -70)
-		for k, v in pairs(ents.FindInBox(BoxCorner, OppositeCorner)) do
+		for _, v in pairs(ents.FindInBox(BoxCorner, OppositeCorner)) do
 			if v:GetClass() == "prop_dynamic" then table.insert(tab, v) end
 		end
 
@@ -826,10 +826,10 @@ function GM:ShowTeam()
 			if IsValid(LocalPlayer()) and LocalPlayer():Team() == ID then
 				Team:SetDisabled(true)
 				Team:SetTextColor(Color(40, 40, 40))
-				Team.Paint = function(self, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(0, 0, 0, 150)) end
+				Team.Paint = function(_, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(0, 0, 0, 150)) end
 			else
 				Team:SetTextColor(TeamInfo.Color)
-				Team.Paint = function(self, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(255, 255, 255, 150)) end
+				Team.Paint = function(_, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(255, 255, 255, 150)) end
 			end
 
 			x = x + 256
@@ -848,7 +848,7 @@ function GM:ShowTeam()
 		Team:SetText("Auto")
 		Team:SetTextColor(GAMEMODE.Colors_default)
 		Team:SetFont("FNAFGMTXT")
-		Team.Paint = function(self, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(255, 255, 255, 150)) end
+		Team.Paint = function(_, w, h) draw.RoundedBox(4, 4, 4, w - 8, h - 8, Color(255, 255, 255, 150)) end
 		y = y + 32
 	end
 
@@ -859,7 +859,7 @@ function GM:ShowTeam()
 	self.TeamSelectFrame:Center()
 	self.TeamSelectFrame:MakePopup()
 	self.TeamSelectFrame:SetKeyboardInputEnabled(false)
-	self.TeamSelectFrame.Paint = function(self, w, h) draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 128)) end
+	self.TeamSelectFrame.Paint = function(_, w, h) draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 128)) end
 end
 
 net.Receive("fnafgmMapSelect", function(len) GAMEMODE:MapSelect(net.ReadTable()) end)
@@ -871,7 +871,7 @@ function GM:MapSelect(AvMaps)
 
 	local AllMaps = GAMEMODE.MapList
 	local num = 0
-	for ID, Map in pairs(AllMaps) do
+	for _ in pairs(AllMaps) do
 		num = num + 1
 	end
 	local calc = math.Clamp(256 * 3 / num, 100, 256)
@@ -910,7 +910,7 @@ function GM:MapSelect(AvMaps)
 				MapI:SetTextColor(Color(255, 255, 255, 0))
 			end
 		else
-			local path = "maps/thumb/" .. ID .. ".png"
+			path = "maps/thumb/" .. ID .. ".png"
 			if file.Exists(path, "GAME") then
 				png = Material(path, "noclamp smooth")
 				MapI.OnCursorEntered = function()
@@ -926,14 +926,14 @@ function GM:MapSelect(AvMaps)
 		end
 
 		if game.GetMap() == ID then
-			MapI.Paint = function(self, w, h)
+			MapI.Paint = function(_, w, h)
 				surface.SetMaterial(png)
 				surface.SetDrawColor(85, 85, 85, 255)
 				surface.DrawTexturedRect(0, 0, size, size)
 			end
 		elseif not AvMaps[ID] then
 			MapI:SetTextColor(Color(255, 0, 0))
-			MapI.Paint = function(self, w, h)
+			MapI.Paint = function(_, w, h)
 				surface.SetMaterial(png)
 				surface.SetDrawColor(128, 64, 64, 255)
 				surface.DrawTexturedRect(0, 0, size, size)
@@ -944,7 +944,7 @@ function GM:MapSelect(AvMaps)
 				end
 			end
 		else
-			MapI.Paint = function(self, w, h)
+			MapI.Paint = function(_, w, h)
 				surface.SetMaterial(png)
 				surface.SetDrawColor(255, 255, 255, 255)
 				surface.DrawTexturedRect(0, 0, size, size)
@@ -962,8 +962,8 @@ function GM:MapSelect(AvMaps)
 	MapSelectF:Center()
 	MapSelectF:MakePopup()
 	MapSelectF:SetKeyboardInputEnabled(false)
-	MapSelectF.Paint = function(self, w, h)
-		Derma_DrawBackgroundBlur(self)
+	MapSelectF.Paint = function(this, w, h)
+		Derma_DrawBackgroundBlur(this)
 		draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 128))
 	end
 end

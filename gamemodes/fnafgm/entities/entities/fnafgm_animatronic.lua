@@ -55,7 +55,7 @@ function ENT:Initialize()
 
 		if GAMEMODE.AnimatronicsSkins[me] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] then self:SetSkin(GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos]) end
 		if GAMEMODE.AnimatronicsFlex[me] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()] and GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos] then
-			for k, v in pairs(GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos]) do
+			for _, v in pairs(GAMEMODE.AnimatronicsFlex[me][game.GetMap()][apos]) do
 				self:SetFlexWeight(v[1], v[2])
 			end
 		end
@@ -105,7 +105,7 @@ function ENT:RunBehaviour()
 					self:ResetSequenceInfo()
 					self:SetCycle(0)
 					self:SetPlaybackRate(1)
-					for k, v in pairs(player.GetAll()) do
+					for _, v in pairs(player.GetAll()) do
 						if v:Team() ~= TEAM_CONNECTING and v:Team() ~= TEAM_UNASSIGNED then
 							v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxystep")]])
 						end
@@ -211,7 +211,7 @@ function ENT:Think()
 	end
 
 	if SERVER and GAMEMODE.Vars and GAMEMODE.Vars.startday then
-		for k, v in pairs(ents.FindInSphere(self:GetPos(), 24)) do
+		for _, v in pairs(ents.FindInSphere(self:GetPos(), 24)) do
 			if IsValid(v) and v:IsPlayer() and v:Alive() and v:Team() == 1 then
 				local attacker = self
 				if not IsValid(attacker) then attacker = self end
@@ -266,7 +266,7 @@ function ENT:GoJumpscare()
 		if me == GAMEMODE.Animatronic.Foxy then self.FoxyWillMove = true end
 		timer.Create("fnafgmJumpscare" .. me, timet, 1, function()
 			local sgdead = true
-			for k, v in pairs(player.GetAll()) do
+			for _, v in pairs(player.GetAll()) do
 				if v:Alive() and v:Team() == 1 then
 					sgdead = false
 					break
@@ -297,7 +297,7 @@ function ENT:Jumpscare()
 		local nope = hook.Call("fnafgmCustomJumpscare", nil, me, self) or false
 		if not nope then
 			if me == GAMEMODE.Animatronic.Freddy and not GAMEMODE.Vars.DoorClosed[2] then
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and v.IsOnSecurityRoom then
 						v:SendLua([[GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_0")]])
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
@@ -307,7 +307,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 			elseif me == GAMEMODE.Animatronic.Bonnie and not GAMEMODE.Vars.DoorClosed[1] then
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and v.IsOnSecurityRoom then
 						v:SendLua([[GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_1")]])
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
@@ -317,7 +317,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 			elseif me == GAMEMODE.Animatronic.Chica and not GAMEMODE.Vars.DoorClosed[2] then
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and v.IsOnSecurityRoom then
 						v:SendLua([[GAMEMODE:JumpscareOverlay("fnafgm/screamers/freddysnoevent_2")]])
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
@@ -327,7 +327,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 			elseif me == GAMEMODE.Animatronic.Foxy and (self.FoxyMoveState == "ok" or GAMEMODE:CheckPlayerSecurityRoom(self)) then
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and v.IsOnSecurityRoom then
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_scream")]])
 						v:TakeDamage(2147483647, self)
@@ -336,7 +336,7 @@ function ENT:Jumpscare()
 
 				GAMEMODE:Log("Jumpscared by " .. GAMEMODE.AnimatronicName[me])
 			elseif me == GAMEMODE.Animatronic.Foxy then
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() ~= TEAM_CONNECTING and v:Team() ~= TEAM_UNASSIGNED then
 						v:SendLua([[LocalPlayer():EmitSound("fnafgm_foxyknock")]])
 					end

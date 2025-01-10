@@ -62,7 +62,7 @@ function ENT:AcceptInput(name, activator, caller, data)
 	elseif name == "Jumpscared" then
 		GAMEMODE:Log("Jumpscared by " .. tostring(data))
 	elseif name == "ChangeLastCam" then
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if v:Team() ~= TEAM_CONNECTING and v:Team() ~= TEAM_UNASSIGNED and v:Alive() then
 				net.Start("fnafgmCloseTablet")
 				net.Send(v)

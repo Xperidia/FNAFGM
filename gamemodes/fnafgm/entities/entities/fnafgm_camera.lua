@@ -56,7 +56,6 @@ function ENT:SwitchLight(rstate)
 	end
 
 	self:SetLightState(true)
-	local angForward = self:GetAngles()
 	self.flashlight = ents.Create("env_projectedtexture")
 	self.flashlight:SetParent(self.Entity)
 	self.flashlight:SetLocalPos(Vector(0, 0, 0))

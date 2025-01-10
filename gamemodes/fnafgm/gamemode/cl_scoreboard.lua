@@ -106,7 +106,7 @@ local PLAYER_LINE = {
 
 		if istable(self.Player) then
 			local nope = true
-			for id, pl in pairs(player.GetAny()) do
+			for _, pl in pairs(player.GetAny()) do
 				if pl.userid == self.Player.userid then nope = false end
 			end
 
@@ -321,7 +321,7 @@ local SCORE_BOARD = {
 		-- Loop through each player, and if one doesn't have a score entry - create it.
 		--
 		local plyrs = player.GetAll()
-		for id, pl in pairs(plyrs) do
+		for _, pl in pairs(plyrs) do
 			if IsValid(pl.ScoreEntry) then continue end
 			pl.ScoreEntry = vgui.CreateFromTable(PLAYER_LINE, pl.ScoreEntry)
 			pl.ScoreEntry:Setup(pl)
@@ -329,7 +329,7 @@ local SCORE_BOARD = {
 		end
 
 		if player.GetAny then
-			for id, pl in pairs(player.GetAny()) do
+			for _, pl in pairs(player.GetAny()) do
 				if IsValid(pl:GetPlayerEnt()) then continue end
 				if IsValid(pl.ScoreEntry) then continue end
 				if cplayerslist[pl.userid] then continue end

@@ -75,27 +75,25 @@ function GM:Monitor(control)
 		GAMEMODE.Vars.Monitor:SetBackgroundBlur(true)
 		GAMEMODE.Vars.Monitor:MakePopup()
 		GAMEMODE.Vars.Monitor:SetKeyboardInputEnabled(not control)
-		GAMEMODE.Vars.Monitor.Paint = function(self, w, h)
-			if not control then
-				surface.SetDrawColor(255, 255, 255, 255)
-				surface.DrawOutlinedRect(35, 30, w - 70, h - 60)
-				surface.SetDrawColor(255, 0, 0, 255)
-				draw.NoTexture()
-				if GAMEMODE.FT == 1 and math.fmod(math.Round(CurTime()), 2) == 0 then draw.Circle((160 * (ScrH() / 480)) / 2, (160 * (ScrH() / 480)) / 2, (45 * (ScrH() / 480)) / 2, 64) end
-			end
+		GAMEMODE.Vars.Monitor.Paint = function(_, w, h)
+			if control then return end
+			surface.SetDrawColor(255, 255, 255, 255)
+			surface.DrawOutlinedRect(35, 30, w - 70, h - 60)
+			surface.SetDrawColor(255, 0, 0, 255)
+			draw.NoTexture()
+			if GAMEMODE.FT == 1 and math.fmod(math.Round(CurTime()), 2) == 0 then draw.Circle((160 * (ScrH() / 480)) / 2, (160 * (ScrH() / 480)) / 2, (45 * (ScrH() / 480)) / 2, 64) end
 		end
 
 		GAMEMODE.Vars.Monitor.OnClose = function()
 			fnafgmSetView(0)
 			if lastlstate[1] == true then fnafgmCamLight(GAMEMODE.Vars.lastcam, false) end
-			if not control then
-				LocalPlayer():StopSound("fnafgm_campop")
-				LocalPlayer():StopSound("fnafgm_campop2")
-				LocalPlayer():StopSound("fnafgm_campop3")
-				net.Start("fnafgmTabUsed")
-				net.WriteBit(false)
-				net.SendToServer()
-			end
+			if control then return end
+			LocalPlayer():StopSound("fnafgm_campop")
+			LocalPlayer():StopSound("fnafgm_campop2")
+			LocalPlayer():StopSound("fnafgm_campop3")
+			net.Start("fnafgmTabUsed")
+			net.WriteBit(false)
+			net.SendToServer()
 		end
 
 		GAMEMODE.Vars.Monitor.Think = function()
@@ -138,15 +136,15 @@ function GM:Monitor(control)
 			GAMEMODE.Vars.Monitor.Animatronics = {}
 			local positron = 0
 			local animsize = math.Clamp((128 * (ScrH() / 480)) / 2, 16, 128)
-			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+			for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 				GAMEMODE.Vars.Monitor.Animatronics[k] = vgui.Create("DImage")
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetParent(GAMEMODE.Vars.Monitor)
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetImage((string.lower(GAMEMODE.ShortName) or "fnafgm") .. "/animatronicsico/" .. k .. ".png")
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetPos((42 * (ScrH() / 480)) / 2 + positron, mapdecal)
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetSize(animsize, animsize)
 				GAMEMODE.Vars.Monitor.Animatronics[k]:SetImageColor(Color(85, 85, 85, 255))
-				GAMEMODE.Vars.Monitor.Animatronics[k].Paint = function(self, w, h)
-					self:PaintAt(0, 0, self:GetWide(), self:GetTall())
+				GAMEMODE.Vars.Monitor.Animatronics[k].Paint = function(this, w, h)
+					this:PaintAt(0, 0, this:GetWide(), this:GetTall())
 					surface.SetDrawColor(255, 255, 255, 255)
 					surface.DrawOutlinedRect(0, 0, w, h)
 				end
@@ -168,7 +166,7 @@ function GM:Monitor(control)
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetFont("FNAFGMNIGHT")
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn:SetTextColor(Color(255, 255, 255, 255))
 					GAMEMODE.Vars.Monitor.Animatronics[k].Btn.DoClick = function(button) GAMEMODE:AnimatronicTaunt(k) end
-					GAMEMODE.Vars.Monitor.Animatronics[k].Btn.Paint = function(self, w, h)
+					GAMEMODE.Vars.Monitor.Animatronics[k].Btn.Paint = function(_, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 220))
 						surface.SetDrawColor(255, 255, 255, 255)
 						surface.DrawOutlinedRect(0, 0, w, h)
@@ -231,7 +229,7 @@ function GM:Monitor(control)
 				end
 			end
 
-			GAMEMODE.Vars.Monitor.Buttons[camid].Paint = function(self, w, h)
+			GAMEMODE.Vars.Monitor.Buttons[camid].Paint = function(_, w, h)
 				if GAMEMODE.Vars.lastcam == camid and (GAMEMODE.FT ~= 1 or math.fmod(math.Round(CurTime() * 2), 2) == 0) then
 					local bt = math.Clamp((b * (ScrH() / 480)) / 2, 0, b)
 					draw.RoundedBox(0, bt, bt, w - bt * 2, h - bt * 2 - addi, Color(136, 168, 0, 128))
@@ -239,7 +237,7 @@ function GM:Monitor(control)
 
 				if control or GAMEMODE.Vars.Cheat.VISION then
 					local positron = 0
-					for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+					for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 						if GAMEMODE.Vars.Animatronics[k][2] ~= camid then continue end
 						local png
 						if file.Exists("materials/" .. string.lower(GAMEMODE.ShortName) .. "/icon16/" .. k .. ".png", "GAME") then
@@ -287,7 +285,7 @@ function GM:Monitor(control)
 						OpenT:Show()
 					end
 
-					CloseT.Paint = function(self, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
+					CloseT.Paint = function(_, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
 					if not GAMEMODE.Vars.mute then
 						local MUTET = vgui.Create("DImage")
 						MUTET:SetParent(GAMEMODE.Vars.Monitor)
@@ -305,7 +303,7 @@ function GM:Monitor(control)
 							MUTEbT:Remove()
 						end
 
-						MUTEbT.Paint = function(self, w, h) end
+						MUTEbT.Paint = function(_, w, h) end
 					end
 
 					GAMEMODE.Vars.Monitor.KitchenText = vgui.Create("DLabel")
@@ -367,19 +365,18 @@ function GM:Monitor(control)
 					end
 
 					CloseT.OnCursorEntered = function()
-						if IsValid(FNaFView) then
-							if not waitt then waitt = 0 end
-							if waitt < CurTime() then
-								waitt = CurTime() + 0.5
-								GAMEMODE.Vars.Monitor:Close()
-								LocalPlayer():EmitSound("fnafgm_camdown2")
-								if IsValid(OpenT) then OpenT:Show() end
-								if IsValid(SafeE) then SafeE:Show() end
-							end
+						if not IsValid(FNaFView) then return end
+						if not waitt then waitt = 0 end
+						if waitt < CurTime() then
+							waitt = CurTime() + 0.5
+							GAMEMODE.Vars.Monitor:Close()
+							LocalPlayer():EmitSound("fnafgm_camdown2")
+							if IsValid(OpenT) then OpenT:Show() end
+							if IsValid(SafeE) then SafeE:Show() end
 						end
 					end
 
-					CloseT.Paint = function(self, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
+					CloseT.Paint = function(_, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
 				end
 
 				GAMEMODE.Vars.Monitor:CreateButton(1, GAMEMODE.Vars.Monitor.Map, 32, 290, 70, 46, 4)
@@ -436,7 +433,7 @@ function GM:Monitor(control)
 					end
 				end
 
-				CloseT.Paint = function(self, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
+				CloseT.Paint = function(_, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
 			else
 				local CAM = vgui.Create("DNumberWang")
 				CAM:SetParent(GAMEMODE.Vars.Monitor)
@@ -479,13 +476,13 @@ function GM:Monitor(control)
 					end
 				end
 
-				CloseT.Paint = function(self, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
+				CloseT.Paint = function(_, w, h) GAMEMODE:DrawFnafButton(w, h, Color(255, 255, 255)) end
 			end
 		end
 
 		function GAMEMODE.Vars.Monitor:MoveMenu(apos)
 			local Menu = vgui.Create("DMenu")
-			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+			for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 				if GAMEMODE.Vars.Animatronics[k][2] ~= apos and GAMEMODE.Vars.Animatronics[k][2] ~= GAMEMODE.APos[game.GetMap()].Office and GAMEMODE.AnimatronicAPos[k] and GAMEMODE.AnimatronicAPos[k][game.GetMap()] and GAMEMODE.AnimatronicAPos[k][game.GetMap()][apos] and GAMEMODE.Vars.Animatronics[k][3] ~= -1 and SysTime() + GAMEMODE.Vars.Animatronics[k][3] <= SysTime() then
 					if apos == GAMEMODE.APos[game.GetMap()].SS then break end
 					nope = hook.Call("fnafgmPreventAnimatronicMove", nil, k, apos)

@@ -251,7 +251,7 @@ concommand.Add("fnafgm_mapselect", function(ply) GAMEMODE:MapSelect(ply) end)
 function GM:MapSelect(ply)
 	if not ply:IsListenServerHost() and not ply:IsAdmin() and game.GetMap() ~= "gm_construct" and game.GetMap() ~= "gm_flatgrass" then return end
 	local AvMaps = {}
-	for k, v in pairs(GAMEMODE.MapList) do
+	for k, _ in pairs(GAMEMODE.MapList) do
 		if file.Exists("maps/" .. k .. ".bsp", "GAME") then
 			AvMaps[k] = true
 		else
@@ -453,47 +453,48 @@ function GM:PostPlayerDeath(ply)
 				end
 
 				timer.Create("fnafgmStaticEnd" .. userid, fnafgm_deathscreenduration:GetInt(), 1, function()
-					if not GAMEMODE.Vars.nightpassed and IsValid(ply) and not ply:Alive() then
-						ply:ConCommand("pp_mat_overlay ''")
-						if game.GetMap() == "fnaf2noevents" then ply:ConCommand("pp_mat_overlay " .. GAMEMODE.Materials_fnaf2deathcam) end
-						ply:ScreenFade(16, color_black, 0, 0)
-						if not game.SinglePlayer() then
-							if fnafgm_respawndelay:GetInt() == 0 then
-								if (fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and not GAMEMODE.Vars.norespawn then
-									ply:Spawn()
-								elseif fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
-									ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn")
-									ply:SendLua([[chat.PlaySound()]])
-								elseif not GAMEMODE.Vars.norespawn then
-									ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.")
-									ply:SendLua([[chat.PlaySound()]])
-								end
-							else
-								if fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
-									ply:PrintMessage(HUD_PRINTCENTER, "You will respawn in " .. fnafgm_respawndelay:GetInt() .. "s")
-									ply:SendLua([[chat.PlaySound()]])
-								elseif not GAMEMODE.Vars.norespawn then
-									ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.")
-									ply:SendLua([[chat.PlaySound()]])
-								end
-
-								timer.Create("fnafgmRespawn" .. userid, fnafgm_respawndelay:GetInt(), 1, function()
-									if not GAMEMODE.Vars.nightpassed and IsValid(ply) and not ply:Alive() then
-										if (fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and not GAMEMODE.Vars.norespawn then
-											ply:Spawn()
-										elseif fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
-											ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn")
-											ply:SendLua([[chat.PlaySound()]])
-										end
-									end
-
-									timer.Remove("fnafgmRespawn" .. userid)
-								end)
-							end
-						end
-					end
-
 					timer.Remove("fnafgmStaticEnd" .. userid)
+
+					if GAMEMODE.Vars.nightpassed or not IsValid(ply) or ply:Alive() then return end
+
+					ply:ConCommand("pp_mat_overlay ''")
+					if game.GetMap() == "fnaf2noevents" then ply:ConCommand("pp_mat_overlay " .. GAMEMODE.Materials_fnaf2deathcam) end
+					ply:ScreenFade(16, color_black, 0, 0)
+
+					if game.SinglePlayer() then return end
+
+					if fnafgm_respawndelay:GetInt() == 0 then
+						if (fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and not GAMEMODE.Vars.norespawn then
+							ply:Spawn()
+						elseif fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
+							ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn")
+							ply:SendLua([[chat.PlaySound()]])
+						elseif not GAMEMODE.Vars.norespawn then
+							ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.")
+							ply:SendLua([[chat.PlaySound()]])
+						end
+					else
+						if fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
+							ply:PrintMessage(HUD_PRINTCENTER, "You will respawn in " .. fnafgm_respawndelay:GetInt() .. "s")
+							ply:SendLua([[chat.PlaySound()]])
+						elseif not GAMEMODE.Vars.norespawn then
+							ply:PrintMessage(HUD_PRINTTALK, "You will respawn after the night or when all the players are dead.")
+							ply:SendLua([[chat.PlaySound()]])
+						end
+
+						timer.Create("fnafgmRespawn" .. userid, fnafgm_respawndelay:GetInt(), 1, function()
+							timer.Remove("fnafgmRespawn" .. userid)
+
+							if GAMEMODE.Vars.nightpassed or not IsValid(ply) or ply:Alive() then return end
+
+							if (fnafgm_autorespawn:GetBool() and fnafgm_respawnenabled:GetBool()) and not GAMEMODE.Vars.norespawn then
+								ply:Spawn()
+							elseif fnafgm_respawnenabled:GetBool() and not GAMEMODE.Vars.norespawn then
+								ply:PrintMessage(HUD_PRINTCENTER, "Press a key to respawn")
+								ply:SendLua([[chat.PlaySound()]])
+							end
+						end)
+					end
 				end)
 			elseif not GAMEMODE.Vars.nightpassed and IsValid(ply) and not ply:Alive() and ply:Team() ~= 1 then
 				ply:ConCommand("pp_mat_overlay ''")
@@ -828,22 +829,22 @@ function GM:StartNight(ply)
 		if game.GetMap() == "freddysnoevent" then
 			GAMEMODE:SetNightTemplate(true)
 			if GAMEMODE.Vars.Halloween or fnafgm_forceseasonalevent:GetInt() == 3 then sound.Play("fnafgm/robotvoice.wav", Vector(-80, -1163, 128), 150) end
-			for k, v in pairs(ents.FindByName("Lights")) do
+			for _, v in pairs(ents.FindByName("Lights")) do
 				v:Fire("TurnOff")
 			end
-			for k, v in pairs(ents.FindByName("PowerDown")) do
+			for _, v in pairs(ents.FindByName("PowerDown")) do
 				v:Fire("PlaySound")
 			end
-			for k, v in pairs(ents.FindByName("SpotLights")) do
+			for _, v in pairs(ents.FindByName("SpotLights")) do
 				v:Fire("TurnOff")
 			end
-			for k, v in pairs(ents.FindByName("SpotLights2")) do
+			for _, v in pairs(ents.FindByName("SpotLights2")) do
 				v:Fire("TurnOff")
 			end
-			for k, v in pairs(ents.FindByName("CameraLights")) do
+			for _, v in pairs(ents.FindByName("CameraLights")) do
 				v:Fire("TurnOn")
 			end
-			for k, v in pairs(ents.FindByName("cc2")) do
+			for _, v in pairs(ents.FindByName("cc2")) do
 				v:Fire("Enable")
 			end
 			ents.FindByName("Powerlvl")[1]:Fire("Enable")
@@ -852,12 +853,12 @@ function GM:StartNight(ply)
 			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Chica, GAMEMODE.APos.freddysnoevent.SS)
 			GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.Foxy, GAMEMODE.APos.freddysnoevent.PC)
 			fnafgmVarsUpdate()
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5) end
 			end
 
 			timer.Create("fnafgmTempoStartM", 0.01, 1, function()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() then
 						v:SetPos(Vector(-80, -1224, 64))
 						v:SetEyeAngles(Angle(0, 90, 0))
@@ -871,7 +872,7 @@ function GM:StartNight(ply)
 				GAMEMODE.Vars.tempostart = false
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
-				for k, v in pairs(team.GetPlayers(1)) do
+				for _, v in pairs(team.GetPlayers(1)) do
 					GAMEMODE:GoFNaFView(v, true)
 				end
 
@@ -879,7 +880,7 @@ function GM:StartNight(ply)
 				timer.Remove("fnafgmTempoStart")
 			end)
 
-			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+			for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 				if GAMEMODE.AnimatronicsCD[k] and GAMEMODE.AnimatronicsCD[k][game.GetMap()] and GAMEMODE.AnimatronicsMaxCD[k] and GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()] then
 					local randtime = math.random(GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsCD[k][game.GetMap()][0], GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][GAMEMODE.Vars.night] or GAMEMODE.AnimatronicsMaxCD[k][game.GetMap()][0])
 					if GAMEMODE.AnimatronicsCD[k][game.GetMap()][GAMEMODE.Vars.night] ~= -1 then timer.Create("fnafgmAnimatronicMove" .. k, randtime, 0, function() GAMEMODE:AutoMoveAnimatronic(k) end) end
@@ -907,12 +908,12 @@ function GM:StartNight(ply)
 			end
 
 			fnafgmVarsUpdate()
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5) end
 			end
 
 			timer.Create("fnafgmTempoStartM", 0.01, 1, function()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and not v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn(v):GetPos()
 						v:SetPos(spawn)
@@ -927,7 +928,7 @@ function GM:StartNight(ply)
 				GAMEMODE.Vars.tempostart = false
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
-				for k, v in pairs(team.GetPlayers(1)) do
+				for _, v in pairs(team.GetPlayers(1)) do
 					GAMEMODE:GoFNaFView(v, true)
 				end
 
@@ -937,7 +938,7 @@ function GM:StartNight(ply)
 		elseif game.GetMap() == "fnaf3" then
 			GAMEMODE:SetNightTemplate(true)
 			fnafgmVarsUpdate()
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then
 					v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5)
 					v:SendLua([[LocalPlayer():EmitSound("fnafgm_startday")]])
@@ -945,7 +946,7 @@ function GM:StartNight(ply)
 			end
 
 			timer.Create("fnafgmTempoStartM", 0.01, 1, function()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and not v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn(v):GetPos()
 						v:SetPos(spawn)
@@ -959,7 +960,7 @@ function GM:StartNight(ply)
 			timer.Create("fnafgmTempoStart", 2.5, 1, function()
 				GAMEMODE.Vars.tempostart = false
 				fnafgmVarsUpdate()
-				for k, v in pairs(team.GetPlayers(1)) do
+				for _, v in pairs(team.GetPlayers(1)) do
 					GAMEMODE:GoFNaFView(v, true)
 				end
 
@@ -977,7 +978,7 @@ function GM:StartNight(ply)
 
 			fnafgmVarsUpdate()
 			if game.GetMap() ~= "fnaf4versus" then
-				for k, v in pairs(ents.FindByClass("info_player_start")) do
+				for _, v in pairs(ents.FindByClass("info_player_start")) do
 					v:Remove()
 				end
 
@@ -987,13 +988,13 @@ function GM:StartNight(ply)
 				spawn:Spawn()
 			end
 
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5) end
 			end
 
 			if game.GetMap() ~= "fnaf4versus" then
 				timer.Create("fnafgmTempoStartM", 0.01, 1, function()
-					for k, v in pairs(player.GetAll()) do
+					for _, v in pairs(player.GetAll()) do
 						if v:Team() == 1 and v:Alive() and not v.IsOnSecurityRoom then
 							v:SetPos(Vector(-640, -63, 0))
 							v:SetEyeAngles(Angle(0, 90, 0))
@@ -1008,7 +1009,7 @@ function GM:StartNight(ply)
 				GAMEMODE.Vars.tempostart = false
 				fnafgmVarsUpdate()
 				fnafgmPowerUpdate()
-				for k, v in pairs(team.GetPlayers(1)) do
+				for _, v in pairs(team.GetPlayers(1)) do
 					GAMEMODE:GoFNaFView(v, true)
 				end
 
@@ -1018,12 +1019,12 @@ function GM:StartNight(ply)
 		elseif game.GetMap() ~= "gm_construct" and game.GetMap() ~= "gm_flatgrass" then
 			GAMEMODE:SetNightTemplate(true)
 			fnafgmVarsUpdate()
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:Alive() then v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 2.5) end
 			end
 
 			timer.Create("fnafgmTempoStartM", 0.01, 1, function()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if v:Team() == 1 and v:Alive() and not v.IsOnSecurityRoom then
 						local spawn = GAMEMODE:PlayerSelectSpawn(v):GetPos()
 						v:SetPos(spawn)
@@ -1037,7 +1038,7 @@ function GM:StartNight(ply)
 			timer.Create("fnafgmTempoStart", 2.5, 1, function()
 				GAMEMODE.Vars.tempostart = false
 				fnafgmVarsUpdate()
-				for k, v in pairs(team.GetPlayers(1)) do
+				for _, v in pairs(team.GetPlayers(1)) do
 					GAMEMODE:GoFNaFView(v, true)
 				end
 
@@ -1074,22 +1075,23 @@ function GM:SetNightTemplate(power)
 end
 
 function fnafgmAutoCleanUp()
-	if fnafgm_autocleanupmap:GetBool() and GAMEMODE.Vars.active and not alive then
-		local online = false
-		for k, v in pairs(player.GetAll()) do
-			online = true
-		end
-
-		if not online then
-			GAMEMODE:Log("Auto clean up")
-			if not GAMEMODE:RestartMapIfWeShould() then
-				GAMEMODE.Vars.active = false
-				fnafgmResetGame()
-				fnafgmMapOverrides()
-				GAMEMODE:LoadProgress()
-			end
-		end
+	if not fnafgm_autocleanupmap:GetBool() then return end
+	if not GAMEMODE.Vars.active then return end
+	local online = false
+	for _ in ipairs(player.GetAll()) do
+		online = true
+		break
 	end
+	if online then return end
+
+	GAMEMODE:Log("Auto clean up triggered")
+
+	if GAMEMODE:RestartMapIfWeShould() then return end
+
+	GAMEMODE.Vars.active = false
+	fnafgmResetGame()
+	fnafgmMapOverrides()
+	GAMEMODE:LoadProgress()
 end
 
 function fnafgmRestartNight()
@@ -1119,7 +1121,7 @@ function fnafgmRestartNight()
 		GAMEMODE.Vars.addfoxyknockdoorpena = 4
 		fnafgmMapOverrides()
 		fnafgmVarsUpdate()
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if game.SinglePlayer() then --Stop sound
 				v:ConCommand("stopsound")
 			else
@@ -1175,65 +1177,65 @@ function fnafgmMapOverrides()
 	if not GAMEMODE.Vars.mapoverrideok then
 		hook.Call("fnafgmMapOverridesCustom")
 		if game.GetMap() == "freddysnoevent" then
-			for k, v in pairs(ents.FindByName("Pwrbtn")) do
+			for _, v in pairs(ents.FindByName("Pwrbtn")) do
 				v:Remove()
 			end
 
-			for k, v in pairs(ents.FindByName("powerconsumotion")) do
+			for _, v in pairs(ents.FindByName("powerconsumotion")) do
 				v:Remove()
 			end
 
-			for k, v in pairs(ents.FindByName("genroomkey")) do
+			for _, v in pairs(ents.FindByName("genroomkey")) do
 				v:Remove()
 			end
 
-			for k, v in pairs(ents.FindByName("Door1")) do
+			for _, v in pairs(ents.FindByName("Door1")) do
 				door1 = v
 			end
 
-			for k, v in pairs(ents.FindByName("Door2")) do
+			for _, v in pairs(ents.FindByName("Door2")) do
 				door2 = v
 			end
 
-			for k, v in pairs(ents.FindByName("Door1button")) do
+			for _, v in pairs(ents.FindByName("Door1button")) do
 				door1btn = v
 			end
 
-			for k, v in pairs(ents.FindByName("Door2button")) do
+			for _, v in pairs(ents.FindByName("Door2button")) do
 				door2btn = v
 			end
 
-			for k, v in pairs(ents.FindByName("doorlightglow")) do
+			for _, v in pairs(ents.FindByName("doorlightglow")) do
 				door1light = v
 			end
 
-			for k, v in pairs(ents.FindByName("doorlight2glow")) do
+			for _, v in pairs(ents.FindByName("doorlight2glow")) do
 				door2light = v
 			end
 
-			for k, v in pairs(ents.FindByName("Light1button")) do
+			for _, v in pairs(ents.FindByName("Light1button")) do
 				light1 = v
 			end
 
-			for k, v in pairs(ents.FindByName("Light2button")) do
+			for _, v in pairs(ents.FindByName("Light2button")) do
 				light2 = v
 			end
 
 			if fnafgm_disablemapsmonitors:GetBool() then
-				for k, v in pairs(ents.FindByName("Securicam")) do
+				for _, v in pairs(ents.FindByName("Securicam")) do
 					v:Fire("Color", "0 0 0")
 				end
 
-				for k, v in pairs(ents.FindByName("Cambutton")) do
+				for _, v in pairs(ents.FindByName("Cambutton")) do
 					v:Remove()
 				end
 			end
 
-			for k, v in pairs(ents.FindByName("powerbar")) do
+			for _, v in pairs(ents.FindByName("powerbar")) do
 				v:Remove()
 			end
 
-			for k, v in pairs(ents.FindByName("Genbutton")) do
+			for _, v in pairs(ents.FindByName("Genbutton")) do
 				v:Remove()
 			end
 
@@ -1313,7 +1315,7 @@ function fnafgmMapOverrides()
 			fnafgm_link:SetName("fnafgm_link")
 			fnafgm_link:SetPos(Vector(-86, -1146, 0))
 			fnafgm_link:Spawn()
-			for k, v in pairs(ents.FindByClass("point_camera")) do
+			for _, v in pairs(ents.FindByClass("point_camera")) do
 				local CAM = ents.Create("fnafgm_camera")
 				CAM:SetPos(v:GetPos())
 				CAM:SetAngles(v:GetAngles())
@@ -1344,45 +1346,51 @@ function fnafgmMapOverrides()
 			--GAMEMODE:CreateAnimatronic(GAMEMODE.Animatronic.GoldenFreddy, GAMEMODE.APos.freddysnoevent.Kitchen)
 			GAMEMODE.Vars.mapoverrideok = true
 		elseif game.GetMap() == "fnaf2noevents" then
-			for k, v in pairs(ents.FindByName("toybutt")) do
+			for _, v in pairs(ents.FindByName("toybutt")) do
 				btn = v
 			end
 
-			for k, v in pairs(ents.FindByName("misfitbutt")) do
+			for _, v in pairs(ents.FindByName("misfitbutt")) do
 				btnm = v
 			end
 
 			local BoxCorner = Vector(-149, -281, 65)
 			local OppositeCorner = Vector(-163, -273, 47)
-			for k, v in pairs(ents.FindByClass("func_button")) do
-				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then light1 = v end
+			for _, v in pairs(ents.FindByClass("func_button")) do
+				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then
+					light1 = v
+				end
 			end
 
 			local BoxCorner = Vector(-2, -240, 42)
 			local OppositeCorner = Vector(-2, -240, 42)
-			for k, v in pairs(ents.FindByClass("func_button")) do
-				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then light2 = v end
+			for _, v in pairs(ents.FindByClass("func_button")) do
+				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then
+					light2 = v
+				end
 			end
 
 			local BoxCorner = Vector(152, -284, 62)
 			local OppositeCorner = Vector(177, -257, 40)
-			for k, v in pairs(ents.FindByClass("func_button")) do
-				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then light3 = v end
+			for _, v in pairs(ents.FindByClass("func_button")) do
+				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then
+					light3 = v
+				end
 			end
 
 			if fnafgm_disablemapsmonitors:GetBool() then
-				for k, v in pairs(ents.FindByClass("func_monitor")) do
+				for _, v in pairs(ents.FindByClass("func_monitor")) do
 					if GAMEMODE:CheckPlayerSecurityRoom(v) then v:Fire("Color", "0 0 0") end
 				end
 
-				for k, v in pairs(ents.FindByName("Cambutton")) do
+				for _, v in pairs(ents.FindByName("Cambutton")) do
 					v:Remove()
 				end
 			end
 
 			local BoxCorner = Vector(-85, -330, 120)
 			local OppositeCorner = Vector(0, -380, 0)
-			for k, v in pairs(ents.FindByClass("prop_door_rotating")) do
+			for _, v in pairs(ents.FindByClass("prop_door_rotating")) do
 				if table.HasValue(ents.FindInBox(BoxCorner, OppositeCorner), v) then
 					v:Fire("lock")
 					safedoor = v
@@ -1391,7 +1399,7 @@ function fnafgmMapOverrides()
 
 			local BoxCorner = Vector(-85, -333, 40)
 			local OppositeCorner = Vector(-180, -364, 113)
-			for k, v in pairs(ents.FindInBox(BoxCorner, OppositeCorner)) do
+			for _, v in pairs(ents.FindInBox(BoxCorner, OppositeCorner)) do
 				if v:GetClass() == "func_button" or v:GetClass() == "func_breakable" then v:Remove() end
 			end
 
@@ -1453,7 +1461,7 @@ function fnafgmMapOverrides()
 			SafeZoneCam:SetAngles(GAMEMODE.FNaFView[game.GetMap()][2])
 			SafeZoneCam:SetName("SafeZoneCam")
 			SafeZoneCam:Spawn()
-			for k, v in pairs(ents.FindByClass("point_camera")) do
+			for _, v in pairs(ents.FindByClass("point_camera")) do
 				local CAM = ents.Create("fnafgm_camera")
 				CAM:SetPos(v:GetPos())
 				CAM:SetAngles(v:GetAngles())
@@ -1618,7 +1626,7 @@ function fnafgmMapOverrides()
 			spawn:Spawn()
 			GAMEMODE.Vars.mapoverrideok = true
 		elseif not GAMEMODE.Vars.mapoverrideok then
-			for k, v in pairs(ents.FindByClass("point_camera")) do
+			for _, v in pairs(ents.FindByClass("point_camera")) do
 				local CAM = ents.Create("fnafgm_camera")
 				CAM:SetPos(v:GetPos())
 				CAM:SetAngles(v:GetAngles())
@@ -1686,7 +1694,7 @@ function fnafgmTimeThink()
 		GAMEMODE.Vars.addfoxyknockdoorpena = 4
 		table.Empty(GAMEMODE.Vars.tabused)
 		table.Empty(GAMEMODE.Vars.usingsafedoor)
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if v:GetViewEntity() ~= v then v:SetViewEntity(v) end
 			if v:Team() == 1 then
 				v:ConCommand("pp_mat_overlay ''")
@@ -1695,7 +1703,7 @@ function fnafgmTimeThink()
 		end
 		game.CleanUpMap()
 		if GAMEMODE.Vars.night > GAMEMODE.NightEnd then GAMEMODE.Vars.overfive = true end
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if game.SinglePlayer() then --Stop sound
 				v:ConCommand("stopsound")
 			else
@@ -1725,7 +1733,7 @@ function fnafgmTimeThink()
 				net.WriteBit(true)
 				net.WriteBit(plus)
 				net.Broadcast()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					v:ScreenFade(16, color_black, 0, 0)
 					if v:Team() == 1 or v:Team() == 2 then
 						v:SetTeam(TEAM_UNASSIGNED)
@@ -1736,7 +1744,7 @@ function fnafgmTimeThink()
 				end
 
 				timer.Create("fnafgmAfterCheck", 19.287, 1, function()
-					for k, v in pairs(team.GetPlayers(TEAM_UNASSIGNED)) do
+					for _, v in pairs(team.GetPlayers(TEAM_UNASSIGNED)) do
 						v:SetTeam(1)
 						v:Spawn()
 					end
@@ -1744,7 +1752,7 @@ function fnafgmTimeThink()
 					timer.Remove("fnafgmAfterCheck")
 				end)
 			else
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					v:ScreenFade(16, color_black, 0, 0)
 					if v:Team() == 1 or v:Team() == 2 then v:Spawn() end
 				end
@@ -1780,7 +1788,7 @@ function fnafgmTimeThink()
 		fnafgmMapOverrides()
 		table.Empty(GAMEMODE.Vars.tabused)
 		table.Empty(GAMEMODE.Vars.usingsafedoor)
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if game.SinglePlayer() then --Stop sound
 				v:ConCommand("stopsound")
 			else
@@ -1802,7 +1810,7 @@ function fnafgmTimeThink()
 
 		GAMEMODE:SaveProgress()
 		timer.Create("fnafgmNightPassed", 11, 1, function()
-			for k, v in pairs(player.GetAll()) do
+			for _, v in pairs(player.GetAll()) do
 				v:ScreenFade(16, color_black, 0, 0)
 				if v:Team() == 1 or v:Team() == 2 then v:Spawn() end
 			end
@@ -1878,7 +1886,7 @@ concommand.Add("fnafgm_debug_info", function(ply)
 	appendtxtl("MAP Version: " .. tostring(game.GetMapVersion()))
 	linebreak()
 	appendtxt("[CONVARS]")
-	for k, v in pairs(convars) do
+	for _, v in pairs(convars) do
 		appendtxtl(v:GetName() .. " " .. v:GetString())
 	end
 	linebreak()
@@ -1888,13 +1896,13 @@ concommand.Add("fnafgm_debug_info", function(ply)
 	end
 	linebreak()
 	appendtxt("[PlayerUse Hooks]")
-	for k, v in pairs(hook.GetTable()["PlayerUse"]) do
+	for k, _ in pairs(hook.GetTable()["PlayerUse"]) do
 		appendtxtl(tostring(k))
 	end
 	linebreak()
 
 	if not game.IsDedicated() or (IsValid(ply) and fnafgmPlayerCanByPass(ply, "debug")) then
-		for k, v in pairs(string.Explode("\n", txt)) do
+		for _, v in pairs(string.Explode("\n", txt)) do
 			ply:PrintMessage(HUD_PRINTCONSOLE, v)
 		end
 	elseif not IsValid(ply) then
@@ -1940,9 +1948,9 @@ function fnafgmSetView(ply, id)
 		ply:SetViewEntity(ply)
 		isok = true
 	elseif IsValid(ply) and id == 11 then
-		local cam = ents.FindByName("fnafgm_CamOff")[1]
-		if IsValid(cam) then
-			ply:SetViewEntity(cam)
+		local camoff = ents.FindByName("fnafgm_CamOff")[1]
+		if IsValid(camoff) then
+			ply:SetViewEntity(camoff)
 			isok = true
 		end
 	end
@@ -2052,7 +2060,7 @@ concommand.Add("fnafgm_debug_restart", function(ply)
 	if (IsValid(ply) and fnafgmPlayerCanByPass(ply, "debug")) or not IsValid(ply) then
 		if GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active then
 			GAMEMODE.Vars.norespawn = true
-			for k, v in pairs(player.GetAll()) do
+			for _, v in pairs(player.GetAll()) do
 				if (v:Team() == 1 or v:Team() == 2) and v:Alive() then v:KillSilent() end
 			end
 
@@ -2111,7 +2119,7 @@ function GM:Think()
 			GAMEMODE.Vars.powerusage = 0
 		else
 			local tabactualuse = false --Calc tab usage
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if GAMEMODE.Vars.tabused[v] and GAMEMODE.Vars.tabused[v] == true then tabactualuse = true end
 			end
 
@@ -2164,17 +2172,17 @@ function GM:Think()
 			ents.FindByName("doorbeam1")[1]:Fire("LightOff")
 			ents.FindByName("doorbeam2")[1]:Fire("LightOff")
 			if game.GetMap() == "freddysnoevent" then
-				for k, v in pairs(ents.FindByClass("light")) do
+				for _, v in pairs(ents.FindByClass("light")) do
 					v:Fire("TurnOff")
 				end
-				for k, v in pairs(ents.FindByClass("light_spot")) do
+				for _, v in pairs(ents.FindByClass("light_spot")) do
 					v:Fire("TurnOff")
 				end
-				for k, v in pairs(ents.FindByClass("env_projectedtexture")) do
+				for _, v in pairs(ents.FindByClass("env_projectedtexture")) do
 					v:Fire("TurnOff")
 				end
 
-				for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+				for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 					GAMEMODE:SetAnimatronicPos(nil, k, GAMEMODE.APos[game.GetMap()].SS)
 					timer.Remove("fnafgmAnimatronicMove" .. k)
 				end
@@ -2186,7 +2194,7 @@ function GM:Think()
 						fred:SetAngles(Angle(0, 0, 0))
 					end
 
-					for k, v in pairs(player.GetAll()) do
+					for _, v in pairs(player.GetAll()) do
 						v:ConCommand("play " .. "freddys/muffledtune.wav")
 						if v:Team() == 1 and v:Alive() and not v.IsOnSecurityRoom then v:SetPos(Vector(-80, -1224, 64)) end
 					end
@@ -2195,14 +2203,14 @@ function GM:Think()
 				end)
 
 				timer.Create("fnafgmPowerOff2", 24.58, 1, function()
-					for k, v in pairs(team.GetPlayers(1)) do
+					for _, v in pairs(team.GetPlayers(1)) do
 						v:ScreenFade(SCREENFADE.OUT, color_black, 0.01, 65536)
 					end
 					timer.Remove("fnafgmPowerOff2")
 				end)
 
 				timer.Create("fnafgmPowerOff3", 29.58, 1, function()
-					for k, v in pairs(team.GetPlayers(1)) do
+					for _, v in pairs(team.GetPlayers(1)) do
 						if v:Alive() then
 							v:Kill()
 							v:ConCommand("pp_mat_overlay fnafgm/screamers/freddysnoevent_0")
@@ -2226,14 +2234,14 @@ function GM:Think()
 				GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage + 1
 			end
 
-			for k, v in pairs(ents.FindByClass("fnafgm_camera")) do
+			for _, v in pairs(ents.FindByClass("fnafgm_camera")) do
 				if v.GetLightState and v:GetLightState() then
 					GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage + 1
 					break
 				end
 			end
 
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:FlashlightIsOn() then
 					GAMEMODE.Vars.powerusage = GAMEMODE.Vars.powerusage + 1
 				end
@@ -2251,7 +2259,7 @@ function GM:Think()
 
 		if GAMEMODE.Vars.power == 0 and not GAMEMODE.Vars.poweroff then
 			GAMEMODE.Vars.poweroff = true
-			for k, v in pairs(team.GetPlayers(1)) do
+			for _, v in pairs(team.GetPlayers(1)) do
 				if v:FlashlightIsOn() and not fnafgmPlayerCanByPass(v, "flashlight") then
 					v:Flashlight(false)
 					v:SendLua([[LocalPlayer():EmitSound("fnafgm_lighterror")]])
@@ -2267,13 +2275,13 @@ function GM:Think()
 	if not GAMEMODE.Vars.checkRestartNight and GAMEMODE.Vars.iniok and GAMEMODE.Vars.mapoverrideok and GAMEMODE.Vars.startday and GAMEMODE.Vars.active then
 		GAMEMODE.Vars.checkRestartNight = true
 		local alive = false
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if v:Alive() and v:Team() == 1 then alive = true end
 		end
 
 		if not alive then
 			GAMEMODE.Vars.norespawn = true
-			for k, v in pairs(GAMEMODE.Vars.Animatronics) do
+			for k, _ in pairs(GAMEMODE.Vars.Animatronics) do
 				timer.Remove("fnafgmAnimatronicMove" .. k)
 			end
 
@@ -2298,7 +2306,7 @@ function GM:Think()
 			if game.SinglePlayer() then delay = fnafgm_deathscreendelay:GetInt() + fnafgm_deathscreenduration:GetInt() + 2 end
 
 			timer.Create("fnafgmPreRestartNight", delay, 1, function()
-				for k, v in pairs(player.GetAll()) do
+				for _, v in pairs(player.GetAll()) do
 					if (v:Team() == 1 or v:Team() == 2) and v:Alive() then v:KillSilent() end
 					if v:Team() == 2 then v:AddFrags(1) end
 				end
@@ -2351,7 +2359,6 @@ end
 
 concommand.Add("autoteam", function(ply)
 	if team.NumPlayers(2) >= 4 then hook.Call("PlayerRequestTeam", GAMEMODE, ply, 1) end
-	local ID = math.random(1, 2)
 	if ply:Team() == 1 then
 		hook.Call("PlayerRequestTeam", GAMEMODE, ply, 2)
 	elseif ply:Team() == 2 then
@@ -2371,7 +2378,7 @@ function GM:ShowHelp(ply)
 end
 
 function GM:ShutDown()
-	for k, v in pairs(player.GetAll()) do
+	for _, v in pairs(player.GetAll()) do
 		if v:GetViewEntity() ~= v then v:SetViewEntity(v) end
 	end
 
@@ -2458,7 +2465,7 @@ net.Receive("fnafgmSetAnimatronicPos", function(len, ply)
 end)
 
 function GM:SetAnimatronicPos(ply, a, apos)
-	ent = GAMEMODE.Vars.Animatronics[a][1]
+	local ent = GAMEMODE.Vars.Animatronics[a][1]
 	if GAMEMODE.AnimatronicAPos[a] and GAMEMODE.AnimatronicAPos[a][game.GetMap()] and GAMEMODE.AnimatronicAPos[a][game.GetMap()][apos] and IsValid(ent) then
 		if not GAMEMODE.Vars.startday then return end
 		if IsValid(ply) and GAMEMODE.Vars.Animatronics[a][3] == -1 then return end
@@ -2500,7 +2507,7 @@ function GM:SetAnimatronicPos(ply, a, apos)
 		end
 
 		if GAMEMODE.AnimatronicsFlex[a] and GAMEMODE.AnimatronicsFlex[a][game.GetMap()] and GAMEMODE.AnimatronicsFlex[a][game.GetMap()][apos] then
-			for k, v in pairs(GAMEMODE.AnimatronicsFlex[a][game.GetMap()][apos]) do
+			for _, v in pairs(GAMEMODE.AnimatronicsFlex[a][game.GetMap()][apos]) do
 				ent:SetFlexWeight(v[1], v[2])
 			end
 		end
@@ -2516,7 +2523,7 @@ function GM:SetAnimatronicPos(ply, a, apos)
 			ent:SetPlaybackRate(0)
 		end
 
-		for k, v in pairs(player.GetAll()) do
+		for _, v in pairs(player.GetAll()) do
 			if v:Team() == 1 and GAMEMODE.Vars.tabused[v] and (v.lastcam == apos or v.lastcam == GAMEMODE.Vars.Animatronics[a][2]) then
 				v:SendLua("GAMEMODE:VideoLoss()")
 			end
@@ -2710,7 +2717,7 @@ net.Receive("fnafgm_password_input", function(len, ply)
 end)
 
 function GM:TriggerLinkOutput(output, activator, data)
-	for k, v in pairs(ents.FindByClass("fnafgm_link")) do
+	for _, v in pairs(ents.FindByClass("fnafgm_link")) do
 		v:TriggerOutput(output, activator, data)
 	end
 end
