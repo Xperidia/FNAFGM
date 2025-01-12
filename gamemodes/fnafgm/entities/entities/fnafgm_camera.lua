@@ -17,11 +17,25 @@ ENT.DisableDuplicator = true
 ENT.DoNotDuplicate = true
 ENT.PhysgunDisabled = true
 
-function ENT:SetupLocName(sCam)
+function ENT:SetupCamName(sCam)
 	if GAMEMODE.CamsNames[sCam] then return end
 	local sLocName = self:GetLocName()
 	if not sLocName or sLocName == "" then return end
 	GAMEMODE.CamsNames[sCam] = sLocName
+end
+
+function ENT:SetupPosName()
+	local sMap = game.GetMap()
+	if not GAMEMODE.APos[sMap] then GAMEMODE.APos[sMap] = {} end
+	local sLocName = self:GetLocName()
+	if GAMEMODE.APos[sMap][sLocName] then return end
+	if not sLocName or sLocName == "" then return end
+	GAMEMODE.APos[sMap][sLocName] = self:GetCamID()
+end
+
+function ENT:SetupLocName(sCam)
+	self:SetupCamName(sCam)
+	self:SetupPosName()
 end
 
 function ENT:Initialize()

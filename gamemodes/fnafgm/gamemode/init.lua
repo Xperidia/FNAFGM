@@ -2533,10 +2533,14 @@ function GM:SetAnimatronicPos(ply, a, apos)
 		net.Start("fnafgmAnimatronicsList")
 		net.WriteTable(GAMEMODE.Vars.Animatronics)
 		net.Broadcast()
+
+		local sAnimatronic = GAMEMODE.AnimatronicName[a] or "undefined"
+		local sCamName = GAMEMODE.CamsNames[game.GetMap() .. "_" .. apos] or "undefined"
+		local sLog = "Animatronic " .. sAnimatronic .. " (" .. (a or 0) .. ")" .. " moved to " .. sCamName .. " (" .. (apos or 7) .. ")"
 		if IsValid(ply) then
-			GAMEMODE:Log("Animatronic " .. ((GAMEMODE.AnimatronicName[a] .. " (" .. (a or 0) .. ")") or a or 0) .. " moved to " .. ((GAMEMODE.CamsNames[game.GetMap() .. "_" .. apos] .. " (" .. (apos or 7) .. ")") or apos or 7) .. " by " .. ply:GetName())
+			GAMEMODE:Log(sLog .. " by " .. ply:GetName())
 		else
-			GAMEMODE:Log("Animatronic " .. ((GAMEMODE.AnimatronicName[a] .. " (" .. (a or 0) .. ")") or a or 0) .. " moved to " .. ((GAMEMODE.CamsNames[game.GetMap() .. "_" .. apos] .. " (" .. (apos or 7) .. ")") or apos or 7) .. " by console/script", nil, true)
+			GAMEMODE:Log(sLog .. " by console/script", nil, true)
 		end
 	end
 end
