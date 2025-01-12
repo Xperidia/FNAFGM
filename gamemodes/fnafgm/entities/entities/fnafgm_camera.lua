@@ -65,7 +65,9 @@ end
 
 function ENT:KeyValue(k, v)
 	if debugmode then print(k, v) end
-	if k == "locname" then
+	if string.Left(k, 2) == "On" then
+		self:StoreOutput(k, v)
+	elseif k == "locname" then
 		self:SetLocName(v)
 	end
 end

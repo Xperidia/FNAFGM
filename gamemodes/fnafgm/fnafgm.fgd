@@ -115,6 +115,8 @@
 	flexes(string) : "Flexes" : : "Flexes to apply at this location. Format like this: flex:weight|flex:weight|flex:weight"
 	animation(string) : "Animation" : : "Name of the animation to play at this location."
 	input MoveHere(void) : "Instantly move the animatronic to this location. Only works if the night is started and the animatronic is not on cooldown."
+	output OnAnimatronicEntered(void) : "Fired when the animatronic joined this location."
+	output OnAnimatronicLeft(void) : "Fired when the animatronic has left this location."
 ]
 
 @PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"

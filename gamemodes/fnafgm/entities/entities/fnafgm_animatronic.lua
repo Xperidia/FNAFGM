@@ -116,7 +116,9 @@ local sMCD = "maxcooldown"
 
 function ENT:KeyValue(k, v)
 	if debugmode then print(k, v) end
-	if k == "AType" then
+	if string.Left(k, 2) == "On" then
+		self:StoreOutput(k, v)
+	elseif k == "AType" then
 		self:SetAType(tonumber(v))
 	elseif k == "APos" then
 		self:SetAPos(tonumber(v))

@@ -81,6 +81,18 @@ function ENT:Initialize()
 	local nApos = self:GetAPos()
 
 	self:SetupAllTheData(sMap, nSelf, nApos)
+
+	if CLIENT then return end
+	hook.Add("fnafgmAnimatronicMoved", tostring(self:MapCreationID()), function(nAType, nNewAPos, nOldAPos)
+		if not IsValid(self) then return end
+		if nSelf ~= nAType then return end
+		if nApos ~= nNewAPos then
+			if nApos ~= nOldAPos then return end
+			self:TriggerOutput("OnAnimatronicLeft")
+			return
+		end
+		self:TriggerOutput("OnAnimatronicEntered")
+	end)
 end
 
 function ENT:SetupDataTables()
@@ -94,13 +106,16 @@ end
 function ENT:AcceptInput(name, activator, caller, data)
 	if name == "MoveHere" then
 		GAMEMODE:SetAnimatronicPos(nil, self:GetAType(), self:GetAPos())
+		return true
 	end
-	return true
+	return false
 end
 
 function ENT:KeyValue(k, v)
 	if debugmode then print(k, v) end
-	if k == "AType" then
+	if string.Left(k, 2) == "On" then
+		self:StoreOutput(k, v)
+	elseif k == "AType" then
 		self:SetAType(tonumber(v))
 	elseif k == "APos" then
 		self:SetAPos(tonumber(v))

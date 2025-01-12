@@ -2470,6 +2470,7 @@ function GM:SetAnimatronicPos(ply, a, apos)
 		if not GAMEMODE.Vars.startday then return end
 		if IsValid(ply) and GAMEMODE.Vars.Animatronics[a][3] == -1 then return end
 		if IsValid(ply) and (GAMEMODE.Vars.Animatronics[a][2] == GAMEMODE.APos[game.GetMap()].Office) then return end
+		local nOldAPos = ent:GetAPos()
 		ent:SetAPos(apos or 7)
 		if apos ~= GAMEMODE.APos[game.GetMap()].Office and apos ~= GAMEMODE.APos[game.GetMap()].Kitchen and apos ~= GAMEMODE.APos[game.GetMap()].SS then
 			local camera = ents.FindByName("fnafgm_Cam" .. apos)[1]
@@ -2540,8 +2541,10 @@ function GM:SetAnimatronicPos(ply, a, apos)
 		if IsValid(ply) then
 			GAMEMODE:Log(sLog .. " by " .. ply:GetName())
 		else
-			GAMEMODE:Log(sLog .. " by console/script", nil, true)
+			GAMEMODE:Log(sLog .. " by console/script/map", nil, true)
 		end
+
+		hook.Run("fnafgmAnimatronicMoved", a, apos, nOldAPos)
 	end
 end
 
