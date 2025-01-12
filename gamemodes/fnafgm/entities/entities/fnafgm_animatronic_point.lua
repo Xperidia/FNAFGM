@@ -91,6 +91,13 @@ function ENT:SetupDataTables()
 	self:NetworkVar("String", 1, "AnimVal")
 end
 
+function ENT:AcceptInput(name, activator, caller, data)
+	if name == "MoveHere" then
+		GAMEMODE:SetAnimatronicPos(nil, self:GetAType(), self:GetAPos())
+	end
+	return true
+end
+
 function ENT:KeyValue(k, v)
 	if debugmode then print(k, v) end
 	if k == "AType" then

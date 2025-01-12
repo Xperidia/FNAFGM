@@ -114,6 +114,7 @@
 	APos(integer) : "Animatronic position (camera ID)" : 1 : "Which location relative to camera this is. Only one AType+APos combo can exist at a time."
 	flexes(string) : "Flexes" : : "Flexes to apply at this location. Format like this: flex:weight|flex:weight|flex:weight"
 	animation(string) : "Animation" : : "Name of the animation to play at this location."
+	input MoveHere(void) : "Instantly move the animatronic to this location. Only works if the night is started and the animatronic is not on cooldown."
 ]
 
 @PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = fnafgm_teamanimatronics_start : "Spawn point for the animatronic team"
