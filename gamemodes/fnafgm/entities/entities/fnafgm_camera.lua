@@ -17,6 +17,13 @@ ENT.DisableDuplicator = true
 ENT.DoNotDuplicate = true
 ENT.PhysgunDisabled = true
 
+function ENT:SetupLocName(sCam)
+	if GAMEMODE.CamsNames[sCam] then return end
+	local sLocName = self:GetLocName()
+	if not sLocName or sLocName == "" then return end
+	GAMEMODE.CamsNames[sCam] = sLocName
+end
+
 function ENT:Initialize()
 	if CLIENT then return end
 	if self:GetCamID() ~= 0 then return end
@@ -24,8 +31,10 @@ function ENT:Initialize()
 	local id = tonumber(string.Right(name, #name - 10))
 	if id then
 		self:SetCamID(id)
-		if GAMEMODE.CamsNames[game.GetMap() .. "_" .. id] then
-			GAMEMODE:Log("Camera init: " .. GAMEMODE.CamsNames[game.GetMap() .. "_" .. id] .. " (" .. id .. ")", nil, true)
+		local sCam = game.GetMap() .. "_" .. id
+		self:SetupLocName(sCam)
+		if GAMEMODE.CamsNames[sCam] then
+			GAMEMODE:Log("Camera init: " .. GAMEMODE.CamsNames[sCam] .. " (" .. id .. ")", nil, true)
 		else
 			GAMEMODE:Log("Camera init: " .. id, nil, true)
 		end
@@ -37,6 +46,14 @@ end
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "CamID")
 	self:NetworkVar("Bool", 0, "LightState")
+	self:NetworkVar("String", 0, "LocName")
+end
+
+function ENT:KeyValue(k, v)
+	if debugmode then print(k, v) end
+	if k == "locname" then
+		self:SetLocName(v)
+	end
 end
 
 function ENT:Light()

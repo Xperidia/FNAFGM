@@ -16,14 +16,39 @@ ENT.DisableDuplicator = true
 ENT.DoNotDuplicate = true
 ENT.PhysgunDisabled = true
 
+function ENT:ApplyName(me)
+	if GAMEMODE.AnimatronicName[me] then return end
+	local sName = self:GetAName()
+	if not sName or sName == "" then return end
+	GAMEMODE.AnimatronicName[me] = sName
+end
+
+function ENT:ApplyCD(me)
+	if not SERVER then return end
+	local sMap = game.GetMap()
+	if not GAMEMODE.AnimatronicsCD[me] then GAMEMODE.AnimatronicsCD[me] = {} end
+	if not GAMEMODE.AnimatronicsMaxCD[me] then GAMEMODE.AnimatronicsMaxCD[me] = {} end
+	if GAMEMODE.AnimatronicsCD[me][sMap] then return end
+	if GAMEMODE.AnimatronicsMaxCD[me][sMap] then return end
+	GAMEMODE.AnimatronicsCD[me][sMap] = {}
+	GAMEMODE.AnimatronicsMaxCD[me][sMap] = {}
+	for night, nCD in pairs(self._tCD) do
+		GAMEMODE.AnimatronicsCD[me][sMap][night] = nCD
+	end
+	for night, nCD in pairs(self._tCD) do
+		GAMEMODE.AnimatronicsMaxCD[me][sMap][night] = nCD
+	end
+end
+
 function ENT:Initialize()
 	local me = self:GetAType()
 	local apos = self:GetAPos()
 
+	self:ApplyName(me)
 	if GAMEMODE.Animatronic_Models and GAMEMODE.Animatronic_Models[me]
 	and GAMEMODE.Animatronic_Models[me][game.GetMap()] then
 		self:SetModel(GAMEMODE.Animatronic_Models[me][game.GetMap()])
-	else
+	elseif self:GetModel() == "models/error.mdl" then
 		GAMEMODE:ErrorLog("Couln't get model for animatronic " .. me)
 	end
 
@@ -43,6 +68,7 @@ function ENT:Initialize()
 		self:SetBloodColor(BLOOD_COLOR_MECH)
 		local cd = 0
 		local night = GAMEMODE.Vars.night or 0
+		self:ApplyCD(me)
 		if not GAMEMODE.Vars.startday and GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][night + 1]
 		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][night] then
@@ -50,7 +76,7 @@ function ENT:Initialize()
 		elseif GAMEMODE.AnimatronicsCD[me] and GAMEMODE.AnimatronicsCD[me][game.GetMap()] and GAMEMODE.AnimatronicsCD[me][game.GetMap()][0] then
 			cd = GAMEMODE.AnimatronicsCD[me][game.GetMap()][0]
 		else
-			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic " .. ((GAMEMODE.AnimatronicName[me] .. " (" .. (me or 0) .. ")") or me or 0) .. "!")
+			GAMEMODE:Log("Missing or incomplete cooldown info for animatronic " .. (((GAMEMODE.AnimatronicName[me] or "undefined") .. " (" .. (me or 0) .. ")") or me or 0) .. "!")
 		end
 
 		if GAMEMODE.AnimatronicsSkins[me] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()] and GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos] then self:SetSkin(GAMEMODE.AnimatronicsSkins[me][game.GetMap()][apos]) end
@@ -82,7 +108,11 @@ end
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "AType")
 	self:NetworkVar("Int", 1, "APos")
+	self:NetworkVar("String", 1, "AName")
 end
+
+local sCD = "cooldown"
+local sMCD = "maxcooldown"
 
 function ENT:KeyValue(k, v)
 	if debugmode then print(k, v) end
@@ -90,6 +120,18 @@ function ENT:KeyValue(k, v)
 		self:SetAType(tonumber(v))
 	elseif k == "APos" then
 		self:SetAPos(tonumber(v))
+	elseif k == "model" then
+		self:SetModel(v)
+	elseif k == "targetname" then
+		self:SetAName(v)
+	elseif string.Left(k, #sCD) == sCD then
+		local night = tonumber(string.Right(k, 1))
+		if not self._tCD then self._tCD = {} end
+		self._tCD[night] = v
+	elseif string.Left(k, #sMCD) == sMCD then
+		local night = tonumber(string.Right(k, 1))
+		if not self._tMCD then self._tMCD = {} end
+		self._tMCD[night] = v
 	end
 end
 
