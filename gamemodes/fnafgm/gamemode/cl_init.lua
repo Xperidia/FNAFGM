@@ -204,22 +204,8 @@ include("cl_fnafview.lua")
 include("cl_menu.lua")
 include("cl_keypad.lua")
 include("cl_monitor_shared.lua")
-local tNeedCSS = {
-	freddysnoevent = true,
-	fnaf2noevents = true,
-	fnaf3 = true,
-	fnaf4house = true,
-	fnaf4noclips = true,
-	fnaf4versus = true,
-}
 
 function fnafgmWarn()
-	if not IsMounted("cstrike") and tNeedCSS[game.GetMap()] and fnafgm_cl_warn:GetBool() then
-		LocalPlayer():PrintMessage(HUD_PRINTTALK, GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css)
-		notification.AddLegacy(GAMEMODE.TranslatedStrings.warn_css or GAMEMODE.Strings.en.warn_css, NOTIFY_ERROR, 15)
-		surface.PlaySound("buttons/button10.wav")
-	end
-
 	if not GAMEMODE.Vars.gamemode_init_done or not GAMEMODE.Vars.gamemode_init_done_s then
 		LocalPlayer():PrintMessage(HUD_PRINTTALK, [[
 Alert!
