@@ -44,3 +44,8 @@ Temporary Items
 
 # Things
 *.ffs*
+
+# Source Engine stuff
+*.log
+*.prt
+*.vmx
